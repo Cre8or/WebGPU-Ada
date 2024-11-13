@@ -1,5 +1,27 @@
-# Object file
-*.o
-
-# Ada Library Information
+# File extensions
+*.stderr
+*.stdout
+*.lexch
+*.bexch
 *.ali
+*.cswi
+*.a
+*.o
+*.d
+*.db
+*.db-shm
+*.db-wal
+*.cgpr
+*.exe
+*.log
+*.rpt
+*.directory
+*.clang-format
+
+# Library
+webgpu/obj/*
+webgpu/lib/*
+webgpu/src/glfw/*
+
+# Example project
+webgpu_example/obj/*
