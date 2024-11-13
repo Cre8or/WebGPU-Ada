@@ -4,9 +4,13 @@ pragma License (Unrestricted);
 
 
 
-with WebGPU.Types;
+private with Ada.Finalization;
+
+        with WebGPU.Types;
 
 
+
+pragma Elaborate_All (Ada.Finalization);
 
 pragma Elaborate_All (WebGPU.Types);
 
@@ -23,10 +27,22 @@ package WebGPU.Instances is
 
 
 
-	-- Structures used to extend descriptors.
-	type T_WGPUInstanceImpl is null record;   -- incomplete struct
-	type T_WGPUInstance is access all T_WGPUInstanceImpl;  -- webgpu.h:154
+	-- Types
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Wrapper handle for WebGPU instances. Performs automatic reference counting.
+	--------------------------------------------------------------------------------------------------------------------------------
+	type T_WGPU_Instance is tagged private;
 
+		-- Primitives
+		--------------------------------------------------------------------------------------------------------------------------------
+		-- Returns true if the WebGPU instance has been initialised, otherwise false.
+		--------------------------------------------------------------------------------------------------------------------------------
+		not overriding function Is_Initialised (This : in T_WGPU_Instance) return Boolean
+		with Inline;
+
+
+
+	-- Structures used to extend descriptors.
 	type T_WGPUChainedStruct;
 	type T_WGPUChainedStruct is record
 		next  : access constant T_WGPUChainedStruct;  -- webgpu.h:1269
@@ -58,18 +74,55 @@ package WebGPU.Instances is
 
 
 	-- Specifications
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Creates a new WebGPU instance. Assumes default values for the instance descriptor.
+	--------------------------------------------------------------------------------------------------------------------------------
+	function Create_Instance return T_WGPU_Instance
+	with Inline;
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Creates a new WebGPU instance using the specified descriptor.
+	--------------------------------------------------------------------------------------------------------------------------------
+	function Create_Instance (Descriptor : in T_WGPUInstanceDescriptor) return T_WGPU_Instance
+	with Inline;
+
+
+
+private
+
+
+
+	-- Types
+	type T_WGPUInstanceImpl is null record;   -- incomplete struct
+	type T_WGPUInstance is access all T_WGPUInstanceImpl;  -- webgpu.h:154
+
+	type T_WGPU_Instance is new Ada.Finalization.Controlled with record
+		m_Instance : T_WGPUInstance;
+	end record;
+
+		-- Primitives
+		--------------------------------------------------------------------------------------------------------------------------------
+		overriding procedure Adjust (This : in out T_WGPU_Instance)
+		with Inline;
+
+		--------------------------------------------------------------------------------------------------------------------------------
+		overriding procedure Finalize (This : in out T_WGPU_Instance)
+		with Inline;
+
+
+
+	-- Specifications
+	--------------------------------------------------------------------------------------------------------------------------------
 	function wgpuCreateInstance (descriptor : access constant T_WGPUInstanceDescriptor) return T_WGPUInstance
 	with Import, Convention => C, External_Name => "wgpuCreateInstance";
 
+	--------------------------------------------------------------------------------------------------------------------------------
    procedure wgpuInstanceAddRef (instance : in T_WGPUInstance)  -- webgpu.h:3549
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuInstanceAddRef";
+   with Import, Convention => C, External_Name => "wgpuInstanceAddRef";
 
+	--------------------------------------------------------------------------------------------------------------------------------
    procedure wgpuInstanceRelease (instance : in T_WGPUInstance)  -- webgpu.h:3550
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuInstanceRelease";
+   with Import, Convention => C, External_Name => "wgpuInstanceRelease";
 
 
 

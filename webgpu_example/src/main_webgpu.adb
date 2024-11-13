@@ -28,8 +28,7 @@ procedure Main_WebGPU is
 
 
 	-- Variables
-	Descriptor : aliased T_WGPUInstanceDescriptor;
-	Instance   : T_WGPUInstance;
+	Instance : T_WGPU_Instance;
 
 
 
@@ -37,15 +36,13 @@ begin
 
 
 
-	Instance := wgpuCreateInstance (Descriptor'Access);
+	Instance := Create_Instance;
 
-	if Instance /= null then
+	if Instance.Is_Initialised then
 		Text_IO.Put_Line ("SUCCESS");
 	else
 		Text_IO.Put_Line ("ERROR: Instance is null");
 	end if;
-
-	wgpuInstanceRelease (Instance);
 
 
 
