@@ -23,5 +23,9 @@ webgpu/obj/*
 webgpu/lib/*
 webgpu/src/glfw/*
 
+# Included
+webgpu/src/GENERATED/webgpu.h
+
+
 # Example project
 webgpu_example/obj/*
