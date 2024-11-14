@@ -233,9 +233,9 @@ package webgpu_h is
 	type T_WGPUBool is new Boolean
 	with Convention => C, Size => 32;
 
-   type WGPUAdapterImpl is null record;   -- incomplete struct
+   type T_WGPUAdapterImpl is null record;   -- incomplete struct
 
-   type WGPUAdapter is access all WGPUAdapterImpl;  -- webgpu.h:121
+   type T_WGPUAdapter is access all T_WGPUAdapterImpl;  -- webgpu.h:121
 
    type WGPUBindGroupImpl is null record;   -- incomplete struct
 
@@ -273,9 +273,9 @@ package webgpu_h is
 
    type WGPUExternalTexture is access all WGPUExternalTextureImpl;  -- webgpu.h:130
 
-   type WGPUInstanceImpl is null record;   -- incomplete struct
+   type T_WGPUInstanceImpl is null record;   -- incomplete struct
 
-   type WGPUInstance is access all WGPUInstanceImpl;  -- webgpu.h:131
+   type T_WGPUInstance is access all T_WGPUInstanceImpl;  -- webgpu.h:131
 
    type WGPUPipelineLayoutImpl is null record;   -- incomplete struct
 
@@ -325,9 +325,9 @@ package webgpu_h is
 
    type WGPUSharedTextureMemory is access all WGPUSharedTextureMemoryImpl;  -- webgpu.h:143
 
-   type WGPUSurfaceImpl is null record;   -- incomplete struct
+   type T_WGPUSurfaceImpl is null record;   -- incomplete struct
 
-   type WGPUSurface is access all WGPUSurfaceImpl;  -- webgpu.h:144
+   type T_WGPUSurface is access all T_WGPUSurfaceImpl;  -- webgpu.h:144
 
    type WGPUTextureImpl is null record;   -- incomplete struct
 
@@ -1325,7 +1325,7 @@ package webgpu_h is
 
    type WGPURequestAdapterCallback is access procedure
         (arg1 : WGPURequestAdapterStatus;
-         arg2 : WGPUAdapter;
+         arg2 : T_WGPUAdapter;
          arg3 : T_WGPUStringView;
          arg4 : System.Address)
    with Convention => C;  -- webgpu.h:1074
@@ -1392,7 +1392,7 @@ package webgpu_h is
 
    type WGPURequestAdapterCallback2 is access procedure
         (arg1 : WGPURequestAdapterStatus;
-         arg2 : WGPUAdapter;
+         arg2 : T_WGPUAdapter;
          arg3 : T_WGPUStringView;
          arg4 : System.Address;
          arg5 : System.Address)
@@ -1932,7 +1932,7 @@ package webgpu_h is
 
    type T_WGPURequestAdapterOptions is record
       nextInChain          : access constant T_WGPUChainedStruct;  -- webgpu.h:1966
-      compatibleSurface    : WGPUSurface;  -- webgpu.h:1967
+      compatibleSurface    : T_WGPUSurface;  -- webgpu.h:1967
       powerPreference      : aliased WGPUPowerPreference;  -- webgpu.h:1968
       backendType          : aliased WGPUBackendType;  -- webgpu.h:1969
       forceFallbackAdapter : aliased T_WGPUBool;  -- webgpu.h:1970
@@ -2920,7 +2920,7 @@ package webgpu_h is
    type WGPUProcAdapterPropertiesMemoryHeapsFreeMembers is access procedure (arg1 : WGPUAdapterPropertiesMemoryHeaps)
    with Convention => C;  -- webgpu.h:3631
 
-   type WGPUProcCreateInstance is access function (arg1 : access constant T_WGPUInstanceDescriptor) return WGPUInstance
+   type WGPUProcCreateInstance is access function (arg1 : access constant T_WGPUInstanceDescriptor) return T_WGPUInstance
    with Convention => C;  -- webgpu.h:3632
 
    type WGPUProcDrmFormatCapabilitiesFreeMembers is access procedure (arg1 : WGPUDrmFormatCapabilities)
@@ -2945,56 +2945,56 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3639
 
   -- Procs of Adapter
-   type WGPUProcAdapterCreateDevice is access function (arg1 : WGPUAdapter; arg2 : access constant WGPUDeviceDescriptor) return WGPUDevice
+   type WGPUProcAdapterCreateDevice is access function (arg1 : T_WGPUAdapter; arg2 : access constant WGPUDeviceDescriptor) return WGPUDevice
    with Convention => C;  -- webgpu.h:3642
 
-   type WGPUProcAdapterEnumerateFeatures is access function (arg1 : WGPUAdapter; arg2 : access WGPUFeatureName) return T_Size
+   type WGPUProcAdapterEnumerateFeatures is access function (arg1 : T_WGPUAdapter; arg2 : access WGPUFeatureName) return T_Size
    with Convention => C;  -- webgpu.h:3643
 
-   type WGPUProcAdapterGetFeatures is access procedure (arg1 : WGPUAdapter; arg2 : access WGPUSupportedFeatures)
+   type WGPUProcAdapterGetFeatures is access procedure (arg1 : T_WGPUAdapter; arg2 : access WGPUSupportedFeatures)
    with Convention => C;  -- webgpu.h:3644
 
    type WGPUProcAdapterGetFormatCapabilities is access function
-        (arg1 : WGPUAdapter;
+        (arg1 : T_WGPUAdapter;
          arg2 : WGPUTextureFormat;
          arg3 : access WGPUFormatCapabilities) return WGPUStatus
    with Convention => C;  -- webgpu.h:3645
 
-   type WGPUProcAdapterGetInfo is access function (arg1 : WGPUAdapter; arg2 : access WGPUAdapterInfo) return WGPUStatus
+   type WGPUProcAdapterGetInfo is access function (arg1 : T_WGPUAdapter; arg2 : access WGPUAdapterInfo) return WGPUStatus
    with Convention => C;  -- webgpu.h:3646
 
-   type WGPUProcAdapterGetInstance is access function (arg1 : WGPUAdapter) return WGPUInstance
+   type WGPUProcAdapterGetInstance is access function (arg1 : T_WGPUAdapter) return T_WGPUInstance
    with Convention => C;  -- webgpu.h:3647
 
-   type WGPUProcAdapterGetLimits is access function (arg1 : WGPUAdapter; arg2 : access WGPUSupportedLimits) return WGPUStatus
+   type WGPUProcAdapterGetLimits is access function (arg1 : T_WGPUAdapter; arg2 : access WGPUSupportedLimits) return WGPUStatus
    with Convention => C;  -- webgpu.h:3648
 
-   type WGPUProcAdapterHasFeature is access function (arg1 : WGPUAdapter; arg2 : WGPUFeatureName) return T_WGPUBool
+   type WGPUProcAdapterHasFeature is access function (arg1 : T_WGPUAdapter; arg2 : WGPUFeatureName) return T_WGPUBool
    with Convention => C;  -- webgpu.h:3649
 
    type WGPUProcAdapterRequestDevice is access procedure
-        (arg1 : WGPUAdapter;
+        (arg1 : T_WGPUAdapter;
          arg2 : access constant WGPUDeviceDescriptor;
          arg3 : WGPURequestDeviceCallback;
          arg4 : System.Address)
    with Convention => C;  -- webgpu.h:3650
 
    type WGPUProcAdapterRequestDevice2 is access function
-        (arg1 : WGPUAdapter;
+        (arg1 : T_WGPUAdapter;
          arg2 : access constant WGPUDeviceDescriptor;
          arg3 : WGPURequestDeviceCallbackInfo2) return WGPUFuture
    with Convention => C;  -- webgpu.h:3651
 
    type WGPUProcAdapterRequestDeviceF is access function
-        (arg1 : WGPUAdapter;
+        (arg1 : T_WGPUAdapter;
          arg2 : access constant WGPUDeviceDescriptor;
          arg3 : WGPURequestDeviceCallbackInfo) return WGPUFuture
    with Convention => C;  -- webgpu.h:3652
 
-   type WGPUProcAdapterAddRef is access procedure (arg1 : WGPUAdapter)
+   type WGPUProcAdapterAddRef is access procedure (arg1 : T_WGPUAdapter)
    with Convention => C;  -- webgpu.h:3653
 
-   type WGPUProcAdapterRelease is access procedure (arg1 : WGPUAdapter)
+   type WGPUProcAdapterRelease is access procedure (arg1 : T_WGPUAdapter)
    with Convention => C;  -- webgpu.h:3654
 
   -- Procs of BindGroup
@@ -3356,7 +3356,7 @@ package webgpu_h is
          arg3 : access WGPUAHardwareBufferProperties) return WGPUStatus
    with Convention => C;  -- webgpu.h:3753
 
-   type WGPUProcDeviceGetAdapter is access function (arg1 : WGPUDevice) return WGPUAdapter
+   type WGPUProcDeviceGetAdapter is access function (arg1 : WGPUDevice) return T_WGPUAdapter
    with Convention => C;  -- webgpu.h:3754
 
    type WGPUProcDeviceGetFeatures is access procedure (arg1 : WGPUDevice; arg2 : access WGPUSupportedFeatures)
@@ -3457,48 +3457,48 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3783
 
   -- Procs of Instance
-   type WGPUProcInstanceCreateSurface is access function (arg1 : WGPUInstance; arg2 : access constant WGPUSurfaceDescriptor) return WGPUSurface
+   type WGPUProcInstanceCreateSurface is access function (arg1 : T_WGPUInstance; arg2 : access constant WGPUSurfaceDescriptor) return T_WGPUSurface
    with Convention => C;  -- webgpu.h:3786
 
-   type WGPUProcInstanceEnumerateWGSLLanguageFeatures is access function (arg1 : WGPUInstance; arg2 : access WGPUWGSLFeatureName) return T_Size
+   type WGPUProcInstanceEnumerateWGSLLanguageFeatures is access function (arg1 : T_WGPUInstance; arg2 : access WGPUWGSLFeatureName) return T_Size
    with Convention => C;  -- webgpu.h:3787
 
-   type WGPUProcInstanceHasWGSLLanguageFeature is access function (arg1 : WGPUInstance; arg2 : WGPUWGSLFeatureName) return T_WGPUBool
+   type WGPUProcInstanceHasWGSLLanguageFeature is access function (arg1 : T_WGPUInstance; arg2 : WGPUWGSLFeatureName) return T_WGPUBool
    with Convention => C;  -- webgpu.h:3788
 
-   type WGPUProcInstanceProcessEvents is access procedure (arg1 : WGPUInstance)
+   type WGPUProcInstanceProcessEvents is access procedure (arg1 : T_WGPUInstance)
    with Convention => C;  -- webgpu.h:3789
 
    type WGPUProcInstanceRequestAdapter is access procedure
-        (arg1 : WGPUInstance;
+        (arg1 : T_WGPUInstance;
          arg2 : access constant T_WGPURequestAdapterOptions;
          arg3 : WGPURequestAdapterCallback;
          arg4 : System.Address)
    with Convention => C;  -- webgpu.h:3790
 
    type WGPUProcInstanceRequestAdapter2 is access function
-        (arg1 : WGPUInstance;
+        (arg1 : T_WGPUInstance;
          arg2 : access constant T_WGPURequestAdapterOptions;
          arg3 : WGPURequestAdapterCallbackInfo2) return WGPUFuture
    with Convention => C;  -- webgpu.h:3791
 
    type WGPUProcInstanceRequestAdapterF is access function
-        (arg1 : WGPUInstance;
+        (arg1 : T_WGPUInstance;
          arg2 : access constant T_WGPURequestAdapterOptions;
          arg3 : WGPURequestAdapterCallbackInfo) return WGPUFuture
    with Convention => C;  -- webgpu.h:3792
 
    type WGPUProcInstanceWaitAny is access function
-        (arg1 : WGPUInstance;
+        (arg1 : T_WGPUInstance;
          arg2 : T_Size;
          arg3 : access WGPUFutureWaitInfo;
          arg4 : bits_stdint_uintn_h.uint64_t) return WGPUWaitStatus
    with Convention => C;  -- webgpu.h:3793
 
-   type WGPUProcInstanceAddRef is access procedure (arg1 : WGPUInstance)
+   type WGPUProcInstanceAddRef is access procedure (arg1 : T_WGPUInstance)
    with Convention => C;  -- webgpu.h:3794
 
-   type WGPUProcInstanceRelease is access procedure (arg1 : WGPUInstance)
+   type WGPUProcInstanceRelease is access procedure (arg1 : T_WGPUInstance)
    with Convention => C;  -- webgpu.h:3795
 
   -- Procs of PipelineLayout
@@ -3938,31 +3938,31 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3915
 
   -- Procs of Surface
-   type WGPUProcSurfaceConfigure is access procedure (arg1 : WGPUSurface; arg2 : access constant WGPUSurfaceConfiguration)
+   type WGPUProcSurfaceConfigure is access procedure (arg1 : T_WGPUSurface; arg2 : access constant WGPUSurfaceConfiguration)
    with Convention => C;  -- webgpu.h:3918
 
    type WGPUProcSurfaceGetCapabilities is access function
-        (arg1 : WGPUSurface;
-         arg2 : WGPUAdapter;
+        (arg1 : T_WGPUSurface;
+         arg2 : T_WGPUAdapter;
          arg3 : access WGPUSurfaceCapabilities) return WGPUStatus
    with Convention => C;  -- webgpu.h:3919
 
-   type WGPUProcSurfaceGetCurrentTexture is access procedure (arg1 : WGPUSurface; arg2 : access WGPUSurfaceTexture)
+   type WGPUProcSurfaceGetCurrentTexture is access procedure (arg1 : T_WGPUSurface; arg2 : access WGPUSurfaceTexture)
    with Convention => C;  -- webgpu.h:3920
 
-   type WGPUProcSurfacePresent is access procedure (arg1 : WGPUSurface)
+   type WGPUProcSurfacePresent is access procedure (arg1 : T_WGPUSurface)
    with Convention => C;  -- webgpu.h:3921
 
-   type WGPUProcSurfaceSetLabel is access procedure (arg1 : WGPUSurface; arg2 : T_WGPUStringView)
+   type WGPUProcSurfaceSetLabel is access procedure (arg1 : T_WGPUSurface; arg2 : T_WGPUStringView)
    with Convention => C;  -- webgpu.h:3922
 
-   type WGPUProcSurfaceUnconfigure is access procedure (arg1 : WGPUSurface)
+   type WGPUProcSurfaceUnconfigure is access procedure (arg1 : T_WGPUSurface)
    with Convention => C;  -- webgpu.h:3923
 
-   type WGPUProcSurfaceAddRef is access procedure (arg1 : WGPUSurface)
+   type WGPUProcSurfaceAddRef is access procedure (arg1 : T_WGPUSurface)
    with Convention => C;  -- webgpu.h:3924
 
-   type WGPUProcSurfaceRelease is access procedure (arg1 : WGPUSurface)
+   type WGPUProcSurfaceRelease is access procedure (arg1 : T_WGPUSurface)
    with Convention => C;  -- webgpu.h:3925
 
   -- Procs of Texture
@@ -4028,7 +4028,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuAdapterPropertiesMemoryHeapsFreeMembers";
 
-   function wgpuCreateInstance (descriptor : access constant T_WGPUInstanceDescriptor) return WGPUInstance  -- webgpu.h:3955
+   function wgpuCreateInstance (descriptor : access constant T_WGPUInstanceDescriptor) return T_WGPUInstance  -- webgpu.h:3955
    with Import => True,
         Convention => C,
         External_Name => "wgpuCreateInstance";
@@ -4069,51 +4069,51 @@ package webgpu_h is
         External_Name => "wgpuSurfaceCapabilitiesFreeMembers";
 
   -- Methods of Adapter
-   function wgpuAdapterCreateDevice (adapter : WGPUAdapter; descriptor : access constant WGPUDeviceDescriptor) return WGPUDevice  -- webgpu.h:3965
+   function wgpuAdapterCreateDevice (adapter : T_WGPUAdapter; descriptor : access constant WGPUDeviceDescriptor) return WGPUDevice  -- webgpu.h:3965
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterCreateDevice";
 
-   function wgpuAdapterEnumerateFeatures (adapter : WGPUAdapter; features : access WGPUFeatureName) return T_Size  -- webgpu.h:3966
+   function wgpuAdapterEnumerateFeatures (adapter : T_WGPUAdapter; features : access WGPUFeatureName) return T_Size  -- webgpu.h:3966
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterEnumerateFeatures";
 
-   procedure wgpuAdapterGetFeatures (adapter : WGPUAdapter; features : access WGPUSupportedFeatures)  -- webgpu.h:3967
+   procedure wgpuAdapterGetFeatures (adapter : T_WGPUAdapter; features : access WGPUSupportedFeatures)  -- webgpu.h:3967
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterGetFeatures";
 
    function wgpuAdapterGetFormatCapabilities
-     (adapter : WGPUAdapter;
+     (adapter : T_WGPUAdapter;
       format : WGPUTextureFormat;
       capabilities : access WGPUFormatCapabilities) return WGPUStatus  -- webgpu.h:3968
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterGetFormatCapabilities";
 
-   function wgpuAdapterGetInfo (adapter : WGPUAdapter; info : access WGPUAdapterInfo) return WGPUStatus  -- webgpu.h:3969
+   function wgpuAdapterGetInfo (adapter : T_WGPUAdapter; info : access WGPUAdapterInfo) return WGPUStatus  -- webgpu.h:3969
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterGetInfo";
 
-   function wgpuAdapterGetInstance (adapter : WGPUAdapter) return WGPUInstance  -- webgpu.h:3970
+   function wgpuAdapterGetInstance (adapter : T_WGPUAdapter) return T_WGPUInstance  -- webgpu.h:3970
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterGetInstance";
 
-   function wgpuAdapterGetLimits (adapter : WGPUAdapter; limits : access WGPUSupportedLimits) return WGPUStatus  -- webgpu.h:3971
+   function wgpuAdapterGetLimits (adapter : T_WGPUAdapter; limits : access WGPUSupportedLimits) return WGPUStatus  -- webgpu.h:3971
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterGetLimits";
 
-   function wgpuAdapterHasFeature (adapter : WGPUAdapter; feature : WGPUFeatureName) return T_WGPUBool  -- webgpu.h:3972
+   function wgpuAdapterHasFeature (adapter : T_WGPUAdapter; feature : WGPUFeatureName) return T_WGPUBool  -- webgpu.h:3972
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterHasFeature";
 
    procedure wgpuAdapterRequestDevice
-     (adapter : WGPUAdapter;
+     (adapter : T_WGPUAdapter;
       descriptor : access constant WGPUDeviceDescriptor;
       callback : WGPURequestDeviceCallback;
       userdata : System.Address)  -- webgpu.h:3973
@@ -4122,7 +4122,7 @@ package webgpu_h is
         External_Name => "wgpuAdapterRequestDevice";
 
    function wgpuAdapterRequestDevice2
-     (adapter : WGPUAdapter;
+     (adapter : T_WGPUAdapter;
       options : access constant WGPUDeviceDescriptor;
       callbackInfo : WGPURequestDeviceCallbackInfo2) return WGPUFuture  -- webgpu.h:3974
    with Import => True,
@@ -4130,19 +4130,19 @@ package webgpu_h is
         External_Name => "wgpuAdapterRequestDevice2";
 
    function wgpuAdapterRequestDeviceF
-     (adapter : WGPUAdapter;
+     (adapter : T_WGPUAdapter;
       options : access constant WGPUDeviceDescriptor;
       callbackInfo : WGPURequestDeviceCallbackInfo) return WGPUFuture  -- webgpu.h:3975
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterRequestDeviceF";
 
-   procedure wgpuAdapterAddRef (adapter : WGPUAdapter)  -- webgpu.h:3976
+   procedure wgpuAdapterAddRef (adapter : T_WGPUAdapter)  -- webgpu.h:3976
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterAddRef";
 
-   procedure wgpuAdapterRelease (adapter : WGPUAdapter)  -- webgpu.h:3977
+   procedure wgpuAdapterRelease (adapter : T_WGPUAdapter)  -- webgpu.h:3977
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterRelease";
@@ -4672,7 +4672,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuDeviceGetAHardwareBufferProperties";
 
-   function wgpuDeviceGetAdapter (device : WGPUDevice) return WGPUAdapter  -- webgpu.h:4077
+   function wgpuDeviceGetAdapter (device : WGPUDevice) return T_WGPUAdapter  -- webgpu.h:4077
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceGetAdapter";
@@ -4829,28 +4829,28 @@ package webgpu_h is
         External_Name => "wgpuExternalTextureRelease";
 
   -- Methods of Instance
-   function wgpuInstanceCreateSurface (instance : WGPUInstance; descriptor : access constant WGPUSurfaceDescriptor) return WGPUSurface  -- webgpu.h:4109
+   function wgpuInstanceCreateSurface (instance : T_WGPUInstance; descriptor : access constant WGPUSurfaceDescriptor) return T_WGPUSurface  -- webgpu.h:4109
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceCreateSurface";
 
-   function wgpuInstanceEnumerateWGSLLanguageFeatures (instance : WGPUInstance; features : access WGPUWGSLFeatureName) return T_Size  -- webgpu.h:4110
+   function wgpuInstanceEnumerateWGSLLanguageFeatures (instance : T_WGPUInstance; features : access WGPUWGSLFeatureName) return T_Size  -- webgpu.h:4110
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceEnumerateWGSLLanguageFeatures";
 
-   function wgpuInstanceHasWGSLLanguageFeature (instance : WGPUInstance; feature : WGPUWGSLFeatureName) return T_WGPUBool  -- webgpu.h:4111
+   function wgpuInstanceHasWGSLLanguageFeature (instance : T_WGPUInstance; feature : WGPUWGSLFeatureName) return T_WGPUBool  -- webgpu.h:4111
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceHasWGSLLanguageFeature";
 
-   procedure wgpuInstanceProcessEvents (instance : WGPUInstance)  -- webgpu.h:4112
+   procedure wgpuInstanceProcessEvents (instance : T_WGPUInstance)  -- webgpu.h:4112
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceProcessEvents";
 
    procedure wgpuInstanceRequestAdapter
-     (instance : WGPUInstance;
+     (instance : T_WGPUInstance;
       options : access constant T_WGPURequestAdapterOptions;
       callback : WGPURequestAdapterCallback;
       userdata : System.Address)  -- webgpu.h:4113
@@ -4859,7 +4859,7 @@ package webgpu_h is
         External_Name => "wgpuInstanceRequestAdapter";
 
    function wgpuInstanceRequestAdapter2
-     (instance : WGPUInstance;
+     (instance : T_WGPUInstance;
       options : access constant T_WGPURequestAdapterOptions;
       callbackInfo : WGPURequestAdapterCallbackInfo2) return WGPUFuture  -- webgpu.h:4114
    with Import => True,
@@ -4867,7 +4867,7 @@ package webgpu_h is
         External_Name => "wgpuInstanceRequestAdapter2";
 
    function wgpuInstanceRequestAdapterF
-     (instance : WGPUInstance;
+     (instance : T_WGPUInstance;
       options : access constant T_WGPURequestAdapterOptions;
       callbackInfo : WGPURequestAdapterCallbackInfo) return WGPUFuture  -- webgpu.h:4115
    with Import => True,
@@ -4875,7 +4875,7 @@ package webgpu_h is
         External_Name => "wgpuInstanceRequestAdapterF";
 
    function wgpuInstanceWaitAny
-     (instance : WGPUInstance;
+     (instance : T_WGPUInstance;
       futureCount : T_Size;
       futures : access WGPUFutureWaitInfo;
       timeoutNS : bits_stdint_uintn_h.uint64_t) return WGPUWaitStatus  -- webgpu.h:4116
@@ -4883,12 +4883,12 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuInstanceWaitAny";
 
-   procedure wgpuInstanceAddRef (instance : WGPUInstance)  -- webgpu.h:4117
+   procedure wgpuInstanceAddRef (instance : T_WGPUInstance)  -- webgpu.h:4117
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceAddRef";
 
-   procedure wgpuInstanceRelease (instance : WGPUInstance)  -- webgpu.h:4118
+   procedure wgpuInstanceRelease (instance : T_WGPUInstance)  -- webgpu.h:4118
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceRelease";
@@ -5522,45 +5522,45 @@ package webgpu_h is
         External_Name => "wgpuSharedTextureMemoryRelease";
 
   -- Methods of Surface
-   procedure wgpuSurfaceConfigure (surface : WGPUSurface; config : access constant WGPUSurfaceConfiguration)  -- webgpu.h:4241
+   procedure wgpuSurfaceConfigure (surface : T_WGPUSurface; config : access constant WGPUSurfaceConfiguration)  -- webgpu.h:4241
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceConfigure";
 
    function wgpuSurfaceGetCapabilities
-     (surface : WGPUSurface;
-      adapter : WGPUAdapter;
+     (surface : T_WGPUSurface;
+      adapter : T_WGPUAdapter;
       capabilities : access WGPUSurfaceCapabilities) return WGPUStatus  -- webgpu.h:4242
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceGetCapabilities";
 
-   procedure wgpuSurfaceGetCurrentTexture (surface : WGPUSurface; surfaceTexture : access WGPUSurfaceTexture)  -- webgpu.h:4243
+   procedure wgpuSurfaceGetCurrentTexture (surface : T_WGPUSurface; surfaceTexture : access WGPUSurfaceTexture)  -- webgpu.h:4243
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceGetCurrentTexture";
 
-   procedure wgpuSurfacePresent (surface : WGPUSurface)  -- webgpu.h:4244
+   procedure wgpuSurfacePresent (surface : T_WGPUSurface)  -- webgpu.h:4244
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfacePresent";
 
-   procedure wgpuSurfaceSetLabel (surface : WGPUSurface; label : T_WGPUStringView)  -- webgpu.h:4245
+   procedure wgpuSurfaceSetLabel (surface : T_WGPUSurface; label : T_WGPUStringView)  -- webgpu.h:4245
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceSetLabel";
 
-   procedure wgpuSurfaceUnconfigure (surface : WGPUSurface)  -- webgpu.h:4246
+   procedure wgpuSurfaceUnconfigure (surface : T_WGPUSurface)  -- webgpu.h:4246
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceUnconfigure";
 
-   procedure wgpuSurfaceAddRef (surface : WGPUSurface)  -- webgpu.h:4247
+   procedure wgpuSurfaceAddRef (surface : T_WGPUSurface)  -- webgpu.h:4247
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceAddRef";
 
-   procedure wgpuSurfaceRelease (surface : WGPUSurface)  -- webgpu.h:4248
+   procedure wgpuSurfaceRelease (surface : T_WGPUSurface)  -- webgpu.h:4248
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceRelease";

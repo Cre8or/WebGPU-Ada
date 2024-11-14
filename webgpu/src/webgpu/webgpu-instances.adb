@@ -25,16 +25,6 @@ package body WebGPU.Instances is
 
 	-- Primitives
 	--------------------------------------------------------------------------------------------------------------------------------
-	-- T_Adapter
-	--------------------------------------------------------------------------------------------------------------------------------
-	not overriding function Is_Initialised (This : in T_Adapter) return Boolean is
-	begin
-
-		return This.m_Adapter /= null;
-
-	end Is_Initialised;
-
-	--------------------------------------------------------------------------------------------------------------------------------
 	-- T_Instance
 	--------------------------------------------------------------------------------------------------------------------------------
 	not overriding function Is_Initialised (This : in T_Instance) return Boolean is
@@ -46,7 +36,7 @@ package body WebGPU.Instances is
 
 	--------------------------------------------------------------------------------------------------------------------------------
 	not overriding function Request_Adapter (
-		This                   : in T_Instance'Class;
+		This                   : in T_Instance;
 		Power_Preference       : in T_Power_Preference := E_Undefined;
 		Backend_Type           : in T_Backend_Type     := E_Undefined;
 		Force_Fallback_Adapter : in Boolean            := false;
@@ -82,7 +72,7 @@ package body WebGPU.Instances is
 			delay 0.001;
 		end loop;
 
-		Adapter.m_Adapter := User_Data.Adapter;
+		Adapter.Set_Raw_Internal (User_Data.Adapter);
 
 		return Adapter;
 
@@ -96,7 +86,7 @@ package body WebGPU.Instances is
 	begin
 
 		return (Ada.Finalization.Controlled with
-			m_Instance => wgpuCreateInstance (System.Null_Address)
+			m_Instance => wgpuCreateInstance (C_Null_Address)
 		);
 
 	end Create_Instance;
@@ -108,32 +98,6 @@ package body WebGPU.Instances is
 
 
 	-- Primitives
-	--------------------------------------------------------------------------------------------------------------------------------
-	-- T_Adapter
-	--------------------------------------------------------------------------------------------------------------------------------
-	overriding procedure Adjust (This : in out T_Adapter) is
-	begin
-
-		if This.m_Adapter = null then
-			return;
-		end if;
-
-		wgpuAdapterAddRef (This.m_Adapter);
-
-	end Adjust;
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	overriding procedure Finalize (This : in out T_Adapter) is
-	begin
-
-		if This.m_Adapter = null then
-			return;
-		end if;
-
-		wgpuAdapterRelease (This.m_Adapter);
-
-	end Finalize;
-
 	--------------------------------------------------------------------------------------------------------------------------------
 	-- T_Instance
 	--------------------------------------------------------------------------------------------------------------------------------
@@ -168,7 +132,7 @@ package body WebGPU.Instances is
 		status   : T_WGPURequestAdapterStatus;
 		adapter  : T_WGPUAdapter;
 		message  : T_WGPUStringView;
-		userdata : System.Address := System.Null_Address
+		userdata : T_Address := C_Null_Address
 	) is
 
 		pragma Unreferenced (status);

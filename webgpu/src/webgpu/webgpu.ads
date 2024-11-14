@@ -9,7 +9,33 @@ package WebGPU is
 
 
 	-- Pragmas
-	pragma Pure;
+	pragma Preelaborate;
+
+
+
+	-- Types
+	-- Internal types. Do not use.
+	type T_WGPUInstanceImpl is private;
+	type T_WGPUInstance is access all T_WGPUInstanceImpl;
+
+   type T_WGPUAdapterImpl is private;
+   type T_WGPUAdapter is access all T_WGPUAdapterImpl;
+
+   type T_WGPUSurfaceImpl is private;
+   type T_WGPUSurface is access all T_WGPUSurfaceImpl;
+
+
+
+private
+
+
+
+	-- Types
+	type T_WGPUInstanceImpl is null record;
+
+   type T_WGPUAdapterImpl is null record;
+
+   type T_WGPUSurfaceImpl is null record;
 
 
 

@@ -4,10 +4,12 @@ pragma License (Unrestricted);
 
 
 with Interfaces.C.Strings;
+with System;
 
 
 
 pragma Elaborate_All (Interfaces.C.Strings);
+pragma Elaborate_All (System);
 
 
 
@@ -33,6 +35,8 @@ package WebGPU.Types is
 	type T_Size   is new Interfaces.C.size_t;
 
 	subtype T_Chars_Ptr is Interfaces.C.Strings.chars_ptr;
+
+	subtype T_Address is System.Address;
 
 	type T_WGPUBool is new Boolean
 	with Convention => C, Size => 32;
@@ -80,18 +84,18 @@ package WebGPU.Types is
 
 
 
-
-
 	-- Constants
-   C_SType_ShaderSourceSPIRV                : constant T_WGPUSType := 1;
-   C_SType_ShaderSourceWGSL                 : constant T_WGPUSType := 2;
-   C_SType_RenderPassMaxDrawCount           : constant T_WGPUSType := 3;
-   C_SType_SurfaceSourceMetalLayer          : constant T_WGPUSType := 4;
-   C_SType_SurfaceSourceWindowsHWND         : constant T_WGPUSType := 5;
-   C_SType_SurfaceSourceXlibWindow          : constant T_WGPUSType := 6;
-   C_SType_SurfaceSourceWaylandSurface      : constant T_WGPUSType := 7;
-   C_SType_SurfaceSourceAndroidNativeWindow : constant T_WGPUSType := 8;
-   C_SType_SurfaceSourceXCBWindow           : constant T_WGPUSType := 9;
+	C_Null_Address : constant T_Address := System.Null_Address;
+
+	C_SType_ShaderSourceSPIRV                : constant T_WGPUSType := 1;
+	C_SType_ShaderSourceWGSL                 : constant T_WGPUSType := 2;
+	C_SType_RenderPassMaxDrawCount           : constant T_WGPUSType := 3;
+	C_SType_SurfaceSourceMetalLayer          : constant T_WGPUSType := 4;
+	C_SType_SurfaceSourceWindowsHWND         : constant T_WGPUSType := 5;
+	C_SType_SurfaceSourceXlibWindow          : constant T_WGPUSType := 6;
+	C_SType_SurfaceSourceWaylandSurface      : constant T_WGPUSType := 7;
+	C_SType_SurfaceSourceAndroidNativeWindow : constant T_WGPUSType := 8;
+	C_SType_SurfaceSourceXCBWindow           : constant T_WGPUSType := 9;
 
 	-- The callback mode controls how a callback for an asynchronous operation may be fired. See @ref Asynchronous-Operations
 	-- for how these are used.

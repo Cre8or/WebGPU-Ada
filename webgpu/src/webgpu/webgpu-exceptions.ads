@@ -9,7 +9,7 @@ package WebGPU.Exceptions is
 
 
 	-- Pragmas
-	pragma Pure;
+	pragma Preelaborate;
 
 
 

@@ -4,15 +4,15 @@ pragma License (Unrestricted);
 
 
 private with Ada.Finalization;
-private with System;
 
+        with WebGPU.Adapters;
         with WebGPU.Types;
 
 
 
 pragma Elaborate_All (Ada.Finalization);
-pragma Elaborate_All (System);
 
+pragma Elaborate_All (WebGPU.Adapters);
 pragma Elaborate_All (WebGPU.Types);
 
 
@@ -24,23 +24,12 @@ package WebGPU.Instances is
 
 
 	-- Use clauses
+	use WebGPU.Adapters;
 	use WebGPU.Types;
 
 
 
 	-- Types
-	--------------------------------------------------------------------------------------------------------------------------------
-	-- Wrapper handle for WebGPU adapters. Performs automatic reference counting.
-	--------------------------------------------------------------------------------------------------------------------------------
-	type T_Adapter is tagged private;
-
-		-- Primitives
-		--------------------------------------------------------------------------------------------------------------------------------
-		-- Returns true if the WebGPU adapter has been initialised (is not null), otherwise false.
-		--------------------------------------------------------------------------------------------------------------------------------
-		not overriding function Is_Initialised (This : in T_Adapter) return Boolean
-		with Inline;
-
 	--------------------------------------------------------------------------------------------------------------------------------
 	-- Wrapper handle for WebGPU instances. Performs automatic reference counting.
 	--------------------------------------------------------------------------------------------------------------------------------
@@ -65,7 +54,7 @@ package WebGPU.Instances is
 		-- Compatibility_Mode: TODO
 		--------------------------------------------------------------------------------------------------------------------------------
 		not overriding function Request_Adapter (
-			This                   : in T_Instance'Class;
+			This                   : in T_Instance;
 			Power_Preference       : in T_Power_Preference := E_Undefined;
 			Backend_Type           : in T_Backend_Type     := E_Undefined;
 			Force_Fallback_Adapter : in Boolean            := false;
@@ -89,15 +78,6 @@ private
 
 
 	-- Types
-	type T_WGPUInstanceImpl is null record;   -- incomplete struct
-	type T_WGPUInstance is access all T_WGPUInstanceImpl;  -- webgpu.h:154
-
-	type T_WGPUAdapterImpl is null record;   -- incomplete struct
-	type T_WGPUAdapter is access all T_WGPUAdapterImpl;  -- webgpu.h:145
-
-	type T_WGPUSurfaceImpl is null record;   -- incomplete struct
-	type T_WGPUSurface is access all T_WGPUSurfaceImpl;  -- webgpu.h:167
-
 	-- Structures used to extend descriptors.
 	type T_WGPUChainedStruct;
 	type T_WGPUChainedStruct is record
@@ -123,7 +103,7 @@ private
 		status   : T_WGPURequestAdapterStatus;
 		adapter  : T_WGPUAdapter;
 		message  : T_WGPUStringView;
-		userdata : System.Address := System.Null_Address
+		userdata : T_Address := C_Null_Address
 	) with Convention => C;  -- webgpu.h:1242
 
 	type T_WGPURequestAdapterOptions is record
@@ -142,20 +122,6 @@ private
 		Request_Ended : Boolean := false;
 	end record
 	with Convention => C_Pass_By_Copy;
-
-	type T_Adapter is new Ada.Finalization.Controlled with record
-		m_Adapter : T_WGPUAdapter;
-	end record;
-
-		-- Primitives
-		--------------------------------------------------------------------------------------------------------------------------------
-		overriding procedure Adjust (This : in out T_Adapter)
-		with Inline;
-
-		--------------------------------------------------------------------------------------------------------------------------------
-		overriding procedure Finalize (This : in out T_Adapter)
-		with Inline;
-
 
 	type T_Instance is new Ada.Finalization.Controlled with record
 		m_Instance : T_WGPUInstance;
@@ -178,30 +144,22 @@ private
 		status   : T_WGPURequestAdapterStatus;
 		adapter  : T_WGPUAdapter;
 		message  : T_WGPUStringView;
-		userdata : System.Address := System.Null_Address
+		userdata : T_Address := C_Null_Address
 	) with Inline, Convention => C;
 
 
 
 	-- Imports
 	--------------------------------------------------------------------------------------------------------------------------------
-   procedure wgpuInstanceRequestAdapter (
+   	procedure wgpuInstanceRequestAdapter (
 		instance : in T_WGPUInstance;
 		options  : access constant T_WGPURequestAdapterOptions;
 		callback : in T_WGPURequestAdapterCallback;
-		userdata : in System.Address
+		userdata : in T_Address := C_Null_Address
 	) with Import, Convention => C, External_Name => "wgpuInstanceRequestAdapter";
 
 	--------------------------------------------------------------------------------------------------------------------------------
-	procedure wgpuAdapterAddRef (adapter : in T_WGPUAdapter)
-	with Import, Convention => C, External_Name => "wgpuAdapterAddRef"; -- wgpuAdapterReference
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	procedure wgpuAdapterRelease (adapter : in T_WGPUAdapter)
-	with Import, Convention => C, External_Name => "wgpuAdapterRelease";
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	function wgpuCreateInstance (descriptor : in System.Address) return T_WGPUInstance
+	function wgpuCreateInstance (descriptor : in T_Address := C_Null_Address) return T_WGPUInstance
 	with Import, Convention => C, External_Name => "wgpuCreateInstance";
 
 	--------------------------------------------------------------------------------------------------------------------------------
