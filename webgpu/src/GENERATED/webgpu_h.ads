@@ -5,221 +5,370 @@ pragma Warnings (Off, "-gnatwu");
 
 with Interfaces.C; use Interfaces.C;
 with bits_stdint_uintn_h;
-with Interfaces.C.Strings;
-with stddef_h;
 with System;
+with stddef_h;
 with bits_stdint_intn_h;
+with Interfaces.C.Strings;
 
 package webgpu_h is
 
-   --  unsupported macro: WGPU_ARRAY_LAYER_COUNT_UNDEFINED (UINT32_MAX)
-   --  unsupported macro: WGPU_COPY_STRIDE_UNDEFINED (UINT32_MAX)
-   --  unsupported macro: WGPU_DEPTH_SLICE_UNDEFINED (UINT32_MAX)
-   --  unsupported macro: WGPU_LIMIT_U32_UNDEFINED (UINT32_MAX)
-   --  unsupported macro: WGPU_LIMIT_U64_UNDEFINED (UINT64_MAX)
-   --  unsupported macro: WGPU_MIP_LEVEL_COUNT_UNDEFINED (UINT32_MAX)
-   --  unsupported macro: WGPU_QUERY_SET_INDEX_UNDEFINED (UINT32_MAX)
-   --  unsupported macro: WGPU_WHOLE_MAP_SIZE (SIZE_MAX)
-   --  unsupported macro: WGPU_WHOLE_SIZE (UINT64_MAX)
-   --  unsupported macro: WGPU_STRLEN SIZE_MAX
-   --  unsupported macro: WGPU_STRING_VIEW_INIT _wgpu_MAKE_INIT_STRUCT(WGPUStringView, { NULL _wgpu_COMMA WGPU_STRLEN _wgpu_COMMA })
-  --*
-  -- * Copyright 2019-2023 WebGPU-Native developers
-  -- *
-  -- * SPDX-License-Identifier: BSD-3-Clause
-  --
-
-  --* @file
-  --*
-  -- * \mainpage
-  -- *
-  -- * **Important:** *This documentation is a Work In Progress.*
-  -- *
-  -- * This is the home of WebGPU C API specification. We define here the standard
-  -- * `webgpu.h` header that all implementations should provide.
-  --
-
-  --*
-  -- * \defgroup Constants
-  -- * \brief Constants.
-  -- *
-  -- * @{
-  --
-
-  --* @}
-  --*
-  -- * \defgroup UtilityTypes Utility Types
-  -- *
-  -- * @{
-  --
-
-   subtype WGPUFlags is bits_stdint_uintn_h.uint64_t;  -- webgpu.h:96
-
-   subtype T_WGPUBool is bits_stdint_uintn_h.uint32_t;  -- webgpu.h:97
 
 	type T_Size   is new Interfaces.C.size_t;
 
-  --*
-  -- * Nullable value defining a pointer+length view into a UTF-8 encoded string.
-  -- *
-  -- * Values passed into the API may use the special length value @ref WGPU_STRLEN
-  -- * to indicate a null-terminated string.
-  -- * Non-null values passed out of the API (for example as callback arguments)
-  -- * always provide an explicit length and **may or may not be null-terminated**.
-  -- *
-  -- * Some inputs to the API accept null values. Those which do not accept null
-  -- * values "default" to the empty string when null values are passed.
-  -- *
-  -- * Values are encoded as follows:
-  -- * - `{NULL, WGPU_STRLEN}`: the null value.
-  -- * - `{non_null_pointer, WGPU_STRLEN}`: a null-terminated string view.
-  -- * - `{any, 0}`: the empty string.
-  -- * - `{NULL, non_zero_length}`: not allowed (null dereference).
-  -- * - `{non_null_pointer, non_zero_length}`: an explictly-sized string view with
-  -- *   size `non_zero_length` (in bytes).
-  -- *
-  -- * For info on how this is used in various places, see \ref Strings.
-  --
+	subtype T_Chars_Ptr is Interfaces.C.Strings.chars_ptr;
 
-   type WGPUStringView is record
-      data : Interfaces.C.Strings.chars_ptr;  -- webgpu.h:121
-      length : aliased T_Size;  -- webgpu.h:122
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:120
 
-  --*
-  -- * Sentinel value used in @ref WGPUStringView to indicate that the pointer
-  -- * is to a null-terminated string, rather than an explicitly-sized string.
-  --
+   --  arg-macro: function WGPU_MAKE_INIT_STRUCT (type, value)
+   --    return type value;
+   --  unsupported macro: WGPU_ARRAY_LAYER_COUNT_UNDEFINED UINT32_MAX
+   --  unsupported macro: WGPU_COPY_STRIDE_UNDEFINED UINT32_MAX
+   --  unsupported macro: WGPU_DEPTH_SLICE_UNDEFINED UINT32_MAX
+   --  unsupported macro: WGPU_LIMIT_U32_UNDEFINED UINT32_MAX
+   --  unsupported macro: WGPU_LIMIT_U64_UNDEFINED UINT64_MAX
+   --  unsupported macro: WGPU_MIP_LEVEL_COUNT_UNDEFINED UINT32_MAX
+   --  unsupported macro: WGPU_QUERY_SET_INDEX_UNDEFINED UINT32_MAX
+   --  unsupported macro: WGPU_STRLEN SIZE_MAX
+   --  unsupported macro: WGPU_WHOLE_MAP_SIZE SIZE_MAX
+   --  unsupported macro: WGPU_WHOLE_SIZE UINT64_MAX
+   WGPU_COMMA : constant := 0;  --  webgpu.h:1100
+   --  unsupported macro: WGPU_ADAPTER_PROPERTIES_D3D_INIT WGPU_MAKE_INIT_STRUCT(WGPUAdapterPropertiesD3D, { { nullptr WGPU_COMMA WGPUSType_AdapterPropertiesD3D} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_ADAPTER_PROPERTIES_VK_INIT WGPU_MAKE_INIT_STRUCT(WGPUAdapterPropertiesVk, { { nullptr WGPU_COMMA WGPUSType_AdapterPropertiesVk} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_BIND_GROUP_ENTRY_INIT WGPU_MAKE_INIT_STRUCT(WGPUBindGroupEntry, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA 0 WGPU_COMMA WGPU_WHOLE_SIZE WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_BLEND_COMPONENT_INIT WGPU_MAKE_INIT_STRUCT(WGPUBlendComponent, { WGPUBlendOperation_Add WGPU_COMMA WGPUBlendFactor_One WGPU_COMMA WGPUBlendFactor_Zero WGPU_COMMA })
+   --  unsupported macro: WGPU_BUFFER_BINDING_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUBufferBindingLayout, { nullptr WGPU_COMMA WGPUBufferBindingType_Undefined WGPU_COMMA false WGPU_COMMA 0 WGPU_COMMA })
+   --  unsupported macro: WGPU_COLOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUColor, { {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_WGSL_BLOCKLIST_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnWGSLBlocklist, { { nullptr WGPU_COMMA WGPUSType_DawnWGSLBlocklist} WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_WIRE_WGSL_CONTROL_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnWireWGSLControl, { { nullptr WGPU_COMMA WGPUSType_DawnWireWGSLControl} WGPU_COMMA false WGPU_COMMA false WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_DRM_FORMAT_PROPERTIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUDrmFormatProperties, { {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_EXTENT_2D_INIT WGPU_MAKE_INIT_STRUCT(WGPUExtent2D, { {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_EXTENT_3D_INIT WGPU_MAKE_INIT_STRUCT(WGPUExtent3D, { {} WGPU_COMMA 1 WGPU_COMMA 1 WGPU_COMMA })
+   --  unsupported macro: WGPU_FORMAT_CAPABILITIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUFormatCapabilities, { nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_FUTURE_INIT WGPU_MAKE_INIT_STRUCT(WGPUFuture, { {} WGPU_COMMA })
+   --  unsupported macro: WGPU_INSTANCE_FEATURES_INIT WGPU_MAKE_INIT_STRUCT(WGPUInstanceFeatures, { nullptr WGPU_COMMA false WGPU_COMMA 0 WGPU_COMMA })
+   --  unsupported macro: WGPU_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(WGPULimits, { WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA })
+   --  unsupported macro: WGPU_MEMORY_HEAP_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUMemoryHeapInfo, { {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_MULTISAMPLE_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUMultisampleState, { nullptr WGPU_COMMA 1 WGPU_COMMA 0xFFFFFFFF WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_ORIGIN_2D_INIT WGPU_MAKE_INIT_STRUCT(WGPUOrigin2D, { 0 WGPU_COMMA 0 WGPU_COMMA })
+   --  unsupported macro: WGPU_ORIGIN_3D_INIT WGPU_MAKE_INIT_STRUCT(WGPUOrigin3D, { 0 WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA })
+   --  unsupported macro: WGPU_PRIMITIVE_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUPrimitiveState, { nullptr WGPU_COMMA WGPUPrimitiveTopology_TriangleList WGPU_COMMA WGPUIndexFormat_Undefined WGPU_COMMA WGPUFrontFace_CCW WGPU_COMMA WGPUCullMode_None WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_SAMPLER_BINDING_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUSamplerBindingLayout, { nullptr WGPU_COMMA WGPUSamplerBindingType_Undefined WGPU_COMMA })
+   --  unsupported macro: WGPU_SHADER_SOURCE_SPIRV_INIT WGPU_MAKE_INIT_STRUCT(WGPUShaderSourceSPIRV, { { nullptr WGPU_COMMA WGPUSType_ShaderSourceSPIRV} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_STENCIL_FACE_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUStencilFaceState, { WGPUCompareFunction_Always WGPU_COMMA WGPUStencilOperation_Keep WGPU_COMMA WGPUStencilOperation_Keep WGPU_COMMA WGPUStencilOperation_Keep WGPU_COMMA })
+   --  unsupported macro: WGPU_STRING_VIEW_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUStringView, { nullptr WGPU_COMMA WGPU_STRLEN WGPU_COMMA })
+   --  unsupported macro: WGPU_SUPPORTED_FEATURES_INIT WGPU_MAKE_INIT_STRUCT(WGPUSupportedFeatures, { {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_CAPABILITIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceCapabilities, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_CONFIGURATION_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceConfiguration, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPUTextureUsage_RenderAttachment WGPU_COMMA 0 WGPU_COMMA nullptr WGPU_COMMA WGPUCompositeAlphaMode_Auto WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPUPresentMode_Fifo WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_TEXTURE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceTexture, { {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_TEXTURE_BINDING_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureBindingLayout, { nullptr WGPU_COMMA WGPUTextureSampleType_Undefined WGPU_COMMA WGPUTextureViewDimension_2D WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_TEXTURE_DATA_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureDataLayout, { nullptr WGPU_COMMA 0 WGPU_COMMA WGPU_COPY_STRIDE_UNDEFINED WGPU_COMMA WGPU_COPY_STRIDE_UNDEFINED WGPU_COMMA })
+   --  unsupported macro: WGPU_VERTEX_ATTRIBUTE_INIT WGPU_MAKE_INIT_STRUCT(WGPUVertexAttribute, { {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_Y_CB_CR_VK_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUYCbCrVkDescriptor, { { nullptr WGPU_COMMA WGPUSType_YCbCrVkDescriptor} WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA 0 WGPU_COMMA WGPUFilterMode_Nearest WGPU_COMMA false WGPU_COMMA 0 WGPU_COMMA })
+   --  unsupported macro: WGPU_ADAPTER_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUAdapterInfo, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_BIND_GROUP_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUBindGroupDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_BLEND_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUBlendState, { WGPU_BLEND_COMPONENT_INIT WGPU_COMMA WGPU_BLEND_COMPONENT_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_BUFFER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUBufferDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_COMPILATION_MESSAGE_INIT WGPU_MAKE_INIT_STRUCT(WGPUCompilationMessage, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_CONSTANT_ENTRY_INIT WGPU_MAKE_INIT_STRUCT(WGPUConstantEntry, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_DEPTH_STENCIL_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUDepthStencilState, { nullptr WGPU_COMMA {} WGPU_COMMA WGPUOptionalBool_Undefined WGPU_COMMA WGPUCompareFunction_Undefined WGPU_COMMA WGPU_STENCIL_FACE_STATE_INIT WGPU_COMMA WGPU_STENCIL_FACE_STATE_INIT WGPU_COMMA 0xFFFFFFFF WGPU_COMMA 0xFFFFFFFF WGPU_COMMA 0 WGPU_COMMA 0.0f WGPU_COMMA 0.0f WGPU_COMMA })
+   --  unsupported macro: WGPU_FUTURE_WAIT_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUFutureWaitInfo, { WGPU_FUTURE_INIT WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_IMAGE_COPY_BUFFER_INIT WGPU_MAKE_INIT_STRUCT(WGPUImageCopyBuffer, { WGPU_TEXTURE_DATA_LAYOUT_INIT WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_IMAGE_COPY_TEXTURE_INIT WGPU_MAKE_INIT_STRUCT(WGPUImageCopyTexture, { {} WGPU_COMMA 0 WGPU_COMMA WGPU_ORIGIN_3D_INIT WGPU_COMMA WGPUTextureAspect_All WGPU_COMMA })
+   --  unsupported macro: WGPU_INSTANCE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUInstanceDescriptor, { nullptr WGPU_COMMA WGPU_INSTANCE_FEATURES_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_QUERY_SET_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUQuerySetDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_QUEUE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUQueueDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_REQUIRED_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(WGPURequiredLimits, { nullptr WGPU_COMMA WGPU_LIMITS_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SAMPLER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSamplerDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUFilterMode_Nearest WGPU_COMMA WGPUFilterMode_Nearest WGPU_COMMA WGPUMipmapFilterMode_Nearest WGPU_COMMA 0.0f WGPU_COMMA 32.0f WGPU_COMMA WGPUCompareFunction_Undefined WGPU_COMMA 1 WGPU_COMMA })
+   --  unsupported macro: WGPU_SHADER_SOURCE_WGSL_INIT WGPU_MAKE_INIT_STRUCT(WGPUShaderSourceWGSL, { { nullptr WGPU_COMMA WGPUSType_ShaderSourceWGSL} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SUPPORTED_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(WGPUSupportedLimits, { nullptr WGPU_COMMA WGPU_LIMITS_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_TEXTURE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA WGPUTextureDimension_2D WGPU_COMMA WGPU_EXTENT_3D_INIT WGPU_COMMA {} WGPU_COMMA 1 WGPU_COMMA 1 WGPU_COMMA 0 WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_VERTEX_BUFFER_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUVertexBufferLayout, { {} WGPU_COMMA WGPUVertexStepMode_Vertex WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_COLOR_TARGET_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUColorTargetState, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA WGPUColorWriteMask_All WGPU_COMMA })
+   --  unsupported macro: WGPU_COMPILATION_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUCompilationInfo, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_DEVICE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUDeviceDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA 0 WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA WGPU_QUEUE_DESCRIPTOR_INIT WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA WGPU_DEVICE_LOST_CALLBACK_INFO_INIT WGPU_COMMA WGPU_UNCAPTURED_ERROR_CALLBACK_INFO_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PASS_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPassDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_VERTEX_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUVertexState, { nullptr WGPU_COMMA {} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_FRAGMENT_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUFragmentState, { nullptr WGPU_COMMA {} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_BUFFER_MAP_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPUBufferMapCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_COMPILATION_INFO_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPUCompilationInfoCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_CREATE_COMPUTE_PIPELINE_ASYNC_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPUCreateComputePipelineAsyncCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_CREATE_RENDER_PIPELINE_ASYNC_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPUCreateRenderPipelineAsyncCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_DEVICE_LOST_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPUDeviceLostCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_POP_ERROR_SCOPE_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPUPopErrorScopeCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_QUEUE_WORK_DONE_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPUQueueWorkDoneCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_REQUEST_ADAPTER_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPURequestAdapterCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_REQUEST_DEVICE_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPURequestDeviceCallbackInfo2, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_UNCAPTURED_ERROR_CALLBACK_INFO_2_INIT WGPU_MAKE_INIT_STRUCT(WGPUUncapturedErrorCallbackInfo2, { nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_INTERNAL__HAVE_EMDAWNWEBGPU_HEADER_INIT WGPU_MAKE_INIT_STRUCT(WGPUINTERNAL__HAVE_EMDAWNWEBGPU_HEADER, { false WGPU_COMMA })
+   --  unsupported macro: WGPU_BUFFER_HOST_MAPPED_POINTER_INIT WGPU_MAKE_INIT_STRUCT(WGPUBufferHostMappedPointer, { { nullptr WGPU_COMMA WGPUSType_BufferHostMappedPointer} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_BUFFER_MAP_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUBufferMapCallbackInfo, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_COLOR_TARGET_STATE_EXPAND_RESOLVE_TEXTURE_DAWN_INIT WGPU_MAKE_INIT_STRUCT(WGPUColorTargetStateExpandResolveTextureDawn, { { nullptr WGPU_COMMA WGPUSType_ColorTargetStateExpandResolveTextureDawn} WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_COMPILATION_INFO_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUCompilationInfoCallbackInfo, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_COMPUTE_PASS_TIMESTAMP_WRITES_INIT WGPU_MAKE_INIT_STRUCT(WGPUComputePassTimestampWrites, { {} WGPU_COMMA WGPU_QUERY_SET_INDEX_UNDEFINED WGPU_COMMA WGPU_QUERY_SET_INDEX_UNDEFINED WGPU_COMMA })
+   --  unsupported macro: WGPU_COPY_TEXTURE_FOR_BROWSER_OPTIONS_INIT WGPU_MAKE_INIT_STRUCT(WGPUCopyTextureForBrowserOptions, { nullptr WGPU_COMMA false WGPU_COMMA false WGPU_COMMA WGPUAlphaMode_Unpremultiplied WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA WGPUAlphaMode_Unpremultiplied WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_CREATE_COMPUTE_PIPELINE_ASYNC_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUCreateComputePipelineAsyncCallbackInfo, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_CREATE_RENDER_PIPELINE_ASYNC_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUCreateRenderPipelineAsyncCallbackInfo, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_ADAPTER_PROPERTIES_POWER_PREFERENCE_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnAdapterPropertiesPowerPreference, { { nullptr WGPU_COMMA WGPUSType_DawnAdapterPropertiesPowerPreference} WGPU_COMMA WGPUPowerPreference_Undefined WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_BUFFER_DESCRIPTOR_ERROR_INFO_FROM_WIRE_CLIENT_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnBufferDescriptorErrorInfoFromWireClient, { { nullptr WGPU_COMMA WGPUSType_DawnBufferDescriptorErrorInfoFromWireClient} WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_COMPUTE_PIPELINE_FULL_SUBGROUPS_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnComputePipelineFullSubgroups, { { nullptr WGPU_COMMA WGPUSType_DawnComputePipelineFullSubgroups} WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_ENCODER_INTERNAL_USAGE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnEncoderInternalUsageDescriptor, { { nullptr WGPU_COMMA WGPUSType_DawnEncoderInternalUsageDescriptor} WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_EXPERIMENTAL_IMMEDIATE_DATA_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnExperimentalImmediateDataLimits, { { nullptr WGPU_COMMA WGPUSType_DawnExperimentalImmediateDataLimits} WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_EXPERIMENTAL_SUBGROUP_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnExperimentalSubgroupLimits, { { nullptr WGPU_COMMA WGPUSType_DawnExperimentalSubgroupLimits} WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_RENDER_PASS_COLOR_ATTACHMENT_RENDER_TO_SINGLE_SAMPLED_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnRenderPassColorAttachmentRenderToSingleSampled, { { nullptr WGPU_COMMA WGPUSType_DawnRenderPassColorAttachmentRenderToSingleSampled} WGPU_COMMA 1 WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_SHADER_MODULE_SPIRV_OPTIONS_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnShaderModuleSPIRVOptionsDescriptor, { { nullptr WGPU_COMMA WGPUSType_DawnShaderModuleSPIRVOptionsDescriptor} WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_TEXTURE_INTERNAL_USAGE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnTextureInternalUsageDescriptor, { { nullptr WGPU_COMMA WGPUSType_DawnTextureInternalUsageDescriptor} WGPU_COMMA WGPUTextureUsage_None WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_TOGGLES_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnTogglesDescriptor, { { nullptr WGPU_COMMA WGPUSType_DawnTogglesDescriptor} WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_DEVICE_LOST_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUDeviceLostCallbackInfo, { nullptr WGPU_COMMA WGPUCallbackMode_WaitAnyOnly WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_EXTERNAL_TEXTURE_BINDING_ENTRY_INIT WGPU_MAKE_INIT_STRUCT(WGPUExternalTextureBindingEntry, { { nullptr WGPU_COMMA WGPUSType_ExternalTextureBindingEntry} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_EXTERNAL_TEXTURE_BINDING_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUExternalTextureBindingLayout, { { nullptr WGPU_COMMA WGPUSType_ExternalTextureBindingLayout} WGPU_COMMA })
+   --  unsupported macro: WGPU_PIPELINE_LAYOUT_STORAGE_ATTACHMENT_INIT WGPU_MAKE_INIT_STRUCT(WGPUPipelineLayoutStorageAttachment, { nullptr WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_POP_ERROR_SCOPE_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUPopErrorScopeCallbackInfo, { nullptr WGPU_COMMA WGPUCallbackMode_WaitAnyOnly WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_QUEUE_WORK_DONE_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUQueueWorkDoneCallbackInfo, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PASS_DEPTH_STENCIL_ATTACHMENT_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPassDepthStencilAttachment, { {} WGPU_COMMA WGPULoadOp_Undefined WGPU_COMMA WGPUStoreOp_Undefined WGPU_COMMA NAN WGPU_COMMA false WGPU_COMMA WGPULoadOp_Undefined WGPU_COMMA WGPUStoreOp_Undefined WGPU_COMMA 0 WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PASS_DESCRIPTOR_EXPAND_RESOLVE_RECT_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPassDescriptorExpandResolveRect, { { nullptr WGPU_COMMA WGPUSType_RenderPassDescriptorExpandResolveRect} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PASS_MAX_DRAW_COUNT_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPassMaxDrawCount, { { nullptr WGPU_COMMA WGPUSType_RenderPassMaxDrawCount} WGPU_COMMA 50000000 WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PASS_TIMESTAMP_WRITES_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPassTimestampWrites, { {} WGPU_COMMA WGPU_QUERY_SET_INDEX_UNDEFINED WGPU_COMMA WGPU_QUERY_SET_INDEX_UNDEFINED WGPU_COMMA })
+   --  unsupported macro: WGPU_REQUEST_ADAPTER_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPURequestAdapterCallbackInfo, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_REQUEST_ADAPTER_OPTIONS_INIT WGPU_MAKE_INIT_STRUCT(T_WGPURequestAdapterOptions, { nullptr WGPU_COMMA nullptr WGPU_COMMA WGPUPowerPreference_Undefined WGPU_COMMA WGPUBackendType_Undefined WGPU_COMMA false WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_REQUEST_DEVICE_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPURequestDeviceCallbackInfo, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHADER_MODULE_COMPILATION_OPTIONS_INIT WGPU_MAKE_INIT_STRUCT(WGPUShaderModuleCompilationOptions, { { nullptr WGPU_COMMA WGPUSType_ShaderModuleCompilationOptions} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_BUFFER_MEMORY_BEGIN_ACCESS_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedBufferMemoryBeginAccessDescriptor, { nullptr WGPU_COMMA {} WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_BUFFER_MEMORY_END_ACCESS_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedBufferMemoryEndAccessState, { nullptr WGPU_COMMA {} WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_BUFFER_MEMORY_PROPERTIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedBufferMemoryProperties, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_DXGI_SHARED_HANDLE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceDXGISharedHandleDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedFenceDXGISharedHandleDescriptor} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_DXGI_SHARED_HANDLE_EXPORT_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceDXGISharedHandleExportInfo, { { nullptr WGPU_COMMA WGPUSType_SharedFenceDXGISharedHandleExportInfo} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_MTL_SHARED_EVENT_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceMTLSharedEventDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedFenceMTLSharedEventDescriptor} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_MTL_SHARED_EVENT_EXPORT_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceMTLSharedEventExportInfo, { { nullptr WGPU_COMMA WGPUSType_SharedFenceMTLSharedEventExportInfo} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_EXPORT_INFO_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSharedFenceExportInfo, { nullptr WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_SYNC_FD_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceSyncFDDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedFenceSyncFDDescriptor} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_SYNC_FD_EXPORT_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceSyncFDExportInfo, { { nullptr WGPU_COMMA WGPUSType_SharedFenceSyncFDExportInfo} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_VK_SEMAPHORE_OPAQUE_FD_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceVkSemaphoreOpaqueFDDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedFenceVkSemaphoreOpaqueFDDescriptor} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_VK_SEMAPHORE_OPAQUE_FD_EXPORT_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceVkSemaphoreOpaqueFDExportInfo, { { nullptr WGPU_COMMA WGPUSType_SharedFenceVkSemaphoreOpaqueFDExportInfo} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_VK_SEMAPHORE_ZIRCON_HANDLE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceVkSemaphoreZirconHandleDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedFenceVkSemaphoreZirconHandleDescriptor} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_VK_SEMAPHORE_ZIRCON_HANDLE_EXPORT_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceVkSemaphoreZirconHandleExportInfo, { { nullptr WGPU_COMMA WGPUSType_SharedFenceVkSemaphoreZirconHandleExportInfo} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_D3D_SWAPCHAIN_BEGIN_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryD3DSwapchainBeginState, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryD3DSwapchainBeginState} WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_DXGI_SHARED_HANDLE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryDXGISharedHandleDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryDXGISharedHandleDescriptor} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_EGL_IMAGE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryEGLImageDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryEGLImageDescriptor} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_IO_SURFACE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryIOSurfaceDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryIOSurfaceDescriptor} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_A_HARDWARE_BUFFER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryAHardwareBufferDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryAHardwareBufferDescriptor} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_BEGIN_ACCESS_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryBeginAccessDescriptor, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_DMA_BUF_PLANE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryDmaBufPlane, { {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_END_ACCESS_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryEndAccessState, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_OPAQUE_FD_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryOpaqueFDDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryOpaqueFDDescriptor} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_VK_DEDICATED_ALLOCATION_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryVkDedicatedAllocationDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryVkDedicatedAllocationDescriptor} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_VK_IMAGE_LAYOUT_BEGIN_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryVkImageLayoutBeginState, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryVkImageLayoutBeginState} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_VK_IMAGE_LAYOUT_END_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryVkImageLayoutEndState, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryVkImageLayoutEndState} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_ZIRCON_HANDLE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryZirconHandleDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryZirconHandleDescriptor} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_STATIC_SAMPLER_BINDING_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUStaticSamplerBindingLayout, { { nullptr WGPU_COMMA WGPUSType_StaticSamplerBindingLayout} WGPU_COMMA {} WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA })
+   --  unsupported macro: WGPU_STORAGE_TEXTURE_BINDING_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUStorageTextureBindingLayout, { nullptr WGPU_COMMA WGPUStorageTextureAccess_Undefined WGPU_COMMA WGPUTextureFormat_Undefined WGPU_COMMA WGPUTextureViewDimension_2D WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_DESCRIPTOR_FROM_WINDOWS_CORE_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceDescriptorFromWindowsCoreWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceDescriptorFromWindowsCoreWindow} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_DESCRIPTOR_FROM_WINDOWS_SWAP_CHAIN_PANEL_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceDescriptorFromWindowsSwapChainPanel, { { nullptr WGPU_COMMA WGPUSType_SurfaceDescriptorFromWindowsSwapChainPanel} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_XCB_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceXCBWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceXCBWindow} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_ANDROID_NATIVE_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceAndroidNativeWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceAndroidNativeWindow} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_METAL_LAYER_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceMetalLayer, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceMetalLayer} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_WAYLAND_SURFACE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceWaylandSurface, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceWaylandSurface} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_WINDOWS_HWND_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceWindowsHWND, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceWindowsHWND} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_XLIB_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceXlibWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceXlibWindow} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_TEXTURE_BINDING_VIEW_DIMENSION_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureBindingViewDimensionDescriptor, { { nullptr WGPU_COMMA WGPUSType_TextureBindingViewDimensionDescriptor} WGPU_COMMA WGPUTextureViewDimension_Undefined WGPU_COMMA })
+   --  unsupported macro: WGPU_UNCAPTURED_ERROR_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUUncapturedErrorCallbackInfo, { nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_A_HARDWARE_BUFFER_PROPERTIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUAHardwareBufferProperties, { WGPU_Y_CB_CR_VK_DESCRIPTOR_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_ADAPTER_PROPERTIES_MEMORY_HEAPS_INIT WGPU_MAKE_INIT_STRUCT(WGPUAdapterPropertiesMemoryHeaps, { { nullptr WGPU_COMMA WGPUSType_AdapterPropertiesMemoryHeaps} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_BIND_GROUP_LAYOUT_ENTRY_INIT WGPU_MAKE_INIT_STRUCT(WGPUBindGroupLayoutEntry, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPU_BUFFER_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_SAMPLER_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_TEXTURE_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_STORAGE_TEXTURE_BINDING_LAYOUT_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_COMMAND_BUFFER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUCommandBufferDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_COMMAND_ENCODER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUCommandEncoderDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_COMPUTE_PASS_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUComputePassDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_DAWN_CACHE_DEVICE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnCacheDeviceDescriptor, { { nullptr WGPU_COMMA WGPUSType_DawnCacheDeviceDescriptor} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
+   --  unsupported macro: WGPU_DRM_FORMAT_CAPABILITIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUDrmFormatCapabilities, { { nullptr WGPU_COMMA WGPUSType_DrmFormatCapabilities} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_EXTERNAL_TEXTURE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUExternalTextureDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA WGPU_ORIGIN_2D_INIT WGPU_COMMA WGPU_EXTENT_2D_INIT WGPU_COMMA WGPU_ORIGIN_2D_INIT WGPU_COMMA WGPU_EXTENT_2D_INIT WGPU_COMMA WGPU_EXTENT_2D_INIT WGPU_COMMA false WGPU_COMMA nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA false WGPU_COMMA WGPUExternalTextureRotation_Rotate0Degrees WGPU_COMMA })
+   --  unsupported macro: WGPU_IMAGE_COPY_EXTERNAL_TEXTURE_INIT WGPU_MAKE_INIT_STRUCT(WGPUImageCopyExternalTexture, { nullptr WGPU_COMMA {} WGPU_COMMA WGPU_ORIGIN_3D_INIT WGPU_COMMA WGPU_EXTENT_2D_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_PIPELINE_LAYOUT_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUPipelineLayoutDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA 0 WGPU_COMMA })
+   --  unsupported macro: WGPU_PIPELINE_LAYOUT_PIXEL_LOCAL_STORAGE_INIT WGPU_MAKE_INIT_STRUCT(WGPUPipelineLayoutPixelLocalStorage, { { nullptr WGPU_COMMA WGPUSType_PipelineLayoutPixelLocalStorage} WGPU_COMMA {} WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_BUNDLE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderBundleDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_BUNDLE_ENCODER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderBundleEncoderDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPUTextureFormat_Undefined WGPU_COMMA 1 WGPU_COMMA false WGPU_COMMA false WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PASS_COLOR_ATTACHMENT_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPassColorAttachment, { nullptr WGPU_COMMA nullptr WGPU_COMMA WGPU_DEPTH_SLICE_UNDEFINED WGPU_COMMA nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPU_COLOR_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PASS_STORAGE_ATTACHMENT_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPassStorageAttachment, { nullptr WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPU_COLOR_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SHADER_MODULE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUShaderModuleDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_BUFFER_MEMORY_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedBufferMemoryDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_FENCE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedFenceDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_A_HARDWARE_BUFFER_PROPERTIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryAHardwareBufferProperties, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryAHardwareBufferProperties} WGPU_COMMA WGPU_Y_CB_CR_VK_DESCRIPTOR_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_DMA_BUF_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryDmaBufDescriptor, { { nullptr WGPU_COMMA WGPUSType_SharedTextureMemoryDmaBufDescriptor} WGPU_COMMA WGPU_EXTENT_3D_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SHARED_TEXTURE_MEMORY_PROPERTIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUSharedTextureMemoryProperties, { nullptr WGPU_COMMA {} WGPU_COMMA WGPU_EXTENT_3D_INIT WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_CANVAS_HTML_SELECTOR__EMSCRIPTEN_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceCanvasHTMLSelector_Emscripten, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceCanvasHTMLSelector_Emscripten} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_TEXTURE_VIEW_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureViewDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA WGPUTextureFormat_Undefined WGPU_COMMA WGPUTextureViewDimension_Undefined WGPU_COMMA 0 WGPU_COMMA WGPU_MIP_LEVEL_COUNT_UNDEFINED WGPU_COMMA 0 WGPU_COMMA WGPU_ARRAY_LAYER_COUNT_UNDEFINED WGPU_COMMA WGPUTextureAspect_All WGPU_COMMA WGPUTextureUsage_None WGPU_COMMA })
+   --  unsupported macro: WGPU_BIND_GROUP_LAYOUT_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUBindGroupLayoutDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_PROGRAMMABLE_STAGE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUProgrammableStageDescriptor, { nullptr WGPU_COMMA {} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PASS_PIXEL_LOCAL_STORAGE_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPassPixelLocalStorage, { { nullptr WGPU_COMMA WGPUSType_RenderPassPixelLocalStorage} WGPU_COMMA {} WGPU_COMMA 0 WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_COMPUTE_PIPELINE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUComputePipelineDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA nullptr WGPU_COMMA WGPU_PROGRAMMABLE_STAGE_DESCRIPTOR_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_RENDER_PIPELINE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPURenderPipelineDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA nullptr WGPU_COMMA WGPU_VERTEX_STATE_INIT WGPU_COMMA WGPU_PRIMITIVE_STATE_INIT WGPU_COMMA nullptr WGPU_COMMA WGPU_MULTISAMPLE_STATE_INIT WGPU_COMMA nullptr WGPU_COMMA })
 
-  --* @}
-  --*
-  -- * \defgroup Objects
-  -- * \brief Opaque, non-dispatchable handles to WebGPU objects.
-  -- *
-  -- * @{
-  --
+  -- ==========================================================
+  -- COPIED FROM: dawn/out/Debug/gen/include/dawn/webgpu.h
+  -- ==========================================================
+  -- BSD 3-Clause License
+  -- Copyright (c) 2019, "WebGPU native" developers
+  -- All rights reserved.
+  -- Redistribution and use in source and binary forms, with or without
+  -- modification, are permitted provided that the following conditions are met:
+  -- 1. Redistributions of source code must retain the above copyright notice, this
+  --    list of conditions and the following disclaimer.
+  -- 2. Redistributions in binary form must reproduce the above copyright notice,
+  --    this list of conditions and the following disclaimer in the documentation
+  --    and/or other materials provided with the distribution.
+  -- 3. Neither the name of the copyright holder nor the names of its
+  --    contributors may be used to endorse or promote products derived from
+  --    this software without specific prior written permission.
+  -- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  -- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  -- IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  -- DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  -- FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  -- DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  -- SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  -- CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  -- OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  -- OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   subtype WGPUFlags is bits_stdint_uintn_h.uint64_t;  -- webgpu.h:118
+
+	type T_WGPUBool is new Boolean
+	with Convention => C, Size => 32;
 
    type WGPUAdapterImpl is null record;   -- incomplete struct
 
-   type WGPUAdapter is access all WGPUAdapterImpl;  -- webgpu.h:145
+   type WGPUAdapter is access all WGPUAdapterImpl;  -- webgpu.h:121
 
    type WGPUBindGroupImpl is null record;   -- incomplete struct
 
-   type WGPUBindGroup is access all WGPUBindGroupImpl;  -- webgpu.h:146
+   type WGPUBindGroup is access all WGPUBindGroupImpl;  -- webgpu.h:122
 
    type WGPUBindGroupLayoutImpl is null record;   -- incomplete struct
 
-   type WGPUBindGroupLayout is access all WGPUBindGroupLayoutImpl;  -- webgpu.h:147
+   type WGPUBindGroupLayout is access all WGPUBindGroupLayoutImpl;  -- webgpu.h:123
 
    type WGPUBufferImpl is null record;   -- incomplete struct
 
-   type WGPUBuffer is access all WGPUBufferImpl;  -- webgpu.h:148
+   type WGPUBuffer is access all WGPUBufferImpl;  -- webgpu.h:124
 
    type WGPUCommandBufferImpl is null record;   -- incomplete struct
 
-   type WGPUCommandBuffer is access all WGPUCommandBufferImpl;  -- webgpu.h:149
+   type WGPUCommandBuffer is access all WGPUCommandBufferImpl;  -- webgpu.h:125
 
    type WGPUCommandEncoderImpl is null record;   -- incomplete struct
 
-   type WGPUCommandEncoder is access all WGPUCommandEncoderImpl;  -- webgpu.h:150
+   type WGPUCommandEncoder is access all WGPUCommandEncoderImpl;  -- webgpu.h:126
 
    type WGPUComputePassEncoderImpl is null record;   -- incomplete struct
 
-   type WGPUComputePassEncoder is access all WGPUComputePassEncoderImpl;  -- webgpu.h:151
+   type WGPUComputePassEncoder is access all WGPUComputePassEncoderImpl;  -- webgpu.h:127
 
    type WGPUComputePipelineImpl is null record;   -- incomplete struct
 
-   type WGPUComputePipeline is access all WGPUComputePipelineImpl;  -- webgpu.h:152
+   type WGPUComputePipeline is access all WGPUComputePipelineImpl;  -- webgpu.h:128
 
    type WGPUDeviceImpl is null record;   -- incomplete struct
 
-   type WGPUDevice is access all WGPUDeviceImpl;  -- webgpu.h:153
+   type WGPUDevice is access all WGPUDeviceImpl;  -- webgpu.h:129
 
-   type T_WGPUInstanceImpl is null record;   -- incomplete struct
+   type WGPUExternalTextureImpl is null record;   -- incomplete struct
 
-   type T_WGPUInstance is access all T_WGPUInstanceImpl;  -- webgpu.h:154
+   type WGPUExternalTexture is access all WGPUExternalTextureImpl;  -- webgpu.h:130
+
+   type WGPUInstanceImpl is null record;   -- incomplete struct
+
+   type WGPUInstance is access all WGPUInstanceImpl;  -- webgpu.h:131
 
    type WGPUPipelineLayoutImpl is null record;   -- incomplete struct
 
-   type WGPUPipelineLayout is access all WGPUPipelineLayoutImpl;  -- webgpu.h:155
+   type WGPUPipelineLayout is access all WGPUPipelineLayoutImpl;  -- webgpu.h:132
 
    type WGPUQuerySetImpl is null record;   -- incomplete struct
 
-   type WGPUQuerySet is access all WGPUQuerySetImpl;  -- webgpu.h:156
+   type WGPUQuerySet is access all WGPUQuerySetImpl;  -- webgpu.h:133
 
    type WGPUQueueImpl is null record;   -- incomplete struct
 
-   type WGPUQueue is access all WGPUQueueImpl;  -- webgpu.h:157
+   type WGPUQueue is access all WGPUQueueImpl;  -- webgpu.h:134
 
    type WGPURenderBundleImpl is null record;   -- incomplete struct
 
-   type WGPURenderBundle is access all WGPURenderBundleImpl;  -- webgpu.h:158
+   type WGPURenderBundle is access all WGPURenderBundleImpl;  -- webgpu.h:135
 
    type WGPURenderBundleEncoderImpl is null record;   -- incomplete struct
 
-   type WGPURenderBundleEncoder is access all WGPURenderBundleEncoderImpl;  -- webgpu.h:159
+   type WGPURenderBundleEncoder is access all WGPURenderBundleEncoderImpl;  -- webgpu.h:136
 
    type WGPURenderPassEncoderImpl is null record;   -- incomplete struct
 
-   type WGPURenderPassEncoder is access all WGPURenderPassEncoderImpl;  -- webgpu.h:160
+   type WGPURenderPassEncoder is access all WGPURenderPassEncoderImpl;  -- webgpu.h:137
 
    type WGPURenderPipelineImpl is null record;   -- incomplete struct
 
-   type WGPURenderPipeline is access all WGPURenderPipelineImpl;  -- webgpu.h:161
+   type WGPURenderPipeline is access all WGPURenderPipelineImpl;  -- webgpu.h:138
 
    type WGPUSamplerImpl is null record;   -- incomplete struct
 
-   type WGPUSampler is access all WGPUSamplerImpl;  -- webgpu.h:162
+   type WGPUSampler is access all WGPUSamplerImpl;  -- webgpu.h:139
 
    type WGPUShaderModuleImpl is null record;   -- incomplete struct
 
-   type WGPUShaderModule is access all WGPUShaderModuleImpl;  -- webgpu.h:163
+   type WGPUShaderModule is access all WGPUShaderModuleImpl;  -- webgpu.h:140
 
-  --*
-  -- * An object used to continuously present image data to the user, see @ref Surfaces for more details.
-  --
+   type WGPUSharedBufferMemoryImpl is null record;   -- incomplete struct
+
+   type WGPUSharedBufferMemory is access all WGPUSharedBufferMemoryImpl;  -- webgpu.h:141
+
+   type WGPUSharedFenceImpl is null record;   -- incomplete struct
+
+   type WGPUSharedFence is access all WGPUSharedFenceImpl;  -- webgpu.h:142
+
+   type WGPUSharedTextureMemoryImpl is null record;   -- incomplete struct
+
+   type WGPUSharedTextureMemory is access all WGPUSharedTextureMemoryImpl;  -- webgpu.h:143
 
    type WGPUSurfaceImpl is null record;   -- incomplete struct
 
-   type WGPUSurface is access all WGPUSurfaceImpl;  -- webgpu.h:167
+   type WGPUSurface is access all WGPUSurfaceImpl;  -- webgpu.h:144
 
    type WGPUTextureImpl is null record;   -- incomplete struct
 
-   type WGPUTexture is access all WGPUTextureImpl;  -- webgpu.h:168
+   type WGPUTexture is access all WGPUTextureImpl;  -- webgpu.h:145
 
    type WGPUTextureViewImpl is null record;   -- incomplete struct
 
-   type WGPUTextureView is access all WGPUTextureViewImpl;  -- webgpu.h:169
+   type WGPUTextureView is access all WGPUTextureViewImpl;  -- webgpu.h:146
 
-  --* @}
   -- Structure forward declarations
-  -- Callback info structure forward declarations
-  --*
-  -- * \defgroup Enumerations
-  -- * \brief Enums.
-  -- *
-  -- * @{
-  --
+   subtype WGPUWGSLFeatureName is unsigned;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_ReadonlyAndReadwriteStorageTextures : constant WGPUWGSLFeatureName := 1;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_Packed4x8IntegerDotProduct : constant WGPUWGSLFeatureName := 2;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_UnrestrictedPointerParameters : constant WGPUWGSLFeatureName := 3;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_PointerCompositeAccess : constant WGPUWGSLFeatureName := 4;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_ChromiumTestingUnimplemented : constant WGPUWGSLFeatureName := 327680;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_ChromiumTestingUnsafeExperimental : constant WGPUWGSLFeatureName := 327681;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_ChromiumTestingExperimental : constant WGPUWGSLFeatureName := 327682;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_ChromiumTestingShippedWithKillswitch : constant WGPUWGSLFeatureName := 327683;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_ChromiumTestingShipped : constant WGPUWGSLFeatureName := 327684;
+   WGPUWGSLFeatureName_WGPUWGSLFeatureName_Force32 : constant WGPUWGSLFeatureName := 2147483647;  -- webgpu.h:310
 
    subtype WGPUAdapterType is unsigned;
    WGPUAdapterType_WGPUAdapterType_DiscreteGPU : constant WGPUAdapterType := 1;
    WGPUAdapterType_WGPUAdapterType_IntegratedGPU : constant WGPUAdapterType := 2;
    WGPUAdapterType_WGPUAdapterType_CPU : constant WGPUAdapterType := 3;
    WGPUAdapterType_WGPUAdapterType_Unknown : constant WGPUAdapterType := 4;
-   WGPUAdapterType_WGPUAdapterType_Force32 : constant WGPUAdapterType := 2147483647;  -- webgpu.h:266
+   WGPUAdapterType_WGPUAdapterType_Force32 : constant WGPUAdapterType := 2147483647;  -- webgpu.h:322
 
    subtype WGPUAddressMode is unsigned;
    WGPUAddressMode_WGPUAddressMode_Undefined : constant WGPUAddressMode := 0;
    WGPUAddressMode_WGPUAddressMode_ClampToEdge : constant WGPUAddressMode := 1;
    WGPUAddressMode_WGPUAddressMode_Repeat : constant WGPUAddressMode := 2;
    WGPUAddressMode_WGPUAddressMode_MirrorRepeat : constant WGPUAddressMode := 3;
-   WGPUAddressMode_WGPUAddressMode_Force32 : constant WGPUAddressMode := 2147483647;  -- webgpu.h:274
+   WGPUAddressMode_WGPUAddressMode_Force32 : constant WGPUAddressMode := 2147483647;  -- webgpu.h:329
 
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   subtype WGPUAlphaMode is unsigned;
+   WGPUAlphaMode_WGPUAlphaMode_Opaque : constant WGPUAlphaMode := 1;
+   WGPUAlphaMode_WGPUAlphaMode_Premultiplied : constant WGPUAlphaMode := 2;
+   WGPUAlphaMode_WGPUAlphaMode_Unpremultiplied : constant WGPUAlphaMode := 3;
+   WGPUAlphaMode_WGPUAlphaMode_Force32 : constant WGPUAlphaMode := 2147483647;  -- webgpu.h:336
 
    subtype WGPUBackendType is unsigned;
    WGPUBackendType_WGPUBackendType_Undefined : constant WGPUBackendType := 0;
@@ -231,12 +380,7 @@ package webgpu_h is
    WGPUBackendType_WGPUBackendType_Vulkan : constant WGPUBackendType := 6;
    WGPUBackendType_WGPUBackendType_OpenGL : constant WGPUBackendType := 7;
    WGPUBackendType_WGPUBackendType_OpenGLES : constant WGPUBackendType := 8;
-   WGPUBackendType_WGPUBackendType_Force32 : constant WGPUBackendType := 2147483647;  -- webgpu.h:286
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUBackendType_WGPUBackendType_Force32 : constant WGPUBackendType := 2147483647;  -- webgpu.h:342
 
    subtype WGPUBlendFactor is unsigned;
    WGPUBlendFactor_WGPUBlendFactor_Undefined : constant WGPUBlendFactor := 0;
@@ -257,12 +401,7 @@ package webgpu_h is
    WGPUBlendFactor_WGPUBlendFactor_OneMinusSrc1 : constant WGPUBlendFactor := 15;
    WGPUBlendFactor_WGPUBlendFactor_Src1Alpha : constant WGPUBlendFactor := 16;
    WGPUBlendFactor_WGPUBlendFactor_OneMinusSrc1Alpha : constant WGPUBlendFactor := 17;
-   WGPUBlendFactor_WGPUBlendFactor_Force32 : constant WGPUBlendFactor := 2147483647;  -- webgpu.h:303
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUBlendFactor_WGPUBlendFactor_Force32 : constant WGPUBlendFactor := 2147483647;  -- webgpu.h:354
 
    subtype WGPUBlendOperation is unsigned;
    WGPUBlendOperation_WGPUBlendOperation_Undefined : constant WGPUBlendOperation := 0;
@@ -271,73 +410,39 @@ package webgpu_h is
    WGPUBlendOperation_WGPUBlendOperation_ReverseSubtract : constant WGPUBlendOperation := 3;
    WGPUBlendOperation_WGPUBlendOperation_Min : constant WGPUBlendOperation := 4;
    WGPUBlendOperation_WGPUBlendOperation_Max : constant WGPUBlendOperation := 5;
-   WGPUBlendOperation_WGPUBlendOperation_Force32 : constant WGPUBlendOperation := 2147483647;  -- webgpu.h:329
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUBlendOperation_WGPUBlendOperation_Force32 : constant WGPUBlendOperation := 2147483647;  -- webgpu.h:375
 
    subtype WGPUBufferBindingType is unsigned;
-   WGPUBufferBindingType_WGPUBufferBindingType_BindingNotUsed : constant WGPUBufferBindingType := 0;
-   WGPUBufferBindingType_WGPUBufferBindingType_Undefined : constant WGPUBufferBindingType := 1;
-   WGPUBufferBindingType_WGPUBufferBindingType_Uniform : constant WGPUBufferBindingType := 2;
-   WGPUBufferBindingType_WGPUBufferBindingType_Storage : constant WGPUBufferBindingType := 3;
-   WGPUBufferBindingType_WGPUBufferBindingType_ReadOnlyStorage : constant WGPUBufferBindingType := 4;
-   WGPUBufferBindingType_WGPUBufferBindingType_Force32 : constant WGPUBufferBindingType := 2147483647;  -- webgpu.h:343
+   WGPUBufferBindingType_WGPUBufferBindingType_Undefined : constant WGPUBufferBindingType := 0;
+   WGPUBufferBindingType_WGPUBufferBindingType_Uniform : constant WGPUBufferBindingType := 1;
+   WGPUBufferBindingType_WGPUBufferBindingType_Storage : constant WGPUBufferBindingType := 2;
+   WGPUBufferBindingType_WGPUBufferBindingType_ReadOnlyStorage : constant WGPUBufferBindingType := 3;
+   WGPUBufferBindingType_WGPUBufferBindingType_Force32 : constant WGPUBufferBindingType := 2147483647;  -- webgpu.h:384
 
-  --*
-  --     * `0x00000000`.
-  --     * Indicates that this @ref WGPUBufferBindingLayout member of
-  --     * its parent @ref WGPUBindGroupLayoutEntry is not used.
-  --     * (See also @ref SentinelValues.)
-  --
-
-  --*
-  --     * `0x00000001`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   subtype WGPUBufferMapAsyncStatus is unsigned;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_Success : constant WGPUBufferMapAsyncStatus := 1;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_InstanceDropped : constant WGPUBufferMapAsyncStatus := 2;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_ValidationError : constant WGPUBufferMapAsyncStatus := 3;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_Unknown : constant WGPUBufferMapAsyncStatus := 4;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_DeviceLost : constant WGPUBufferMapAsyncStatus := 5;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_DestroyedBeforeCallback : constant WGPUBufferMapAsyncStatus := 6;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_UnmappedBeforeCallback : constant WGPUBufferMapAsyncStatus := 7;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_MappingAlreadyPending : constant WGPUBufferMapAsyncStatus := 8;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_OffsetOutOfRange : constant WGPUBufferMapAsyncStatus := 9;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_SizeOutOfRange : constant WGPUBufferMapAsyncStatus := 10;
+   WGPUBufferMapAsyncStatus_WGPUBufferMapAsyncStatus_Force32 : constant WGPUBufferMapAsyncStatus := 2147483647;  -- webgpu.h:391
 
    subtype WGPUBufferMapState is unsigned;
    WGPUBufferMapState_WGPUBufferMapState_Unmapped : constant WGPUBufferMapState := 1;
    WGPUBufferMapState_WGPUBufferMapState_Pending : constant WGPUBufferMapState := 2;
    WGPUBufferMapState_WGPUBufferMapState_Mapped : constant WGPUBufferMapState := 3;
-   WGPUBufferMapState_WGPUBufferMapState_Force32 : constant WGPUBufferMapState := 2147483647;  -- webgpu.h:362
-
-  --*
-  -- * The callback mode controls how a callback for an asynchronous operation may be fired. See @ref Asynchronous-Operations for how these are used.
-  --
+   WGPUBufferMapState_WGPUBufferMapState_Force32 : constant WGPUBufferMapState := 2147483647;  -- webgpu.h:404
 
    subtype WGPUCallbackMode is unsigned;
    WGPUCallbackMode_WGPUCallbackMode_WaitAnyOnly : constant WGPUCallbackMode := 1;
    WGPUCallbackMode_WGPUCallbackMode_AllowProcessEvents : constant WGPUCallbackMode := 2;
    WGPUCallbackMode_WGPUCallbackMode_AllowSpontaneous : constant WGPUCallbackMode := 3;
-   WGPUCallbackMode_WGPUCallbackMode_Force32 : constant WGPUCallbackMode := 2147483647;  -- webgpu.h:372
-
-  --*
-  --     * `0x00000001`.
-  --     * Callbacks created with `WGPUCallbackMode_WaitAnyOnly`:
-  --     * - fire when the asynchronous operation's future is passed to a call to `::wgpuInstanceWaitAny`
-  --     *   AND the operation has already completed or it completes inside the call to `::wgpuInstanceWaitAny`.
-  --
-
-  --*
-  --     * `0x00000002`.
-  --     * Callbacks created with `WGPUCallbackMode_AllowProcessEvents`:
-  --     * - fire for the same reasons as callbacks created with `WGPUCallbackMode_WaitAnyOnly`
-  --     * - fire inside a call to `::wgpuInstanceProcessEvents` if the asynchronous operation is complete.
-  --
-
-  --*
-  --     * `0x00000003`.
-  --     * Callbacks created with `WGPUCallbackMode_AllowSpontaneous`:
-  --     * - fire for the same reasons as callbacks created with `WGPUCallbackMode_AllowProcessEvents`
-  --     * - **may** fire spontaneously on an arbitrary or application thread, when the WebGPU implementations discovers that the asynchronous operation is complete.
-  --     *
-  --     *   Implementations _should_ fire spontaneous callbacks as soon as possible.
-  --     *
-  --     * @note Because spontaneous callbacks may fire at an arbitrary time on an arbitrary thread, applications should take extra care when acquiring locks or mutating state inside the callback. It undefined behavior to re-entrantly call into the webgpu.h API if the callback fires while inside the callstack of another webgpu.h function that is not `wgpuInstanceWaitAny` or `wgpuInstanceProcessEvents`.
-  --
+   WGPUCallbackMode_WGPUCallbackMode_Force32 : constant WGPUCallbackMode := 2147483647;  -- webgpu.h:410
 
    subtype WGPUCompareFunction is unsigned;
    WGPUCompareFunction_WGPUCompareFunction_Undefined : constant WGPUCompareFunction := 0;
@@ -349,29 +454,21 @@ package webgpu_h is
    WGPUCompareFunction_WGPUCompareFunction_NotEqual : constant WGPUCompareFunction := 6;
    WGPUCompareFunction_WGPUCompareFunction_GreaterEqual : constant WGPUCompareFunction := 7;
    WGPUCompareFunction_WGPUCompareFunction_Always : constant WGPUCompareFunction := 8;
-   WGPUCompareFunction_WGPUCompareFunction_Force32 : constant WGPUCompareFunction := 2147483647;  -- webgpu.h:401
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUCompareFunction_WGPUCompareFunction_Force32 : constant WGPUCompareFunction := 2147483647;  -- webgpu.h:416
 
    subtype WGPUCompilationInfoRequestStatus is unsigned;
    WGPUCompilationInfoRequestStatus_WGPUCompilationInfoRequestStatus_Success : constant WGPUCompilationInfoRequestStatus := 1;
    WGPUCompilationInfoRequestStatus_WGPUCompilationInfoRequestStatus_InstanceDropped : constant WGPUCompilationInfoRequestStatus := 2;
    WGPUCompilationInfoRequestStatus_WGPUCompilationInfoRequestStatus_Error : constant WGPUCompilationInfoRequestStatus := 3;
-   WGPUCompilationInfoRequestStatus_WGPUCompilationInfoRequestStatus_Unknown : constant WGPUCompilationInfoRequestStatus := 4;
-   WGPUCompilationInfoRequestStatus_WGPUCompilationInfoRequestStatus_Force32 : constant WGPUCompilationInfoRequestStatus := 2147483647;  -- webgpu.h:418
+   WGPUCompilationInfoRequestStatus_WGPUCompilationInfoRequestStatus_DeviceLost : constant WGPUCompilationInfoRequestStatus := 4;
+   WGPUCompilationInfoRequestStatus_WGPUCompilationInfoRequestStatus_Unknown : constant WGPUCompilationInfoRequestStatus := 5;
+   WGPUCompilationInfoRequestStatus_WGPUCompilationInfoRequestStatus_Force32 : constant WGPUCompilationInfoRequestStatus := 2147483647;  -- webgpu.h:428
 
    subtype WGPUCompilationMessageType is unsigned;
    WGPUCompilationMessageType_WGPUCompilationMessageType_Error : constant WGPUCompilationMessageType := 1;
    WGPUCompilationMessageType_WGPUCompilationMessageType_Warning : constant WGPUCompilationMessageType := 2;
    WGPUCompilationMessageType_WGPUCompilationMessageType_Info : constant WGPUCompilationMessageType := 3;
-   WGPUCompilationMessageType_WGPUCompilationMessageType_Force32 : constant WGPUCompilationMessageType := 2147483647;  -- webgpu.h:426
-
-  --*
-  -- * Describes how frames are composited with other contents on the screen when `::wgpuSurfacePresent` is called.
-  --
+   WGPUCompilationMessageType_WGPUCompilationMessageType_Force32 : constant WGPUCompilationMessageType := 2147483647;  -- webgpu.h:436
 
    subtype WGPUCompositeAlphaMode is unsigned;
    WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Auto : constant WGPUCompositeAlphaMode := 0;
@@ -379,65 +476,37 @@ package webgpu_h is
    WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Premultiplied : constant WGPUCompositeAlphaMode := 2;
    WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Unpremultiplied : constant WGPUCompositeAlphaMode := 3;
    WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Inherit : constant WGPUCompositeAlphaMode := 4;
-   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Force32 : constant WGPUCompositeAlphaMode := 2147483647;  -- webgpu.h:436
-
-  --*
-  --     * `0x00000000`.
-  --     * Lets the WebGPU implementation choose the best mode (supported, and with the best performance) between @ref WGPUCompositeAlphaMode_Opaque or @ref WGPUCompositeAlphaMode_Inherit.
-  --
-
-  --*
-  --     * `0x00000001`.
-  --     * The alpha component of the image is ignored and teated as if it is always 1.0.
-  --
-
-  --*
-  --     * `0x00000002`.
-  --     * The alpha component is respected and non-alpha components are assumed to be already multiplied with the alpha component. For example, (0.5, 0, 0, 0.5) is semi-transparent bright red.
-  --
-
-  --*
-  --     * `0x00000003`.
-  --     * The alpha component is respected and non-alpha components are assumed to NOT be already multiplied with the alpha component. For example, (1.0, 0, 0, 0.5) is semi-transparent bright red.
-  --
-
-  --*
-  --     * `0x00000004`.
-  --     * The handling of the alpha component is unknown to WebGPU and should be handled by the application using system-specific APIs. This mode may be unavailable (for example on Wasm).
-  --
+   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Force32 : constant WGPUCompositeAlphaMode := 2147483647;  -- webgpu.h:442
 
    subtype WGPUCreatePipelineAsyncStatus is unsigned;
    WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_Success : constant WGPUCreatePipelineAsyncStatus := 1;
    WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_InstanceDropped : constant WGPUCreatePipelineAsyncStatus := 2;
    WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_ValidationError : constant WGPUCreatePipelineAsyncStatus := 3;
    WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_InternalError : constant WGPUCreatePipelineAsyncStatus := 4;
-   WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_Unknown : constant WGPUCreatePipelineAsyncStatus := 5;
-   WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_Force32 : constant WGPUCreatePipelineAsyncStatus := 2147483647;  -- webgpu.h:465
+   WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_DeviceLost : constant WGPUCreatePipelineAsyncStatus := 5;
+   WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_DeviceDestroyed : constant WGPUCreatePipelineAsyncStatus := 6;
+   WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_Unknown : constant WGPUCreatePipelineAsyncStatus := 7;
+   WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_Force32 : constant WGPUCreatePipelineAsyncStatus := 2147483647;  -- webgpu.h:450
 
    subtype WGPUCullMode is unsigned;
    WGPUCullMode_WGPUCullMode_Undefined : constant WGPUCullMode := 0;
    WGPUCullMode_WGPUCullMode_None : constant WGPUCullMode := 1;
    WGPUCullMode_WGPUCullMode_Front : constant WGPUCullMode := 2;
    WGPUCullMode_WGPUCullMode_Back : constant WGPUCullMode := 3;
-   WGPUCullMode_WGPUCullMode_Force32 : constant WGPUCullMode := 2147483647;  -- webgpu.h:474
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUCullMode_WGPUCullMode_Force32 : constant WGPUCullMode := 2147483647;  -- webgpu.h:460
 
    subtype WGPUDeviceLostReason is unsigned;
    WGPUDeviceLostReason_WGPUDeviceLostReason_Unknown : constant WGPUDeviceLostReason := 1;
    WGPUDeviceLostReason_WGPUDeviceLostReason_Destroyed : constant WGPUDeviceLostReason := 2;
    WGPUDeviceLostReason_WGPUDeviceLostReason_InstanceDropped : constant WGPUDeviceLostReason := 3;
    WGPUDeviceLostReason_WGPUDeviceLostReason_FailedCreation : constant WGPUDeviceLostReason := 4;
-   WGPUDeviceLostReason_WGPUDeviceLostReason_Force32 : constant WGPUDeviceLostReason := 2147483647;  -- webgpu.h:486
+   WGPUDeviceLostReason_WGPUDeviceLostReason_Force32 : constant WGPUDeviceLostReason := 2147483647;  -- webgpu.h:467
 
    subtype WGPUErrorFilter is unsigned;
    WGPUErrorFilter_WGPUErrorFilter_Validation : constant WGPUErrorFilter := 1;
    WGPUErrorFilter_WGPUErrorFilter_OutOfMemory : constant WGPUErrorFilter := 2;
    WGPUErrorFilter_WGPUErrorFilter_Internal : constant WGPUErrorFilter := 3;
-   WGPUErrorFilter_WGPUErrorFilter_Force32 : constant WGPUErrorFilter := 2147483647;  -- webgpu.h:494
+   WGPUErrorFilter_WGPUErrorFilter_Force32 : constant WGPUErrorFilter := 2147483647;  -- webgpu.h:474
 
    subtype WGPUErrorType is unsigned;
    WGPUErrorType_WGPUErrorType_NoError : constant WGPUErrorType := 1;
@@ -445,90 +514,122 @@ package webgpu_h is
    WGPUErrorType_WGPUErrorType_OutOfMemory : constant WGPUErrorType := 3;
    WGPUErrorType_WGPUErrorType_Internal : constant WGPUErrorType := 4;
    WGPUErrorType_WGPUErrorType_Unknown : constant WGPUErrorType := 5;
-   WGPUErrorType_WGPUErrorType_Force32 : constant WGPUErrorType := 2147483647;  -- webgpu.h:501
+   WGPUErrorType_WGPUErrorType_DeviceLost : constant WGPUErrorType := 6;
+   WGPUErrorType_WGPUErrorType_Force32 : constant WGPUErrorType := 2147483647;  -- webgpu.h:480
 
-  --*
-  -- * See @ref WGPURequestAdapterOptions::featureLevel.
-  --
-
-   subtype WGPUFeatureLevel is unsigned;
-   WGPUFeatureLevel_WGPUFeatureLevel_Compatibility : constant WGPUFeatureLevel := 1;
-   WGPUFeatureLevel_WGPUFeatureLevel_Core : constant WGPUFeatureLevel := 2;
-   WGPUFeatureLevel_WGPUFeatureLevel_Force32 : constant WGPUFeatureLevel := 2147483647;  -- webgpu.h:513
-
-  --*
-  --     * `0x00000001`.
-  --     * "Compatibility" profile which can be supported on OpenGL ES 3.1.
-  --
-
-  --*
-  --     * `0x00000002`.
-  --     * "Core" profile which can be supported on Vulkan/Metal/D3D12.
-  --
+   subtype WGPUExternalTextureRotation is unsigned;
+   WGPUExternalTextureRotation_WGPUExternalTextureRotation_Rotate0Degrees : constant WGPUExternalTextureRotation := 1;
+   WGPUExternalTextureRotation_WGPUExternalTextureRotation_Rotate90Degrees : constant WGPUExternalTextureRotation := 2;
+   WGPUExternalTextureRotation_WGPUExternalTextureRotation_Rotate180Degrees : constant WGPUExternalTextureRotation := 3;
+   WGPUExternalTextureRotation_WGPUExternalTextureRotation_Rotate270Degrees : constant WGPUExternalTextureRotation := 4;
+   WGPUExternalTextureRotation_WGPUExternalTextureRotation_Force32 : constant WGPUExternalTextureRotation := 2147483647;  -- webgpu.h:489
 
    subtype WGPUFeatureName is unsigned;
-   WGPUFeatureName_WGPUFeatureName_Undefined : constant WGPUFeatureName := 0;
    WGPUFeatureName_WGPUFeatureName_DepthClipControl : constant WGPUFeatureName := 1;
    WGPUFeatureName_WGPUFeatureName_Depth32FloatStencil8 : constant WGPUFeatureName := 2;
    WGPUFeatureName_WGPUFeatureName_TimestampQuery : constant WGPUFeatureName := 3;
    WGPUFeatureName_WGPUFeatureName_TextureCompressionBC : constant WGPUFeatureName := 4;
-   WGPUFeatureName_WGPUFeatureName_TextureCompressionBCSliced3D : constant WGPUFeatureName := 5;
-   WGPUFeatureName_WGPUFeatureName_TextureCompressionETC2 : constant WGPUFeatureName := 6;
-   WGPUFeatureName_WGPUFeatureName_TextureCompressionASTC : constant WGPUFeatureName := 7;
-   WGPUFeatureName_WGPUFeatureName_TextureCompressionASTCSliced3D : constant WGPUFeatureName := 8;
-   WGPUFeatureName_WGPUFeatureName_IndirectFirstInstance : constant WGPUFeatureName := 9;
-   WGPUFeatureName_WGPUFeatureName_ShaderF16 : constant WGPUFeatureName := 10;
-   WGPUFeatureName_WGPUFeatureName_RG11B10UfloatRenderable : constant WGPUFeatureName := 11;
-   WGPUFeatureName_WGPUFeatureName_BGRA8UnormStorage : constant WGPUFeatureName := 12;
-   WGPUFeatureName_WGPUFeatureName_Float32Filterable : constant WGPUFeatureName := 13;
-   WGPUFeatureName_WGPUFeatureName_Float32Blendable : constant WGPUFeatureName := 14;
-   WGPUFeatureName_WGPUFeatureName_ClipDistances : constant WGPUFeatureName := 15;
-   WGPUFeatureName_WGPUFeatureName_DualSourceBlending : constant WGPUFeatureName := 16;
-   WGPUFeatureName_WGPUFeatureName_Force32 : constant WGPUFeatureName := 2147483647;  -- webgpu.h:527
+   WGPUFeatureName_WGPUFeatureName_TextureCompressionETC2 : constant WGPUFeatureName := 5;
+   WGPUFeatureName_WGPUFeatureName_TextureCompressionASTC : constant WGPUFeatureName := 6;
+   WGPUFeatureName_WGPUFeatureName_IndirectFirstInstance : constant WGPUFeatureName := 7;
+   WGPUFeatureName_WGPUFeatureName_ShaderF16 : constant WGPUFeatureName := 8;
+   WGPUFeatureName_WGPUFeatureName_RG11B10UfloatRenderable : constant WGPUFeatureName := 9;
+   WGPUFeatureName_WGPUFeatureName_BGRA8UnormStorage : constant WGPUFeatureName := 10;
+   WGPUFeatureName_WGPUFeatureName_Float32Filterable : constant WGPUFeatureName := 11;
+   WGPUFeatureName_WGPUFeatureName_Float32Blendable : constant WGPUFeatureName := 12;
+   WGPUFeatureName_WGPUFeatureName_Subgroups : constant WGPUFeatureName := 13;
+   WGPUFeatureName_WGPUFeatureName_SubgroupsF16 : constant WGPUFeatureName := 14;
+   WGPUFeatureName_WGPUFeatureName_DawnInternalUsages : constant WGPUFeatureName := 327680;
+   WGPUFeatureName_WGPUFeatureName_DawnMultiPlanarFormats : constant WGPUFeatureName := 327681;
+   WGPUFeatureName_WGPUFeatureName_DawnNative : constant WGPUFeatureName := 327682;
+   WGPUFeatureName_WGPUFeatureName_ChromiumExperimentalTimestampQueryInsidePasses : constant WGPUFeatureName := 327683;
+   WGPUFeatureName_WGPUFeatureName_ImplicitDeviceSynchronization : constant WGPUFeatureName := 327684;
+   WGPUFeatureName_WGPUFeatureName_ChromiumExperimentalImmediateData : constant WGPUFeatureName := 327685;
+   WGPUFeatureName_WGPUFeatureName_TransientAttachments : constant WGPUFeatureName := 327686;
+   WGPUFeatureName_WGPUFeatureName_MSAARenderToSingleSampled : constant WGPUFeatureName := 327687;
+   WGPUFeatureName_WGPUFeatureName_DualSourceBlending : constant WGPUFeatureName := 327688;
+   WGPUFeatureName_WGPUFeatureName_D3D11MultithreadProtected : constant WGPUFeatureName := 327689;
+   WGPUFeatureName_WGPUFeatureName_ANGLETextureSharing : constant WGPUFeatureName := 327690;
+   WGPUFeatureName_WGPUFeatureName_ChromiumExperimentalSubgroups : constant WGPUFeatureName := 327691;
+   WGPUFeatureName_WGPUFeatureName_ChromiumExperimentalSubgroupUniformControlFlow : constant WGPUFeatureName := 327692;
+   WGPUFeatureName_WGPUFeatureName_PixelLocalStorageCoherent : constant WGPUFeatureName := 327693;
+   WGPUFeatureName_WGPUFeatureName_PixelLocalStorageNonCoherent : constant WGPUFeatureName := 327694;
+   WGPUFeatureName_WGPUFeatureName_Unorm16TextureFormats : constant WGPUFeatureName := 327695;
+   WGPUFeatureName_WGPUFeatureName_Snorm16TextureFormats : constant WGPUFeatureName := 327696;
+   WGPUFeatureName_WGPUFeatureName_MultiPlanarFormatExtendedUsages : constant WGPUFeatureName := 327697;
+   WGPUFeatureName_WGPUFeatureName_MultiPlanarFormatP010 : constant WGPUFeatureName := 327698;
+   WGPUFeatureName_WGPUFeatureName_HostMappedPointer : constant WGPUFeatureName := 327699;
+   WGPUFeatureName_WGPUFeatureName_MultiPlanarRenderTargets : constant WGPUFeatureName := 327700;
+   WGPUFeatureName_WGPUFeatureName_MultiPlanarFormatNv12a : constant WGPUFeatureName := 327701;
+   WGPUFeatureName_WGPUFeatureName_FramebufferFetch : constant WGPUFeatureName := 327702;
+   WGPUFeatureName_WGPUFeatureName_BufferMapExtendedUsages : constant WGPUFeatureName := 327703;
+   WGPUFeatureName_WGPUFeatureName_AdapterPropertiesMemoryHeaps : constant WGPUFeatureName := 327704;
+   WGPUFeatureName_WGPUFeatureName_AdapterPropertiesD3D : constant WGPUFeatureName := 327705;
+   WGPUFeatureName_WGPUFeatureName_AdapterPropertiesVk : constant WGPUFeatureName := 327706;
+   WGPUFeatureName_WGPUFeatureName_R8UnormStorage : constant WGPUFeatureName := 327707;
+   WGPUFeatureName_WGPUFeatureName_FormatCapabilities : constant WGPUFeatureName := 327708;
+   WGPUFeatureName_WGPUFeatureName_DrmFormatCapabilities : constant WGPUFeatureName := 327709;
+   WGPUFeatureName_WGPUFeatureName_Norm16TextureFormats : constant WGPUFeatureName := 327710;
+   WGPUFeatureName_WGPUFeatureName_MultiPlanarFormatNv16 : constant WGPUFeatureName := 327711;
+   WGPUFeatureName_WGPUFeatureName_MultiPlanarFormatNv24 : constant WGPUFeatureName := 327712;
+   WGPUFeatureName_WGPUFeatureName_MultiPlanarFormatP210 : constant WGPUFeatureName := 327713;
+   WGPUFeatureName_WGPUFeatureName_MultiPlanarFormatP410 : constant WGPUFeatureName := 327714;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryVkDedicatedAllocation : constant WGPUFeatureName := 327715;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryAHardwareBuffer : constant WGPUFeatureName := 327716;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryDmaBuf : constant WGPUFeatureName := 327717;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryOpaqueFD : constant WGPUFeatureName := 327718;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryZirconHandle : constant WGPUFeatureName := 327719;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryDXGISharedHandle : constant WGPUFeatureName := 327720;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryD3D11Texture2D : constant WGPUFeatureName := 327721;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryIOSurface : constant WGPUFeatureName := 327722;
+   WGPUFeatureName_WGPUFeatureName_SharedTextureMemoryEGLImage : constant WGPUFeatureName := 327723;
+   WGPUFeatureName_WGPUFeatureName_SharedFenceVkSemaphoreOpaqueFD : constant WGPUFeatureName := 327724;
+   WGPUFeatureName_WGPUFeatureName_SharedFenceSyncFD : constant WGPUFeatureName := 327725;
+   WGPUFeatureName_WGPUFeatureName_SharedFenceVkSemaphoreZirconHandle : constant WGPUFeatureName := 327726;
+   WGPUFeatureName_WGPUFeatureName_SharedFenceDXGISharedHandle : constant WGPUFeatureName := 327727;
+   WGPUFeatureName_WGPUFeatureName_SharedFenceMTLSharedEvent : constant WGPUFeatureName := 327728;
+   WGPUFeatureName_WGPUFeatureName_SharedBufferMemoryD3D12Resource : constant WGPUFeatureName := 327729;
+   WGPUFeatureName_WGPUFeatureName_StaticSamplers : constant WGPUFeatureName := 327730;
+   WGPUFeatureName_WGPUFeatureName_YCbCrVulkanSamplers : constant WGPUFeatureName := 327731;
+   WGPUFeatureName_WGPUFeatureName_ShaderModuleCompilationOptions : constant WGPUFeatureName := 327732;
+   WGPUFeatureName_WGPUFeatureName_DawnLoadResolveTexture : constant WGPUFeatureName := 327733;
+   WGPUFeatureName_WGPUFeatureName_DawnPartialLoadResolveTexture : constant WGPUFeatureName := 327734;
+   WGPUFeatureName_WGPUFeatureName_MultiDrawIndirect : constant WGPUFeatureName := 327735;
+   WGPUFeatureName_WGPUFeatureName_ClipDistances : constant WGPUFeatureName := 327736;
+   WGPUFeatureName_WGPUFeatureName_SharedFenceVkSemaphoreSyncFD : constant WGPUFeatureName := 327737;
+   WGPUFeatureName_WGPUFeatureName_Force32 : constant WGPUFeatureName := 2147483647;  -- webgpu.h:496
 
    subtype WGPUFilterMode is unsigned;
    WGPUFilterMode_WGPUFilterMode_Undefined : constant WGPUFilterMode := 0;
    WGPUFilterMode_WGPUFilterMode_Nearest : constant WGPUFilterMode := 1;
    WGPUFilterMode_WGPUFilterMode_Linear : constant WGPUFilterMode := 2;
-   WGPUFilterMode_WGPUFilterMode_Force32 : constant WGPUFilterMode := 2147483647;  -- webgpu.h:548
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUFilterMode_WGPUFilterMode_Force32 : constant WGPUFilterMode := 2147483647;  -- webgpu.h:571
 
    subtype WGPUFrontFace is unsigned;
    WGPUFrontFace_WGPUFrontFace_Undefined : constant WGPUFrontFace := 0;
    WGPUFrontFace_WGPUFrontFace_CCW : constant WGPUFrontFace := 1;
    WGPUFrontFace_WGPUFrontFace_CW : constant WGPUFrontFace := 2;
-   WGPUFrontFace_WGPUFrontFace_Force32 : constant WGPUFrontFace := 2147483647;  -- webgpu.h:559
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUFrontFace_WGPUFrontFace_Force32 : constant WGPUFrontFace := 2147483647;  -- webgpu.h:577
 
    subtype WGPUIndexFormat is unsigned;
    WGPUIndexFormat_WGPUIndexFormat_Undefined : constant WGPUIndexFormat := 0;
    WGPUIndexFormat_WGPUIndexFormat_Uint16 : constant WGPUIndexFormat := 1;
    WGPUIndexFormat_WGPUIndexFormat_Uint32 : constant WGPUIndexFormat := 2;
-   WGPUIndexFormat_WGPUIndexFormat_Force32 : constant WGPUIndexFormat := 2147483647;  -- webgpu.h:570
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUIndexFormat_WGPUIndexFormat_Force32 : constant WGPUIndexFormat := 2147483647;  -- webgpu.h:583
 
    subtype WGPULoadOp is unsigned;
    WGPULoadOp_WGPULoadOp_Undefined : constant WGPULoadOp := 0;
    WGPULoadOp_WGPULoadOp_Load : constant WGPULoadOp := 1;
    WGPULoadOp_WGPULoadOp_Clear : constant WGPULoadOp := 2;
-   WGPULoadOp_WGPULoadOp_Force32 : constant WGPULoadOp := 2147483647;  -- webgpu.h:581
+   WGPULoadOp_WGPULoadOp_ExpandResolveTexture : constant WGPULoadOp := 327683;
+   WGPULoadOp_WGPULoadOp_Force32 : constant WGPULoadOp := 2147483647;  -- webgpu.h:589
 
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   subtype WGPULoggingType is unsigned;
+   WGPULoggingType_WGPULoggingType_Verbose : constant WGPULoggingType := 1;
+   WGPULoggingType_WGPULoggingType_Info : constant WGPULoggingType := 2;
+   WGPULoggingType_WGPULoggingType_Warning : constant WGPULoggingType := 3;
+   WGPULoggingType_WGPULoggingType_Error : constant WGPULoggingType := 4;
+   WGPULoggingType_WGPULoggingType_Force32 : constant WGPULoggingType := 2147483647;  -- webgpu.h:596
 
    subtype WGPUMapAsyncStatus is unsigned;
    WGPUMapAsyncStatus_WGPUMapAsyncStatus_Success : constant WGPUMapAsyncStatus := 1;
@@ -536,94 +637,37 @@ package webgpu_h is
    WGPUMapAsyncStatus_WGPUMapAsyncStatus_Error : constant WGPUMapAsyncStatus := 3;
    WGPUMapAsyncStatus_WGPUMapAsyncStatus_Aborted : constant WGPUMapAsyncStatus := 4;
    WGPUMapAsyncStatus_WGPUMapAsyncStatus_Unknown : constant WGPUMapAsyncStatus := 5;
-   WGPUMapAsyncStatus_WGPUMapAsyncStatus_Force32 : constant WGPUMapAsyncStatus := 2147483647;  -- webgpu.h:592
+   WGPUMapAsyncStatus_WGPUMapAsyncStatus_Force32 : constant WGPUMapAsyncStatus := 2147483647;  -- webgpu.h:603
 
    subtype WGPUMipmapFilterMode is unsigned;
    WGPUMipmapFilterMode_WGPUMipmapFilterMode_Undefined : constant WGPUMipmapFilterMode := 0;
    WGPUMipmapFilterMode_WGPUMipmapFilterMode_Nearest : constant WGPUMipmapFilterMode := 1;
    WGPUMipmapFilterMode_WGPUMipmapFilterMode_Linear : constant WGPUMipmapFilterMode := 2;
-   WGPUMipmapFilterMode_WGPUMipmapFilterMode_Force32 : constant WGPUMipmapFilterMode := 2147483647;  -- webgpu.h:601
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUMipmapFilterMode_WGPUMipmapFilterMode_Force32 : constant WGPUMipmapFilterMode := 2147483647;  -- webgpu.h:611
 
    subtype WGPUOptionalBool is unsigned;
    WGPUOptionalBool_WGPUOptionalBool_False : constant WGPUOptionalBool := 0;
    WGPUOptionalBool_WGPUOptionalBool_True : constant WGPUOptionalBool := 1;
    WGPUOptionalBool_WGPUOptionalBool_Undefined : constant WGPUOptionalBool := 2;
-   WGPUOptionalBool_WGPUOptionalBool_Force32 : constant WGPUOptionalBool := 2147483647;  -- webgpu.h:612
+   WGPUOptionalBool_WGPUOptionalBool_Force32 : constant WGPUOptionalBool := 2147483647;  -- webgpu.h:617
 
    subtype WGPUPopErrorScopeStatus is unsigned;
    WGPUPopErrorScopeStatus_WGPUPopErrorScopeStatus_Success : constant WGPUPopErrorScopeStatus := 1;
    WGPUPopErrorScopeStatus_WGPUPopErrorScopeStatus_InstanceDropped : constant WGPUPopErrorScopeStatus := 2;
-   WGPUPopErrorScopeStatus_WGPUPopErrorScopeStatus_EmptyStack : constant WGPUPopErrorScopeStatus := 3;
-   WGPUPopErrorScopeStatus_WGPUPopErrorScopeStatus_Force32 : constant WGPUPopErrorScopeStatus := 2147483647;  -- webgpu.h:619
-
-  --*
-  --     * `0x00000001`.
-  --     * The error scope stack was successfully popped and a result was reported.
-  --
-
-  --*
-  --     * `0x00000003`.
-  --     * The error scope stack could not be popped, because it was empty.
-  --
+   WGPUPopErrorScopeStatus_WGPUPopErrorScopeStatus_Force32 : constant WGPUPopErrorScopeStatus := 2147483647;  -- webgpu.h:623
 
    subtype WGPUPowerPreference is unsigned;
    WGPUPowerPreference_WGPUPowerPreference_Undefined : constant WGPUPowerPreference := 0;
    WGPUPowerPreference_WGPUPowerPreference_LowPower : constant WGPUPowerPreference := 1;
    WGPUPowerPreference_WGPUPowerPreference_HighPerformance : constant WGPUPowerPreference := 2;
-   WGPUPowerPreference_WGPUPowerPreference_Force32 : constant WGPUPowerPreference := 2147483647;  -- webgpu.h:634
-
-  --*
-  --     * `0x00000000`.
-  --     * No preference. (See also @ref SentinelValues.)
-  --
-
-  --*
-  -- * Describes when and in which order frames are presented on the screen when `::wgpuSurfacePresent` is called.
-  --
+   WGPUPowerPreference_WGPUPowerPreference_Force32 : constant WGPUPowerPreference := 2147483647;  -- webgpu.h:628
 
    subtype WGPUPresentMode is unsigned;
-   WGPUPresentMode_WGPUPresentMode_Undefined : constant WGPUPresentMode := 0;
    WGPUPresentMode_WGPUPresentMode_Fifo : constant WGPUPresentMode := 1;
    WGPUPresentMode_WGPUPresentMode_FifoRelaxed : constant WGPUPresentMode := 2;
    WGPUPresentMode_WGPUPresentMode_Immediate : constant WGPUPresentMode := 3;
    WGPUPresentMode_WGPUPresentMode_Mailbox : constant WGPUPresentMode := 4;
-   WGPUPresentMode_WGPUPresentMode_Force32 : constant WGPUPresentMode := 2147483647;  -- webgpu.h:648
-
-  --*
-  --     * `0x00000000`.
-  --     * Present mode is not specified. Use the default.
-  --
-
-  --*
-  --     * `0x00000001`.
-  --     * The presentation of the image to the user waits for the next vertical blanking period to update in a first-in, first-out manner.
-  --     * Tearing cannot be observed and frame-loop will be limited to the display's refresh rate.
-  --     * This is the only mode that's always available.
-  --
-
-  --*
-  --     * `0x00000002`.
-  --     * The presentation of the image to the user tries to wait for the next vertical blanking period but may decide to not wait if a frame is presented late.
-  --     * Tearing can sometimes be observed but late-frame don't produce a full-frame stutter in the presentation.
-  --     * This is still a first-in, first-out mechanism so a frame-loop will be limited to the display's refresh rate.
-  --
-
-  --*
-  --     * `0x00000003`.
-  --     * The presentation of the image to the user is updated immediately without waiting for a vertical blank.
-  --     * Tearing can be observed but latency is minimized.
-  --
-
-  --*
-  --     * `0x00000004`.
-  --     * The presentation of the image to the user waits for the next vertical blanking period to update to the latest provided image.
-  --     * Tearing cannot be observed and a frame-loop is not limited to the display's refresh rate.
-  --
+   WGPUPresentMode_WGPUPresentMode_Force32 : constant WGPUPresentMode := 2147483647;  -- webgpu.h:634
 
    subtype WGPUPrimitiveTopology is unsigned;
    WGPUPrimitiveTopology_WGPUPrimitiveTopology_Undefined : constant WGPUPrimitiveTopology := 0;
@@ -632,24 +676,20 @@ package webgpu_h is
    WGPUPrimitiveTopology_WGPUPrimitiveTopology_LineStrip : constant WGPUPrimitiveTopology := 3;
    WGPUPrimitiveTopology_WGPUPrimitiveTopology_TriangleList : constant WGPUPrimitiveTopology := 4;
    WGPUPrimitiveTopology_WGPUPrimitiveTopology_TriangleStrip : constant WGPUPrimitiveTopology := 5;
-   WGPUPrimitiveTopology_WGPUPrimitiveTopology_Force32 : constant WGPUPrimitiveTopology := 2147483647;  -- webgpu.h:683
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUPrimitiveTopology_WGPUPrimitiveTopology_Force32 : constant WGPUPrimitiveTopology := 2147483647;  -- webgpu.h:641
 
    subtype WGPUQueryType is unsigned;
    WGPUQueryType_WGPUQueryType_Occlusion : constant WGPUQueryType := 1;
    WGPUQueryType_WGPUQueryType_Timestamp : constant WGPUQueryType := 2;
-   WGPUQueryType_WGPUQueryType_Force32 : constant WGPUQueryType := 2147483647;  -- webgpu.h:697
+   WGPUQueryType_WGPUQueryType_Force32 : constant WGPUQueryType := 2147483647;  -- webgpu.h:650
 
    subtype WGPUQueueWorkDoneStatus is unsigned;
    WGPUQueueWorkDoneStatus_WGPUQueueWorkDoneStatus_Success : constant WGPUQueueWorkDoneStatus := 1;
    WGPUQueueWorkDoneStatus_WGPUQueueWorkDoneStatus_InstanceDropped : constant WGPUQueueWorkDoneStatus := 2;
    WGPUQueueWorkDoneStatus_WGPUQueueWorkDoneStatus_Error : constant WGPUQueueWorkDoneStatus := 3;
    WGPUQueueWorkDoneStatus_WGPUQueueWorkDoneStatus_Unknown : constant WGPUQueueWorkDoneStatus := 4;
-   WGPUQueueWorkDoneStatus_WGPUQueueWorkDoneStatus_Force32 : constant WGPUQueueWorkDoneStatus := 2147483647;  -- webgpu.h:703
+   WGPUQueueWorkDoneStatus_WGPUQueueWorkDoneStatus_DeviceLost : constant WGPUQueueWorkDoneStatus := 5;
+   WGPUQueueWorkDoneStatus_WGPUQueueWorkDoneStatus_Force32 : constant WGPUQueueWorkDoneStatus := 2147483647;  -- webgpu.h:655
 
    subtype WGPURequestAdapterStatus is unsigned;
    WGPURequestAdapterStatus_WGPURequestAdapterStatus_Success : constant WGPURequestAdapterStatus := 1;
@@ -657,57 +697,108 @@ package webgpu_h is
    WGPURequestAdapterStatus_WGPURequestAdapterStatus_Unavailable : constant WGPURequestAdapterStatus := 3;
    WGPURequestAdapterStatus_WGPURequestAdapterStatus_Error : constant WGPURequestAdapterStatus := 4;
    WGPURequestAdapterStatus_WGPURequestAdapterStatus_Unknown : constant WGPURequestAdapterStatus := 5;
-   WGPURequestAdapterStatus_WGPURequestAdapterStatus_Force32 : constant WGPURequestAdapterStatus := 2147483647;  -- webgpu.h:711
+   WGPURequestAdapterStatus_WGPURequestAdapterStatus_Force32 : constant WGPURequestAdapterStatus := 2147483647;  -- webgpu.h:663
 
    subtype WGPURequestDeviceStatus is unsigned;
    WGPURequestDeviceStatus_WGPURequestDeviceStatus_Success : constant WGPURequestDeviceStatus := 1;
    WGPURequestDeviceStatus_WGPURequestDeviceStatus_InstanceDropped : constant WGPURequestDeviceStatus := 2;
    WGPURequestDeviceStatus_WGPURequestDeviceStatus_Error : constant WGPURequestDeviceStatus := 3;
    WGPURequestDeviceStatus_WGPURequestDeviceStatus_Unknown : constant WGPURequestDeviceStatus := 4;
-   WGPURequestDeviceStatus_WGPURequestDeviceStatus_Force32 : constant WGPURequestDeviceStatus := 2147483647;  -- webgpu.h:720
+   WGPURequestDeviceStatus_WGPURequestDeviceStatus_Force32 : constant WGPURequestDeviceStatus := 2147483647;  -- webgpu.h:671
 
-   subtype T_WGPUSType is unsigned;
-   WGPUSType_WGPUSType_ShaderSourceSPIRV : constant T_WGPUSType := 1;
-   WGPUSType_WGPUSType_ShaderSourceWGSL : constant T_WGPUSType := 2;
-   WGPUSType_WGPUSType_RenderPassMaxDrawCount : constant T_WGPUSType := 3;
-   WGPUSType_WGPUSType_SurfaceSourceMetalLayer : constant T_WGPUSType := 4;
-   WGPUSType_WGPUSType_SurfaceSourceWindowsHWND : constant T_WGPUSType := 5;
-   WGPUSType_WGPUSType_SurfaceSourceXlibWindow : constant T_WGPUSType := 6;
-   WGPUSType_WGPUSType_SurfaceSourceWaylandSurface : constant T_WGPUSType := 7;
-   WGPUSType_WGPUSType_SurfaceSourceAndroidNativeWindow : constant T_WGPUSType := 8;
-   WGPUSType_WGPUSType_SurfaceSourceXCBWindow : constant T_WGPUSType := 9;
-   WGPUSType_WGPUSType_Force32 : constant T_WGPUSType := 2147483647;  -- webgpu.h:728
+   subtype WGPUSType is unsigned;
+   WGPUSType_WGPUSType_ShaderSourceSPIRV : constant WGPUSType := 1;
+   WGPUSType_WGPUSType_ShaderSourceWGSL : constant WGPUSType := 2;
+   WGPUSType_WGPUSType_RenderPassMaxDrawCount : constant WGPUSType := 3;
+   WGPUSType_WGPUSType_SurfaceSourceMetalLayer : constant WGPUSType := 4;
+   WGPUSType_WGPUSType_SurfaceSourceWindowsHWND : constant WGPUSType := 5;
+   WGPUSType_WGPUSType_SurfaceSourceXlibWindow : constant WGPUSType := 6;
+   WGPUSType_WGPUSType_SurfaceSourceWaylandSurface : constant WGPUSType := 7;
+   WGPUSType_WGPUSType_SurfaceSourceAndroidNativeWindow : constant WGPUSType := 8;
+   WGPUSType_WGPUSType_SurfaceSourceXCBWindow : constant WGPUSType := 9;
+   WGPUSType_WGPUSType_TextureBindingViewDimensionDescriptor : constant WGPUSType := 131072;
+   WGPUSType_WGPUSType_SurfaceSourceCanvasHTMLSelector_Emscripten : constant WGPUSType := 262144;
+   WGPUSType_WGPUSType_SurfaceDescriptorFromWindowsCoreWindow : constant WGPUSType := 327680;
+   WGPUSType_WGPUSType_ExternalTextureBindingEntry : constant WGPUSType := 327681;
+   WGPUSType_WGPUSType_ExternalTextureBindingLayout : constant WGPUSType := 327682;
+   WGPUSType_WGPUSType_SurfaceDescriptorFromWindowsSwapChainPanel : constant WGPUSType := 327683;
+   WGPUSType_WGPUSType_DawnTextureInternalUsageDescriptor : constant WGPUSType := 327684;
+   WGPUSType_WGPUSType_DawnEncoderInternalUsageDescriptor : constant WGPUSType := 327685;
+   WGPUSType_WGPUSType_DawnInstanceDescriptor : constant WGPUSType := 327686;
+   WGPUSType_WGPUSType_DawnCacheDeviceDescriptor : constant WGPUSType := 327687;
+   WGPUSType_WGPUSType_DawnAdapterPropertiesPowerPreference : constant WGPUSType := 327688;
+   WGPUSType_WGPUSType_DawnBufferDescriptorErrorInfoFromWireClient : constant WGPUSType := 327689;
+   WGPUSType_WGPUSType_DawnTogglesDescriptor : constant WGPUSType := 327690;
+   WGPUSType_WGPUSType_DawnShaderModuleSPIRVOptionsDescriptor : constant WGPUSType := 327691;
+   WGPUSType_WGPUSType_RequestAdapterOptionsLUID : constant WGPUSType := 327692;
+   WGPUSType_WGPUSType_RequestAdapterOptionsGetGLProc : constant WGPUSType := 327693;
+   WGPUSType_WGPUSType_RequestAdapterOptionsD3D11Device : constant WGPUSType := 327694;
+   WGPUSType_WGPUSType_DawnRenderPassColorAttachmentRenderToSingleSampled : constant WGPUSType := 327695;
+   WGPUSType_WGPUSType_RenderPassPixelLocalStorage : constant WGPUSType := 327696;
+   WGPUSType_WGPUSType_PipelineLayoutPixelLocalStorage : constant WGPUSType := 327697;
+   WGPUSType_WGPUSType_BufferHostMappedPointer : constant WGPUSType := 327698;
+   WGPUSType_WGPUSType_DawnExperimentalSubgroupLimits : constant WGPUSType := 327699;
+   WGPUSType_WGPUSType_AdapterPropertiesMemoryHeaps : constant WGPUSType := 327700;
+   WGPUSType_WGPUSType_AdapterPropertiesD3D : constant WGPUSType := 327701;
+   WGPUSType_WGPUSType_AdapterPropertiesVk : constant WGPUSType := 327702;
+   WGPUSType_WGPUSType_DawnComputePipelineFullSubgroups : constant WGPUSType := 327703;
+   WGPUSType_WGPUSType_DawnWireWGSLControl : constant WGPUSType := 327704;
+   WGPUSType_WGPUSType_DawnWGSLBlocklist : constant WGPUSType := 327705;
+   WGPUSType_WGPUSType_DrmFormatCapabilities : constant WGPUSType := 327706;
+   WGPUSType_WGPUSType_ShaderModuleCompilationOptions : constant WGPUSType := 327707;
+   WGPUSType_WGPUSType_ColorTargetStateExpandResolveTextureDawn : constant WGPUSType := 327708;
+   WGPUSType_WGPUSType_RenderPassDescriptorExpandResolveRect : constant WGPUSType := 327709;
+   WGPUSType_WGPUSType_SharedTextureMemoryVkDedicatedAllocationDescriptor : constant WGPUSType := 327710;
+   WGPUSType_WGPUSType_SharedTextureMemoryAHardwareBufferDescriptor : constant WGPUSType := 327711;
+   WGPUSType_WGPUSType_SharedTextureMemoryDmaBufDescriptor : constant WGPUSType := 327712;
+   WGPUSType_WGPUSType_SharedTextureMemoryOpaqueFDDescriptor : constant WGPUSType := 327713;
+   WGPUSType_WGPUSType_SharedTextureMemoryZirconHandleDescriptor : constant WGPUSType := 327714;
+   WGPUSType_WGPUSType_SharedTextureMemoryDXGISharedHandleDescriptor : constant WGPUSType := 327715;
+   WGPUSType_WGPUSType_SharedTextureMemoryD3D11Texture2DDescriptor : constant WGPUSType := 327716;
+   WGPUSType_WGPUSType_SharedTextureMemoryIOSurfaceDescriptor : constant WGPUSType := 327717;
+   WGPUSType_WGPUSType_SharedTextureMemoryEGLImageDescriptor : constant WGPUSType := 327718;
+   WGPUSType_WGPUSType_SharedTextureMemoryInitializedBeginState : constant WGPUSType := 327719;
+   WGPUSType_WGPUSType_SharedTextureMemoryInitializedEndState : constant WGPUSType := 327720;
+   WGPUSType_WGPUSType_SharedTextureMemoryVkImageLayoutBeginState : constant WGPUSType := 327721;
+   WGPUSType_WGPUSType_SharedTextureMemoryVkImageLayoutEndState : constant WGPUSType := 327722;
+   WGPUSType_WGPUSType_SharedTextureMemoryD3DSwapchainBeginState : constant WGPUSType := 327723;
+   WGPUSType_WGPUSType_SharedFenceVkSemaphoreOpaqueFDDescriptor : constant WGPUSType := 327724;
+   WGPUSType_WGPUSType_SharedFenceVkSemaphoreOpaqueFDExportInfo : constant WGPUSType := 327725;
+   WGPUSType_WGPUSType_SharedFenceSyncFDDescriptor : constant WGPUSType := 327726;
+   WGPUSType_WGPUSType_SharedFenceSyncFDExportInfo : constant WGPUSType := 327727;
+   WGPUSType_WGPUSType_SharedFenceVkSemaphoreZirconHandleDescriptor : constant WGPUSType := 327728;
+   WGPUSType_WGPUSType_SharedFenceVkSemaphoreZirconHandleExportInfo : constant WGPUSType := 327729;
+   WGPUSType_WGPUSType_SharedFenceDXGISharedHandleDescriptor : constant WGPUSType := 327730;
+   WGPUSType_WGPUSType_SharedFenceDXGISharedHandleExportInfo : constant WGPUSType := 327731;
+   WGPUSType_WGPUSType_SharedFenceMTLSharedEventDescriptor : constant WGPUSType := 327732;
+   WGPUSType_WGPUSType_SharedFenceMTLSharedEventExportInfo : constant WGPUSType := 327733;
+   WGPUSType_WGPUSType_SharedBufferMemoryD3D12ResourceDescriptor : constant WGPUSType := 327734;
+   WGPUSType_WGPUSType_StaticSamplerBindingLayout : constant WGPUSType := 327735;
+   WGPUSType_WGPUSType_YCbCrVkDescriptor : constant WGPUSType := 327736;
+   WGPUSType_WGPUSType_SharedTextureMemoryAHardwareBufferProperties : constant WGPUSType := 327737;
+   WGPUSType_WGPUSType_AHardwareBufferProperties : constant WGPUSType := 327738;
+   WGPUSType_WGPUSType_DawnExperimentalImmediateDataLimits : constant WGPUSType := 327739;
+   WGPUSType_WGPUSType_Force32 : constant WGPUSType := 2147483647;  -- webgpu.h:678
 
    subtype WGPUSamplerBindingType is unsigned;
-   WGPUSamplerBindingType_WGPUSamplerBindingType_BindingNotUsed : constant WGPUSamplerBindingType := 0;
-   WGPUSamplerBindingType_WGPUSamplerBindingType_Undefined : constant WGPUSamplerBindingType := 1;
-   WGPUSamplerBindingType_WGPUSamplerBindingType_Filtering : constant WGPUSamplerBindingType := 2;
-   WGPUSamplerBindingType_WGPUSamplerBindingType_NonFiltering : constant WGPUSamplerBindingType := 3;
-   WGPUSamplerBindingType_WGPUSamplerBindingType_Comparison : constant WGPUSamplerBindingType := 4;
-   WGPUSamplerBindingType_WGPUSamplerBindingType_Force32 : constant WGPUSamplerBindingType := 2147483647;  -- webgpu.h:741
+   WGPUSamplerBindingType_WGPUSamplerBindingType_Undefined : constant WGPUSamplerBindingType := 0;
+   WGPUSamplerBindingType_WGPUSamplerBindingType_Filtering : constant WGPUSamplerBindingType := 1;
+   WGPUSamplerBindingType_WGPUSamplerBindingType_NonFiltering : constant WGPUSamplerBindingType := 2;
+   WGPUSamplerBindingType_WGPUSamplerBindingType_Comparison : constant WGPUSamplerBindingType := 3;
+   WGPUSamplerBindingType_WGPUSamplerBindingType_Force32 : constant WGPUSamplerBindingType := 2147483647;  -- webgpu.h:752
 
-  --*
-  --     * `0x00000000`.
-  --     * Indicates that this @ref WGPUSamplerBindingLayout member of
-  --     * its parent @ref WGPUBindGroupLayoutEntry is not used.
-  --     * (See also @ref SentinelValues.)
-  --
-
-  --*
-  --     * `0x00000001`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
-
-  --*
-  -- * Status code returned (synchronously) from many operations. Generally
-  -- * indicates an invalid input like an unknown enum value or @ref OutStructChainError.
-  -- * Read the function's documentation for specific error conditions.
-  --
+   subtype WGPUSharedFenceType is unsigned;
+   WGPUSharedFenceType_WGPUSharedFenceType_VkSemaphoreOpaqueFD : constant WGPUSharedFenceType := 1;
+   WGPUSharedFenceType_WGPUSharedFenceType_SyncFD : constant WGPUSharedFenceType := 2;
+   WGPUSharedFenceType_WGPUSharedFenceType_VkSemaphoreZirconHandle : constant WGPUSharedFenceType := 3;
+   WGPUSharedFenceType_WGPUSharedFenceType_DXGISharedHandle : constant WGPUSharedFenceType := 4;
+   WGPUSharedFenceType_WGPUSharedFenceType_MTLSharedEvent : constant WGPUSharedFenceType := 5;
+   WGPUSharedFenceType_WGPUSharedFenceType_Force32 : constant WGPUSharedFenceType := 2147483647;  -- webgpu.h:759
 
    subtype WGPUStatus is unsigned;
    WGPUStatus_WGPUStatus_Success : constant WGPUStatus := 1;
    WGPUStatus_WGPUStatus_Error : constant WGPUStatus := 2;
-   WGPUStatus_WGPUStatus_Force32 : constant WGPUStatus := 2147483647;  -- webgpu.h:765
+   WGPUStatus_WGPUStatus_Force32 : constant WGPUStatus := 2147483647;  -- webgpu.h:767
 
    subtype WGPUStencilOperation is unsigned;
    WGPUStencilOperation_WGPUStencilOperation_Undefined : constant WGPUStencilOperation := 0;
@@ -719,122 +810,47 @@ package webgpu_h is
    WGPUStencilOperation_WGPUStencilOperation_DecrementClamp : constant WGPUStencilOperation := 6;
    WGPUStencilOperation_WGPUStencilOperation_IncrementWrap : constant WGPUStencilOperation := 7;
    WGPUStencilOperation_WGPUStencilOperation_DecrementWrap : constant WGPUStencilOperation := 8;
-   WGPUStencilOperation_WGPUStencilOperation_Force32 : constant WGPUStencilOperation := 2147483647;  -- webgpu.h:771
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUStencilOperation_WGPUStencilOperation_Force32 : constant WGPUStencilOperation := 2147483647;  -- webgpu.h:772
 
    subtype WGPUStorageTextureAccess is unsigned;
-   WGPUStorageTextureAccess_WGPUStorageTextureAccess_BindingNotUsed : constant WGPUStorageTextureAccess := 0;
-   WGPUStorageTextureAccess_WGPUStorageTextureAccess_Undefined : constant WGPUStorageTextureAccess := 1;
-   WGPUStorageTextureAccess_WGPUStorageTextureAccess_WriteOnly : constant WGPUStorageTextureAccess := 2;
-   WGPUStorageTextureAccess_WGPUStorageTextureAccess_ReadOnly : constant WGPUStorageTextureAccess := 3;
-   WGPUStorageTextureAccess_WGPUStorageTextureAccess_ReadWrite : constant WGPUStorageTextureAccess := 4;
-   WGPUStorageTextureAccess_WGPUStorageTextureAccess_Force32 : constant WGPUStorageTextureAccess := 2147483647;  -- webgpu.h:788
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates that this @ref WGPUStorageTextureBindingLayout member of
-  --     * its parent @ref WGPUBindGroupLayoutEntry is not used.
-  --     * (See also @ref SentinelValues.)
-  --
-
-  --*
-  --     * `0x00000001`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUStorageTextureAccess_WGPUStorageTextureAccess_Undefined : constant WGPUStorageTextureAccess := 0;
+   WGPUStorageTextureAccess_WGPUStorageTextureAccess_WriteOnly : constant WGPUStorageTextureAccess := 1;
+   WGPUStorageTextureAccess_WGPUStorageTextureAccess_ReadOnly : constant WGPUStorageTextureAccess := 2;
+   WGPUStorageTextureAccess_WGPUStorageTextureAccess_ReadWrite : constant WGPUStorageTextureAccess := 3;
+   WGPUStorageTextureAccess_WGPUStorageTextureAccess_Force32 : constant WGPUStorageTextureAccess := 2147483647;  -- webgpu.h:784
 
    subtype WGPUStoreOp is unsigned;
    WGPUStoreOp_WGPUStoreOp_Undefined : constant WGPUStoreOp := 0;
    WGPUStoreOp_WGPUStoreOp_Store : constant WGPUStoreOp := 1;
    WGPUStoreOp_WGPUStoreOp_Discard : constant WGPUStoreOp := 2;
-   WGPUStoreOp_WGPUStoreOp_Force32 : constant WGPUStoreOp := 2147483647;  -- webgpu.h:807
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
-
-  --*
-  -- * The status enum for `::wgpuSurfaceGetCurrentTexture`.
-  --
+   WGPUStoreOp_WGPUStoreOp_Force32 : constant WGPUStoreOp := 2147483647;  -- webgpu.h:791
 
    subtype WGPUSurfaceGetCurrentTextureStatus is unsigned;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_SuccessOptimal : constant WGPUSurfaceGetCurrentTextureStatus := 1;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_SuccessSuboptimal : constant WGPUSurfaceGetCurrentTextureStatus := 2;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Timeout : constant WGPUSurfaceGetCurrentTextureStatus := 3;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Outdated : constant WGPUSurfaceGetCurrentTextureStatus := 4;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Lost : constant WGPUSurfaceGetCurrentTextureStatus := 5;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_OutOfMemory : constant WGPUSurfaceGetCurrentTextureStatus := 6;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_DeviceLost : constant WGPUSurfaceGetCurrentTextureStatus := 7;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Error : constant WGPUSurfaceGetCurrentTextureStatus := 8;
-   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Force32 : constant WGPUSurfaceGetCurrentTextureStatus := 2147483647;  -- webgpu.h:821
-
-  --*
-  --     * `0x00000001`.
-  --     * Yay! Everything is good and we can render this frame.
-  --
-
-  --*
-  --     * `0x00000002`.
-  --     * Still OK - the surface can present the frame, but in a suboptimal way. The surface may need reconfiguration.
-  --
-
-  --*
-  --     * `0x00000003`.
-  --     * Some operation timed out while trying to acquire the frame.
-  --
-
-  --*
-  --     * `0x00000004`.
-  --     * The surface is too different to be used, compared to when it was originally created.
-  --
-
-  --*
-  --     * `0x00000005`.
-  --     * The connection to whatever owns the surface was lost.
-  --
-
-  --*
-  --     * `0x00000006`.
-  --     * The system ran out of memory.
-  --
-
-  --*
-  --     * `0x00000007`.
-  --     * The @ref WGPUDevice configured on the @ref WGPUSurface was lost.
-  --
-
-  --*
-  --     * `0x00000008`.
-  --     * The surface is not configured, or there was an @ref OutStructChainError.
-  --
+   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Success : constant WGPUSurfaceGetCurrentTextureStatus := 1;
+   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Timeout : constant WGPUSurfaceGetCurrentTextureStatus := 2;
+   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Outdated : constant WGPUSurfaceGetCurrentTextureStatus := 3;
+   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Lost : constant WGPUSurfaceGetCurrentTextureStatus := 4;
+   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_OutOfMemory : constant WGPUSurfaceGetCurrentTextureStatus := 5;
+   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_DeviceLost : constant WGPUSurfaceGetCurrentTextureStatus := 6;
+   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Error : constant WGPUSurfaceGetCurrentTextureStatus := 7;
+   WGPUSurfaceGetCurrentTextureStatus_WGPUSurfaceGetCurrentTextureStatus_Force32 : constant WGPUSurfaceGetCurrentTextureStatus := 2147483647;  -- webgpu.h:797
 
    subtype WGPUTextureAspect is unsigned;
    WGPUTextureAspect_WGPUTextureAspect_Undefined : constant WGPUTextureAspect := 0;
    WGPUTextureAspect_WGPUTextureAspect_All : constant WGPUTextureAspect := 1;
    WGPUTextureAspect_WGPUTextureAspect_StencilOnly : constant WGPUTextureAspect := 2;
    WGPUTextureAspect_WGPUTextureAspect_DepthOnly : constant WGPUTextureAspect := 3;
-   WGPUTextureAspect_WGPUTextureAspect_Force32 : constant WGPUTextureAspect := 16#7FFFFFFF#;  -- webgpu.h:865
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUTextureAspect_WGPUTextureAspect_Plane0Only : constant WGPUTextureAspect := 327680;
+   WGPUTextureAspect_WGPUTextureAspect_Plane1Only : constant WGPUTextureAspect := 327681;
+   WGPUTextureAspect_WGPUTextureAspect_Plane2Only : constant WGPUTextureAspect := 327682;
+   WGPUTextureAspect_WGPUTextureAspect_Force32 : constant WGPUTextureAspect := 2147483647;  -- webgpu.h:807
 
    subtype WGPUTextureDimension is unsigned;
    WGPUTextureDimension_WGPUTextureDimension_Undefined : constant WGPUTextureDimension := 0;
    WGPUTextureDimension_WGPUTextureDimension_1D : constant WGPUTextureDimension := 1;
    WGPUTextureDimension_WGPUTextureDimension_2D : constant WGPUTextureDimension := 2;
    WGPUTextureDimension_WGPUTextureDimension_3D : constant WGPUTextureDimension := 3;
-   WGPUTextureDimension_WGPUTextureDimension_Force32 : constant WGPUTextureDimension := 2147483647;  -- webgpu.h:877
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUTextureDimension_WGPUTextureDimension_Force32 : constant WGPUTextureDimension := 2147483647;  -- webgpu.h:817
 
    subtype WGPUTextureFormat is unsigned;
    WGPUTextureFormat_WGPUTextureFormat_Undefined : constant WGPUTextureFormat := 0;
@@ -933,34 +949,30 @@ package webgpu_h is
    WGPUTextureFormat_WGPUTextureFormat_ASTC12x10UnormSrgb : constant WGPUTextureFormat := 93;
    WGPUTextureFormat_WGPUTextureFormat_ASTC12x12Unorm : constant WGPUTextureFormat := 94;
    WGPUTextureFormat_WGPUTextureFormat_ASTC12x12UnormSrgb : constant WGPUTextureFormat := 95;
-   WGPUTextureFormat_WGPUTextureFormat_Force32 : constant WGPUTextureFormat := 2147483647;  -- webgpu.h:889
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUTextureFormat_WGPUTextureFormat_R16Unorm : constant WGPUTextureFormat := 327680;
+   WGPUTextureFormat_WGPUTextureFormat_RG16Unorm : constant WGPUTextureFormat := 327681;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA16Unorm : constant WGPUTextureFormat := 327682;
+   WGPUTextureFormat_WGPUTextureFormat_R16Snorm : constant WGPUTextureFormat := 327683;
+   WGPUTextureFormat_WGPUTextureFormat_RG16Snorm : constant WGPUTextureFormat := 327684;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA16Snorm : constant WGPUTextureFormat := 327685;
+   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar420Unorm : constant WGPUTextureFormat := 327686;
+   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar420Unorm : constant WGPUTextureFormat := 327687;
+   WGPUTextureFormat_WGPUTextureFormat_R8BG8A8Triplanar420Unorm : constant WGPUTextureFormat := 327688;
+   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar422Unorm : constant WGPUTextureFormat := 327689;
+   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar444Unorm : constant WGPUTextureFormat := 327690;
+   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar422Unorm : constant WGPUTextureFormat := 327691;
+   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar444Unorm : constant WGPUTextureFormat := 327692;
+   WGPUTextureFormat_WGPUTextureFormat_External : constant WGPUTextureFormat := 327693;
+   WGPUTextureFormat_WGPUTextureFormat_Force32 : constant WGPUTextureFormat := 2147483647;  -- webgpu.h:824
 
    subtype WGPUTextureSampleType is unsigned;
-   WGPUTextureSampleType_WGPUTextureSampleType_BindingNotUsed : constant WGPUTextureSampleType := 0;
-   WGPUTextureSampleType_WGPUTextureSampleType_Undefined : constant WGPUTextureSampleType := 1;
-   WGPUTextureSampleType_WGPUTextureSampleType_Float : constant WGPUTextureSampleType := 2;
-   WGPUTextureSampleType_WGPUTextureSampleType_UnfilterableFloat : constant WGPUTextureSampleType := 3;
-   WGPUTextureSampleType_WGPUTextureSampleType_Depth : constant WGPUTextureSampleType := 4;
-   WGPUTextureSampleType_WGPUTextureSampleType_Sint : constant WGPUTextureSampleType := 5;
-   WGPUTextureSampleType_WGPUTextureSampleType_Uint : constant WGPUTextureSampleType := 6;
-   WGPUTextureSampleType_WGPUTextureSampleType_Force32 : constant WGPUTextureSampleType := 2147483647;  -- webgpu.h:993
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates that this @ref WGPUTextureBindingLayout member of
-  --     * its parent @ref WGPUBindGroupLayoutEntry is not used.
-  --     * (See also @ref SentinelValues.)
-  --
-
-  --*
-  --     * `0x00000001`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUTextureSampleType_WGPUTextureSampleType_Undefined : constant WGPUTextureSampleType := 0;
+   WGPUTextureSampleType_WGPUTextureSampleType_Float : constant WGPUTextureSampleType := 1;
+   WGPUTextureSampleType_WGPUTextureSampleType_UnfilterableFloat : constant WGPUTextureSampleType := 2;
+   WGPUTextureSampleType_WGPUTextureSampleType_Depth : constant WGPUTextureSampleType := 3;
+   WGPUTextureSampleType_WGPUTextureSampleType_Sint : constant WGPUTextureSampleType := 4;
+   WGPUTextureSampleType_WGPUTextureSampleType_Uint : constant WGPUTextureSampleType := 5;
+   WGPUTextureSampleType_WGPUTextureSampleType_Force32 : constant WGPUTextureSampleType := 2147483647;  -- webgpu.h:937
 
    subtype WGPUTextureViewDimension is unsigned;
    WGPUTextureViewDimension_WGPUTextureViewDimension_Undefined : constant WGPUTextureViewDimension := 0;
@@ -970,12 +982,7 @@ package webgpu_h is
    WGPUTextureViewDimension_WGPUTextureViewDimension_Cube : constant WGPUTextureViewDimension := 4;
    WGPUTextureViewDimension_WGPUTextureViewDimension_CubeArray : constant WGPUTextureViewDimension := 5;
    WGPUTextureViewDimension_WGPUTextureViewDimension_3D : constant WGPUTextureViewDimension := 6;
-   WGPUTextureViewDimension_WGPUTextureViewDimension_Force32 : constant WGPUTextureViewDimension := 2147483647;  -- webgpu.h:1014
-
-  --*
-  --     * `0x00000000`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
+   WGPUTextureViewDimension_WGPUTextureViewDimension_Force32 : constant WGPUTextureViewDimension := 2147483647;  -- webgpu.h:946
 
    subtype WGPUVertexFormat is unsigned;
    WGPUVertexFormat_WGPUVertexFormat_Uint8 : constant WGPUVertexFormat := 1;
@@ -1019,36 +1026,14 @@ package webgpu_h is
    WGPUVertexFormat_WGPUVertexFormat_Sint32x4 : constant WGPUVertexFormat := 39;
    WGPUVertexFormat_WGPUVertexFormat_Unorm10_10_10_2 : constant WGPUVertexFormat := 40;
    WGPUVertexFormat_WGPUVertexFormat_Unorm8x4BGRA : constant WGPUVertexFormat := 41;
-   WGPUVertexFormat_WGPUVertexFormat_Force32 : constant WGPUVertexFormat := 2147483647;  -- webgpu.h:1029
+   WGPUVertexFormat_WGPUVertexFormat_Force32 : constant WGPUVertexFormat := 2147483647;  -- webgpu.h:956
 
    subtype WGPUVertexStepMode is unsigned;
-   WGPUVertexStepMode_WGPUVertexStepMode_VertexBufferNotUsed : constant WGPUVertexStepMode := 0;
-   WGPUVertexStepMode_WGPUVertexStepMode_Undefined : constant WGPUVertexStepMode := 1;
+   WGPUVertexStepMode_WGPUVertexStepMode_Undefined : constant WGPUVertexStepMode := 0;
+   WGPUVertexStepMode_WGPUVertexStepMode_VertexBufferNotUsed : constant WGPUVertexStepMode := 1;
    WGPUVertexStepMode_WGPUVertexStepMode_Vertex : constant WGPUVertexStepMode := 2;
    WGPUVertexStepMode_WGPUVertexStepMode_Instance : constant WGPUVertexStepMode := 3;
-   WGPUVertexStepMode_WGPUVertexStepMode_Force32 : constant WGPUVertexStepMode := 2147483647;  -- webgpu.h:1074
-
-  --*
-  --     * `0x00000000`.
-  --     * This @ref WGPUVertexBufferLayout is a "hole" in the @ref WGPUVertexState `buffers` array.
-  --     * (See also @ref SentinelValues.)
-  --
-
-  --*
-  --     * `0x00000001`.
-  --     * Indicates no value is passed for this argument. See @ref SentinelValues.
-  --
-
-   subtype WGPUWGSLLanguageFeatureName is unsigned;
-   WGPUWGSLLanguageFeatureName_WGPUWGSLLanguageFeatureName_ReadonlyAndReadwriteStorageTextures : constant WGPUWGSLLanguageFeatureName := 1;
-   WGPUWGSLLanguageFeatureName_WGPUWGSLLanguageFeatureName_Packed4x8IntegerDotProduct : constant WGPUWGSLLanguageFeatureName := 2;
-   WGPUWGSLLanguageFeatureName_WGPUWGSLLanguageFeatureName_UnrestrictedPointerParameters : constant WGPUWGSLLanguageFeatureName := 3;
-   WGPUWGSLLanguageFeatureName_WGPUWGSLLanguageFeatureName_PointerCompositeAccess : constant WGPUWGSLLanguageFeatureName := 4;
-   WGPUWGSLLanguageFeatureName_WGPUWGSLLanguageFeatureName_Force32 : constant WGPUWGSLLanguageFeatureName := 2147483647;  -- webgpu.h:1091
-
-  --*
-  -- * Status returned from a call to ::wgpuInstanceWaitAny.
-  --
+   WGPUVertexStepMode_WGPUVertexStepMode_Force32 : constant WGPUVertexStepMode := 2147483647;  -- webgpu.h:1000
 
    subtype WGPUWaitStatus is unsigned;
    WGPUWaitStatus_WGPUWaitStatus_Success : constant WGPUWaitStatus := 1;
@@ -1056,1783 +1041,2067 @@ package webgpu_h is
    WGPUWaitStatus_WGPUWaitStatus_UnsupportedTimeout : constant WGPUWaitStatus := 3;
    WGPUWaitStatus_WGPUWaitStatus_UnsupportedCount : constant WGPUWaitStatus := 4;
    WGPUWaitStatus_WGPUWaitStatus_UnsupportedMixedSources : constant WGPUWaitStatus := 5;
-   WGPUWaitStatus_WGPUWaitStatus_Force32 : constant WGPUWaitStatus := 2147483647;  -- webgpu.h:1102
+   WGPUWaitStatus_WGPUWaitStatus_Unknown : constant WGPUWaitStatus := 6;
+   WGPUWaitStatus_WGPUWaitStatus_Force32 : constant WGPUWaitStatus := 2147483647;  -- webgpu.h:1007
 
-  --*
-  --     * `0x00000001`.
-  --     * At least one WGPUFuture completed successfully.
-  --
+   subtype WGPUBufferUsage is WGPUFlags;  -- webgpu.h:1017
 
-  --*
-  --     * `0x00000002`.
-  --     * No WGPUFutures completed within the timeout.
-  --
-
-  --*
-  --     * `0x00000003`.
-  --     * A @ref Timed-Wait was performed when WGPUInstanceFeatures::timedWaitAnyEnable is false.
-  --
-
-  --*
-  --     * `0x00000004`.
-  --     * The number of futures waited on in a @ref Timed-Wait is greater than the supported WGPUInstanceFeatures::timedWaitAnyMaxCount.
-  --
-
-  --*
-  --     * `0x00000005`.
-  --     * An invalid wait was performed with @ref Mixed-Sources.
-  --
-
-  --* @}
-  --*
-  -- * \defgroup Bitflags
-  -- * \brief Type and constant definitions for bitflag types.
-  -- *
-  -- * @{
-  --
-
-   subtype WGPUBufferUsage is WGPUFlags;  -- webgpu.h:1140
-
-   WGPUBufferUsage_None : aliased constant WGPUBufferUsage  -- webgpu.h:1141
+   WGPUBufferUsage_None : aliased constant WGPUBufferUsage  -- webgpu.h:1018
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL20WGPUBufferUsage_None";
 
-   WGPUBufferUsage_MapRead : aliased constant WGPUBufferUsage  -- webgpu.h:1142
+   WGPUBufferUsage_MapRead : aliased constant WGPUBufferUsage  -- webgpu.h:1019
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL23WGPUBufferUsage_MapRead";
 
-   WGPUBufferUsage_MapWrite : aliased constant WGPUBufferUsage  -- webgpu.h:1143
+   WGPUBufferUsage_MapWrite : aliased constant WGPUBufferUsage  -- webgpu.h:1020
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUBufferUsage_MapWrite";
 
-   WGPUBufferUsage_CopySrc : aliased constant WGPUBufferUsage  -- webgpu.h:1144
+   WGPUBufferUsage_CopySrc : aliased constant WGPUBufferUsage  -- webgpu.h:1021
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL23WGPUBufferUsage_CopySrc";
 
-   WGPUBufferUsage_CopyDst : aliased constant WGPUBufferUsage  -- webgpu.h:1145
+   WGPUBufferUsage_CopyDst : aliased constant WGPUBufferUsage  -- webgpu.h:1022
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL23WGPUBufferUsage_CopyDst";
 
-   WGPUBufferUsage_Index : aliased constant WGPUBufferUsage  -- webgpu.h:1146
+   WGPUBufferUsage_Index : aliased constant WGPUBufferUsage  -- webgpu.h:1023
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL21WGPUBufferUsage_Index";
 
-   WGPUBufferUsage_Vertex : aliased constant WGPUBufferUsage  -- webgpu.h:1147
+   WGPUBufferUsage_Vertex : aliased constant WGPUBufferUsage  -- webgpu.h:1024
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL22WGPUBufferUsage_Vertex";
 
-   WGPUBufferUsage_Uniform : aliased constant WGPUBufferUsage  -- webgpu.h:1148
+   WGPUBufferUsage_Uniform : aliased constant WGPUBufferUsage  -- webgpu.h:1025
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL23WGPUBufferUsage_Uniform";
 
-   WGPUBufferUsage_Storage : aliased constant WGPUBufferUsage  -- webgpu.h:1149
+   WGPUBufferUsage_Storage : aliased constant WGPUBufferUsage  -- webgpu.h:1026
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL23WGPUBufferUsage_Storage";
 
-   WGPUBufferUsage_Indirect : aliased constant WGPUBufferUsage  -- webgpu.h:1150
+   WGPUBufferUsage_Indirect : aliased constant WGPUBufferUsage  -- webgpu.h:1027
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUBufferUsage_Indirect";
 
-   WGPUBufferUsage_QueryResolve : aliased constant WGPUBufferUsage  -- webgpu.h:1151
+   WGPUBufferUsage_QueryResolve : aliased constant WGPUBufferUsage  -- webgpu.h:1028
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL28WGPUBufferUsage_QueryResolve";
 
-   subtype WGPUColorWriteMask is WGPUFlags;  -- webgpu.h:1153
+   subtype WGPUColorWriteMask is WGPUFlags;  -- webgpu.h:1029
 
-   WGPUColorWriteMask_None : aliased constant WGPUColorWriteMask  -- webgpu.h:1154
+   WGPUColorWriteMask_None : aliased constant WGPUColorWriteMask  -- webgpu.h:1030
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL23WGPUColorWriteMask_None";
 
-   WGPUColorWriteMask_Red : aliased constant WGPUColorWriteMask  -- webgpu.h:1155
+   WGPUColorWriteMask_Red : aliased constant WGPUColorWriteMask  -- webgpu.h:1031
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL22WGPUColorWriteMask_Red";
 
-   WGPUColorWriteMask_Green : aliased constant WGPUColorWriteMask  -- webgpu.h:1156
+   WGPUColorWriteMask_Green : aliased constant WGPUColorWriteMask  -- webgpu.h:1032
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUColorWriteMask_Green";
 
-   WGPUColorWriteMask_Blue : aliased constant WGPUColorWriteMask  -- webgpu.h:1157
+   WGPUColorWriteMask_Blue : aliased constant WGPUColorWriteMask  -- webgpu.h:1033
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL23WGPUColorWriteMask_Blue";
 
-   WGPUColorWriteMask_Alpha : aliased constant WGPUColorWriteMask  -- webgpu.h:1158
+   WGPUColorWriteMask_Alpha : aliased constant WGPUColorWriteMask  -- webgpu.h:1034
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUColorWriteMask_Alpha";
 
-  -- Red | Green | Blue | Alpha
-   WGPUColorWriteMask_All : aliased constant WGPUColorWriteMask  -- webgpu.h:1159
+   WGPUColorWriteMask_All : aliased constant WGPUColorWriteMask  -- webgpu.h:1035
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL22WGPUColorWriteMask_All";
 
-   subtype WGPUMapMode is WGPUFlags;  -- webgpu.h:1161
+   subtype WGPUHeapProperty is WGPUFlags;  -- webgpu.h:1036
 
-   WGPUMapMode_None : aliased constant WGPUMapMode  -- webgpu.h:1162
+   WGPUHeapProperty_DeviceLocal : aliased constant WGPUHeapProperty  -- webgpu.h:1037
+   with Import => True,
+        Convention => CPP,
+        External_Name => "_ZL28WGPUHeapProperty_DeviceLocal";
+
+   WGPUHeapProperty_HostVisible : aliased constant WGPUHeapProperty  -- webgpu.h:1038
+   with Import => True,
+        Convention => CPP,
+        External_Name => "_ZL28WGPUHeapProperty_HostVisible";
+
+   WGPUHeapProperty_HostCoherent : aliased constant WGPUHeapProperty  -- webgpu.h:1039
+   with Import => True,
+        Convention => CPP,
+        External_Name => "_ZL29WGPUHeapProperty_HostCoherent";
+
+   WGPUHeapProperty_HostUncached : aliased constant WGPUHeapProperty  -- webgpu.h:1040
+   with Import => True,
+        Convention => CPP,
+        External_Name => "_ZL29WGPUHeapProperty_HostUncached";
+
+   WGPUHeapProperty_HostCached : aliased constant WGPUHeapProperty  -- webgpu.h:1041
+   with Import => True,
+        Convention => CPP,
+        External_Name => "_ZL27WGPUHeapProperty_HostCached";
+
+   subtype WGPUMapMode is WGPUFlags;  -- webgpu.h:1042
+
+   WGPUMapMode_None : aliased constant WGPUMapMode  -- webgpu.h:1043
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL16WGPUMapMode_None";
 
-   WGPUMapMode_Read : aliased constant WGPUMapMode  -- webgpu.h:1163
+   WGPUMapMode_Read : aliased constant WGPUMapMode  -- webgpu.h:1044
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL16WGPUMapMode_Read";
 
-   WGPUMapMode_Write : aliased constant WGPUMapMode  -- webgpu.h:1164
+   WGPUMapMode_Write : aliased constant WGPUMapMode  -- webgpu.h:1045
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL17WGPUMapMode_Write";
 
-   subtype WGPUShaderStage is WGPUFlags;  -- webgpu.h:1166
+   subtype WGPUShaderStage is WGPUFlags;  -- webgpu.h:1046
 
-   WGPUShaderStage_None : aliased constant WGPUShaderStage  -- webgpu.h:1167
+   WGPUShaderStage_None : aliased constant WGPUShaderStage  -- webgpu.h:1047
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL20WGPUShaderStage_None";
 
-   WGPUShaderStage_Vertex : aliased constant WGPUShaderStage  -- webgpu.h:1168
+   WGPUShaderStage_Vertex : aliased constant WGPUShaderStage  -- webgpu.h:1048
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL22WGPUShaderStage_Vertex";
 
-   WGPUShaderStage_Fragment : aliased constant WGPUShaderStage  -- webgpu.h:1169
+   WGPUShaderStage_Fragment : aliased constant WGPUShaderStage  -- webgpu.h:1049
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUShaderStage_Fragment";
 
-   WGPUShaderStage_Compute : aliased constant WGPUShaderStage  -- webgpu.h:1170
+   WGPUShaderStage_Compute : aliased constant WGPUShaderStage  -- webgpu.h:1050
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL23WGPUShaderStage_Compute";
 
-   subtype WGPUTextureUsage is WGPUFlags;  -- webgpu.h:1172
+   subtype WGPUTextureUsage is WGPUFlags;  -- webgpu.h:1051
 
-   WGPUTextureUsage_None : aliased constant WGPUTextureUsage  -- webgpu.h:1173
+   WGPUTextureUsage_None : aliased constant WGPUTextureUsage  -- webgpu.h:1052
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL21WGPUTextureUsage_None";
 
-   WGPUTextureUsage_CopySrc : aliased constant WGPUTextureUsage  -- webgpu.h:1174
+   WGPUTextureUsage_CopySrc : aliased constant WGPUTextureUsage  -- webgpu.h:1053
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUTextureUsage_CopySrc";
 
-   WGPUTextureUsage_CopyDst : aliased constant WGPUTextureUsage  -- webgpu.h:1175
+   WGPUTextureUsage_CopyDst : aliased constant WGPUTextureUsage  -- webgpu.h:1054
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUTextureUsage_CopyDst";
 
-   WGPUTextureUsage_TextureBinding : aliased constant WGPUTextureUsage  -- webgpu.h:1176
+   WGPUTextureUsage_TextureBinding : aliased constant WGPUTextureUsage  -- webgpu.h:1055
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL31WGPUTextureUsage_TextureBinding";
 
-   WGPUTextureUsage_StorageBinding : aliased constant WGPUTextureUsage  -- webgpu.h:1177
+   WGPUTextureUsage_StorageBinding : aliased constant WGPUTextureUsage  -- webgpu.h:1056
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL31WGPUTextureUsage_StorageBinding";
 
-   WGPUTextureUsage_RenderAttachment : aliased constant WGPUTextureUsage  -- webgpu.h:1178
+   WGPUTextureUsage_RenderAttachment : aliased constant WGPUTextureUsage  -- webgpu.h:1057
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL33WGPUTextureUsage_RenderAttachment";
 
-  --* @}
-   type WGPUProc is access procedure
-   with Convention => C;  -- webgpu.h:1182
+   WGPUTextureUsage_TransientAttachment : aliased constant WGPUTextureUsage  -- webgpu.h:1058
+   with Import => True,
+        Convention => CPP,
+        External_Name => "_ZL36WGPUTextureUsage_TransientAttachment";
 
-  --*
-  -- * \defgroup Callbacks
-  -- * \brief Callbacks through which asynchronous functions return.
-  -- *
-  -- * @{
-  --
+   WGPUTextureUsage_StorageAttachment : aliased constant WGPUTextureUsage  -- webgpu.h:1059
+   with Import => True,
+        Convention => CPP,
+        External_Name => "_ZL34WGPUTextureUsage_StorageAttachment";
 
-  --*
-  -- * @param message
-  -- * This parameter is @ref PassedWithoutOwnership.
-  --
+   type WGPUBufferMapCallback is access procedure (arg1 : WGPUBufferMapAsyncStatus; arg2 : System.Address)
+   with Convention => C;  -- webgpu.h:1060
 
-   type WGPUBufferMapCallback is access procedure
-        (arg1 : WGPUMapAsyncStatus;
-         arg2 : WGPUStringView;
-         arg3 : System.Address;
-         arg4 : System.Address)
-   with Convention => C;  -- webgpu.h:1195
-
-  --*
-  -- * @param compilationInfo
-  -- * This parameter is @ref PassedWithoutOwnership.
-  --
+   type WGPUCallback is access procedure (arg1 : System.Address)
+   with Convention => C;  -- webgpu.h:1061
 
    type WGPUCompilationInfo;
    type WGPUCompilationInfoCallback is access procedure
         (arg1 : WGPUCompilationInfoRequestStatus;
          arg2 : access constant WGPUCompilationInfo;
-         arg3 : System.Address;
-         arg4 : System.Address)
-   with Convention => C;  -- webgpu.h:1200
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:1062
 
-  --*
-  -- * @param pipeline
-  -- * This parameter is @ref PassedWithOwnership.
-  --
-
+   type T_WGPUStringView;
    type WGPUCreateComputePipelineAsyncCallback is access procedure
         (arg1 : WGPUCreatePipelineAsyncStatus;
          arg2 : WGPUComputePipeline;
-         arg3 : WGPUStringView;
-         arg4 : System.Address;
-         arg5 : System.Address)
-   with Convention => C;  -- webgpu.h:1205
-
-  --*
-  -- * @param pipeline
-  -- * This parameter is @ref PassedWithOwnership.
-  --
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:1063
 
    type WGPUCreateRenderPipelineAsyncCallback is access procedure
         (arg1 : WGPUCreatePipelineAsyncStatus;
          arg2 : WGPURenderPipeline;
-         arg3 : WGPUStringView;
-         arg4 : System.Address;
-         arg5 : System.Address)
-   with Convention => C;  -- webgpu.h:1210
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:1064
 
-  --*
-  -- * @param device
-  -- * Reference to the device which was lost. If, and only if, the `reason` is @ref WGPUDeviceLostReason_FailedCreation, this is a non-null pointer to a null @ref WGPUDevice.
-  -- * This parameter is @ref PassedWithoutOwnership.
-  -- *
-  -- * @param message
-  -- * This parameter is @ref PassedWithoutOwnership.
-  --
+   type WGPUDawnLoadCacheDataFunction is access function
+        (arg1 : System.Address;
+         arg2 : T_Size;
+         arg3 : System.Address;
+         arg4 : T_Size;
+         arg5 : System.Address) return T_Size
+   with Convention => C;  -- webgpu.h:1065
+
+   type WGPUDawnStoreCacheDataFunction is access procedure
+        (arg1 : System.Address;
+         arg2 : T_Size;
+         arg3 : System.Address;
+         arg4 : T_Size;
+         arg5 : System.Address)
+   with Convention => C;  -- webgpu.h:1066
 
    type WGPUDeviceLostCallback is access procedure
+        (arg1 : WGPUDeviceLostReason;
+         arg2 : T_WGPUStringView;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:1067
+
+   type WGPUDeviceLostCallbackNew is access procedure
         (arg1 : System.Address;
          arg2 : WGPUDeviceLostReason;
-         arg3 : WGPUStringView;
-         arg4 : System.Address;
-         arg5 : System.Address)
-   with Convention => C;  -- webgpu.h:1219
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:1068
 
-  --*
-  -- * @param status
-  -- * See @ref WGPUPopErrorScopeStatus.
-  -- *
-  -- * @param type
-  -- * The type of the error caught by the scope, or @ref WGPUErrorType_NoError if there was none.
-  -- * If the `status` is not @ref WGPUPopErrorScopeStatus_Success, this is @ref WGPUErrorType_NoError.
-  -- *
-  -- * @param message
-  -- * If the `type` is not @ref WGPUErrorType_NoError, this is a non-empty @ref LocalizableHumanReadableMessageString;
-  -- * otherwise, this is an empty string.
-  -- * This parameter is @ref PassedWithoutOwnership.
-  --
+   type WGPUErrorCallback is access procedure
+        (arg1 : WGPUErrorType;
+         arg2 : T_WGPUStringView;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:1069
+
+   type WGPULoggingCallback is access procedure
+        (arg1 : WGPULoggingType;
+         arg2 : T_WGPUStringView;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:1070
 
    type WGPUPopErrorScopeCallback is access procedure
         (arg1 : WGPUPopErrorScopeStatus;
          arg2 : WGPUErrorType;
-         arg3 : WGPUStringView;
-         arg4 : System.Address;
-         arg5 : System.Address)
-   with Convention => C;  -- webgpu.h:1233
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:1071
 
-   type WGPUQueueWorkDoneCallback is access procedure
-        (arg1 : WGPUQueueWorkDoneStatus;
-         arg2 : System.Address;
-         arg3 : System.Address)
-   with Convention => C;  -- webgpu.h:1234
+   type WGPUProc is access procedure
+   with Convention => C;  -- webgpu.h:1072
 
-  --*
-  -- * @param adapter
-  -- * This parameter is @ref PassedWithOwnership.
-  -- *
-  -- * @param message
-  -- * This parameter is @ref PassedWithoutOwnership.
-  --
+   type WGPUQueueWorkDoneCallback is access procedure (arg1 : WGPUQueueWorkDoneStatus; arg2 : System.Address)
+   with Convention => C;  -- webgpu.h:1073
 
    type WGPURequestAdapterCallback is access procedure
         (arg1 : WGPURequestAdapterStatus;
          arg2 : WGPUAdapter;
-         arg3 : WGPUStringView;
-         arg4 : System.Address;
-         arg5 : System.Address)
-   with Convention => C;  -- webgpu.h:1242
-
-  --*
-  -- * @param device
-  -- * This parameter is @ref PassedWithOwnership.
-  -- *
-  -- * @param message
-  -- * This parameter is @ref PassedWithoutOwnership.
-  --
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:1074
 
    type WGPURequestDeviceCallback is access procedure
         (arg1 : WGPURequestDeviceStatus;
          arg2 : WGPUDevice;
-         arg3 : WGPUStringView;
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:1075
+
+  -- Callback function pointers
+   type WGPUBufferMapCallback2 is access procedure
+        (arg1 : WGPUMapAsyncStatus;
+         arg2 : T_WGPUStringView;
+         arg3 : System.Address;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:1078
+
+   type WGPUCompilationInfoCallback2 is access procedure
+        (arg1 : WGPUCompilationInfoRequestStatus;
+         arg2 : access constant WGPUCompilationInfo;
+         arg3 : System.Address;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:1079
+
+   type WGPUCreateComputePipelineAsyncCallback2 is access procedure
+        (arg1 : WGPUCreatePipelineAsyncStatus;
+         arg2 : WGPUComputePipeline;
+         arg3 : T_WGPUStringView;
          arg4 : System.Address;
          arg5 : System.Address)
-   with Convention => C;  -- webgpu.h:1250
+   with Convention => C;  -- webgpu.h:1080
 
-  --*
-  -- * @param device
-  -- * This parameter is @ref PassedWithoutOwnership.
-  -- *
-  -- * @param message
-  -- * This parameter is @ref PassedWithoutOwnership.
-  --
+   type WGPUCreateRenderPipelineAsyncCallback2 is access procedure
+        (arg1 : WGPUCreatePipelineAsyncStatus;
+         arg2 : WGPURenderPipeline;
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address;
+         arg5 : System.Address)
+   with Convention => C;  -- webgpu.h:1081
+
+   type WGPUDeviceLostCallback2 is access procedure
+        (arg1 : System.Address;
+         arg2 : WGPUDeviceLostReason;
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address;
+         arg5 : System.Address)
+   with Convention => C;  -- webgpu.h:1082
+
+   type WGPUPopErrorScopeCallback2 is access procedure
+        (arg1 : WGPUPopErrorScopeStatus;
+         arg2 : WGPUErrorType;
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address;
+         arg5 : System.Address)
+   with Convention => C;  -- webgpu.h:1083
+
+   type WGPUQueueWorkDoneCallback2 is access procedure
+        (arg1 : WGPUQueueWorkDoneStatus;
+         arg2 : System.Address;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:1084
+
+   type WGPURequestAdapterCallback2 is access procedure
+        (arg1 : WGPURequestAdapterStatus;
+         arg2 : WGPUAdapter;
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address;
+         arg5 : System.Address)
+   with Convention => C;  -- webgpu.h:1085
+
+   type WGPURequestDeviceCallback2 is access procedure
+        (arg1 : WGPURequestDeviceStatus;
+         arg2 : WGPUDevice;
+         arg3 : T_WGPUStringView;
+         arg4 : System.Address;
+         arg5 : System.Address)
+   with Convention => C;  -- webgpu.h:1086
 
    type WGPUUncapturedErrorCallback is access procedure
         (arg1 : System.Address;
          arg2 : WGPUErrorType;
-         arg3 : WGPUStringView;
+         arg3 : T_WGPUStringView;
          arg4 : System.Address;
          arg5 : System.Address)
-   with Convention => C;  -- webgpu.h:1258
+   with Convention => C;  -- webgpu.h:1087
 
-  --* @}
-  --*
-  -- * \defgroup ChainedStructures Chained Structures
-  -- * \brief Structures used to extend descriptors.
-  -- *
-  -- * @{
-  --
-
-	type T_WGPUChainedStruct;
-	type T_WGPUChainedStruct is record
-		next  : access constant T_WGPUChainedStruct;  -- webgpu.h:1269
-		sType : aliased T_WGPUSType;  -- webgpu.h:1270
-	end record
-	with Convention => C_Pass_By_Copy;  -- webgpu.h:1268
+   type T_WGPUChainedStruct;
+   type T_WGPUChainedStruct is record
+      next : access constant T_WGPUChainedStruct;  -- webgpu.h:1090
+      sType : aliased WGPUSType;  -- webgpu.h:1091
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1089
 
    type T_WGPUChainedStructOut;
    type T_WGPUChainedStructOut is record
-      next : access T_WGPUChainedStructOut;  -- webgpu.h:1274
-      sType : aliased T_WGPUSType;  -- webgpu.h:1275
+      next : access T_WGPUChainedStructOut;  -- webgpu.h:1095
+      sType : aliased WGPUSType;  -- webgpu.h:1096
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1273
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1094
 
-  --* @}
-  --*
-  -- * \defgroup Structures
-  -- * \brief Descriptors and other transparent structures.
-  -- *
-  -- * @{
-  --
+   type WGPUBufferMapCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1103
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1104
+      callback : WGPUBufferMapCallback2;  -- webgpu.h:1105
+      userdata1 : System.Address;  -- webgpu.h:1106
+      userdata2 : System.Address;  -- webgpu.h:1107
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1102
 
-  --*
-  -- * \defgroup WGPUCallbackInfo
-  -- * \brief Callback info structures that are used in asynchronous functions.
-  -- *
-  -- * @{
-  --
+   type WGPUCompilationInfoCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1119
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1120
+      callback : WGPUCompilationInfoCallback2;  -- webgpu.h:1121
+      userdata1 : System.Address;  -- webgpu.h:1122
+      userdata2 : System.Address;  -- webgpu.h:1123
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1118
+
+   type WGPUCreateComputePipelineAsyncCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1135
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1136
+      callback : WGPUCreateComputePipelineAsyncCallback2;  -- webgpu.h:1137
+      userdata1 : System.Address;  -- webgpu.h:1138
+      userdata2 : System.Address;  -- webgpu.h:1139
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1134
+
+   type WGPUCreateRenderPipelineAsyncCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1151
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1152
+      callback : WGPUCreateRenderPipelineAsyncCallback2;  -- webgpu.h:1153
+      userdata1 : System.Address;  -- webgpu.h:1154
+      userdata2 : System.Address;  -- webgpu.h:1155
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1150
+
+   type WGPUDeviceLostCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1167
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1168
+      callback : WGPUDeviceLostCallback2;  -- webgpu.h:1169
+      userdata1 : System.Address;  -- webgpu.h:1170
+      userdata2 : System.Address;  -- webgpu.h:1171
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1166
+
+   type WGPUPopErrorScopeCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1183
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1184
+      callback : WGPUPopErrorScopeCallback2;  -- webgpu.h:1185
+      userdata1 : System.Address;  -- webgpu.h:1186
+      userdata2 : System.Address;  -- webgpu.h:1187
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1182
+
+   type WGPUQueueWorkDoneCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1199
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1200
+      callback : WGPUQueueWorkDoneCallback2;  -- webgpu.h:1201
+      userdata1 : System.Address;  -- webgpu.h:1202
+      userdata2 : System.Address;  -- webgpu.h:1203
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1198
+
+   type WGPURequestAdapterCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1215
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1216
+      callback : WGPURequestAdapterCallback2;  -- webgpu.h:1217
+      userdata1 : System.Address;  -- webgpu.h:1218
+      userdata2 : System.Address;  -- webgpu.h:1219
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1214
+
+   type WGPURequestDeviceCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1231
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1232
+      callback : WGPURequestDeviceCallback2;  -- webgpu.h:1233
+      userdata1 : System.Address;  -- webgpu.h:1234
+      userdata2 : System.Address;  -- webgpu.h:1235
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1230
+
+   type WGPUUncapturedErrorCallbackInfo2 is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1247
+      callback : WGPUUncapturedErrorCallback;  -- webgpu.h:1248
+      userdata1 : System.Address;  -- webgpu.h:1249
+      userdata2 : System.Address;  -- webgpu.h:1250
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1246
+
+   type WGPUINTERNAL_u_HAVE_EMDAWNWEBGPU_HEADER is record
+      unused : aliased T_WGPUBool;  -- webgpu.h:1262
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1261
+
+  -- Can be chained in WGPUAdapterInfo
+   type WGPUAdapterPropertiesD3D is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:1271
+      shaderModel : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1272
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1270
+
+  -- Can be chained in WGPUAdapterInfo
+   type WGPUAdapterPropertiesVk is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:1282
+      driverVersion : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1283
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1281
+
+   type WGPUBindGroupEntry is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1292
+      binding : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1293
+      buffer : WGPUBuffer;  -- webgpu.h:1294
+      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1295
+      size : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1296
+      sampler : WGPUSampler;  -- webgpu.h:1297
+      textureView : WGPUTextureView;  -- webgpu.h:1298
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1291
+
+   type WGPUBlendComponent is record
+      operation : aliased WGPUBlendOperation;  -- webgpu.h:1312
+      srcFactor : aliased WGPUBlendFactor;  -- webgpu.h:1313
+      dstFactor : aliased WGPUBlendFactor;  -- webgpu.h:1314
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1311
+
+   type WGPUBufferBindingLayout is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1324
+      c_type : aliased WGPUBufferBindingType;  -- webgpu.h:1325
+      hasDynamicOffset : aliased T_WGPUBool;  -- webgpu.h:1326
+      minBindingSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1327
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1323
+
+  -- Can be chained in WGPUBufferDescriptor
+   type WGPUBufferHostMappedPointer is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1339
+      pointer : System.Address;  -- webgpu.h:1340
+      disposeCallback : WGPUCallback;  -- webgpu.h:1341
+      userdata : System.Address;  -- webgpu.h:1342
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1338
 
    type WGPUBufferMapCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1295
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1296
-      callback : WGPUBufferMapCallback;  -- webgpu.h:1297
-      userdata1 : System.Address;  -- webgpu.h:1298
-      userdata2 : System.Address;  -- webgpu.h:1299
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1353
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1354
+      callback : WGPUBufferMapCallback;  -- webgpu.h:1355
+      userdata : System.Address;  -- webgpu.h:1356
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1294
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1352
 
-   type WGPUCompilationInfoCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1303
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1304
-      callback : WGPUCompilationInfoCallback;  -- webgpu.h:1305
-      userdata1 : System.Address;  -- webgpu.h:1306
-      userdata2 : System.Address;  -- webgpu.h:1307
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1302
-
-   type WGPUCreateComputePipelineAsyncCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1311
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1312
-      callback : WGPUCreateComputePipelineAsyncCallback;  -- webgpu.h:1313
-      userdata1 : System.Address;  -- webgpu.h:1314
-      userdata2 : System.Address;  -- webgpu.h:1315
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1310
-
-   type WGPUCreateRenderPipelineAsyncCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1319
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1320
-      callback : WGPUCreateRenderPipelineAsyncCallback;  -- webgpu.h:1321
-      userdata1 : System.Address;  -- webgpu.h:1322
-      userdata2 : System.Address;  -- webgpu.h:1323
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1318
-
-   type WGPUDeviceLostCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1327
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1328
-      callback : WGPUDeviceLostCallback;  -- webgpu.h:1329
-      userdata1 : System.Address;  -- webgpu.h:1330
-      userdata2 : System.Address;  -- webgpu.h:1331
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1326
-
-   type WGPUPopErrorScopeCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1335
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1336
-      callback : WGPUPopErrorScopeCallback;  -- webgpu.h:1337
-      userdata1 : System.Address;  -- webgpu.h:1338
-      userdata2 : System.Address;  -- webgpu.h:1339
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1334
-
-   type WGPUQueueWorkDoneCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1343
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1344
-      callback : WGPUQueueWorkDoneCallback;  -- webgpu.h:1345
-      userdata1 : System.Address;  -- webgpu.h:1346
-      userdata2 : System.Address;  -- webgpu.h:1347
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1342
-
-   type WGPURequestAdapterCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1351
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1352
-      callback : WGPURequestAdapterCallback;  -- webgpu.h:1353
-      userdata1 : System.Address;  -- webgpu.h:1354
-      userdata2 : System.Address;  -- webgpu.h:1355
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1350
-
-   type WGPURequestDeviceCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1359
-      mode : aliased WGPUCallbackMode;  -- webgpu.h:1360
-      callback : WGPURequestDeviceCallback;  -- webgpu.h:1361
-      userdata1 : System.Address;  -- webgpu.h:1362
-      userdata2 : System.Address;  -- webgpu.h:1363
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1358
-
-   type WGPUUncapturedErrorCallbackInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1367
-      callback : WGPUUncapturedErrorCallback;  -- webgpu.h:1368
-      userdata1 : System.Address;  -- webgpu.h:1369
-      userdata2 : System.Address;  -- webgpu.h:1370
+   type WGPUColor is record
+      r : aliased double;  -- webgpu.h:1367
+      g : aliased double;  -- webgpu.h:1368
+      b : aliased double;  -- webgpu.h:1369
+      a : aliased double;  -- webgpu.h:1370
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1366
 
-  --* @}
-   type WGPUAdapterInfo is record
-      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:1376
-      vendor : aliased WGPUStringView;  -- webgpu.h:1380
-      architecture : aliased WGPUStringView;  -- webgpu.h:1384
-      device : aliased WGPUStringView;  -- webgpu.h:1388
-      description : aliased WGPUStringView;  -- webgpu.h:1392
-      backendType : aliased WGPUBackendType;  -- webgpu.h:1393
-      adapterType : aliased WGPUAdapterType;  -- webgpu.h:1394
-      vendorID : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1395
-      deviceID : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1396
+  -- Can be chained in WGPUColorTargetState
+   type WGPUColorTargetStateExpandResolveTextureDawn is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1382
+      enabled : aliased T_WGPUBool;  -- webgpu.h:1383
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1375
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1381
 
-  --*
-  --     * This is an \ref OutputString.
-  --
-
-  --*
-  --     * This is an \ref OutputString.
-  --
-
-  --*
-  --     * This is an \ref OutputString.
-  --
-
-  --*
-  --     * This is an \ref OutputString.
-  --
-
-   type WGPUBindGroupEntry is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1400
-      binding : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1401
-      buffer : WGPUBuffer;  -- webgpu.h:1402
-      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1403
-      size : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1404
-      sampler : WGPUSampler;  -- webgpu.h:1405
-      textureView : WGPUTextureView;  -- webgpu.h:1406
+   type WGPUCompilationInfoCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1392
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1393
+      callback : WGPUCompilationInfoCallback;  -- webgpu.h:1394
+      userdata : System.Address;  -- webgpu.h:1395
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1399
-
-   type WGPUBlendComponent is record
-      operation : aliased WGPUBlendOperation;  -- webgpu.h:1410
-      srcFactor : aliased WGPUBlendFactor;  -- webgpu.h:1411
-      dstFactor : aliased WGPUBlendFactor;  -- webgpu.h:1412
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1409
-
-   type WGPUBufferBindingLayout is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1416
-      c_type : aliased WGPUBufferBindingType;  -- webgpu.h:1417
-      hasDynamicOffset : aliased T_WGPUBool;  -- webgpu.h:1418
-      minBindingSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1419
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1415
-
-   type WGPUBufferDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1423
-      label : aliased WGPUStringView;  -- webgpu.h:1427
-      usage : aliased WGPUBufferUsage;  -- webgpu.h:1428
-      size : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1429
-      mappedAtCreation : aliased T_WGPUBool;  -- webgpu.h:1430
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1422
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUColor is record
-      r : aliased double;  -- webgpu.h:1434
-      g : aliased double;  -- webgpu.h:1435
-      b : aliased double;  -- webgpu.h:1436
-      a : aliased double;  -- webgpu.h:1437
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1433
-
-   type WGPUCommandBufferDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1441
-      label : aliased WGPUStringView;  -- webgpu.h:1445
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1440
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUCommandEncoderDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1449
-      label : aliased WGPUStringView;  -- webgpu.h:1453
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1448
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUCompilationMessage is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1457
-      message : aliased WGPUStringView;  -- webgpu.h:1463
-      c_type : aliased WGPUCompilationMessageType;  -- webgpu.h:1467
-      lineNum : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1471
-      linePos : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1475
-      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1479
-      length : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1483
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1456
-
-  --*
-  --     * A @ref LocalizableHumanReadableMessageString.
-  --     *
-  --     * This is an \ref OutputString.
-  --
-
-  --*
-  --     * Severity level of the message.
-  --
-
-  --*
-  --     * Line number where the message is attached, starting at 1.
-  --
-
-  --*
-  --     * Offset in UTF-8 code units (bytes) from the beginning of the line, starting at 1.
-  --
-
-  --*
-  --     * Offset in UTF-8 code units (bytes) from the beginning of the shader code, starting at 0.
-  --
-
-  --*
-  --     * Length in UTF-8 code units (bytes) of the span the message corresponds to.
-  --
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1391
 
    type WGPUComputePassTimestampWrites is record
-      querySet : WGPUQuerySet;  -- webgpu.h:1487
-      beginningOfPassWriteIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1488
-      endOfPassWriteIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1489
+      querySet : WGPUQuerySet;  -- webgpu.h:1406
+      beginningOfPassWriteIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1407
+      endOfPassWriteIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1408
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1486
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1405
 
-   type WGPUConstantEntry is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1493
-      key : aliased WGPUStringView;  -- webgpu.h:1497
-      value : aliased double;  -- webgpu.h:1498
+   type WGPUCopyTextureForBrowserOptions is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1418
+      flipY : aliased T_WGPUBool;  -- webgpu.h:1419
+      needsColorSpaceConversion : aliased T_WGPUBool;  -- webgpu.h:1420
+      srcAlphaMode : aliased WGPUAlphaMode;  -- webgpu.h:1421
+      srcTransferFunctionParameters : access float;  -- webgpu.h:1422
+      conversionMatrix : access float;  -- webgpu.h:1423
+      dstTransferFunctionParameters : access float;  -- webgpu.h:1424
+      dstAlphaMode : aliased WGPUAlphaMode;  -- webgpu.h:1425
+      internalUsage : aliased T_WGPUBool;  -- webgpu.h:1426
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1492
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1417
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUExtent3D is record
-      width : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1502
-      height : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1503
-      depthOrArrayLayers : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1504
+   type WGPUCreateComputePipelineAsyncCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1442
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1443
+      callback : WGPUCreateComputePipelineAsyncCallback;  -- webgpu.h:1444
+      userdata : System.Address;  -- webgpu.h:1445
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1501
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1441
 
-  --*
-  -- * Opaque handle to an asynchronous operation. See @ref Asynchronous-Operations for more information.
-  --
-
-  --*
-  --     * Opaque id of the @ref WGPUFuture
-  --
-
-   type WGPUFuture is record
-      id : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1514
+   type WGPUCreateRenderPipelineAsyncCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1456
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1457
+      callback : WGPUCreateRenderPipelineAsyncCallback;  -- webgpu.h:1458
+      userdata : System.Address;  -- webgpu.h:1459
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1510
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1455
 
-  --*
-  -- * Features enabled on the T_WGPUInstance
-  --
-
-	--* This struct chain is used as mutable in some places and immutable in others.
-	type T_WGPUInstanceCapabilities is record
-		nextInChain          : access T_WGPUChainedStructOut;  -- webgpu.h:1522
-		timedWaitAnyEnable   : aliased T_WGPUBool;  -- webgpu.h:1526
-		timedWaitAnyMaxCount : aliased T_Size;  -- webgpu.h:1530
-	end record
-	with Convention => C_Pass_By_Copy;  -- webgpu.h:1520
-
-  --*
-  --     * Enable use of ::wgpuInstanceWaitAny with `timeoutNS > 0`.
-  --
-
-  --*
-  --     * The maximum number @ref WGPUFutureWaitInfo supported in a call to ::wgpuInstanceWaitAny with `timeoutNS > 0`.
-  --
-
-  --* This struct chain is used as mutable in some places and immutable in others.
-   type WGPULimits is record
-      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:1535
-      maxTextureDimension1D : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1536
-      maxTextureDimension2D : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1537
-      maxTextureDimension3D : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1538
-      maxTextureArrayLayers : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1539
-      maxBindGroups : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1540
-      maxBindGroupsPlusVertexBuffers : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1541
-      maxBindingsPerBindGroup : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1542
-      maxDynamicUniformBuffersPerPipelineLayout : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1543
-      maxDynamicStorageBuffersPerPipelineLayout : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1544
-      maxSampledTexturesPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1545
-      maxSamplersPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1546
-      maxStorageBuffersPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1547
-      maxStorageTexturesPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1548
-      maxUniformBuffersPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1549
-      maxUniformBufferBindingSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1550
-      maxStorageBufferBindingSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1551
-      minUniformBufferOffsetAlignment : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1552
-      minStorageBufferOffsetAlignment : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1553
-      maxVertexBuffers : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1554
-      maxBufferSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1555
-      maxVertexAttributes : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1556
-      maxVertexBufferArrayStride : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1557
-      maxInterStageShaderVariables : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1558
-      maxColorAttachments : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1559
-      maxColorAttachmentBytesPerSample : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1560
-      maxComputeWorkgroupStorageSize : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1561
-      maxComputeInvocationsPerWorkgroup : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1562
-      maxComputeWorkgroupSizeX : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1563
-      maxComputeWorkgroupSizeY : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1564
-      maxComputeWorkgroupSizeZ : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1565
-      maxComputeWorkgroupsPerDimension : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1566
+  -- Can be chained in T_WGPUInstanceDescriptor
+   type WGPUDawnWGSLBlocklist is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1471
+      blocklistedFeatureCount : aliased T_Size;  -- webgpu.h:1472
+      blocklistedFeatures : System.Address;  -- webgpu.h:1473
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1533
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1470
 
-   type WGPUMultisampleState is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1570
-      count : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1571
-      mask : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1572
-      alphaToCoverageEnabled : aliased T_WGPUBool;  -- webgpu.h:1573
+  -- Can be chained in WGPUAdapterInfo
+   type WGPUDawnAdapterPropertiesPowerPreference is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:1484
+      powerPreference : aliased WGPUPowerPreference;  -- webgpu.h:1485
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1569
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1483
 
-   type WGPUOrigin3D is record
-      x : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1577
-      y : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1578
-      z : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1579
+  -- Can be chained in WGPUBufferDescriptor
+   type WGPUDawnBufferDescriptorErrorInfoFromWireClient is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1495
+      outOfMemory : aliased T_WGPUBool;  -- webgpu.h:1496
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1576
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1494
 
-   type WGPUPipelineLayoutDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1583
-      label : aliased WGPUStringView;  -- webgpu.h:1587
-      bindGroupLayoutCount : aliased T_Size;  -- webgpu.h:1588
-      bindGroupLayouts : System.Address;  -- webgpu.h:1589
+  -- Can be chained in WGPUComputePipelineDescriptor
+   type WGPUDawnComputePipelineFullSubgroups is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1506
+      requiresFullSubgroups : aliased T_WGPUBool;  -- webgpu.h:1507
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1582
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1505
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUPrimitiveState is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1593
-      topology : aliased WGPUPrimitiveTopology;  -- webgpu.h:1594
-      stripIndexFormat : aliased WGPUIndexFormat;  -- webgpu.h:1595
-      frontFace : aliased WGPUFrontFace;  -- webgpu.h:1596
-      cullMode : aliased WGPUCullMode;  -- webgpu.h:1597
-      unclippedDepth : aliased T_WGPUBool;  -- webgpu.h:1598
+  -- Can be chained in WGPUCommandEncoderDescriptor
+   type WGPUDawnEncoderInternalUsageDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1517
+      useInternalUsages : aliased T_WGPUBool;  -- webgpu.h:1518
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1592
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1516
 
-   type WGPUQuerySetDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1602
-      label : aliased WGPUStringView;  -- webgpu.h:1606
-      c_type : aliased WGPUQueryType;  -- webgpu.h:1607
-      count : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1608
+  -- Can be chained in WGPUSupportedLimits
+   type WGPUDawnExperimentalImmediateDataLimits is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:1528
+      maxImmediateDataRangeByteSize : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1529
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1601
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1527
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUQueueDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1612
-      label : aliased WGPUStringView;  -- webgpu.h:1616
+  -- Can be chained in WGPUSupportedLimits
+   type WGPUDawnExperimentalSubgroupLimits is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:1539
+      minSubgroupSize : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1540
+      maxSubgroupSize : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1541
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1611
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1538
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPURenderBundleDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1620
-      label : aliased WGPUStringView;  -- webgpu.h:1624
+  -- Can be chained in WGPURenderPassColorAttachment
+   type WGPUDawnRenderPassColorAttachmentRenderToSingleSampled is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1552
+      implicitSampleCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1553
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1619
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1551
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPURenderBundleEncoderDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1628
-      label : aliased WGPUStringView;  -- webgpu.h:1632
-      colorFormatCount : aliased T_Size;  -- webgpu.h:1633
-      colorFormats : access WGPUTextureFormat;  -- webgpu.h:1634
-      depthStencilFormat : aliased WGPUTextureFormat;  -- webgpu.h:1635
-      sampleCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1636
-      depthReadOnly : aliased T_WGPUBool;  -- webgpu.h:1637
-      stencilReadOnly : aliased T_WGPUBool;  -- webgpu.h:1638
+  -- Can be chained in WGPUShaderModuleDescriptor
+   type WGPUDawnShaderModuleSPIRVOptionsDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1563
+      allowNonUniformDerivatives : aliased T_WGPUBool;  -- webgpu.h:1564
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1627
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1562
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
+  -- Can be chained in WGPUTextureDescriptor
+   type WGPUDawnTextureInternalUsageDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1574
+      internalUsage : aliased WGPUTextureUsage;  -- webgpu.h:1575
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1573
 
-   type WGPURenderPassDepthStencilAttachment is record
-      view : WGPUTextureView;  -- webgpu.h:1642
-      depthLoadOp : aliased WGPULoadOp;  -- webgpu.h:1643
-      depthStoreOp : aliased WGPUStoreOp;  -- webgpu.h:1644
-      depthClearValue : aliased float;  -- webgpu.h:1645
-      depthReadOnly : aliased T_WGPUBool;  -- webgpu.h:1646
-      stencilLoadOp : aliased WGPULoadOp;  -- webgpu.h:1647
-      stencilStoreOp : aliased WGPUStoreOp;  -- webgpu.h:1648
-      stencilClearValue : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1649
-      stencilReadOnly : aliased T_WGPUBool;  -- webgpu.h:1650
+  -- Can be chained in T_WGPUInstanceDescriptor
+  -- Can be chained in T_WGPURequestAdapterOptions
+  -- Can be chained in WGPUDeviceDescriptor
+   type WGPUDawnTogglesDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1587
+      enabledToggleCount : aliased T_Size;  -- webgpu.h:1588
+      enabledToggles : System.Address;  -- webgpu.h:1589
+      disabledToggleCount : aliased T_Size;  -- webgpu.h:1590
+      disabledToggles : System.Address;  -- webgpu.h:1591
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1586
+
+  -- Can be chained in T_WGPUInstanceDescriptor
+   type WGPUDawnWireWGSLControl is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1604
+      enableExperimental : aliased T_WGPUBool;  -- webgpu.h:1605
+      enableUnsafe : aliased T_WGPUBool;  -- webgpu.h:1606
+      enableTesting : aliased T_WGPUBool;  -- webgpu.h:1607
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1603
+
+   type WGPUDeviceLostCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1618
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1619
+      callback : WGPUDeviceLostCallbackNew;  -- webgpu.h:1620
+      userdata : System.Address;  -- webgpu.h:1621
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1617
+
+   type WGPUDrmFormatProperties is record
+      modifier : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1632
+      modifierPlaneCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1633
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1631
+
+   type WGPUExtent2D is record
+      width : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1642
+      height : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1643
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1641
 
-   type WGPURenderPassMaxDrawCount is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1654
-      maxDrawCount : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1655
+   type WGPUExtent3D is record
+      width : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1652
+      height : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1653
+      depthOrArrayLayers : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1654
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1653
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1651
 
-   type WGPURenderPassTimestampWrites is record
-      querySet : WGPUQuerySet;  -- webgpu.h:1659
-      beginningOfPassWriteIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1660
-      endOfPassWriteIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1661
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1658
-
-   type WGPURequestAdapterOptions is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1665
-      featureLevel : aliased WGPUFeatureLevel;  -- webgpu.h:1671
-      powerPreference : aliased WGPUPowerPreference;  -- webgpu.h:1672
-      forceFallbackAdapter : aliased T_WGPUBool;  -- webgpu.h:1677
-      backendType : aliased WGPUBackendType;  -- webgpu.h:1682
-      compatibleSurface : WGPUSurface;  -- webgpu.h:1687
+  -- Can be chained in WGPUBindGroupEntry
+   type WGPUExternalTextureBindingEntry is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1665
+      externalTexture : WGPUExternalTexture;  -- webgpu.h:1666
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1664
 
-  --*
-  --     * "Feature level" for the adapter request. If an adapter is returned, it must support the features and limits in the requested feature level.
-  --     *
-  --     * Implementations may ignore @ref WGPUFeatureLevel_Compatibility and provide @ref WGPUFeatureLevel_Core instead. @ref WGPUFeatureLevel_Core is the default in the JS API, but in C, this field is **required** (must not be undefined).
-  --
+  -- Can be chained in WGPUBindGroupLayoutEntry
+   type WGPUExternalTextureBindingLayout is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1676
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1675
 
-  --*
-  --     * If true, requires the adapter to be a "fallback" adapter as defined by the JS spec.
-  --     * If this is not possible, the request returns null.
-  --
+   type WGPUFormatCapabilities is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:1684
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1683
 
-  --*
-  --     * If set, requires the adapter to have a particular backend type.
-  --     * If this is not possible, the request returns null.
-  --
+   type WGPUFuture is record
+      id : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1692
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1691
 
-  --*
-  --     * If set, requires the adapter to be able to output to a particular surface.
-  --     * If this is not possible, the request returns null.
-  --
+   type WGPUInstanceFeatures is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1700
+      timedWaitAnyEnable : aliased T_WGPUBool;  -- webgpu.h:1701
+      timedWaitAnyMaxCount : aliased T_Size;  -- webgpu.h:1702
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1699
+
+   type WGPULimits is record
+      maxTextureDimension1D : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1712
+      maxTextureDimension2D : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1713
+      maxTextureDimension3D : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1714
+      maxTextureArrayLayers : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1715
+      maxBindGroups : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1716
+      maxBindGroupsPlusVertexBuffers : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1717
+      maxBindingsPerBindGroup : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1718
+      maxDynamicUniformBuffersPerPipelineLayout : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1719
+      maxDynamicStorageBuffersPerPipelineLayout : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1720
+      maxSampledTexturesPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1721
+      maxSamplersPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1722
+      maxStorageBuffersPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1723
+      maxStorageTexturesPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1724
+      maxUniformBuffersPerShaderStage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1725
+      maxUniformBufferBindingSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1726
+      maxStorageBufferBindingSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1727
+      minUniformBufferOffsetAlignment : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1728
+      minStorageBufferOffsetAlignment : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1729
+      maxVertexBuffers : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1730
+      maxBufferSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1731
+      maxVertexAttributes : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1732
+      maxVertexBufferArrayStride : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1733
+      maxInterStageShaderComponents : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1734
+      maxInterStageShaderVariables : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1735
+      maxColorAttachments : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1736
+      maxColorAttachmentBytesPerSample : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1737
+      maxComputeWorkgroupStorageSize : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1738
+      maxComputeInvocationsPerWorkgroup : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1739
+      maxComputeWorkgroupSizeX : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1740
+      maxComputeWorkgroupSizeY : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1741
+      maxComputeWorkgroupSizeZ : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1742
+      maxComputeWorkgroupsPerDimension : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1743
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1711
+
+   type WGPUMemoryHeapInfo is record
+      properties : aliased WGPUHeapProperty;  -- webgpu.h:1782
+      size : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1783
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1781
+
+   type WGPUMultisampleState is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1792
+      count : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1793
+      mask : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1794
+      alphaToCoverageEnabled : aliased T_WGPUBool;  -- webgpu.h:1795
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1791
+
+   type WGPUOrigin2D is record
+      x : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1806
+      y : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1807
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1805
+
+   type WGPUOrigin3D is record
+      x : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1816
+      y : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1817
+      z : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1818
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1815
+
+   type WGPUPipelineLayoutStorageAttachment is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1828
+      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1829
+      format : aliased WGPUTextureFormat;  -- webgpu.h:1830
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1827
+
+   type WGPUPopErrorScopeCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1840
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1841
+      callback : WGPUPopErrorScopeCallback;  -- webgpu.h:1842
+      oldCallback : WGPUErrorCallback;  -- webgpu.h:1843
+      userdata : System.Address;  -- webgpu.h:1844
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1839
+
+   type WGPUPrimitiveState is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1856
+      topology : aliased WGPUPrimitiveTopology;  -- webgpu.h:1857
+      stripIndexFormat : aliased WGPUIndexFormat;  -- webgpu.h:1858
+      frontFace : aliased WGPUFrontFace;  -- webgpu.h:1859
+      cullMode : aliased WGPUCullMode;  -- webgpu.h:1860
+      unclippedDepth : aliased T_WGPUBool;  -- webgpu.h:1861
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1855
+
+   type WGPUQueueWorkDoneCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1874
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1875
+      callback : WGPUQueueWorkDoneCallback;  -- webgpu.h:1876
+      userdata : System.Address;  -- webgpu.h:1877
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1873
+
+   type WGPURenderPassDepthStencilAttachment is record
+      view : WGPUTextureView;  -- webgpu.h:1888
+      depthLoadOp : aliased WGPULoadOp;  -- webgpu.h:1889
+      depthStoreOp : aliased WGPUStoreOp;  -- webgpu.h:1890
+      depthClearValue : aliased float;  -- webgpu.h:1891
+      depthReadOnly : aliased T_WGPUBool;  -- webgpu.h:1892
+      stencilLoadOp : aliased WGPULoadOp;  -- webgpu.h:1893
+      stencilStoreOp : aliased WGPUStoreOp;  -- webgpu.h:1894
+      stencilClearValue : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1895
+      stencilReadOnly : aliased T_WGPUBool;  -- webgpu.h:1896
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1887
+
+  -- Can be chained in WGPURenderPassDescriptor
+   type WGPURenderPassDescriptorExpandResolveRect is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1913
+      x : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1914
+      y : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1915
+      width : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1916
+      height : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1917
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1912
+
+  -- Can be chained in WGPURenderPassDescriptor
+   type WGPURenderPassMaxDrawCount is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1930
+      maxDrawCount : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1931
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1929
+
+   type WGPURenderPassTimestampWrites is record
+      querySet : WGPUQuerySet;  -- webgpu.h:1940
+      beginningOfPassWriteIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1941
+      endOfPassWriteIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1942
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1939
+
+   type WGPURequestAdapterCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1952
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1953
+      callback : WGPURequestAdapterCallback;  -- webgpu.h:1954
+      userdata : System.Address;  -- webgpu.h:1955
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1951
+
+   type T_WGPURequestAdapterOptions is record
+      nextInChain          : access constant T_WGPUChainedStruct;  -- webgpu.h:1966
+      compatibleSurface    : WGPUSurface;  -- webgpu.h:1967
+      powerPreference      : aliased WGPUPowerPreference;  -- webgpu.h:1968
+      backendType          : aliased WGPUBackendType;  -- webgpu.h:1969
+      forceFallbackAdapter : aliased T_WGPUBool;  -- webgpu.h:1970
+      compatibilityMode    : aliased T_WGPUBool;  -- webgpu.h:1971
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1965
+
+   type WGPURequestDeviceCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1984
+      mode : aliased WGPUCallbackMode;  -- webgpu.h:1985
+      callback : WGPURequestDeviceCallback;  -- webgpu.h:1986
+      userdata : System.Address;  -- webgpu.h:1987
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1983
 
    type WGPUSamplerBindingLayout is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1691
-      c_type : aliased WGPUSamplerBindingType;  -- webgpu.h:1692
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1998
+      c_type : aliased WGPUSamplerBindingType;  -- webgpu.h:1999
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1690
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:1997
 
-   type WGPUSamplerDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1696
-      label : aliased WGPUStringView;  -- webgpu.h:1700
-      addressModeU : aliased WGPUAddressMode;  -- webgpu.h:1701
-      addressModeV : aliased WGPUAddressMode;  -- webgpu.h:1702
-      addressModeW : aliased WGPUAddressMode;  -- webgpu.h:1703
-      magFilter : aliased WGPUFilterMode;  -- webgpu.h:1704
-      minFilter : aliased WGPUFilterMode;  -- webgpu.h:1705
-      mipmapFilter : aliased WGPUMipmapFilterMode;  -- webgpu.h:1706
-      lodMinClamp : aliased float;  -- webgpu.h:1707
-      lodMaxClamp : aliased float;  -- webgpu.h:1708
-      compare : aliased WGPUCompareFunction;  -- webgpu.h:1709
-      maxAnisotropy : aliased bits_stdint_uintn_h.uint16_t;  -- webgpu.h:1710
+  -- Can be chained in WGPUShaderModuleDescriptor
+   type WGPUShaderModuleCompilationOptions is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2009
+      strictMath : aliased T_WGPUBool;  -- webgpu.h:2010
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1695
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2008
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUShaderModuleDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1714
-      label : aliased WGPUStringView;  -- webgpu.h:1718
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1713
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
+  -- Can be chained in WGPUShaderModuleDescriptor
    type WGPUShaderSourceSPIRV is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1722
-      codeSize : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1723
-      code : access bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1724
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2020
+      codeSize : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2021
+      code : access bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2022
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1721
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2019
 
-   type WGPUShaderSourceWGSL is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1728
-      code : aliased WGPUStringView;  -- webgpu.h:1732
+   type WGPUSharedBufferMemoryBeginAccessDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2032
+      initialized : aliased T_WGPUBool;  -- webgpu.h:2033
+      fenceCount : aliased T_Size;  -- webgpu.h:2034
+      fences : System.Address;  -- webgpu.h:2035
+      signaledValues : access bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2036
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1727
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2031
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUStencilFaceState is record
-      compare : aliased WGPUCompareFunction;  -- webgpu.h:1736
-      failOp : aliased WGPUStencilOperation;  -- webgpu.h:1737
-      depthFailOp : aliased WGPUStencilOperation;  -- webgpu.h:1738
-      passOp : aliased WGPUStencilOperation;  -- webgpu.h:1739
+   type WGPUSharedBufferMemoryEndAccessState is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:2048
+      initialized : aliased T_WGPUBool;  -- webgpu.h:2049
+      fenceCount : aliased T_Size;  -- webgpu.h:2050
+      fences : System.Address;  -- webgpu.h:2051
+      signaledValues : access bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2052
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1735
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2047
 
-   type WGPUStorageTextureBindingLayout is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1743
-      c_access : aliased WGPUStorageTextureAccess;  -- webgpu.h:1744
-      format : aliased WGPUTextureFormat;  -- webgpu.h:1745
-      viewDimension : aliased WGPUTextureViewDimension;  -- webgpu.h:1746
+   type WGPUSharedBufferMemoryProperties is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:2064
+      usage : aliased WGPUBufferUsage;  -- webgpu.h:2065
+      size : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2066
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1742
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2063
 
-   type WGPUSupportedFeatures is record
-      featureCount : aliased T_Size;  -- webgpu.h:1750
-      features : access WGPUFeatureName;  -- webgpu.h:1751
+  -- Can be chained in WGPUSharedFenceDescriptor
+   type WGPUSharedFenceDXGISharedHandleDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2077
+      handle : System.Address;  -- webgpu.h:2078
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1749
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2076
 
-   type WGPUSupportedWGSLLanguageFeatures is record
-      featureCount : aliased T_Size;  -- webgpu.h:1755
-      features : access WGPUWGSLLanguageFeatureName;  -- webgpu.h:1756
+  -- Can be chained in T_WGPUSharedFenceExportInfo
+   type WGPUSharedFenceDXGISharedHandleExportInfo is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:2088
+      handle : System.Address;  -- webgpu.h:2089
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1754
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2087
 
-  --*
-  -- * Filled by `::wgpuSurfaceGetCapabilities` with what's supported for `::wgpuSurfaceConfigure` for a pair of @ref WGPUSurface and @ref WGPUAdapter.
-  --
-
-   type WGPUSurfaceCapabilities is record
-      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:1763
-      usages : aliased WGPUTextureUsage;  -- webgpu.h:1768
-      formatCount : aliased T_Size;  -- webgpu.h:1772
-      formats : access WGPUTextureFormat;  -- webgpu.h:1773
-      presentModeCount : aliased T_Size;  -- webgpu.h:1778
-      presentModes : access WGPUPresentMode;  -- webgpu.h:1779
-      alphaModeCount : aliased T_Size;  -- webgpu.h:1784
-      alphaModes : access WGPUCompositeAlphaMode;  -- webgpu.h:1785
+  -- Can be chained in WGPUSharedFenceDescriptor
+   type WGPUSharedFenceMTLSharedEventDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2099
+      sharedEvent : System.Address;  -- webgpu.h:2100
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1762
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2098
 
-  --*
-  --     * The bit set of supported @ref WGPUTextureUsage bits.
-  --     * Guaranteed to contain @ref WGPUTextureUsage_RenderAttachment.
-  --
-
-  --*
-  --     * A list of supported @ref WGPUTextureFormat values, in order of preference.
-  --
-
-  --*
-  --     * A list of supported @ref WGPUPresentMode values.
-  --     * Guaranteed to contain @ref WGPUPresentMode_Fifo.
-  --
-
-  --*
-  --     * A list of supported @ref WGPUCompositeAlphaMode values.
-  --     * @ref WGPUCompositeAlphaMode_Auto will be an alias for the first element and will never be present in this array.
-  --
-
-  --*
-  -- * Options to `::wgpuSurfaceConfigure` for defining how a @ref WGPUSurface will be rendered to and presented to the user.
-  -- * See @ref Surface-Configuration for more details.
-  --
-
-   type WGPUSurfaceConfiguration is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1793
-      device : WGPUDevice;  -- webgpu.h:1797
-      format : aliased WGPUTextureFormat;  -- webgpu.h:1801
-      usage : aliased WGPUTextureUsage;  -- webgpu.h:1805
-      width : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1809
-      height : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1813
-      viewFormatCount : aliased T_Size;  -- webgpu.h:1817
-      viewFormats : access WGPUTextureFormat;  -- webgpu.h:1818
-      alphaMode : aliased WGPUCompositeAlphaMode;  -- webgpu.h:1822
-      presentMode : aliased WGPUPresentMode;  -- webgpu.h:1826
+  -- Can be chained in T_WGPUSharedFenceExportInfo
+   type WGPUSharedFenceMTLSharedEventExportInfo is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:2110
+      sharedEvent : System.Address;  -- webgpu.h:2111
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1792
-
-  --*
-  --     * The @ref WGPUDevice to use to render to surface's textures.
-  --
-
-  --*
-  --     * The @ref WGPUTextureFormat of the surface's textures.
-  --
-
-  --*
-  --     * The @ref WGPUTextureUsage of the surface's textures.
-  --
-
-  --*
-  --     * The width of the surface's textures.
-  --
-
-  --*
-  --     * The height of the surface's textures.
-  --
-
-  --*
-  --     * The additional @ref WGPUTextureFormat for @ref WGPUTextureView format reinterpretation of the surface's textures.
-  --
-
-  --*
-  --     * How the surface's frames will be composited on the screen.
-  --
-
-  --*
-  --     * When and in which order the surface's frames will be shown on the screen. Defaults to @ref WGPUPresentMode_Fifo.
-  --
-
-  --*
-  -- * The root descriptor for the creation of an @ref WGPUSurface with `::wgpuInstanceCreateSurface`.
-  -- * It isn't sufficient by itself and must have one of the `WGPUSurfaceSource*` in its chain.
-  -- * See @ref Surface-Creation for more details.
-  --
-
-   type WGPUSurfaceDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1835
-      label : aliased WGPUStringView;  -- webgpu.h:1841
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1834
-
-  --*
-  --     * Label used to refer to the object.
-  --     *
-  --     * This is a \ref NonNullInputString.
-  --
-
-  --*
-  -- * Chained in @ref WGPUSurfaceDescriptor to make an @ref WGPUSurface wrapping an Android [`ANativeWindow`](https://developer.android.com/ndk/reference/group/a-native-window).
-  --
-
-   type WGPUSurfaceSourceAndroidNativeWindow is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1848
-      window : System.Address;  -- webgpu.h:1852
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1847
-
-  --*
-  --     * The pointer to the [`ANativeWindow`](https://developer.android.com/ndk/reference/group/a-native-window) that will be wrapped by the @ref WGPUSurface.
-  --
-
-  --*
-  -- * Chained in @ref WGPUSurfaceDescriptor to make an @ref WGPUSurface wrapping a [`CAMetalLayer`](https://developer.apple.com/documentation/quartzcore/cametallayer?language=objc).
-  --
-
-   type WGPUSurfaceSourceMetalLayer is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1859
-      layer : System.Address;  -- webgpu.h:1863
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1858
-
-  --*
-  --     * The pointer to the [`CAMetalLayer`](https://developer.apple.com/documentation/quartzcore/cametallayer?language=objc) that will be wrapped by the @ref WGPUSurface.
-  --
-
-  --*
-  -- * Chained in @ref WGPUSurfaceDescriptor to make an @ref WGPUSurface wrapping a [Wayland](https://wayland.freedesktop.org/) [`wl_surface`](https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_surface).
-  --
-
-   type WGPUSurfaceSourceWaylandSurface is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1870
-      display : System.Address;  -- webgpu.h:1874
-      surface : System.Address;  -- webgpu.h:1878
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1869
-
-  --*
-  --     * A [`wl_display`](https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_display) for this Wayland instance.
-  --
-
-  --*
-  --     * A [`wl_surface`](https://wayland.freedesktop.org/docs/html/apa.html#protocol-spec-wl_surface) that will be wrapped by the @ref WGPUSurface
-  --
-
-  --*
-  -- * Chained in @ref WGPUSurfaceDescriptor to make an @ref WGPUSurface wrapping a Windows [`HWND`](https://learn.microsoft.com/en-us/windows/apps/develop/ui-input/retrieve-hwnd).
-  --
-
-   type WGPUSurfaceSourceWindowsHWND is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1885
-      hinstance : System.Address;  -- webgpu.h:1890
-      hwnd : System.Address;  -- webgpu.h:1894
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1884
-
-  --*
-  --     * The [`HINSTANCE`](https://learn.microsoft.com/en-us/windows/win32/learnwin32/winmain--the-application-entry-point) for this application.
-  --     * Most commonly `GetModuleHandle(nullptr)`.
-  --
-
-  --*
-  --     * The [`HWND`](https://learn.microsoft.com/en-us/windows/apps/develop/ui-input/retrieve-hwnd) that will be wrapped by the @ref WGPUSurface.
-  --
-
-  --*
-  -- * Chained in @ref WGPUSurfaceDescriptor to make an @ref WGPUSurface wrapping an [XCB](https://xcb.freedesktop.org/) `xcb_window_t`.
-  --
-
-   type WGPUSurfaceSourceXCBWindow is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1901
-      connection : System.Address;  -- webgpu.h:1905
-      window : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1909
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1900
-
-  --*
-  --     * The `xcb_connection_t` for the connection to the X server.
-  --
-
-  --*
-  --     * The `xcb_window_t` for the window that will be wrapped by the @ref WGPUSurface.
-  --
-
-  --*
-  -- * Chained in @ref WGPUSurfaceDescriptor to make an @ref WGPUSurface wrapping an [Xlib](https://www.x.org/releases/current/doc/libX11/libX11/libX11.html) `Window`.
-  --
-
-   type WGPUSurfaceSourceXlibWindow is record
-      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1916
-      display : System.Address;  -- webgpu.h:1920
-      window : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1924
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1915
-
-  --*
-  --     * A pointer to the [`Display`](https://www.x.org/releases/current/doc/libX11/libX11/libX11.html#Opening_the_Display) connected to the X server.
-  --
-
-  --*
-  --     * The [`Window`](https://www.x.org/releases/current/doc/libX11/libX11/libX11.html#Creating_Windows) that will be wrapped by the @ref WGPUSurface.
-  --
-
-  --*
-  -- * Queried each frame from a @ref WGPUSurface to get a @ref WGPUTexture to render to along with some metadata.
-  -- * See @ref Surface-Presenting for more details.
-  --
-
-   type WGPUSurfaceTexture is record
-      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:1932
-      texture : WGPUTexture;  -- webgpu.h:1937
-      status : aliased WGPUSurfaceGetCurrentTextureStatus;  -- webgpu.h:1941
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1931
-
-  --*
-  --     * The @ref WGPUTexture representing the frame that will be shown on the surface.
-  --     * It is @ref ReturnedWithOwnership from @ref wgpuSurfaceGetCurrentTexture.
-  --
-
-  --*
-  --     * Whether the call to `::wgpuSurfaceGetCurrentTexture` succeeded and a hint as to why it might not have.
-  --
-
-   type WGPUTexelCopyBufferLayout is record
-      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1945
-      bytesPerRow : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1946
-      rowsPerImage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1947
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1944
-
-   type WGPUTextureBindingLayout is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1951
-      sampleType : aliased WGPUTextureSampleType;  -- webgpu.h:1952
-      viewDimension : aliased WGPUTextureViewDimension;  -- webgpu.h:1953
-      multisampled : aliased T_WGPUBool;  -- webgpu.h:1954
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1950
-
-   type WGPUTextureViewDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1958
-      label : aliased WGPUStringView;  -- webgpu.h:1962
-      format : aliased WGPUTextureFormat;  -- webgpu.h:1963
-      dimension : aliased WGPUTextureViewDimension;  -- webgpu.h:1964
-      baseMipLevel : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1965
-      mipLevelCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1966
-      baseArrayLayer : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1967
-      arrayLayerCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1968
-      aspect : aliased WGPUTextureAspect;  -- webgpu.h:1969
-      usage : aliased WGPUTextureUsage;  -- webgpu.h:1970
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1957
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUVertexAttribute is record
-      format : aliased WGPUVertexFormat;  -- webgpu.h:1974
-      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:1975
-      shaderLocation : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1976
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1973
-
-   type WGPUBindGroupDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1980
-      label : aliased WGPUStringView;  -- webgpu.h:1984
-      layout : WGPUBindGroupLayout;  -- webgpu.h:1985
-      entryCount : aliased T_Size;  -- webgpu.h:1986
-      entries : access constant WGPUBindGroupEntry;  -- webgpu.h:1987
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1979
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUBindGroupLayoutEntry is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1991
-      binding : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:1992
-      visibility : aliased WGPUShaderStage;  -- webgpu.h:1993
-      buffer : aliased WGPUBufferBindingLayout;  -- webgpu.h:1994
-      sampler : aliased WGPUSamplerBindingLayout;  -- webgpu.h:1995
-      texture : aliased WGPUTextureBindingLayout;  -- webgpu.h:1996
-      storageTexture : aliased WGPUStorageTextureBindingLayout;  -- webgpu.h:1997
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1990
-
-   type WGPUBlendState is record
-      color : aliased WGPUBlendComponent;  -- webgpu.h:2001
-      alpha : aliased WGPUBlendComponent;  -- webgpu.h:2002
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2000
-
-   type WGPUCompilationInfo is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2006
-      messageCount : aliased T_Size;  -- webgpu.h:2007
-      messages : access constant WGPUCompilationMessage;  -- webgpu.h:2008
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2005
-
-   type WGPUComputePassDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2012
-      label : aliased WGPUStringView;  -- webgpu.h:2016
-      timestampWrites : access constant WGPUComputePassTimestampWrites;  -- webgpu.h:2017
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2011
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUDepthStencilState is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2021
-      format : aliased WGPUTextureFormat;  -- webgpu.h:2022
-      depthWriteEnabled : aliased WGPUOptionalBool;  -- webgpu.h:2023
-      depthCompare : aliased WGPUCompareFunction;  -- webgpu.h:2024
-      stencilFront : aliased WGPUStencilFaceState;  -- webgpu.h:2025
-      stencilBack : aliased WGPUStencilFaceState;  -- webgpu.h:2026
-      stencilReadMask : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2027
-      stencilWriteMask : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2028
-      depthBias : aliased bits_stdint_intn_h.int32_t;  -- webgpu.h:2029
-      depthBiasSlopeScale : aliased float;  -- webgpu.h:2030
-      depthBiasClamp : aliased float;  -- webgpu.h:2031
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2020
-
-   type WGPUDeviceDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2035
-      label : aliased WGPUStringView;  -- webgpu.h:2039
-      requiredFeatureCount : aliased T_Size;  -- webgpu.h:2040
-      requiredFeatures : access WGPUFeatureName;  -- webgpu.h:2041
-      requiredLimits : access constant WGPULimits;  -- webgpu.h:2042
-      defaultQueue : aliased WGPUQueueDescriptor;  -- webgpu.h:2043
-      deviceLostCallbackInfo : aliased WGPUDeviceLostCallbackInfo;  -- webgpu.h:2044
-      uncapturedErrorCallbackInfo : aliased WGPUUncapturedErrorCallbackInfo;  -- webgpu.h:2045
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2034
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-  --*
-  -- * Struct holding a future to wait on, and a `completed` boolean flag.
-  --
-
-  --*
-  --     * The future to wait on.
-  --
-
-   type WGPUFutureWaitInfo is record
-      future : aliased WGPUFuture;  -- webgpu.h:2055
-      completed : aliased T_WGPUBool;  -- webgpu.h:2059
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2051
-
-  --*
-  --     * Whether or not the future completed.
-  --
-
-	type T_WGPUInstanceDescriptor is record
-		nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2063
-		features    : aliased T_WGPUInstanceCapabilities;  -- webgpu.h:2067
-	end record
-	with Convention => C_Pass_By_Copy;  -- webgpu.h:2062
-
-  --*
-  --     * Instance features to enable
-  --
-
-   type WGPUProgrammableStageDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2071
-      module : WGPUShaderModule;  -- webgpu.h:2072
-      entryPoint : aliased WGPUStringView;  -- webgpu.h:2076
-      constantCount : aliased T_Size;  -- webgpu.h:2077
-      constants : access constant WGPUConstantEntry;  -- webgpu.h:2078
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2070
-
-  --*
-  --     * This is a \ref NullableInputString.
-  --
-
-   type WGPURenderPassColorAttachment is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2082
-      view : WGPUTextureView;  -- webgpu.h:2083
-      depthSlice : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2084
-      resolveTarget : WGPUTextureView;  -- webgpu.h:2085
-      loadOp : aliased WGPULoadOp;  -- webgpu.h:2086
-      storeOp : aliased WGPUStoreOp;  -- webgpu.h:2087
-      clearValue : aliased WGPUColor;  -- webgpu.h:2088
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2081
-
-   type WGPUTexelCopyBufferInfo is record
-      layout : aliased WGPUTexelCopyBufferLayout;  -- webgpu.h:2092
-      buffer : WGPUBuffer;  -- webgpu.h:2093
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2091
-
-   type WGPUTexelCopyTextureInfo is record
-      texture : WGPUTexture;  -- webgpu.h:2097
-      mipLevel : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2098
-      origin : aliased WGPUOrigin3D;  -- webgpu.h:2099
-      aspect : aliased WGPUTextureAspect;  -- webgpu.h:2100
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2096
-
-   type WGPUTextureDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2104
-      label : aliased WGPUStringView;  -- webgpu.h:2108
-      usage : aliased WGPUTextureUsage;  -- webgpu.h:2109
-      dimension : aliased WGPUTextureDimension;  -- webgpu.h:2110
-      size : aliased WGPUExtent3D;  -- webgpu.h:2111
-      format : aliased WGPUTextureFormat;  -- webgpu.h:2112
-      mipLevelCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2113
-      sampleCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2114
-      viewFormatCount : aliased T_Size;  -- webgpu.h:2115
-      viewFormats : access WGPUTextureFormat;  -- webgpu.h:2116
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2103
-
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-  --*
-  --     * The step mode for the vertex buffer. If @ref WGPUVertexStepMode_VertexBufferNotUsed,
-  --     * indicates a "hole" in the parent @ref WGPUVertexState `buffers` array:
-  --     * the pipeline does not use a vertex buffer at this `location`.
-  --
-
-   type WGPUVertexBufferLayout is record
-      stepMode : aliased WGPUVertexStepMode;  -- webgpu.h:2125
-      arrayStride : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2126
-      attributeCount : aliased T_Size;  -- webgpu.h:2127
-      attributes : access constant WGPUVertexAttribute;  -- webgpu.h:2128
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2109
+
+   type T_WGPUSharedFenceExportInfo is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:2120
+      c_type : aliased WGPUSharedFenceType;  -- webgpu.h:2121
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2119
 
-   type WGPUBindGroupLayoutDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2132
-      label : aliased WGPUStringView;  -- webgpu.h:2136
-      entryCount : aliased T_Size;  -- webgpu.h:2137
-      entries : access constant WGPUBindGroupLayoutEntry;  -- webgpu.h:2138
+  -- Can be chained in WGPUSharedFenceDescriptor
+   type WGPUSharedFenceSyncFDDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2131
+      handle : aliased int;  -- webgpu.h:2132
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2131
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2130
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPUColorTargetState is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2142
-      format : aliased WGPUTextureFormat;  -- webgpu.h:2148
-      blend : access constant WGPUBlendState;  -- webgpu.h:2149
-      writeMask : aliased WGPUColorWriteMask;  -- webgpu.h:2150
+  -- Can be chained in T_WGPUSharedFenceExportInfo
+   type WGPUSharedFenceSyncFDExportInfo is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:2142
+      handle : aliased int;  -- webgpu.h:2143
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2141
 
-  --*
-  --     * The texture format of the target. If @ref WGPUTextureFormat_Undefined,
-  --     * indicates a "hole" in the parent @ref WGPUFragmentState `targets` array:
-  --     * the pipeline does not output a value at this `location`.
-  --
-
-   type WGPUComputePipelineDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2154
-      label : aliased WGPUStringView;  -- webgpu.h:2158
-      layout : WGPUPipelineLayout;  -- webgpu.h:2159
-      compute : aliased WGPUProgrammableStageDescriptor;  -- webgpu.h:2160
+  -- Can be chained in WGPUSharedFenceDescriptor
+   type WGPUSharedFenceVkSemaphoreOpaqueFDDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2153
+      handle : aliased int;  -- webgpu.h:2154
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2153
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2152
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
-
-   type WGPURenderPassDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2164
-      label : aliased WGPUStringView;  -- webgpu.h:2168
-      colorAttachmentCount : aliased T_Size;  -- webgpu.h:2169
-      colorAttachments : access constant WGPURenderPassColorAttachment;  -- webgpu.h:2170
-      depthStencilAttachment : access constant WGPURenderPassDepthStencilAttachment;  -- webgpu.h:2171
-      occlusionQuerySet : WGPUQuerySet;  -- webgpu.h:2172
-      timestampWrites : access constant WGPURenderPassTimestampWrites;  -- webgpu.h:2173
+  -- Can be chained in T_WGPUSharedFenceExportInfo
+   type WGPUSharedFenceVkSemaphoreOpaqueFDExportInfo is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:2164
+      handle : aliased int;  -- webgpu.h:2165
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2163
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
+  -- Can be chained in WGPUSharedFenceDescriptor
+   type WGPUSharedFenceVkSemaphoreZirconHandleDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2175
+      handle : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2176
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2174
+
+  -- Can be chained in T_WGPUSharedFenceExportInfo
+   type WGPUSharedFenceVkSemaphoreZirconHandleExportInfo is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:2186
+      handle : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2187
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2185
+
+  -- Can be chained in WGPUSharedTextureMemoryBeginAccessDescriptor
+   type WGPUSharedTextureMemoryD3DSwapchainBeginState is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2197
+      isSwapchain : aliased T_WGPUBool;  -- webgpu.h:2198
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2196
+
+  -- Can be chained in WGPUSharedTextureMemoryDescriptor
+   type WGPUSharedTextureMemoryDXGISharedHandleDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2208
+      handle : System.Address;  -- webgpu.h:2209
+      useKeyedMutex : aliased T_WGPUBool;  -- webgpu.h:2210
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2207
+
+  -- Can be chained in WGPUSharedTextureMemoryDescriptor
+   type WGPUSharedTextureMemoryEGLImageDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2221
+      image : System.Address;  -- webgpu.h:2222
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2220
+
+  -- Can be chained in WGPUSharedTextureMemoryDescriptor
+   type WGPUSharedTextureMemoryIOSurfaceDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2232
+      ioSurface : System.Address;  -- webgpu.h:2233
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2231
+
+  -- Can be chained in WGPUSharedTextureMemoryDescriptor
+   type WGPUSharedTextureMemoryAHardwareBufferDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2243
+      handle : System.Address;  -- webgpu.h:2244
+      useExternalFormat : aliased T_WGPUBool;  -- webgpu.h:2245
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2242
+
+   type WGPUSharedTextureMemoryBeginAccessDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2255
+      concurrentRead : aliased T_WGPUBool;  -- webgpu.h:2256
+      initialized : aliased T_WGPUBool;  -- webgpu.h:2257
+      fenceCount : aliased T_Size;  -- webgpu.h:2258
+      fences : System.Address;  -- webgpu.h:2259
+      signaledValues : access bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2260
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2254
+
+   type WGPUSharedTextureMemoryDmaBufPlane is record
+      fd : aliased int;  -- webgpu.h:2273
+      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2274
+      stride : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2275
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2272
+
+   type WGPUSharedTextureMemoryEndAccessState is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:2285
+      initialized : aliased T_WGPUBool;  -- webgpu.h:2286
+      fenceCount : aliased T_Size;  -- webgpu.h:2287
+      fences : System.Address;  -- webgpu.h:2288
+      signaledValues : access bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2289
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2284
+
+  -- Can be chained in WGPUSharedTextureMemoryDescriptor
+   type WGPUSharedTextureMemoryOpaqueFDDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2302
+      vkImageCreateInfo : System.Address;  -- webgpu.h:2303
+      memoryFD : aliased int;  -- webgpu.h:2304
+      memoryTypeIndex : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2305
+      allocationSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2306
+      dedicatedAllocation : aliased T_WGPUBool;  -- webgpu.h:2307
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2301
+
+  -- Can be chained in WGPUSharedTextureMemoryDescriptor
+   type WGPUSharedTextureMemoryVkDedicatedAllocationDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2321
+      dedicatedAllocation : aliased T_WGPUBool;  -- webgpu.h:2322
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2320
+
+  -- Can be chained in WGPUSharedTextureMemoryBeginAccessDescriptor
+   type WGPUSharedTextureMemoryVkImageLayoutBeginState is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2332
+      oldLayout : aliased bits_stdint_intn_h.int32_t;  -- webgpu.h:2333
+      newLayout : aliased bits_stdint_intn_h.int32_t;  -- webgpu.h:2334
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2331
+
+  -- Can be chained in WGPUSharedTextureMemoryEndAccessState
+   type WGPUSharedTextureMemoryVkImageLayoutEndState is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:2345
+      oldLayout : aliased bits_stdint_intn_h.int32_t;  -- webgpu.h:2346
+      newLayout : aliased bits_stdint_intn_h.int32_t;  -- webgpu.h:2347
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2344
+
+  -- Can be chained in WGPUSharedTextureMemoryDescriptor
+   type WGPUSharedTextureMemoryZirconHandleDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2358
+      memoryFD : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2359
+      allocationSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2360
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2357
+
+  -- Can be chained in WGPUBindGroupLayoutEntry
+   type WGPUStaticSamplerBindingLayout is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2371
+      sampler : WGPUSampler;  -- webgpu.h:2372
+      sampledTextureBinding : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2373
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2370
+
+   type WGPUStencilFaceState is record
+      compare : aliased WGPUCompareFunction;  -- webgpu.h:2383
+      failOp : aliased WGPUStencilOperation;  -- webgpu.h:2384
+      depthFailOp : aliased WGPUStencilOperation;  -- webgpu.h:2385
+      passOp : aliased WGPUStencilOperation;  -- webgpu.h:2386
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2382
+
+   type WGPUStorageTextureBindingLayout is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2397
+      c_access : aliased WGPUStorageTextureAccess;  -- webgpu.h:2398
+      format : aliased WGPUTextureFormat;  -- webgpu.h:2399
+      viewDimension : aliased WGPUTextureViewDimension;  -- webgpu.h:2400
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2396
+
+   type T_WGPUStringView is record
+      data : T_Chars_Ptr;  -- webgpu.h:2411
+      length : aliased T_Size;  -- webgpu.h:2412
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2410
+
+   type WGPUSupportedFeatures is record
+      featureCount : aliased T_Size;  -- webgpu.h:2421
+      features : access WGPUFeatureName;  -- webgpu.h:2422
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2420
+
+   type WGPUSurfaceCapabilities is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:2431
+      usages : aliased WGPUTextureUsage;  -- webgpu.h:2432
+      formatCount : aliased T_Size;  -- webgpu.h:2433
+      formats : access WGPUTextureFormat;  -- webgpu.h:2434
+      presentModeCount : aliased T_Size;  -- webgpu.h:2435
+      presentModes : access WGPUPresentMode;  -- webgpu.h:2436
+      alphaModeCount : aliased T_Size;  -- webgpu.h:2437
+      alphaModes : access WGPUCompositeAlphaMode;  -- webgpu.h:2438
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2430
+
+   type WGPUSurfaceConfiguration is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2453
+      device : WGPUDevice;  -- webgpu.h:2454
+      format : aliased WGPUTextureFormat;  -- webgpu.h:2455
+      usage : aliased WGPUTextureUsage;  -- webgpu.h:2456
+      viewFormatCount : aliased T_Size;  -- webgpu.h:2457
+      viewFormats : access WGPUTextureFormat;  -- webgpu.h:2458
+      alphaMode : aliased WGPUCompositeAlphaMode;  -- webgpu.h:2459
+      width : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2460
+      height : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2461
+      presentMode : aliased WGPUPresentMode;  -- webgpu.h:2462
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2452
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceDescriptorFromWindowsCoreWindow is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2480
+      coreWindow : System.Address;  -- webgpu.h:2481
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2479
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceDescriptorFromWindowsSwapChainPanel is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2491
+      swapChainPanel : System.Address;  -- webgpu.h:2492
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2490
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceSourceXCBWindow is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2502
+      connection : System.Address;  -- webgpu.h:2503
+      window : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2504
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2501
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceSourceAndroidNativeWindow is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2515
+      window : System.Address;  -- webgpu.h:2516
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2514
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceSourceMetalLayer is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2526
+      layer : System.Address;  -- webgpu.h:2527
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2525
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceSourceWaylandSurface is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2537
+      display : System.Address;  -- webgpu.h:2538
+      surface : System.Address;  -- webgpu.h:2539
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2536
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceSourceWindowsHWND is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2550
+      hinstance : System.Address;  -- webgpu.h:2551
+      hwnd : System.Address;  -- webgpu.h:2552
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2549
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceSourceXlibWindow is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2563
+      display : System.Address;  -- webgpu.h:2564
+      window : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2565
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2562
+
+   type WGPUSurfaceTexture is record
+      texture : WGPUTexture;  -- webgpu.h:2575
+      suboptimal : aliased T_WGPUBool;  -- webgpu.h:2576
+      status : aliased WGPUSurfaceGetCurrentTextureStatus;  -- webgpu.h:2577
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2574
+
+   type WGPUTextureBindingLayout is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2587
+      sampleType : aliased WGPUTextureSampleType;  -- webgpu.h:2588
+      viewDimension : aliased WGPUTextureViewDimension;  -- webgpu.h:2589
+      multisampled : aliased T_WGPUBool;  -- webgpu.h:2590
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2586
+
+  -- Can be chained in WGPUTextureDescriptor
+   type WGPUTextureBindingViewDimensionDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2602
+      textureBindingViewDimension : aliased WGPUTextureViewDimension;  -- webgpu.h:2603
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2601
+
+   type WGPUTextureDataLayout is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2612
+      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2613
+      bytesPerRow : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2614
+      rowsPerImage : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2615
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2611
+
+   type WGPUUncapturedErrorCallbackInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2626
+      callback : WGPUErrorCallback;  -- webgpu.h:2627
+      userdata : System.Address;  -- webgpu.h:2628
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2625
+
+   type WGPUVertexAttribute is record
+      format : aliased WGPUVertexFormat;  -- webgpu.h:2638
+      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2639
+      shaderLocation : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2640
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2637
+
+  -- Can be chained in WGPUSamplerDescriptor
+  -- Can be chained in WGPUTextureViewDescriptor
+   type WGPUYCbCrVkDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2652
+      vkFormat : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2653
+      vkYCbCrModel : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2654
+      vkYCbCrRange : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2655
+      vkComponentSwizzleRed : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2656
+      vkComponentSwizzleGreen : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2657
+      vkComponentSwizzleBlue : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2658
+      vkComponentSwizzleAlpha : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2659
+      vkXChromaOffset : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2660
+      vkYChromaOffset : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2661
+      vkChromaFilter : aliased WGPUFilterMode;  -- webgpu.h:2662
+      forceExplicitReconstruction : aliased T_WGPUBool;  -- webgpu.h:2663
+      externalFormat : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2664
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2651
+
+   type WGPUAHardwareBufferProperties is record
+      yCbCrInfo : aliased WGPUYCbCrVkDescriptor;  -- webgpu.h:2684
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2683
+
+   type WGPUAdapterInfo is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:2692
+      vendor : aliased T_WGPUStringView;  -- webgpu.h:2693
+      architecture : aliased T_WGPUStringView;  -- webgpu.h:2694
+      device : aliased T_WGPUStringView;  -- webgpu.h:2695
+      description : aliased T_WGPUStringView;  -- webgpu.h:2696
+      backendType : aliased WGPUBackendType;  -- webgpu.h:2697
+      adapterType : aliased WGPUAdapterType;  -- webgpu.h:2698
+      vendorID : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2699
+      deviceID : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2700
+      compatibilityMode : aliased T_WGPUBool;  -- webgpu.h:2701
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2691
+
+  -- Can be chained in WGPUAdapterInfo
+   type WGPUAdapterPropertiesMemoryHeaps is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:2719
+      heapCount : aliased T_Size;  -- webgpu.h:2720
+      heapInfo : access constant WGPUMemoryHeapInfo;  -- webgpu.h:2721
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2718
+
+   type WGPUBindGroupDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2731
+      label : aliased T_WGPUStringView;  -- webgpu.h:2732
+      layout : WGPUBindGroupLayout;  -- webgpu.h:2733
+      entryCount : aliased T_Size;  -- webgpu.h:2734
+      entries : access constant WGPUBindGroupEntry;  -- webgpu.h:2735
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2730
+
+   type WGPUBindGroupLayoutEntry is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2747
+      binding : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2748
+      visibility : aliased WGPUShaderStage;  -- webgpu.h:2749
+      buffer : aliased WGPUBufferBindingLayout;  -- webgpu.h:2750
+      sampler : aliased WGPUSamplerBindingLayout;  -- webgpu.h:2751
+      texture : aliased WGPUTextureBindingLayout;  -- webgpu.h:2752
+      storageTexture : aliased WGPUStorageTextureBindingLayout;  -- webgpu.h:2753
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2746
+
+   type WGPUBlendState is record
+      color : aliased WGPUBlendComponent;  -- webgpu.h:2767
+      alpha : aliased WGPUBlendComponent;  -- webgpu.h:2768
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2766
+
+   type WGPUBufferDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2777
+      label : aliased T_WGPUStringView;  -- webgpu.h:2778
+      usage : aliased WGPUBufferUsage;  -- webgpu.h:2779
+      size : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2780
+      mappedAtCreation : aliased T_WGPUBool;  -- webgpu.h:2781
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2776
+
+   type WGPUCommandBufferDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2793
+      label : aliased T_WGPUStringView;  -- webgpu.h:2794
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2792
+
+   type WGPUCommandEncoderDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2803
+      label : aliased T_WGPUStringView;  -- webgpu.h:2804
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2802
+
+   type WGPUCompilationMessage is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2813
+      message : aliased T_WGPUStringView;  -- webgpu.h:2814
+      c_type : aliased WGPUCompilationMessageType;  -- webgpu.h:2815
+      lineNum : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2816
+      linePos : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2817
+      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2818
+      length : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2819
+      utf16LinePos : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2820
+      utf16Offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2821
+      utf16Length : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:2822
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2812
+
+   type WGPUComputePassDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2839
+      label : aliased T_WGPUStringView;  -- webgpu.h:2840
+      timestampWrites : access constant WGPUComputePassTimestampWrites;  -- webgpu.h:2841
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2838
+
+   type WGPUConstantEntry is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2851
+      key : aliased T_WGPUStringView;  -- webgpu.h:2852
+      value : aliased double;  -- webgpu.h:2853
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2850
+
+  -- Can be chained in WGPUDeviceDescriptor
+   type WGPUDawnCacheDeviceDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2864
+      isolationKey : aliased T_WGPUStringView;  -- webgpu.h:2865
+      loadDataFunction : WGPUDawnLoadCacheDataFunction;  -- webgpu.h:2866
+      storeDataFunction : WGPUDawnStoreCacheDataFunction;  -- webgpu.h:2867
+      functionUserdata : System.Address;  -- webgpu.h:2868
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2863
+
+   type WGPUDepthStencilState is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2880
+      format : aliased WGPUTextureFormat;  -- webgpu.h:2881
+      depthWriteEnabled : aliased WGPUOptionalBool;  -- webgpu.h:2882
+      depthCompare : aliased WGPUCompareFunction;  -- webgpu.h:2883
+      stencilFront : aliased WGPUStencilFaceState;  -- webgpu.h:2884
+      stencilBack : aliased WGPUStencilFaceState;  -- webgpu.h:2885
+      stencilReadMask : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2886
+      stencilWriteMask : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2887
+      depthBias : aliased bits_stdint_intn_h.int32_t;  -- webgpu.h:2888
+      depthBiasSlopeScale : aliased float;  -- webgpu.h:2889
+      depthBiasClamp : aliased float;  -- webgpu.h:2890
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2879
+
+  -- Can be chained in WGPUFormatCapabilities
+   type WGPUDrmFormatCapabilities is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:2909
+      propertiesCount : aliased T_Size;  -- webgpu.h:2910
+      properties : access constant WGPUDrmFormatProperties;  -- webgpu.h:2911
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2908
+
+   type WGPUExternalTextureDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2921
+      label : aliased T_WGPUStringView;  -- webgpu.h:2922
+      plane0 : WGPUTextureView;  -- webgpu.h:2923
+      plane1 : WGPUTextureView;  -- webgpu.h:2924
+      visibleOrigin : aliased WGPUOrigin2D;  -- webgpu.h:2925
+      visibleSize : aliased WGPUExtent2D;  -- webgpu.h:2926
+      cropOrigin : aliased WGPUOrigin2D;  -- webgpu.h:2927
+      cropSize : aliased WGPUExtent2D;  -- webgpu.h:2928
+      apparentSize : aliased WGPUExtent2D;  -- webgpu.h:2929
+      doYuvToRgbConversionOnly : aliased T_WGPUBool;  -- webgpu.h:2930
+      yuvToRgbConversionMatrix : access float;  -- webgpu.h:2931
+      srcTransferFunctionParameters : access float;  -- webgpu.h:2932
+      dstTransferFunctionParameters : access float;  -- webgpu.h:2933
+      gamutConversionMatrix : access float;  -- webgpu.h:2934
+      mirrored : aliased T_WGPUBool;  -- webgpu.h:2935
+      rotation : aliased WGPUExternalTextureRotation;  -- webgpu.h:2936
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2920
+
+   type WGPUFutureWaitInfo is record
+      future : aliased WGPUFuture;  -- webgpu.h:2959
+      completed : aliased T_WGPUBool;  -- webgpu.h:2960
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2958
+
+   type WGPUImageCopyBuffer is record
+      layout : aliased WGPUTextureDataLayout;  -- webgpu.h:2969
+      buffer : WGPUBuffer;  -- webgpu.h:2970
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2968
+
+   type WGPUImageCopyExternalTexture is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2979
+      externalTexture : WGPUExternalTexture;  -- webgpu.h:2980
+      origin : aliased WGPUOrigin3D;  -- webgpu.h:2981
+      naturalSize : aliased WGPUExtent2D;  -- webgpu.h:2982
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2978
+
+   type WGPUImageCopyTexture is record
+      texture : WGPUTexture;  -- webgpu.h:2993
+      mipLevel : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:2994
+      origin : aliased WGPUOrigin3D;  -- webgpu.h:2995
+      aspect : aliased WGPUTextureAspect;  -- webgpu.h:2996
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2992
+
+   type T_WGPUInstanceDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3007
+      features : aliased WGPUInstanceFeatures;  -- webgpu.h:3008
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3006
+
+   type WGPUPipelineLayoutDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3017
+      label : aliased T_WGPUStringView;  -- webgpu.h:3018
+      bindGroupLayoutCount : aliased T_Size;  -- webgpu.h:3019
+      bindGroupLayouts : System.Address;  -- webgpu.h:3020
+      immediateDataRangeByteSize : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3021
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3016
+
+  -- Can be chained in WGPUPipelineLayoutDescriptor
+   type WGPUPipelineLayoutPixelLocalStorage is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:3034
+      totalPixelLocalStorageSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:3035
+      storageAttachmentCount : aliased T_Size;  -- webgpu.h:3036
+      storageAttachments : access constant WGPUPipelineLayoutStorageAttachment;  -- webgpu.h:3037
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3033
+
+   type WGPUQuerySetDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3048
+      label : aliased T_WGPUStringView;  -- webgpu.h:3049
+      c_type : aliased WGPUQueryType;  -- webgpu.h:3050
+      count : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3051
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3047
+
+   type WGPUQueueDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3062
+      label : aliased T_WGPUStringView;  -- webgpu.h:3063
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3061
+
+   type WGPURenderBundleDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3072
+      label : aliased T_WGPUStringView;  -- webgpu.h:3073
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3071
+
+   type WGPURenderBundleEncoderDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3082
+      label : aliased T_WGPUStringView;  -- webgpu.h:3083
+      colorFormatCount : aliased T_Size;  -- webgpu.h:3084
+      colorFormats : access WGPUTextureFormat;  -- webgpu.h:3085
+      depthStencilFormat : aliased WGPUTextureFormat;  -- webgpu.h:3086
+      sampleCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3087
+      depthReadOnly : aliased T_WGPUBool;  -- webgpu.h:3088
+      stencilReadOnly : aliased T_WGPUBool;  -- webgpu.h:3089
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3081
+
+   type WGPURenderPassColorAttachment is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3104
+      view : WGPUTextureView;  -- webgpu.h:3105
+      depthSlice : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3106
+      resolveTarget : WGPUTextureView;  -- webgpu.h:3107
+      loadOp : aliased WGPULoadOp;  -- webgpu.h:3108
+      storeOp : aliased WGPUStoreOp;  -- webgpu.h:3109
+      clearValue : aliased WGPUColor;  -- webgpu.h:3110
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3103
+
+   type WGPURenderPassStorageAttachment is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3124
+      offset : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:3125
+      storage : WGPUTextureView;  -- webgpu.h:3126
+      loadOp : aliased WGPULoadOp;  -- webgpu.h:3127
+      storeOp : aliased WGPUStoreOp;  -- webgpu.h:3128
+      clearValue : aliased WGPUColor;  -- webgpu.h:3129
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3123
+
+   type WGPURequiredLimits is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3142
+      limits : aliased WGPULimits;  -- webgpu.h:3143
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3141
+
+   type WGPUSamplerDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3152
+      label : aliased T_WGPUStringView;  -- webgpu.h:3153
+      addressModeU : aliased WGPUAddressMode;  -- webgpu.h:3154
+      addressModeV : aliased WGPUAddressMode;  -- webgpu.h:3155
+      addressModeW : aliased WGPUAddressMode;  -- webgpu.h:3156
+      magFilter : aliased WGPUFilterMode;  -- webgpu.h:3157
+      minFilter : aliased WGPUFilterMode;  -- webgpu.h:3158
+      mipmapFilter : aliased WGPUMipmapFilterMode;  -- webgpu.h:3159
+      lodMinClamp : aliased float;  -- webgpu.h:3160
+      lodMaxClamp : aliased float;  -- webgpu.h:3161
+      compare : aliased WGPUCompareFunction;  -- webgpu.h:3162
+      maxAnisotropy : aliased bits_stdint_uintn_h.uint16_t;  -- webgpu.h:3163
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3151
+
+   type WGPUShaderModuleDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3182
+      label : aliased T_WGPUStringView;  -- webgpu.h:3183
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3181
+
+  -- Can be chained in WGPUShaderModuleDescriptor
+   type WGPUShaderSourceWGSL is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:3193
+      code : aliased T_WGPUStringView;  -- webgpu.h:3194
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3192
+
+   type WGPUSharedBufferMemoryDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3203
+      label : aliased T_WGPUStringView;  -- webgpu.h:3204
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3202
+
+   type WGPUSharedFenceDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3213
+      label : aliased T_WGPUStringView;  -- webgpu.h:3214
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3212
+
+  -- Can be chained in WGPUSharedTextureMemoryProperties
+   type WGPUSharedTextureMemoryAHardwareBufferProperties is record
+      chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:3224
+      yCbCrInfo : aliased WGPUYCbCrVkDescriptor;  -- webgpu.h:3225
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3223
+
+   type WGPUSharedTextureMemoryDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3234
+      label : aliased T_WGPUStringView;  -- webgpu.h:3235
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3233
+
+  -- Can be chained in WGPUSharedTextureMemoryDescriptor
+   type WGPUSharedTextureMemoryDmaBufDescriptor is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:3245
+      size : aliased WGPUExtent3D;  -- webgpu.h:3246
+      drmFormat : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3247
+      drmModifier : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:3248
+      planeCount : aliased T_Size;  -- webgpu.h:3249
+      planes : access constant WGPUSharedTextureMemoryDmaBufPlane;  -- webgpu.h:3250
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3244
+
+   type WGPUSharedTextureMemoryProperties is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:3263
+      usage : aliased WGPUTextureUsage;  -- webgpu.h:3264
+      size : aliased WGPUExtent3D;  -- webgpu.h:3265
+      format : aliased WGPUTextureFormat;  -- webgpu.h:3266
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3262
+
+   type WGPUSupportedLimits is record
+      nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:3277
+      limits : aliased WGPULimits;  -- webgpu.h:3278
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3276
+
+   type WGPUSurfaceDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3287
+      label : aliased T_WGPUStringView;  -- webgpu.h:3288
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3286
+
+  -- Can be chained in WGPUSurfaceDescriptor
+   type WGPUSurfaceSourceCanvasHTMLSelector_Emscripten is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:3298
+      selector : aliased T_WGPUStringView;  -- webgpu.h:3299
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3297
+
+   type WGPUTextureDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3308
+      label : aliased T_WGPUStringView;  -- webgpu.h:3309
+      usage : aliased WGPUTextureUsage;  -- webgpu.h:3310
+      dimension : aliased WGPUTextureDimension;  -- webgpu.h:3311
+      size : aliased WGPUExtent3D;  -- webgpu.h:3312
+      format : aliased WGPUTextureFormat;  -- webgpu.h:3313
+      mipLevelCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3314
+      sampleCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3315
+      viewFormatCount : aliased T_Size;  -- webgpu.h:3316
+      viewFormats : access WGPUTextureFormat;  -- webgpu.h:3317
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3307
+
+   type WGPUTextureViewDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3334
+      label : aliased T_WGPUStringView;  -- webgpu.h:3335
+      format : aliased WGPUTextureFormat;  -- webgpu.h:3336
+      dimension : aliased WGPUTextureViewDimension;  -- webgpu.h:3337
+      baseMipLevel : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3338
+      mipLevelCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3339
+      baseArrayLayer : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3340
+      arrayLayerCount : aliased bits_stdint_uintn_h.uint32_t;  -- webgpu.h:3341
+      aspect : aliased WGPUTextureAspect;  -- webgpu.h:3342
+      usage : aliased WGPUTextureUsage;  -- webgpu.h:3343
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3333
+
+   type WGPUVertexBufferLayout is record
+      arrayStride : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:3360
+      stepMode : aliased WGPUVertexStepMode;  -- webgpu.h:3361
+      attributeCount : aliased T_Size;  -- webgpu.h:3362
+      attributes : access constant WGPUVertexAttribute;  -- webgpu.h:3363
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3359
+
+   type WGPUBindGroupLayoutDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3374
+      label : aliased T_WGPUStringView;  -- webgpu.h:3375
+      entryCount : aliased T_Size;  -- webgpu.h:3376
+      entries : access constant WGPUBindGroupLayoutEntry;  -- webgpu.h:3377
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3373
+
+   type WGPUColorTargetState is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3388
+      format : aliased WGPUTextureFormat;  -- webgpu.h:3389
+      blend : access constant WGPUBlendState;  -- webgpu.h:3390
+      writeMask : aliased WGPUColorWriteMask;  -- webgpu.h:3391
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3387
+
+   type WGPUCompilationInfo is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3402
+      messageCount : aliased T_Size;  -- webgpu.h:3403
+      messages : access constant WGPUCompilationMessage;  -- webgpu.h:3404
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3401
+
+   type WGPUDeviceDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3414
+      label : aliased T_WGPUStringView;  -- webgpu.h:3415
+      requiredFeatureCount : aliased T_Size;  -- webgpu.h:3416
+      requiredFeatures : access WGPUFeatureName;  -- webgpu.h:3417
+      requiredLimits : access constant WGPURequiredLimits;  -- webgpu.h:3418
+      defaultQueue : aliased WGPUQueueDescriptor;  -- webgpu.h:3419
+      deviceLostCallback : WGPUDeviceLostCallback;  -- webgpu.h:3420
+      deviceLostUserdata : System.Address;  -- webgpu.h:3421
+      deviceLostCallbackInfo : aliased WGPUDeviceLostCallbackInfo;  -- webgpu.h:3422
+      uncapturedErrorCallbackInfo : aliased WGPUUncapturedErrorCallbackInfo;  -- webgpu.h:3423
+      deviceLostCallbackInfo2 : aliased WGPUDeviceLostCallbackInfo2;  -- webgpu.h:3424
+      uncapturedErrorCallbackInfo2 : aliased WGPUUncapturedErrorCallbackInfo2;  -- webgpu.h:3425
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3413
+
+   type WGPUProgrammableStageDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3444
+      module : WGPUShaderModule;  -- webgpu.h:3445
+      entryPoint : aliased T_WGPUStringView;  -- webgpu.h:3446
+      constantCount : aliased T_Size;  -- webgpu.h:3447
+      constants : access constant WGPUConstantEntry;  -- webgpu.h:3448
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3443
+
+   type WGPURenderPassDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3460
+      label : aliased T_WGPUStringView;  -- webgpu.h:3461
+      colorAttachmentCount : aliased T_Size;  -- webgpu.h:3462
+      colorAttachments : access constant WGPURenderPassColorAttachment;  -- webgpu.h:3463
+      depthStencilAttachment : access constant WGPURenderPassDepthStencilAttachment;  -- webgpu.h:3464
+      occlusionQuerySet : WGPUQuerySet;  -- webgpu.h:3465
+      timestampWrites : access constant WGPURenderPassTimestampWrites;  -- webgpu.h:3466
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3459
+
+  -- Can be chained in WGPURenderPassDescriptor
+   type WGPURenderPassPixelLocalStorage is record
+      chain : aliased T_WGPUChainedStruct;  -- webgpu.h:3481
+      totalPixelLocalStorageSize : aliased bits_stdint_uintn_h.uint64_t;  -- webgpu.h:3482
+      storageAttachmentCount : aliased T_Size;  -- webgpu.h:3483
+      storageAttachments : access constant WGPURenderPassStorageAttachment;  -- webgpu.h:3484
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3480
 
    type WGPUVertexState is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2177
-      module : WGPUShaderModule;  -- webgpu.h:2178
-      entryPoint : aliased WGPUStringView;  -- webgpu.h:2182
-      constantCount : aliased T_Size;  -- webgpu.h:2183
-      constants : access constant WGPUConstantEntry;  -- webgpu.h:2184
-      bufferCount : aliased T_Size;  -- webgpu.h:2185
-      buffers : access constant WGPUVertexBufferLayout;  -- webgpu.h:2186
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3495
+      module : WGPUShaderModule;  -- webgpu.h:3496
+      entryPoint : aliased T_WGPUStringView;  -- webgpu.h:3497
+      constantCount : aliased T_Size;  -- webgpu.h:3498
+      constants : access constant WGPUConstantEntry;  -- webgpu.h:3499
+      bufferCount : aliased T_Size;  -- webgpu.h:3500
+      buffers : access constant WGPUVertexBufferLayout;  -- webgpu.h:3501
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2176
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3494
 
-  --*
-  --     * This is a \ref NullableInputString.
-  --
+   type WGPUComputePipelineDescriptor is record
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3515
+      label : aliased T_WGPUStringView;  -- webgpu.h:3516
+      layout : WGPUPipelineLayout;  -- webgpu.h:3517
+      compute : aliased WGPUProgrammableStageDescriptor;  -- webgpu.h:3518
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3514
 
    type WGPUFragmentState is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2190
-      module : WGPUShaderModule;  -- webgpu.h:2191
-      entryPoint : aliased WGPUStringView;  -- webgpu.h:2195
-      constantCount : aliased T_Size;  -- webgpu.h:2196
-      constants : access constant WGPUConstantEntry;  -- webgpu.h:2197
-      targetCount : aliased T_Size;  -- webgpu.h:2198
-      targets : access constant WGPUColorTargetState;  -- webgpu.h:2199
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3529
+      module : WGPUShaderModule;  -- webgpu.h:3530
+      entryPoint : aliased T_WGPUStringView;  -- webgpu.h:3531
+      constantCount : aliased T_Size;  -- webgpu.h:3532
+      constants : access constant WGPUConstantEntry;  -- webgpu.h:3533
+      targetCount : aliased T_Size;  -- webgpu.h:3534
+      targets : access constant WGPUColorTargetState;  -- webgpu.h:3535
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2189
-
-  --*
-  --     * This is a \ref NullableInputString.
-  --
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3528
 
    type WGPURenderPipelineDescriptor is record
-      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2203
-      label : aliased WGPUStringView;  -- webgpu.h:2207
-      layout : WGPUPipelineLayout;  -- webgpu.h:2208
-      vertex : aliased WGPUVertexState;  -- webgpu.h:2209
-      primitive : aliased WGPUPrimitiveState;  -- webgpu.h:2210
-      depthStencil : access constant WGPUDepthStencilState;  -- webgpu.h:2211
-      multisample : aliased WGPUMultisampleState;  -- webgpu.h:2212
-      fragment : access constant WGPUFragmentState;  -- webgpu.h:2213
+      nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3549
+      label : aliased T_WGPUStringView;  -- webgpu.h:3550
+      layout : WGPUPipelineLayout;  -- webgpu.h:3551
+      vertex : aliased WGPUVertexState;  -- webgpu.h:3552
+      primitive : aliased WGPUPrimitiveState;  -- webgpu.h:3553
+      depthStencil : access constant WGPUDepthStencilState;  -- webgpu.h:3554
+      multisample : aliased WGPUMultisampleState;  -- webgpu.h:3555
+      fragment : access constant WGPUFragmentState;  -- webgpu.h:3556
    end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:2202
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:3548
 
-  --*
-  --     * This is a \ref NonNullInputString.
-  --
+  -- WGPURenderPassDescriptorMaxDrawCount is deprecated.
+  -- Use WGPURenderPassMaxDrawCount instead.
+   subtype WGPURenderPassDescriptorMaxDrawCount is WGPURenderPassMaxDrawCount;  -- webgpu.h:3572
 
-  --* @}
-  --*
-  -- * Proc pointer type for @ref wgpuCreateInstance:
-  -- * > @copydoc wgpuCreateInstance
-  --
+  -- WGPUShaderModuleSPIRVDescriptor is deprecated.
+  -- Use WGPUShaderSourceSPIRV instead.
+   subtype WGPUShaderModuleSPIRVDescriptor is WGPUShaderSourceSPIRV;  -- webgpu.h:3576
 
-   type WGPUProcCreateInstance is access function (arg1 : access constant T_WGPUInstanceDescriptor) return T_WGPUInstance
-   with Convention => C;  -- webgpu.h:2228
+  -- WGPUShaderModuleWGSLDescriptor is deprecated.
+  -- Use WGPUShaderSourceWGSL instead.
+   subtype WGPUShaderModuleWGSLDescriptor is WGPUShaderSourceWGSL;  -- webgpu.h:3580
 
-  --*
-  -- * Proc pointer type for @ref wgpuGetInstanceCapabilities:
-  -- * > @copydoc wgpuGetInstanceCapabilities
-  --
+  -- WGPUSharedFenceVkSemaphoreSyncFDDescriptor is deprecated.
+  -- Use WGPUSharedFenceSyncFDDescriptor instead.
+   subtype WGPUSharedFenceVkSemaphoreSyncFDDescriptor is WGPUSharedFenceSyncFDDescriptor;  -- webgpu.h:3584
 
-   type WGPUProcGetInstanceCapabilities is access function (arg1 : access T_WGPUInstanceCapabilities) return WGPUStatus
-   with Convention => C;  -- webgpu.h:2233
+  -- WGPUSharedFenceVkSemaphoreSyncFDExportInfo is deprecated.
+  -- Use WGPUSharedFenceSyncFDExportInfo instead.
+   subtype WGPUSharedFenceVkSemaphoreSyncFDExportInfo is WGPUSharedFenceSyncFDExportInfo;  -- webgpu.h:3588
 
-  --*
-  -- * Proc pointer type for @ref wgpuGetProcAddress:
-  -- * > @copydoc wgpuGetProcAddress
-  --
+  -- WGPUSurfaceDescriptorFromAndroidNativeWindow is deprecated.
+  -- Use WGPUSurfaceSourceAndroidNativeWindow instead.
+   subtype WGPUSurfaceDescriptorFromAndroidNativeWindow is WGPUSurfaceSourceAndroidNativeWindow;  -- webgpu.h:3592
 
-   type WGPUProcGetProcAddress is access function (arg1 : WGPUStringView) return WGPUProc
-   with Convention => C;  -- webgpu.h:2238
+  -- WGPUSurfaceDescriptorFromCanvasHTMLSelector is deprecated.
+  -- Use WGPUSurfaceSourceCanvasHTMLSelector_Emscripten instead.
+   subtype WGPUSurfaceDescriptorFromCanvasHTMLSelector is WGPUSurfaceSourceCanvasHTMLSelector_Emscripten;  -- webgpu.h:3596
+
+  -- WGPUSurfaceDescriptorFromMetalLayer is deprecated.
+  -- Use WGPUSurfaceSourceMetalLayer instead.
+   subtype WGPUSurfaceDescriptorFromMetalLayer is WGPUSurfaceSourceMetalLayer;  -- webgpu.h:3600
+
+  -- WGPUSurfaceDescriptorFromWaylandSurface is deprecated.
+  -- Use WGPUSurfaceSourceWaylandSurface instead.
+   subtype WGPUSurfaceDescriptorFromWaylandSurface is WGPUSurfaceSourceWaylandSurface;  -- webgpu.h:3604
+
+  -- WGPUSurfaceDescriptorFromWindowsHWND is deprecated.
+  -- Use WGPUSurfaceSourceWindowsHWND instead.
+   subtype WGPUSurfaceDescriptorFromWindowsHWND is WGPUSurfaceSourceWindowsHWND;  -- webgpu.h:3608
+
+  -- WGPUSurfaceDescriptorFromXcbWindow is deprecated.
+  -- Use WGPUSurfaceSourceXCBWindow instead.
+   subtype WGPUSurfaceDescriptorFromXcbWindow is WGPUSurfaceSourceXCBWindow;  -- webgpu.h:3612
+
+  -- WGPUSurfaceDescriptorFromXlibWindow is deprecated.
+  -- Use WGPUSurfaceSourceXlibWindow instead.
+   subtype WGPUSurfaceDescriptorFromXlibWindow is WGPUSurfaceSourceXlibWindow;  -- webgpu.h:3616
+
+  -- TODO(374150686): Remove these Emscripten specific declarations from the
+  -- header once they are fully deprecated.
+   type WGPUProcAdapterInfoFreeMembers is access procedure (arg1 : WGPUAdapterInfo)
+   with Convention => C;  -- webgpu.h:3630
+
+   type WGPUProcAdapterPropertiesMemoryHeapsFreeMembers is access procedure (arg1 : WGPUAdapterPropertiesMemoryHeaps)
+   with Convention => C;  -- webgpu.h:3631
+
+   type WGPUProcCreateInstance is access function (arg1 : access constant T_WGPUInstanceDescriptor) return WGPUInstance
+   with Convention => C;  -- webgpu.h:3632
+
+   type WGPUProcDrmFormatCapabilitiesFreeMembers is access procedure (arg1 : WGPUDrmFormatCapabilities)
+   with Convention => C;  -- webgpu.h:3633
+
+   type WGPUProcGetInstanceFeatures is access function (arg1 : access WGPUInstanceFeatures) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3634
+
+   type WGPUProcGetProcAddress is access function (arg1 : T_WGPUStringView) return WGPUProc
+   with Convention => C;  -- webgpu.h:3635
+
+   type WGPUProcSharedBufferMemoryEndAccessStateFreeMembers is access procedure (arg1 : WGPUSharedBufferMemoryEndAccessState)
+   with Convention => C;  -- webgpu.h:3636
+
+   type WGPUProcSharedTextureMemoryEndAccessStateFreeMembers is access procedure (arg1 : WGPUSharedTextureMemoryEndAccessState)
+   with Convention => C;  -- webgpu.h:3637
+
+   type WGPUProcSupportedFeaturesFreeMembers is access procedure (arg1 : WGPUSupportedFeatures)
+   with Convention => C;  -- webgpu.h:3638
+
+   type WGPUProcSurfaceCapabilitiesFreeMembers is access procedure (arg1 : WGPUSurfaceCapabilities)
+   with Convention => C;  -- webgpu.h:3639
 
   -- Procs of Adapter
-  --*
-  -- * Proc pointer type for @ref wgpuAdapterGetFeatures:
-  -- * > @copydoc wgpuAdapterGetFeatures
-  --
+   type WGPUProcAdapterCreateDevice is access function (arg1 : WGPUAdapter; arg2 : access constant WGPUDeviceDescriptor) return WGPUDevice
+   with Convention => C;  -- webgpu.h:3642
+
+   type WGPUProcAdapterEnumerateFeatures is access function (arg1 : WGPUAdapter; arg2 : access WGPUFeatureName) return T_Size
+   with Convention => C;  -- webgpu.h:3643
 
    type WGPUProcAdapterGetFeatures is access procedure (arg1 : WGPUAdapter; arg2 : access WGPUSupportedFeatures)
-   with Convention => C;  -- webgpu.h:2245
+   with Convention => C;  -- webgpu.h:3644
 
-  --*
-  -- * Proc pointer type for @ref wgpuAdapterGetInfo:
-  -- * > @copydoc wgpuAdapterGetInfo
-  --
+   type WGPUProcAdapterGetFormatCapabilities is access function
+        (arg1 : WGPUAdapter;
+         arg2 : WGPUTextureFormat;
+         arg3 : access WGPUFormatCapabilities) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3645
 
    type WGPUProcAdapterGetInfo is access function (arg1 : WGPUAdapter; arg2 : access WGPUAdapterInfo) return WGPUStatus
-   with Convention => C;  -- webgpu.h:2250
+   with Convention => C;  -- webgpu.h:3646
 
-  --*
-  -- * Proc pointer type for @ref wgpuAdapterGetLimits:
-  -- * > @copydoc wgpuAdapterGetLimits
-  --
+   type WGPUProcAdapterGetInstance is access function (arg1 : WGPUAdapter) return WGPUInstance
+   with Convention => C;  -- webgpu.h:3647
 
-   type WGPUProcAdapterGetLimits is access function (arg1 : WGPUAdapter; arg2 : access WGPULimits) return WGPUStatus
-   with Convention => C;  -- webgpu.h:2255
-
-  --*
-  -- * Proc pointer type for @ref wgpuAdapterHasFeature:
-  -- * > @copydoc wgpuAdapterHasFeature
-  --
+   type WGPUProcAdapterGetLimits is access function (arg1 : WGPUAdapter; arg2 : access WGPUSupportedLimits) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3648
 
    type WGPUProcAdapterHasFeature is access function (arg1 : WGPUAdapter; arg2 : WGPUFeatureName) return T_WGPUBool
-   with Convention => C;  -- webgpu.h:2260
+   with Convention => C;  -- webgpu.h:3649
 
-  --*
-  -- * Proc pointer type for @ref wgpuAdapterRequestDevice:
-  -- * > @copydoc wgpuAdapterRequestDevice
-  --
+   type WGPUProcAdapterRequestDevice is access procedure
+        (arg1 : WGPUAdapter;
+         arg2 : access constant WGPUDeviceDescriptor;
+         arg3 : WGPURequestDeviceCallback;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:3650
 
-   type WGPUProcAdapterRequestDevice is access function
+   type WGPUProcAdapterRequestDevice2 is access function
+        (arg1 : WGPUAdapter;
+         arg2 : access constant WGPUDeviceDescriptor;
+         arg3 : WGPURequestDeviceCallbackInfo2) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3651
+
+   type WGPUProcAdapterRequestDeviceF is access function
         (arg1 : WGPUAdapter;
          arg2 : access constant WGPUDeviceDescriptor;
          arg3 : WGPURequestDeviceCallbackInfo) return WGPUFuture
-   with Convention => C;  -- webgpu.h:2265
-
-  --*
-  -- * Proc pointer type for @ref wgpuAdapterAddRef.
-  -- * > @copydoc wgpuAdapterAddRef
-  --
+   with Convention => C;  -- webgpu.h:3652
 
    type WGPUProcAdapterAddRef is access procedure (arg1 : WGPUAdapter)
-   with Convention => C;  -- webgpu.h:2270
-
-  --*
-  -- * Proc pointer type for @ref wgpuAdapterRelease.
-  -- * > @copydoc wgpuAdapterRelease
-  --
+   with Convention => C;  -- webgpu.h:3653
 
    type WGPUProcAdapterRelease is access procedure (arg1 : WGPUAdapter)
-   with Convention => C;  -- webgpu.h:2275
-
-  -- Procs of AdapterInfo
-  --*
-  -- * Proc pointer type for @ref wgpuAdapterInfoFreeMembers:
-  -- * > @copydoc wgpuAdapterInfoFreeMembers
-  --
-
-   type WGPUProcAdapterInfoFreeMembers is access procedure (arg1 : WGPUAdapterInfo)
-   with Convention => C;  -- webgpu.h:2282
+   with Convention => C;  -- webgpu.h:3654
 
   -- Procs of BindGroup
-  --*
-  -- * Proc pointer type for @ref wgpuBindGroupSetLabel:
-  -- * > @copydoc wgpuBindGroupSetLabel
-  --
-
-   type WGPUProcBindGroupSetLabel is access procedure (arg1 : WGPUBindGroup; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2289
-
-  --*
-  -- * Proc pointer type for @ref wgpuBindGroupAddRef.
-  -- * > @copydoc wgpuBindGroupAddRef
-  --
+   type WGPUProcBindGroupSetLabel is access procedure (arg1 : WGPUBindGroup; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3657
 
    type WGPUProcBindGroupAddRef is access procedure (arg1 : WGPUBindGroup)
-   with Convention => C;  -- webgpu.h:2294
-
-  --*
-  -- * Proc pointer type for @ref wgpuBindGroupRelease.
-  -- * > @copydoc wgpuBindGroupRelease
-  --
+   with Convention => C;  -- webgpu.h:3658
 
    type WGPUProcBindGroupRelease is access procedure (arg1 : WGPUBindGroup)
-   with Convention => C;  -- webgpu.h:2299
+   with Convention => C;  -- webgpu.h:3659
 
   -- Procs of BindGroupLayout
-  --*
-  -- * Proc pointer type for @ref wgpuBindGroupLayoutSetLabel:
-  -- * > @copydoc wgpuBindGroupLayoutSetLabel
-  --
-
-   type WGPUProcBindGroupLayoutSetLabel is access procedure (arg1 : WGPUBindGroupLayout; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2306
-
-  --*
-  -- * Proc pointer type for @ref wgpuBindGroupLayoutAddRef.
-  -- * > @copydoc wgpuBindGroupLayoutAddRef
-  --
+   type WGPUProcBindGroupLayoutSetLabel is access procedure (arg1 : WGPUBindGroupLayout; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3662
 
    type WGPUProcBindGroupLayoutAddRef is access procedure (arg1 : WGPUBindGroupLayout)
-   with Convention => C;  -- webgpu.h:2311
-
-  --*
-  -- * Proc pointer type for @ref wgpuBindGroupLayoutRelease.
-  -- * > @copydoc wgpuBindGroupLayoutRelease
-  --
+   with Convention => C;  -- webgpu.h:3663
 
    type WGPUProcBindGroupLayoutRelease is access procedure (arg1 : WGPUBindGroupLayout)
-   with Convention => C;  -- webgpu.h:2316
+   with Convention => C;  -- webgpu.h:3664
 
   -- Procs of Buffer
-  --*
-  -- * Proc pointer type for @ref wgpuBufferDestroy:
-  -- * > @copydoc wgpuBufferDestroy
-  --
-
    type WGPUProcBufferDestroy is access procedure (arg1 : WGPUBuffer)
-   with Convention => C;  -- webgpu.h:2323
-
-  --*
-  -- * Proc pointer type for @ref wgpuBufferGetConstMappedRange:
-  -- * > @copydoc wgpuBufferGetConstMappedRange
-  --
+   with Convention => C;  -- webgpu.h:3667
 
    type WGPUProcBufferGetConstMappedRange is access function
         (arg1 : WGPUBuffer;
          arg2 : T_Size;
          arg3 : T_Size) return System.Address
-   with Convention => C;  -- webgpu.h:2328
-
-  --*
-  -- * Proc pointer type for @ref wgpuBufferGetMapState:
-  -- * > @copydoc wgpuBufferGetMapState
-  --
+   with Convention => C;  -- webgpu.h:3668
 
    type WGPUProcBufferGetMapState is access function (arg1 : WGPUBuffer) return WGPUBufferMapState
-   with Convention => C;  -- webgpu.h:2333
-
-  --*
-  -- * Proc pointer type for @ref wgpuBufferGetMappedRange:
-  -- * > @copydoc wgpuBufferGetMappedRange
-  --
+   with Convention => C;  -- webgpu.h:3669
 
    type WGPUProcBufferGetMappedRange is access function
         (arg1 : WGPUBuffer;
          arg2 : T_Size;
          arg3 : T_Size) return System.Address
-   with Convention => C;  -- webgpu.h:2338
-
-  --*
-  -- * Proc pointer type for @ref wgpuBufferGetSize:
-  -- * > @copydoc wgpuBufferGetSize
-  --
+   with Convention => C;  -- webgpu.h:3670
 
    type WGPUProcBufferGetSize is access function (arg1 : WGPUBuffer) return bits_stdint_uintn_h.uint64_t
-   with Convention => C;  -- webgpu.h:2343
-
-  --*
-  -- * Proc pointer type for @ref wgpuBufferGetUsage:
-  -- * > @copydoc wgpuBufferGetUsage
-  --
+   with Convention => C;  -- webgpu.h:3671
 
    type WGPUProcBufferGetUsage is access function (arg1 : WGPUBuffer) return WGPUBufferUsage
-   with Convention => C;  -- webgpu.h:2348
+   with Convention => C;  -- webgpu.h:3672
 
-  --*
-  -- * Proc pointer type for @ref wgpuBufferMapAsync:
-  -- * > @copydoc wgpuBufferMapAsync
-  --
+   type WGPUProcBufferMapAsync is access procedure
+        (arg1 : WGPUBuffer;
+         arg2 : WGPUMapMode;
+         arg3 : T_Size;
+         arg4 : T_Size;
+         arg5 : WGPUBufferMapCallback;
+         arg6 : System.Address)
+   with Convention => C;  -- webgpu.h:3673
 
-   type WGPUProcBufferMapAsync is access function
+   type WGPUProcBufferMapAsync2 is access function
+        (arg1 : WGPUBuffer;
+         arg2 : WGPUMapMode;
+         arg3 : T_Size;
+         arg4 : T_Size;
+         arg5 : WGPUBufferMapCallbackInfo2) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3674
+
+   type WGPUProcBufferMapAsyncF is access function
         (arg1 : WGPUBuffer;
          arg2 : WGPUMapMode;
          arg3 : T_Size;
          arg4 : T_Size;
          arg5 : WGPUBufferMapCallbackInfo) return WGPUFuture
-   with Convention => C;  -- webgpu.h:2353
+   with Convention => C;  -- webgpu.h:3675
 
-  --*
-  -- * Proc pointer type for @ref wgpuBufferSetLabel:
-  -- * > @copydoc wgpuBufferSetLabel
-  --
-
-   type WGPUProcBufferSetLabel is access procedure (arg1 : WGPUBuffer; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2358
-
-  --*
-  -- * Proc pointer type for @ref wgpuBufferUnmap:
-  -- * > @copydoc wgpuBufferUnmap
-  --
+   type WGPUProcBufferSetLabel is access procedure (arg1 : WGPUBuffer; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3676
 
    type WGPUProcBufferUnmap is access procedure (arg1 : WGPUBuffer)
-   with Convention => C;  -- webgpu.h:2363
-
-  --*
-  -- * Proc pointer type for @ref wgpuBufferAddRef.
-  -- * > @copydoc wgpuBufferAddRef
-  --
+   with Convention => C;  -- webgpu.h:3677
 
    type WGPUProcBufferAddRef is access procedure (arg1 : WGPUBuffer)
-   with Convention => C;  -- webgpu.h:2368
-
-  --*
-  -- * Proc pointer type for @ref wgpuBufferRelease.
-  -- * > @copydoc wgpuBufferRelease
-  --
+   with Convention => C;  -- webgpu.h:3678
 
    type WGPUProcBufferRelease is access procedure (arg1 : WGPUBuffer)
-   with Convention => C;  -- webgpu.h:2373
+   with Convention => C;  -- webgpu.h:3679
 
   -- Procs of CommandBuffer
-  --*
-  -- * Proc pointer type for @ref wgpuCommandBufferSetLabel:
-  -- * > @copydoc wgpuCommandBufferSetLabel
-  --
-
-   type WGPUProcCommandBufferSetLabel is access procedure (arg1 : WGPUCommandBuffer; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2380
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandBufferAddRef.
-  -- * > @copydoc wgpuCommandBufferAddRef
-  --
+   type WGPUProcCommandBufferSetLabel is access procedure (arg1 : WGPUCommandBuffer; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3682
 
    type WGPUProcCommandBufferAddRef is access procedure (arg1 : WGPUCommandBuffer)
-   with Convention => C;  -- webgpu.h:2385
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandBufferRelease.
-  -- * > @copydoc wgpuCommandBufferRelease
-  --
+   with Convention => C;  -- webgpu.h:3683
 
    type WGPUProcCommandBufferRelease is access procedure (arg1 : WGPUCommandBuffer)
-   with Convention => C;  -- webgpu.h:2390
+   with Convention => C;  -- webgpu.h:3684
 
   -- Procs of CommandEncoder
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderBeginComputePass:
-  -- * > @copydoc wgpuCommandEncoderBeginComputePass
-  --
-
    type WGPUProcCommandEncoderBeginComputePass is access function (arg1 : WGPUCommandEncoder; arg2 : access constant WGPUComputePassDescriptor) return WGPUComputePassEncoder
-   with Convention => C;  -- webgpu.h:2397
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderBeginRenderPass:
-  -- * > @copydoc wgpuCommandEncoderBeginRenderPass
-  --
+   with Convention => C;  -- webgpu.h:3687
 
    type WGPUProcCommandEncoderBeginRenderPass is access function (arg1 : WGPUCommandEncoder; arg2 : access constant WGPURenderPassDescriptor) return WGPURenderPassEncoder
-   with Convention => C;  -- webgpu.h:2402
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderClearBuffer:
-  -- * > @copydoc wgpuCommandEncoderClearBuffer
-  --
+   with Convention => C;  -- webgpu.h:3688
 
    type WGPUProcCommandEncoderClearBuffer is access procedure
         (arg1 : WGPUCommandEncoder;
          arg2 : WGPUBuffer;
          arg3 : bits_stdint_uintn_h.uint64_t;
          arg4 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2407
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderCopyBufferToBuffer:
-  -- * > @copydoc wgpuCommandEncoderCopyBufferToBuffer
-  --
+   with Convention => C;  -- webgpu.h:3689
 
    type WGPUProcCommandEncoderCopyBufferToBuffer is access procedure
         (arg1 : WGPUCommandEncoder;
@@ -2841,80 +3110,43 @@ package webgpu_h is
          arg4 : WGPUBuffer;
          arg5 : bits_stdint_uintn_h.uint64_t;
          arg6 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2412
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderCopyBufferToTexture:
-  -- * > @copydoc wgpuCommandEncoderCopyBufferToTexture
-  --
+   with Convention => C;  -- webgpu.h:3690
 
    type WGPUProcCommandEncoderCopyBufferToTexture is access procedure
         (arg1 : WGPUCommandEncoder;
-         arg2 : access constant WGPUTexelCopyBufferInfo;
-         arg3 : access constant WGPUTexelCopyTextureInfo;
+         arg2 : access constant WGPUImageCopyBuffer;
+         arg3 : access constant WGPUImageCopyTexture;
          arg4 : access constant WGPUExtent3D)
-   with Convention => C;  -- webgpu.h:2417
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderCopyTextureToBuffer:
-  -- * > @copydoc wgpuCommandEncoderCopyTextureToBuffer
-  --
+   with Convention => C;  -- webgpu.h:3691
 
    type WGPUProcCommandEncoderCopyTextureToBuffer is access procedure
         (arg1 : WGPUCommandEncoder;
-         arg2 : access constant WGPUTexelCopyTextureInfo;
-         arg3 : access constant WGPUTexelCopyBufferInfo;
+         arg2 : access constant WGPUImageCopyTexture;
+         arg3 : access constant WGPUImageCopyBuffer;
          arg4 : access constant WGPUExtent3D)
-   with Convention => C;  -- webgpu.h:2422
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderCopyTextureToTexture:
-  -- * > @copydoc wgpuCommandEncoderCopyTextureToTexture
-  --
+   with Convention => C;  -- webgpu.h:3692
 
    type WGPUProcCommandEncoderCopyTextureToTexture is access procedure
         (arg1 : WGPUCommandEncoder;
-         arg2 : access constant WGPUTexelCopyTextureInfo;
-         arg3 : access constant WGPUTexelCopyTextureInfo;
+         arg2 : access constant WGPUImageCopyTexture;
+         arg3 : access constant WGPUImageCopyTexture;
          arg4 : access constant WGPUExtent3D)
-   with Convention => C;  -- webgpu.h:2427
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderFinish:
-  -- * > @copydoc wgpuCommandEncoderFinish
-  --
+   with Convention => C;  -- webgpu.h:3693
 
    type WGPUProcCommandEncoderFinish is access function (arg1 : WGPUCommandEncoder; arg2 : access constant WGPUCommandBufferDescriptor) return WGPUCommandBuffer
-   with Convention => C;  -- webgpu.h:2432
+   with Convention => C;  -- webgpu.h:3694
 
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderInsertDebugMarker:
-  -- * > @copydoc wgpuCommandEncoderInsertDebugMarker
-  --
+   type WGPUProcCommandEncoderInjectValidationError is access procedure (arg1 : WGPUCommandEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3695
 
-   type WGPUProcCommandEncoderInsertDebugMarker is access procedure (arg1 : WGPUCommandEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2437
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderPopDebugGroup:
-  -- * > @copydoc wgpuCommandEncoderPopDebugGroup
-  --
+   type WGPUProcCommandEncoderInsertDebugMarker is access procedure (arg1 : WGPUCommandEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3696
 
    type WGPUProcCommandEncoderPopDebugGroup is access procedure (arg1 : WGPUCommandEncoder)
-   with Convention => C;  -- webgpu.h:2442
+   with Convention => C;  -- webgpu.h:3697
 
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderPushDebugGroup:
-  -- * > @copydoc wgpuCommandEncoderPushDebugGroup
-  --
-
-   type WGPUProcCommandEncoderPushDebugGroup is access procedure (arg1 : WGPUCommandEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2447
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderResolveQuerySet:
-  -- * > @copydoc wgpuCommandEncoderResolveQuerySet
-  --
+   type WGPUProcCommandEncoderPushDebugGroup is access procedure (arg1 : WGPUCommandEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3698
 
    type WGPUProcCommandEncoderResolveQuerySet is access procedure
         (arg1 : WGPUCommandEncoder;
@@ -2923,103 +3155,56 @@ package webgpu_h is
          arg4 : bits_stdint_uintn_h.uint32_t;
          arg5 : WGPUBuffer;
          arg6 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2452
+   with Convention => C;  -- webgpu.h:3699
 
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderSetLabel:
-  -- * > @copydoc wgpuCommandEncoderSetLabel
-  --
+   type WGPUProcCommandEncoderSetLabel is access procedure (arg1 : WGPUCommandEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3700
 
-   type WGPUProcCommandEncoderSetLabel is access procedure (arg1 : WGPUCommandEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2457
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderWriteTimestamp:
-  -- * > @copydoc wgpuCommandEncoderWriteTimestamp
-  --
+   type WGPUProcCommandEncoderWriteBuffer is access procedure
+        (arg1 : WGPUCommandEncoder;
+         arg2 : WGPUBuffer;
+         arg3 : bits_stdint_uintn_h.uint64_t;
+         arg4 : access bits_stdint_uintn_h.uint8_t;
+         arg5 : bits_stdint_uintn_h.uint64_t)
+   with Convention => C;  -- webgpu.h:3701
 
    type WGPUProcCommandEncoderWriteTimestamp is access procedure
         (arg1 : WGPUCommandEncoder;
          arg2 : WGPUQuerySet;
          arg3 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2462
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderAddRef.
-  -- * > @copydoc wgpuCommandEncoderAddRef
-  --
+   with Convention => C;  -- webgpu.h:3702
 
    type WGPUProcCommandEncoderAddRef is access procedure (arg1 : WGPUCommandEncoder)
-   with Convention => C;  -- webgpu.h:2467
-
-  --*
-  -- * Proc pointer type for @ref wgpuCommandEncoderRelease.
-  -- * > @copydoc wgpuCommandEncoderRelease
-  --
+   with Convention => C;  -- webgpu.h:3703
 
    type WGPUProcCommandEncoderRelease is access procedure (arg1 : WGPUCommandEncoder)
-   with Convention => C;  -- webgpu.h:2472
+   with Convention => C;  -- webgpu.h:3704
 
   -- Procs of ComputePassEncoder
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderDispatchWorkgroups:
-  -- * > @copydoc wgpuComputePassEncoderDispatchWorkgroups
-  --
-
    type WGPUProcComputePassEncoderDispatchWorkgroups is access procedure
         (arg1 : WGPUComputePassEncoder;
          arg2 : bits_stdint_uintn_h.uint32_t;
          arg3 : bits_stdint_uintn_h.uint32_t;
          arg4 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2479
-
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderDispatchWorkgroupsIndirect:
-  -- * > @copydoc wgpuComputePassEncoderDispatchWorkgroupsIndirect
-  --
+   with Convention => C;  -- webgpu.h:3707
 
    type WGPUProcComputePassEncoderDispatchWorkgroupsIndirect is access procedure
         (arg1 : WGPUComputePassEncoder;
          arg2 : WGPUBuffer;
          arg3 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2484
-
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderEnd:
-  -- * > @copydoc wgpuComputePassEncoderEnd
-  --
+   with Convention => C;  -- webgpu.h:3708
 
    type WGPUProcComputePassEncoderEnd is access procedure (arg1 : WGPUComputePassEncoder)
-   with Convention => C;  -- webgpu.h:2489
+   with Convention => C;  -- webgpu.h:3709
 
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderInsertDebugMarker:
-  -- * > @copydoc wgpuComputePassEncoderInsertDebugMarker
-  --
-
-   type WGPUProcComputePassEncoderInsertDebugMarker is access procedure (arg1 : WGPUComputePassEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2494
-
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderPopDebugGroup:
-  -- * > @copydoc wgpuComputePassEncoderPopDebugGroup
-  --
+   type WGPUProcComputePassEncoderInsertDebugMarker is access procedure (arg1 : WGPUComputePassEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3710
 
    type WGPUProcComputePassEncoderPopDebugGroup is access procedure (arg1 : WGPUComputePassEncoder)
-   with Convention => C;  -- webgpu.h:2499
+   with Convention => C;  -- webgpu.h:3711
 
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderPushDebugGroup:
-  -- * > @copydoc wgpuComputePassEncoderPushDebugGroup
-  --
-
-   type WGPUProcComputePassEncoderPushDebugGroup is access procedure (arg1 : WGPUComputePassEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2504
-
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderSetBindGroup:
-  -- * > @copydoc wgpuComputePassEncoderSetBindGroup
-  --
+   type WGPUProcComputePassEncoderPushDebugGroup is access procedure (arg1 : WGPUComputePassEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3712
 
    type WGPUProcComputePassEncoderSetBindGroup is access procedure
         (arg1 : WGPUComputePassEncoder;
@@ -3027,466 +3212,361 @@ package webgpu_h is
          arg3 : WGPUBindGroup;
          arg4 : T_Size;
          arg5 : access bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2509
+   with Convention => C;  -- webgpu.h:3713
 
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderSetLabel:
-  -- * > @copydoc wgpuComputePassEncoderSetLabel
-  --
-
-   type WGPUProcComputePassEncoderSetLabel is access procedure (arg1 : WGPUComputePassEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2514
-
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderSetPipeline:
-  -- * > @copydoc wgpuComputePassEncoderSetPipeline
-  --
+   type WGPUProcComputePassEncoderSetLabel is access procedure (arg1 : WGPUComputePassEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3714
 
    type WGPUProcComputePassEncoderSetPipeline is access procedure (arg1 : WGPUComputePassEncoder; arg2 : WGPUComputePipeline)
-   with Convention => C;  -- webgpu.h:2519
+   with Convention => C;  -- webgpu.h:3715
 
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderAddRef.
-  -- * > @copydoc wgpuComputePassEncoderAddRef
-  --
+   type WGPUProcComputePassEncoderWriteTimestamp is access procedure
+        (arg1 : WGPUComputePassEncoder;
+         arg2 : WGPUQuerySet;
+         arg3 : bits_stdint_uintn_h.uint32_t)
+   with Convention => C;  -- webgpu.h:3716
 
    type WGPUProcComputePassEncoderAddRef is access procedure (arg1 : WGPUComputePassEncoder)
-   with Convention => C;  -- webgpu.h:2524
-
-  --*
-  -- * Proc pointer type for @ref wgpuComputePassEncoderRelease.
-  -- * > @copydoc wgpuComputePassEncoderRelease
-  --
+   with Convention => C;  -- webgpu.h:3717
 
    type WGPUProcComputePassEncoderRelease is access procedure (arg1 : WGPUComputePassEncoder)
-   with Convention => C;  -- webgpu.h:2529
+   with Convention => C;  -- webgpu.h:3718
 
   -- Procs of ComputePipeline
-  --*
-  -- * Proc pointer type for @ref wgpuComputePipelineGetBindGroupLayout:
-  -- * > @copydoc wgpuComputePipelineGetBindGroupLayout
-  --
-
    type WGPUProcComputePipelineGetBindGroupLayout is access function (arg1 : WGPUComputePipeline; arg2 : bits_stdint_uintn_h.uint32_t) return WGPUBindGroupLayout
-   with Convention => C;  -- webgpu.h:2536
+   with Convention => C;  -- webgpu.h:3721
 
-  --*
-  -- * Proc pointer type for @ref wgpuComputePipelineSetLabel:
-  -- * > @copydoc wgpuComputePipelineSetLabel
-  --
-
-   type WGPUProcComputePipelineSetLabel is access procedure (arg1 : WGPUComputePipeline; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2541
-
-  --*
-  -- * Proc pointer type for @ref wgpuComputePipelineAddRef.
-  -- * > @copydoc wgpuComputePipelineAddRef
-  --
+   type WGPUProcComputePipelineSetLabel is access procedure (arg1 : WGPUComputePipeline; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3722
 
    type WGPUProcComputePipelineAddRef is access procedure (arg1 : WGPUComputePipeline)
-   with Convention => C;  -- webgpu.h:2546
-
-  --*
-  -- * Proc pointer type for @ref wgpuComputePipelineRelease.
-  -- * > @copydoc wgpuComputePipelineRelease
-  --
+   with Convention => C;  -- webgpu.h:3723
 
    type WGPUProcComputePipelineRelease is access procedure (arg1 : WGPUComputePipeline)
-   with Convention => C;  -- webgpu.h:2551
+   with Convention => C;  -- webgpu.h:3724
 
   -- Procs of Device
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateBindGroup:
-  -- * > @copydoc wgpuDeviceCreateBindGroup
-  --
-
    type WGPUProcDeviceCreateBindGroup is access function (arg1 : WGPUDevice; arg2 : access constant WGPUBindGroupDescriptor) return WGPUBindGroup
-   with Convention => C;  -- webgpu.h:2558
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateBindGroupLayout:
-  -- * > @copydoc wgpuDeviceCreateBindGroupLayout
-  --
+   with Convention => C;  -- webgpu.h:3727
 
    type WGPUProcDeviceCreateBindGroupLayout is access function (arg1 : WGPUDevice; arg2 : access constant WGPUBindGroupLayoutDescriptor) return WGPUBindGroupLayout
-   with Convention => C;  -- webgpu.h:2563
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateBuffer:
-  -- * > @copydoc wgpuDeviceCreateBuffer
-  --
+   with Convention => C;  -- webgpu.h:3728
 
    type WGPUProcDeviceCreateBuffer is access function (arg1 : WGPUDevice; arg2 : access constant WGPUBufferDescriptor) return WGPUBuffer
-   with Convention => C;  -- webgpu.h:2568
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateCommandEncoder:
-  -- * > @copydoc wgpuDeviceCreateCommandEncoder
-  --
+   with Convention => C;  -- webgpu.h:3729
 
    type WGPUProcDeviceCreateCommandEncoder is access function (arg1 : WGPUDevice; arg2 : access constant WGPUCommandEncoderDescriptor) return WGPUCommandEncoder
-   with Convention => C;  -- webgpu.h:2573
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateComputePipeline:
-  -- * > @copydoc wgpuDeviceCreateComputePipeline
-  --
+   with Convention => C;  -- webgpu.h:3730
 
    type WGPUProcDeviceCreateComputePipeline is access function (arg1 : WGPUDevice; arg2 : access constant WGPUComputePipelineDescriptor) return WGPUComputePipeline
-   with Convention => C;  -- webgpu.h:2578
+   with Convention => C;  -- webgpu.h:3731
 
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateComputePipelineAsync:
-  -- * > @copydoc wgpuDeviceCreateComputePipelineAsync
-  --
+   type WGPUProcDeviceCreateComputePipelineAsync is access procedure
+        (arg1 : WGPUDevice;
+         arg2 : access constant WGPUComputePipelineDescriptor;
+         arg3 : WGPUCreateComputePipelineAsyncCallback;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:3732
 
-   type WGPUProcDeviceCreateComputePipelineAsync is access function
+   type WGPUProcDeviceCreateComputePipelineAsync2 is access function
+        (arg1 : WGPUDevice;
+         arg2 : access constant WGPUComputePipelineDescriptor;
+         arg3 : WGPUCreateComputePipelineAsyncCallbackInfo2) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3733
+
+   type WGPUProcDeviceCreateComputePipelineAsyncF is access function
         (arg1 : WGPUDevice;
          arg2 : access constant WGPUComputePipelineDescriptor;
          arg3 : WGPUCreateComputePipelineAsyncCallbackInfo) return WGPUFuture
-   with Convention => C;  -- webgpu.h:2583
+   with Convention => C;  -- webgpu.h:3734
 
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreatePipelineLayout:
-  -- * > @copydoc wgpuDeviceCreatePipelineLayout
-  --
+   type WGPUProcDeviceCreateErrorBuffer is access function (arg1 : WGPUDevice; arg2 : access constant WGPUBufferDescriptor) return WGPUBuffer
+   with Convention => C;  -- webgpu.h:3735
+
+   type WGPUProcDeviceCreateErrorExternalTexture is access function (arg1 : WGPUDevice) return WGPUExternalTexture
+   with Convention => C;  -- webgpu.h:3736
+
+   type WGPUProcDeviceCreateErrorShaderModule is access function
+        (arg1 : WGPUDevice;
+         arg2 : access constant WGPUShaderModuleDescriptor;
+         arg3 : T_WGPUStringView) return WGPUShaderModule
+   with Convention => C;  -- webgpu.h:3737
+
+   type WGPUProcDeviceCreateErrorTexture is access function (arg1 : WGPUDevice; arg2 : access constant WGPUTextureDescriptor) return WGPUTexture
+   with Convention => C;  -- webgpu.h:3738
+
+   type WGPUProcDeviceCreateExternalTexture is access function (arg1 : WGPUDevice; arg2 : access constant WGPUExternalTextureDescriptor) return WGPUExternalTexture
+   with Convention => C;  -- webgpu.h:3739
 
    type WGPUProcDeviceCreatePipelineLayout is access function (arg1 : WGPUDevice; arg2 : access constant WGPUPipelineLayoutDescriptor) return WGPUPipelineLayout
-   with Convention => C;  -- webgpu.h:2588
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateQuerySet:
-  -- * > @copydoc wgpuDeviceCreateQuerySet
-  --
+   with Convention => C;  -- webgpu.h:3740
 
    type WGPUProcDeviceCreateQuerySet is access function (arg1 : WGPUDevice; arg2 : access constant WGPUQuerySetDescriptor) return WGPUQuerySet
-   with Convention => C;  -- webgpu.h:2593
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateRenderBundleEncoder:
-  -- * > @copydoc wgpuDeviceCreateRenderBundleEncoder
-  --
+   with Convention => C;  -- webgpu.h:3741
 
    type WGPUProcDeviceCreateRenderBundleEncoder is access function (arg1 : WGPUDevice; arg2 : access constant WGPURenderBundleEncoderDescriptor) return WGPURenderBundleEncoder
-   with Convention => C;  -- webgpu.h:2598
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateRenderPipeline:
-  -- * > @copydoc wgpuDeviceCreateRenderPipeline
-  --
+   with Convention => C;  -- webgpu.h:3742
 
    type WGPUProcDeviceCreateRenderPipeline is access function (arg1 : WGPUDevice; arg2 : access constant WGPURenderPipelineDescriptor) return WGPURenderPipeline
-   with Convention => C;  -- webgpu.h:2603
+   with Convention => C;  -- webgpu.h:3743
 
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateRenderPipelineAsync:
-  -- * > @copydoc wgpuDeviceCreateRenderPipelineAsync
-  --
+   type WGPUProcDeviceCreateRenderPipelineAsync is access procedure
+        (arg1 : WGPUDevice;
+         arg2 : access constant WGPURenderPipelineDescriptor;
+         arg3 : WGPUCreateRenderPipelineAsyncCallback;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:3744
 
-   type WGPUProcDeviceCreateRenderPipelineAsync is access function
+   type WGPUProcDeviceCreateRenderPipelineAsync2 is access function
+        (arg1 : WGPUDevice;
+         arg2 : access constant WGPURenderPipelineDescriptor;
+         arg3 : WGPUCreateRenderPipelineAsyncCallbackInfo2) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3745
+
+   type WGPUProcDeviceCreateRenderPipelineAsyncF is access function
         (arg1 : WGPUDevice;
          arg2 : access constant WGPURenderPipelineDescriptor;
          arg3 : WGPUCreateRenderPipelineAsyncCallbackInfo) return WGPUFuture
-   with Convention => C;  -- webgpu.h:2608
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateSampler:
-  -- * > @copydoc wgpuDeviceCreateSampler
-  --
+   with Convention => C;  -- webgpu.h:3746
 
    type WGPUProcDeviceCreateSampler is access function (arg1 : WGPUDevice; arg2 : access constant WGPUSamplerDescriptor) return WGPUSampler
-   with Convention => C;  -- webgpu.h:2613
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateShaderModule:
-  -- * > @copydoc wgpuDeviceCreateShaderModule
-  --
+   with Convention => C;  -- webgpu.h:3747
 
    type WGPUProcDeviceCreateShaderModule is access function (arg1 : WGPUDevice; arg2 : access constant WGPUShaderModuleDescriptor) return WGPUShaderModule
-   with Convention => C;  -- webgpu.h:2618
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceCreateTexture:
-  -- * > @copydoc wgpuDeviceCreateTexture
-  --
+   with Convention => C;  -- webgpu.h:3748
 
    type WGPUProcDeviceCreateTexture is access function (arg1 : WGPUDevice; arg2 : access constant WGPUTextureDescriptor) return WGPUTexture
-   with Convention => C;  -- webgpu.h:2623
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceDestroy:
-  -- * > @copydoc wgpuDeviceDestroy
-  --
+   with Convention => C;  -- webgpu.h:3749
 
    type WGPUProcDeviceDestroy is access procedure (arg1 : WGPUDevice)
-   with Convention => C;  -- webgpu.h:2628
+   with Convention => C;  -- webgpu.h:3750
 
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceGetAdapterInfo:
-  -- * > @copydoc wgpuDeviceGetAdapterInfo
-  --
+   type WGPUProcDeviceEnumerateFeatures is access function (arg1 : WGPUDevice; arg2 : access WGPUFeatureName) return T_Size
+   with Convention => C;  -- webgpu.h:3751
 
-   type WGPUProcDeviceGetAdapterInfo is access function (arg1 : WGPUDevice) return WGPUAdapterInfo
-   with Convention => C;  -- webgpu.h:2633
+   type WGPUProcDeviceForceLoss is access procedure
+        (arg1 : WGPUDevice;
+         arg2 : WGPUDeviceLostReason;
+         arg3 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3752
 
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceGetFeatures:
-  -- * > @copydoc wgpuDeviceGetFeatures
-  --
+   type WGPUProcDeviceGetAHardwareBufferProperties is access function
+        (arg1 : WGPUDevice;
+         arg2 : System.Address;
+         arg3 : access WGPUAHardwareBufferProperties) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3753
+
+   type WGPUProcDeviceGetAdapter is access function (arg1 : WGPUDevice) return WGPUAdapter
+   with Convention => C;  -- webgpu.h:3754
 
    type WGPUProcDeviceGetFeatures is access procedure (arg1 : WGPUDevice; arg2 : access WGPUSupportedFeatures)
-   with Convention => C;  -- webgpu.h:2638
+   with Convention => C;  -- webgpu.h:3755
 
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceGetLimits:
-  -- * > @copydoc wgpuDeviceGetLimits
-  --
-
-   type WGPUProcDeviceGetLimits is access function (arg1 : WGPUDevice; arg2 : access WGPULimits) return WGPUStatus
-   with Convention => C;  -- webgpu.h:2643
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceGetLostFuture:
-  -- * > @copydoc wgpuDeviceGetLostFuture
-  --
+   type WGPUProcDeviceGetLimits is access function (arg1 : WGPUDevice; arg2 : access WGPUSupportedLimits) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3756
 
    type WGPUProcDeviceGetLostFuture is access function (arg1 : WGPUDevice) return WGPUFuture
-   with Convention => C;  -- webgpu.h:2648
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceGetQueue:
-  -- * > @copydoc wgpuDeviceGetQueue
-  --
+   with Convention => C;  -- webgpu.h:3757
 
    type WGPUProcDeviceGetQueue is access function (arg1 : WGPUDevice) return WGPUQueue
-   with Convention => C;  -- webgpu.h:2653
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceHasFeature:
-  -- * > @copydoc wgpuDeviceHasFeature
-  --
+   with Convention => C;  -- webgpu.h:3758
 
    type WGPUProcDeviceHasFeature is access function (arg1 : WGPUDevice; arg2 : WGPUFeatureName) return T_WGPUBool
-   with Convention => C;  -- webgpu.h:2658
+   with Convention => C;  -- webgpu.h:3759
 
-  --*
-  -- * Proc pointer type for @ref wgpuDevicePopErrorScope:
-  -- * > @copydoc wgpuDevicePopErrorScope
-  --
+   type WGPUProcDeviceImportSharedBufferMemory is access function (arg1 : WGPUDevice; arg2 : access constant WGPUSharedBufferMemoryDescriptor) return WGPUSharedBufferMemory
+   with Convention => C;  -- webgpu.h:3760
 
-   type WGPUProcDevicePopErrorScope is access function (arg1 : WGPUDevice; arg2 : WGPUPopErrorScopeCallbackInfo) return WGPUFuture
-   with Convention => C;  -- webgpu.h:2663
+   type WGPUProcDeviceImportSharedFence is access function (arg1 : WGPUDevice; arg2 : access constant WGPUSharedFenceDescriptor) return WGPUSharedFence
+   with Convention => C;  -- webgpu.h:3761
 
-  --*
-  -- * Proc pointer type for @ref wgpuDevicePushErrorScope:
-  -- * > @copydoc wgpuDevicePushErrorScope
-  --
+   type WGPUProcDeviceImportSharedTextureMemory is access function (arg1 : WGPUDevice; arg2 : access constant WGPUSharedTextureMemoryDescriptor) return WGPUSharedTextureMemory
+   with Convention => C;  -- webgpu.h:3762
+
+   type WGPUProcDeviceInjectError is access procedure
+        (arg1 : WGPUDevice;
+         arg2 : WGPUErrorType;
+         arg3 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3763
+
+   type WGPUProcDevicePopErrorScope is access procedure
+        (arg1 : WGPUDevice;
+         arg2 : WGPUErrorCallback;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:3764
+
+   type WGPUProcDevicePopErrorScope2 is access function (arg1 : WGPUDevice; arg2 : WGPUPopErrorScopeCallbackInfo2) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3765
+
+   type WGPUProcDevicePopErrorScopeF is access function (arg1 : WGPUDevice; arg2 : WGPUPopErrorScopeCallbackInfo) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3766
 
    type WGPUProcDevicePushErrorScope is access procedure (arg1 : WGPUDevice; arg2 : WGPUErrorFilter)
-   with Convention => C;  -- webgpu.h:2668
+   with Convention => C;  -- webgpu.h:3767
 
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceSetLabel:
-  -- * > @copydoc wgpuDeviceSetLabel
-  --
+   type WGPUProcDeviceSetDeviceLostCallback is access procedure
+        (arg1 : WGPUDevice;
+         arg2 : WGPUDeviceLostCallback;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:3768
 
-   type WGPUProcDeviceSetLabel is access procedure (arg1 : WGPUDevice; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2673
+   type WGPUProcDeviceSetLabel is access procedure (arg1 : WGPUDevice; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3769
 
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceAddRef.
-  -- * > @copydoc wgpuDeviceAddRef
-  --
+   type WGPUProcDeviceSetLoggingCallback is access procedure
+        (arg1 : WGPUDevice;
+         arg2 : WGPULoggingCallback;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:3770
+
+   type WGPUProcDeviceSetUncapturedErrorCallback is access procedure
+        (arg1 : WGPUDevice;
+         arg2 : WGPUErrorCallback;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:3771
+
+   type WGPUProcDeviceTick is access procedure (arg1 : WGPUDevice)
+   with Convention => C;  -- webgpu.h:3772
+
+   type WGPUProcDeviceValidateTextureDescriptor is access procedure (arg1 : WGPUDevice; arg2 : access constant WGPUTextureDescriptor)
+   with Convention => C;  -- webgpu.h:3773
 
    type WGPUProcDeviceAddRef is access procedure (arg1 : WGPUDevice)
-   with Convention => C;  -- webgpu.h:2678
-
-  --*
-  -- * Proc pointer type for @ref wgpuDeviceRelease.
-  -- * > @copydoc wgpuDeviceRelease
-  --
+   with Convention => C;  -- webgpu.h:3774
 
    type WGPUProcDeviceRelease is access procedure (arg1 : WGPUDevice)
-   with Convention => C;  -- webgpu.h:2683
+   with Convention => C;  -- webgpu.h:3775
+
+  -- Procs of ExternalTexture
+   type WGPUProcExternalTextureDestroy is access procedure (arg1 : WGPUExternalTexture)
+   with Convention => C;  -- webgpu.h:3778
+
+   type WGPUProcExternalTextureExpire is access procedure (arg1 : WGPUExternalTexture)
+   with Convention => C;  -- webgpu.h:3779
+
+   type WGPUProcExternalTextureRefresh is access procedure (arg1 : WGPUExternalTexture)
+   with Convention => C;  -- webgpu.h:3780
+
+   type WGPUProcExternalTextureSetLabel is access procedure (arg1 : WGPUExternalTexture; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3781
+
+   type WGPUProcExternalTextureAddRef is access procedure (arg1 : WGPUExternalTexture)
+   with Convention => C;  -- webgpu.h:3782
+
+   type WGPUProcExternalTextureRelease is access procedure (arg1 : WGPUExternalTexture)
+   with Convention => C;  -- webgpu.h:3783
 
   -- Procs of Instance
-  --*
-  -- * Proc pointer type for @ref wgpuInstanceCreateSurface:
-  -- * > @copydoc wgpuInstanceCreateSurface
-  --
+   type WGPUProcInstanceCreateSurface is access function (arg1 : WGPUInstance; arg2 : access constant WGPUSurfaceDescriptor) return WGPUSurface
+   with Convention => C;  -- webgpu.h:3786
 
-   type WGPUProcInstanceCreateSurface is access function (arg1 : T_WGPUInstance; arg2 : access constant WGPUSurfaceDescriptor) return WGPUSurface
-   with Convention => C;  -- webgpu.h:2690
+   type WGPUProcInstanceEnumerateWGSLLanguageFeatures is access function (arg1 : WGPUInstance; arg2 : access WGPUWGSLFeatureName) return T_Size
+   with Convention => C;  -- webgpu.h:3787
 
-  --*
-  -- * Proc pointer type for @ref wgpuInstanceGetWGSLLanguageFeatures:
-  -- * > @copydoc wgpuInstanceGetWGSLLanguageFeatures
-  --
+   type WGPUProcInstanceHasWGSLLanguageFeature is access function (arg1 : WGPUInstance; arg2 : WGPUWGSLFeatureName) return T_WGPUBool
+   with Convention => C;  -- webgpu.h:3788
 
-   type WGPUProcInstanceGetWGSLLanguageFeatures is access function (arg1 : T_WGPUInstance; arg2 : access WGPUSupportedWGSLLanguageFeatures) return WGPUStatus
-   with Convention => C;  -- webgpu.h:2695
+   type WGPUProcInstanceProcessEvents is access procedure (arg1 : WGPUInstance)
+   with Convention => C;  -- webgpu.h:3789
 
-  --*
-  -- * Proc pointer type for @ref wgpuInstanceHasWGSLLanguageFeature:
-  -- * > @copydoc wgpuInstanceHasWGSLLanguageFeature
-  --
+   type WGPUProcInstanceRequestAdapter is access procedure
+        (arg1 : WGPUInstance;
+         arg2 : access constant T_WGPURequestAdapterOptions;
+         arg3 : WGPURequestAdapterCallback;
+         arg4 : System.Address)
+   with Convention => C;  -- webgpu.h:3790
 
-   type WGPUProcInstanceHasWGSLLanguageFeature is access function (arg1 : T_WGPUInstance; arg2 : WGPUWGSLLanguageFeatureName) return T_WGPUBool
-   with Convention => C;  -- webgpu.h:2700
+   type WGPUProcInstanceRequestAdapter2 is access function
+        (arg1 : WGPUInstance;
+         arg2 : access constant T_WGPURequestAdapterOptions;
+         arg3 : WGPURequestAdapterCallbackInfo2) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3791
 
-  --*
-  -- * Proc pointer type for @ref wgpuInstanceProcessEvents:
-  -- * > @copydoc wgpuInstanceProcessEvents
-  --
-
-   type WGPUProcInstanceProcessEvents is access procedure (arg1 : T_WGPUInstance)
-   with Convention => C;  -- webgpu.h:2705
-
-  --*
-  -- * Proc pointer type for @ref wgpuInstanceRequestAdapter:
-  -- * > @copydoc wgpuInstanceRequestAdapter
-  --
-
-   type WGPUProcInstanceRequestAdapter is access function
-        (arg1 : T_WGPUInstance;
-         arg2 : access constant WGPURequestAdapterOptions;
+   type WGPUProcInstanceRequestAdapterF is access function
+        (arg1 : WGPUInstance;
+         arg2 : access constant T_WGPURequestAdapterOptions;
          arg3 : WGPURequestAdapterCallbackInfo) return WGPUFuture
-   with Convention => C;  -- webgpu.h:2710
-
-  --*
-  -- * Proc pointer type for @ref wgpuInstanceWaitAny:
-  -- * > @copydoc wgpuInstanceWaitAny
-  --
+   with Convention => C;  -- webgpu.h:3792
 
    type WGPUProcInstanceWaitAny is access function
-        (arg1 : T_WGPUInstance;
+        (arg1 : WGPUInstance;
          arg2 : T_Size;
          arg3 : access WGPUFutureWaitInfo;
          arg4 : bits_stdint_uintn_h.uint64_t) return WGPUWaitStatus
-   with Convention => C;  -- webgpu.h:2715
+   with Convention => C;  -- webgpu.h:3793
 
-  --*
-  -- * Proc pointer type for @ref wgpuInstanceAddRef.
-  -- * > @copydoc wgpuInstanceAddRef
-  --
+   type WGPUProcInstanceAddRef is access procedure (arg1 : WGPUInstance)
+   with Convention => C;  -- webgpu.h:3794
 
-   type WGPUProcInstanceAddRef is access procedure (arg1 : T_WGPUInstance)
-   with Convention => C;  -- webgpu.h:2720
-
-  --*
-  -- * Proc pointer type for @ref wgpuInstanceRelease.
-  -- * > @copydoc wgpuInstanceRelease
-  --
-
-   type WGPUProcInstanceRelease is access procedure (arg1 : T_WGPUInstance)
-   with Convention => C;  -- webgpu.h:2725
+   type WGPUProcInstanceRelease is access procedure (arg1 : WGPUInstance)
+   with Convention => C;  -- webgpu.h:3795
 
   -- Procs of PipelineLayout
-  --*
-  -- * Proc pointer type for @ref wgpuPipelineLayoutSetLabel:
-  -- * > @copydoc wgpuPipelineLayoutSetLabel
-  --
-
-   type WGPUProcPipelineLayoutSetLabel is access procedure (arg1 : WGPUPipelineLayout; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2732
-
-  --*
-  -- * Proc pointer type for @ref wgpuPipelineLayoutAddRef.
-  -- * > @copydoc wgpuPipelineLayoutAddRef
-  --
+   type WGPUProcPipelineLayoutSetLabel is access procedure (arg1 : WGPUPipelineLayout; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3798
 
    type WGPUProcPipelineLayoutAddRef is access procedure (arg1 : WGPUPipelineLayout)
-   with Convention => C;  -- webgpu.h:2737
-
-  --*
-  -- * Proc pointer type for @ref wgpuPipelineLayoutRelease.
-  -- * > @copydoc wgpuPipelineLayoutRelease
-  --
+   with Convention => C;  -- webgpu.h:3799
 
    type WGPUProcPipelineLayoutRelease is access procedure (arg1 : WGPUPipelineLayout)
-   with Convention => C;  -- webgpu.h:2742
+   with Convention => C;  -- webgpu.h:3800
 
   -- Procs of QuerySet
-  --*
-  -- * Proc pointer type for @ref wgpuQuerySetDestroy:
-  -- * > @copydoc wgpuQuerySetDestroy
-  --
-
    type WGPUProcQuerySetDestroy is access procedure (arg1 : WGPUQuerySet)
-   with Convention => C;  -- webgpu.h:2749
-
-  --*
-  -- * Proc pointer type for @ref wgpuQuerySetGetCount:
-  -- * > @copydoc wgpuQuerySetGetCount
-  --
+   with Convention => C;  -- webgpu.h:3803
 
    type WGPUProcQuerySetGetCount is access function (arg1 : WGPUQuerySet) return bits_stdint_uintn_h.uint32_t
-   with Convention => C;  -- webgpu.h:2754
-
-  --*
-  -- * Proc pointer type for @ref wgpuQuerySetGetType:
-  -- * > @copydoc wgpuQuerySetGetType
-  --
+   with Convention => C;  -- webgpu.h:3804
 
    type WGPUProcQuerySetGetType is access function (arg1 : WGPUQuerySet) return WGPUQueryType
-   with Convention => C;  -- webgpu.h:2759
+   with Convention => C;  -- webgpu.h:3805
 
-  --*
-  -- * Proc pointer type for @ref wgpuQuerySetSetLabel:
-  -- * > @copydoc wgpuQuerySetSetLabel
-  --
-
-   type WGPUProcQuerySetSetLabel is access procedure (arg1 : WGPUQuerySet; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2764
-
-  --*
-  -- * Proc pointer type for @ref wgpuQuerySetAddRef.
-  -- * > @copydoc wgpuQuerySetAddRef
-  --
+   type WGPUProcQuerySetSetLabel is access procedure (arg1 : WGPUQuerySet; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3806
 
    type WGPUProcQuerySetAddRef is access procedure (arg1 : WGPUQuerySet)
-   with Convention => C;  -- webgpu.h:2769
-
-  --*
-  -- * Proc pointer type for @ref wgpuQuerySetRelease.
-  -- * > @copydoc wgpuQuerySetRelease
-  --
+   with Convention => C;  -- webgpu.h:3807
 
    type WGPUProcQuerySetRelease is access procedure (arg1 : WGPUQuerySet)
-   with Convention => C;  -- webgpu.h:2774
+   with Convention => C;  -- webgpu.h:3808
 
   -- Procs of Queue
-  --*
-  -- * Proc pointer type for @ref wgpuQueueOnSubmittedWorkDone:
-  -- * > @copydoc wgpuQueueOnSubmittedWorkDone
-  --
+   type WGPUProcQueueCopyExternalTextureForBrowser is access procedure
+        (arg1 : WGPUQueue;
+         arg2 : access constant WGPUImageCopyExternalTexture;
+         arg3 : access constant WGPUImageCopyTexture;
+         arg4 : access constant WGPUExtent3D;
+         arg5 : access constant WGPUCopyTextureForBrowserOptions)
+   with Convention => C;  -- webgpu.h:3811
 
-   type WGPUProcQueueOnSubmittedWorkDone is access function (arg1 : WGPUQueue; arg2 : WGPUQueueWorkDoneCallbackInfo) return WGPUFuture
-   with Convention => C;  -- webgpu.h:2781
+   type WGPUProcQueueCopyTextureForBrowser is access procedure
+        (arg1 : WGPUQueue;
+         arg2 : access constant WGPUImageCopyTexture;
+         arg3 : access constant WGPUImageCopyTexture;
+         arg4 : access constant WGPUExtent3D;
+         arg5 : access constant WGPUCopyTextureForBrowserOptions)
+   with Convention => C;  -- webgpu.h:3812
 
-  --*
-  -- * Proc pointer type for @ref wgpuQueueSetLabel:
-  -- * > @copydoc wgpuQueueSetLabel
-  --
+   type WGPUProcQueueOnSubmittedWorkDone is access procedure
+        (arg1 : WGPUQueue;
+         arg2 : WGPUQueueWorkDoneCallback;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:3813
 
-   type WGPUProcQueueSetLabel is access procedure (arg1 : WGPUQueue; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2786
+   type WGPUProcQueueOnSubmittedWorkDone2 is access function (arg1 : WGPUQueue; arg2 : WGPUQueueWorkDoneCallbackInfo2) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3814
 
-  --*
-  -- * Proc pointer type for @ref wgpuQueueSubmit:
-  -- * > @copydoc wgpuQueueSubmit
-  --
+   type WGPUProcQueueOnSubmittedWorkDoneF is access function (arg1 : WGPUQueue; arg2 : WGPUQueueWorkDoneCallbackInfo) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3815
+
+   type WGPUProcQueueSetLabel is access procedure (arg1 : WGPUQueue; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3816
 
    type WGPUProcQueueSubmit is access procedure
         (arg1 : WGPUQueue;
          arg2 : T_Size;
          arg3 : System.Address)
-   with Convention => C;  -- webgpu.h:2791
-
-  --*
-  -- * Proc pointer type for @ref wgpuQueueWriteBuffer:
-  -- * > @copydoc wgpuQueueWriteBuffer
-  --
+   with Convention => C;  -- webgpu.h:3817
 
    type WGPUProcQueueWriteBuffer is access procedure
         (arg1 : WGPUQueue;
@@ -3494,81 +3574,41 @@ package webgpu_h is
          arg3 : bits_stdint_uintn_h.uint64_t;
          arg4 : System.Address;
          arg5 : T_Size)
-   with Convention => C;  -- webgpu.h:2796
-
-  --*
-  -- * Proc pointer type for @ref wgpuQueueWriteTexture:
-  -- * > @copydoc wgpuQueueWriteTexture
-  --
+   with Convention => C;  -- webgpu.h:3818
 
    type WGPUProcQueueWriteTexture is access procedure
         (arg1 : WGPUQueue;
-         arg2 : access constant WGPUTexelCopyTextureInfo;
+         arg2 : access constant WGPUImageCopyTexture;
          arg3 : System.Address;
          arg4 : T_Size;
-         arg5 : access constant WGPUTexelCopyBufferLayout;
+         arg5 : access constant WGPUTextureDataLayout;
          arg6 : access constant WGPUExtent3D)
-   with Convention => C;  -- webgpu.h:2801
-
-  --*
-  -- * Proc pointer type for @ref wgpuQueueAddRef.
-  -- * > @copydoc wgpuQueueAddRef
-  --
+   with Convention => C;  -- webgpu.h:3819
 
    type WGPUProcQueueAddRef is access procedure (arg1 : WGPUQueue)
-   with Convention => C;  -- webgpu.h:2806
-
-  --*
-  -- * Proc pointer type for @ref wgpuQueueRelease.
-  -- * > @copydoc wgpuQueueRelease
-  --
+   with Convention => C;  -- webgpu.h:3820
 
    type WGPUProcQueueRelease is access procedure (arg1 : WGPUQueue)
-   with Convention => C;  -- webgpu.h:2811
+   with Convention => C;  -- webgpu.h:3821
 
   -- Procs of RenderBundle
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleSetLabel:
-  -- * > @copydoc wgpuRenderBundleSetLabel
-  --
-
-   type WGPUProcRenderBundleSetLabel is access procedure (arg1 : WGPURenderBundle; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2818
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleAddRef.
-  -- * > @copydoc wgpuRenderBundleAddRef
-  --
+   type WGPUProcRenderBundleSetLabel is access procedure (arg1 : WGPURenderBundle; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3824
 
    type WGPUProcRenderBundleAddRef is access procedure (arg1 : WGPURenderBundle)
-   with Convention => C;  -- webgpu.h:2823
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleRelease.
-  -- * > @copydoc wgpuRenderBundleRelease
-  --
+   with Convention => C;  -- webgpu.h:3825
 
    type WGPUProcRenderBundleRelease is access procedure (arg1 : WGPURenderBundle)
-   with Convention => C;  -- webgpu.h:2828
+   with Convention => C;  -- webgpu.h:3826
 
   -- Procs of RenderBundleEncoder
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderDraw:
-  -- * > @copydoc wgpuRenderBundleEncoderDraw
-  --
-
    type WGPUProcRenderBundleEncoderDraw is access procedure
         (arg1 : WGPURenderBundleEncoder;
          arg2 : bits_stdint_uintn_h.uint32_t;
          arg3 : bits_stdint_uintn_h.uint32_t;
          arg4 : bits_stdint_uintn_h.uint32_t;
          arg5 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2835
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderDrawIndexed:
-  -- * > @copydoc wgpuRenderBundleEncoderDrawIndexed
-  --
+   with Convention => C;  -- webgpu.h:3829
 
    type WGPUProcRenderBundleEncoderDrawIndexed is access procedure
         (arg1 : WGPURenderBundleEncoder;
@@ -3577,66 +3617,31 @@ package webgpu_h is
          arg4 : bits_stdint_uintn_h.uint32_t;
          arg5 : bits_stdint_intn_h.int32_t;
          arg6 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2840
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderDrawIndexedIndirect:
-  -- * > @copydoc wgpuRenderBundleEncoderDrawIndexedIndirect
-  --
+   with Convention => C;  -- webgpu.h:3830
 
    type WGPUProcRenderBundleEncoderDrawIndexedIndirect is access procedure
         (arg1 : WGPURenderBundleEncoder;
          arg2 : WGPUBuffer;
          arg3 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2845
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderDrawIndirect:
-  -- * > @copydoc wgpuRenderBundleEncoderDrawIndirect
-  --
+   with Convention => C;  -- webgpu.h:3831
 
    type WGPUProcRenderBundleEncoderDrawIndirect is access procedure
         (arg1 : WGPURenderBundleEncoder;
          arg2 : WGPUBuffer;
          arg3 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2850
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderFinish:
-  -- * > @copydoc wgpuRenderBundleEncoderFinish
-  --
+   with Convention => C;  -- webgpu.h:3832
 
    type WGPUProcRenderBundleEncoderFinish is access function (arg1 : WGPURenderBundleEncoder; arg2 : access constant WGPURenderBundleDescriptor) return WGPURenderBundle
-   with Convention => C;  -- webgpu.h:2855
+   with Convention => C;  -- webgpu.h:3833
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderInsertDebugMarker:
-  -- * > @copydoc wgpuRenderBundleEncoderInsertDebugMarker
-  --
-
-   type WGPUProcRenderBundleEncoderInsertDebugMarker is access procedure (arg1 : WGPURenderBundleEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2860
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderPopDebugGroup:
-  -- * > @copydoc wgpuRenderBundleEncoderPopDebugGroup
-  --
+   type WGPUProcRenderBundleEncoderInsertDebugMarker is access procedure (arg1 : WGPURenderBundleEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3834
 
    type WGPUProcRenderBundleEncoderPopDebugGroup is access procedure (arg1 : WGPURenderBundleEncoder)
-   with Convention => C;  -- webgpu.h:2865
+   with Convention => C;  -- webgpu.h:3835
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderPushDebugGroup:
-  -- * > @copydoc wgpuRenderBundleEncoderPushDebugGroup
-  --
-
-   type WGPUProcRenderBundleEncoderPushDebugGroup is access procedure (arg1 : WGPURenderBundleEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2870
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderSetBindGroup:
-  -- * > @copydoc wgpuRenderBundleEncoderSetBindGroup
-  --
+   type WGPUProcRenderBundleEncoderPushDebugGroup is access procedure (arg1 : WGPURenderBundleEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3836
 
    type WGPUProcRenderBundleEncoderSetBindGroup is access procedure
         (arg1 : WGPURenderBundleEncoder;
@@ -3644,12 +3649,7 @@ package webgpu_h is
          arg3 : WGPUBindGroup;
          arg4 : T_Size;
          arg5 : access bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2875
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderSetIndexBuffer:
-  -- * > @copydoc wgpuRenderBundleEncoderSetIndexBuffer
-  --
+   with Convention => C;  -- webgpu.h:3837
 
    type WGPUProcRenderBundleEncoderSetIndexBuffer is access procedure
         (arg1 : WGPURenderBundleEncoder;
@@ -3657,28 +3657,13 @@ package webgpu_h is
          arg3 : WGPUIndexFormat;
          arg4 : bits_stdint_uintn_h.uint64_t;
          arg5 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2880
+   with Convention => C;  -- webgpu.h:3838
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderSetLabel:
-  -- * > @copydoc wgpuRenderBundleEncoderSetLabel
-  --
-
-   type WGPUProcRenderBundleEncoderSetLabel is access procedure (arg1 : WGPURenderBundleEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2885
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderSetPipeline:
-  -- * > @copydoc wgpuRenderBundleEncoderSetPipeline
-  --
+   type WGPUProcRenderBundleEncoderSetLabel is access procedure (arg1 : WGPURenderBundleEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3839
 
    type WGPUProcRenderBundleEncoderSetPipeline is access procedure (arg1 : WGPURenderBundleEncoder; arg2 : WGPURenderPipeline)
-   with Convention => C;  -- webgpu.h:2890
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderSetVertexBuffer:
-  -- * > @copydoc wgpuRenderBundleEncoderSetVertexBuffer
-  --
+   with Convention => C;  -- webgpu.h:3840
 
    type WGPUProcRenderBundleEncoderSetVertexBuffer is access procedure
         (arg1 : WGPURenderBundleEncoder;
@@ -3686,37 +3671,17 @@ package webgpu_h is
          arg3 : WGPUBuffer;
          arg4 : bits_stdint_uintn_h.uint64_t;
          arg5 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2895
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderAddRef.
-  -- * > @copydoc wgpuRenderBundleEncoderAddRef
-  --
+   with Convention => C;  -- webgpu.h:3841
 
    type WGPUProcRenderBundleEncoderAddRef is access procedure (arg1 : WGPURenderBundleEncoder)
-   with Convention => C;  -- webgpu.h:2900
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderBundleEncoderRelease.
-  -- * > @copydoc wgpuRenderBundleEncoderRelease
-  --
+   with Convention => C;  -- webgpu.h:3842
 
    type WGPUProcRenderBundleEncoderRelease is access procedure (arg1 : WGPURenderBundleEncoder)
-   with Convention => C;  -- webgpu.h:2905
+   with Convention => C;  -- webgpu.h:3843
 
   -- Procs of RenderPassEncoder
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderBeginOcclusionQuery:
-  -- * > @copydoc wgpuRenderPassEncoderBeginOcclusionQuery
-  --
-
    type WGPUProcRenderPassEncoderBeginOcclusionQuery is access procedure (arg1 : WGPURenderPassEncoder; arg2 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2912
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderDraw:
-  -- * > @copydoc wgpuRenderPassEncoderDraw
-  --
+   with Convention => C;  -- webgpu.h:3846
 
    type WGPUProcRenderPassEncoderDraw is access procedure
         (arg1 : WGPURenderPassEncoder;
@@ -3724,12 +3689,7 @@ package webgpu_h is
          arg3 : bits_stdint_uintn_h.uint32_t;
          arg4 : bits_stdint_uintn_h.uint32_t;
          arg5 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2917
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderDrawIndexed:
-  -- * > @copydoc wgpuRenderPassEncoderDrawIndexed
-  --
+   with Convention => C;  -- webgpu.h:3847
 
    type WGPUProcRenderPassEncoderDrawIndexed is access procedure
         (arg1 : WGPURenderPassEncoder;
@@ -3738,85 +3698,61 @@ package webgpu_h is
          arg4 : bits_stdint_uintn_h.uint32_t;
          arg5 : bits_stdint_intn_h.int32_t;
          arg6 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2922
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderDrawIndexedIndirect:
-  -- * > @copydoc wgpuRenderPassEncoderDrawIndexedIndirect
-  --
+   with Convention => C;  -- webgpu.h:3848
 
    type WGPUProcRenderPassEncoderDrawIndexedIndirect is access procedure
         (arg1 : WGPURenderPassEncoder;
          arg2 : WGPUBuffer;
          arg3 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2927
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderDrawIndirect:
-  -- * > @copydoc wgpuRenderPassEncoderDrawIndirect
-  --
+   with Convention => C;  -- webgpu.h:3849
 
    type WGPUProcRenderPassEncoderDrawIndirect is access procedure
         (arg1 : WGPURenderPassEncoder;
          arg2 : WGPUBuffer;
          arg3 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2932
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderEnd:
-  -- * > @copydoc wgpuRenderPassEncoderEnd
-  --
+   with Convention => C;  -- webgpu.h:3850
 
    type WGPUProcRenderPassEncoderEnd is access procedure (arg1 : WGPURenderPassEncoder)
-   with Convention => C;  -- webgpu.h:2937
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderEndOcclusionQuery:
-  -- * > @copydoc wgpuRenderPassEncoderEndOcclusionQuery
-  --
+   with Convention => C;  -- webgpu.h:3851
 
    type WGPUProcRenderPassEncoderEndOcclusionQuery is access procedure (arg1 : WGPURenderPassEncoder)
-   with Convention => C;  -- webgpu.h:2942
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderExecuteBundles:
-  -- * > @copydoc wgpuRenderPassEncoderExecuteBundles
-  --
+   with Convention => C;  -- webgpu.h:3852
 
    type WGPUProcRenderPassEncoderExecuteBundles is access procedure
         (arg1 : WGPURenderPassEncoder;
          arg2 : T_Size;
          arg3 : System.Address)
-   with Convention => C;  -- webgpu.h:2947
+   with Convention => C;  -- webgpu.h:3853
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderInsertDebugMarker:
-  -- * > @copydoc wgpuRenderPassEncoderInsertDebugMarker
-  --
+   type WGPUProcRenderPassEncoderInsertDebugMarker is access procedure (arg1 : WGPURenderPassEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3854
 
-   type WGPUProcRenderPassEncoderInsertDebugMarker is access procedure (arg1 : WGPURenderPassEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2952
+   type WGPUProcRenderPassEncoderMultiDrawIndexedIndirect is access procedure
+        (arg1 : WGPURenderPassEncoder;
+         arg2 : WGPUBuffer;
+         arg3 : bits_stdint_uintn_h.uint64_t;
+         arg4 : bits_stdint_uintn_h.uint32_t;
+         arg5 : WGPUBuffer;
+         arg6 : bits_stdint_uintn_h.uint64_t)
+   with Convention => C;  -- webgpu.h:3855
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderPopDebugGroup:
-  -- * > @copydoc wgpuRenderPassEncoderPopDebugGroup
-  --
+   type WGPUProcRenderPassEncoderMultiDrawIndirect is access procedure
+        (arg1 : WGPURenderPassEncoder;
+         arg2 : WGPUBuffer;
+         arg3 : bits_stdint_uintn_h.uint64_t;
+         arg4 : bits_stdint_uintn_h.uint32_t;
+         arg5 : WGPUBuffer;
+         arg6 : bits_stdint_uintn_h.uint64_t)
+   with Convention => C;  -- webgpu.h:3856
+
+   type WGPUProcRenderPassEncoderPixelLocalStorageBarrier is access procedure (arg1 : WGPURenderPassEncoder)
+   with Convention => C;  -- webgpu.h:3857
 
    type WGPUProcRenderPassEncoderPopDebugGroup is access procedure (arg1 : WGPURenderPassEncoder)
-   with Convention => C;  -- webgpu.h:2957
+   with Convention => C;  -- webgpu.h:3858
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderPushDebugGroup:
-  -- * > @copydoc wgpuRenderPassEncoderPushDebugGroup
-  --
-
-   type WGPUProcRenderPassEncoderPushDebugGroup is access procedure (arg1 : WGPURenderPassEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2962
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetBindGroup:
-  -- * > @copydoc wgpuRenderPassEncoderSetBindGroup
-  --
+   type WGPUProcRenderPassEncoderPushDebugGroup is access procedure (arg1 : WGPURenderPassEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3859
 
    type WGPUProcRenderPassEncoderSetBindGroup is access procedure
         (arg1 : WGPURenderPassEncoder;
@@ -3824,20 +3760,10 @@ package webgpu_h is
          arg3 : WGPUBindGroup;
          arg4 : T_Size;
          arg5 : access bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2967
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetBlendConstant:
-  -- * > @copydoc wgpuRenderPassEncoderSetBlendConstant
-  --
+   with Convention => C;  -- webgpu.h:3860
 
    type WGPUProcRenderPassEncoderSetBlendConstant is access procedure (arg1 : WGPURenderPassEncoder; arg2 : access constant WGPUColor)
-   with Convention => C;  -- webgpu.h:2972
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetIndexBuffer:
-  -- * > @copydoc wgpuRenderPassEncoderSetIndexBuffer
-  --
+   with Convention => C;  -- webgpu.h:3861
 
    type WGPUProcRenderPassEncoderSetIndexBuffer is access procedure
         (arg1 : WGPURenderPassEncoder;
@@ -3845,28 +3771,13 @@ package webgpu_h is
          arg3 : WGPUIndexFormat;
          arg4 : bits_stdint_uintn_h.uint64_t;
          arg5 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:2977
+   with Convention => C;  -- webgpu.h:3862
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetLabel:
-  -- * > @copydoc wgpuRenderPassEncoderSetLabel
-  --
-
-   type WGPUProcRenderPassEncoderSetLabel is access procedure (arg1 : WGPURenderPassEncoder; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:2982
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetPipeline:
-  -- * > @copydoc wgpuRenderPassEncoderSetPipeline
-  --
+   type WGPUProcRenderPassEncoderSetLabel is access procedure (arg1 : WGPURenderPassEncoder; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3863
 
    type WGPUProcRenderPassEncoderSetPipeline is access procedure (arg1 : WGPURenderPassEncoder; arg2 : WGPURenderPipeline)
-   with Convention => C;  -- webgpu.h:2987
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetScissorRect:
-  -- * > @copydoc wgpuRenderPassEncoderSetScissorRect
-  --
+   with Convention => C;  -- webgpu.h:3864
 
    type WGPUProcRenderPassEncoderSetScissorRect is access procedure
         (arg1 : WGPURenderPassEncoder;
@@ -3874,20 +3785,10 @@ package webgpu_h is
          arg3 : bits_stdint_uintn_h.uint32_t;
          arg4 : bits_stdint_uintn_h.uint32_t;
          arg5 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2992
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetStencilReference:
-  -- * > @copydoc wgpuRenderPassEncoderSetStencilReference
-  --
+   with Convention => C;  -- webgpu.h:3865
 
    type WGPUProcRenderPassEncoderSetStencilReference is access procedure (arg1 : WGPURenderPassEncoder; arg2 : bits_stdint_uintn_h.uint32_t)
-   with Convention => C;  -- webgpu.h:2997
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetVertexBuffer:
-  -- * > @copydoc wgpuRenderPassEncoderSetVertexBuffer
-  --
+   with Convention => C;  -- webgpu.h:3866
 
    type WGPUProcRenderPassEncoderSetVertexBuffer is access procedure
         (arg1 : WGPURenderPassEncoder;
@@ -3895,12 +3796,7 @@ package webgpu_h is
          arg3 : WGPUBuffer;
          arg4 : bits_stdint_uintn_h.uint64_t;
          arg5 : bits_stdint_uintn_h.uint64_t)
-   with Convention => C;  -- webgpu.h:3002
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderSetViewport:
-  -- * > @copydoc wgpuRenderPassEncoderSetViewport
-  --
+   with Convention => C;  -- webgpu.h:3867
 
    type WGPUProcRenderPassEncoderSetViewport is access procedure
         (arg1 : WGPURenderPassEncoder;
@@ -3910,660 +3806,490 @@ package webgpu_h is
          arg5 : float;
          arg6 : float;
          arg7 : float)
-   with Convention => C;  -- webgpu.h:3007
+   with Convention => C;  -- webgpu.h:3868
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderAddRef.
-  -- * > @copydoc wgpuRenderPassEncoderAddRef
-  --
+   type WGPUProcRenderPassEncoderWriteTimestamp is access procedure
+        (arg1 : WGPURenderPassEncoder;
+         arg2 : WGPUQuerySet;
+         arg3 : bits_stdint_uintn_h.uint32_t)
+   with Convention => C;  -- webgpu.h:3869
 
    type WGPUProcRenderPassEncoderAddRef is access procedure (arg1 : WGPURenderPassEncoder)
-   with Convention => C;  -- webgpu.h:3012
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPassEncoderRelease.
-  -- * > @copydoc wgpuRenderPassEncoderRelease
-  --
+   with Convention => C;  -- webgpu.h:3870
 
    type WGPUProcRenderPassEncoderRelease is access procedure (arg1 : WGPURenderPassEncoder)
-   with Convention => C;  -- webgpu.h:3017
+   with Convention => C;  -- webgpu.h:3871
 
   -- Procs of RenderPipeline
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPipelineGetBindGroupLayout:
-  -- * > @copydoc wgpuRenderPipelineGetBindGroupLayout
-  --
-
    type WGPUProcRenderPipelineGetBindGroupLayout is access function (arg1 : WGPURenderPipeline; arg2 : bits_stdint_uintn_h.uint32_t) return WGPUBindGroupLayout
-   with Convention => C;  -- webgpu.h:3024
+   with Convention => C;  -- webgpu.h:3874
 
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPipelineSetLabel:
-  -- * > @copydoc wgpuRenderPipelineSetLabel
-  --
-
-   type WGPUProcRenderPipelineSetLabel is access procedure (arg1 : WGPURenderPipeline; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:3029
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPipelineAddRef.
-  -- * > @copydoc wgpuRenderPipelineAddRef
-  --
+   type WGPUProcRenderPipelineSetLabel is access procedure (arg1 : WGPURenderPipeline; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3875
 
    type WGPUProcRenderPipelineAddRef is access procedure (arg1 : WGPURenderPipeline)
-   with Convention => C;  -- webgpu.h:3034
-
-  --*
-  -- * Proc pointer type for @ref wgpuRenderPipelineRelease.
-  -- * > @copydoc wgpuRenderPipelineRelease
-  --
+   with Convention => C;  -- webgpu.h:3876
 
    type WGPUProcRenderPipelineRelease is access procedure (arg1 : WGPURenderPipeline)
-   with Convention => C;  -- webgpu.h:3039
+   with Convention => C;  -- webgpu.h:3877
 
   -- Procs of Sampler
-  --*
-  -- * Proc pointer type for @ref wgpuSamplerSetLabel:
-  -- * > @copydoc wgpuSamplerSetLabel
-  --
-
-   type WGPUProcSamplerSetLabel is access procedure (arg1 : WGPUSampler; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:3046
-
-  --*
-  -- * Proc pointer type for @ref wgpuSamplerAddRef.
-  -- * > @copydoc wgpuSamplerAddRef
-  --
+   type WGPUProcSamplerSetLabel is access procedure (arg1 : WGPUSampler; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3880
 
    type WGPUProcSamplerAddRef is access procedure (arg1 : WGPUSampler)
-   with Convention => C;  -- webgpu.h:3051
-
-  --*
-  -- * Proc pointer type for @ref wgpuSamplerRelease.
-  -- * > @copydoc wgpuSamplerRelease
-  --
+   with Convention => C;  -- webgpu.h:3881
 
    type WGPUProcSamplerRelease is access procedure (arg1 : WGPUSampler)
-   with Convention => C;  -- webgpu.h:3056
+   with Convention => C;  -- webgpu.h:3882
 
   -- Procs of ShaderModule
-  --*
-  -- * Proc pointer type for @ref wgpuShaderModuleGetCompilationInfo:
-  -- * > @copydoc wgpuShaderModuleGetCompilationInfo
-  --
+   type WGPUProcShaderModuleGetCompilationInfo is access procedure
+        (arg1 : WGPUShaderModule;
+         arg2 : WGPUCompilationInfoCallback;
+         arg3 : System.Address)
+   with Convention => C;  -- webgpu.h:3885
 
-   type WGPUProcShaderModuleGetCompilationInfo is access function (arg1 : WGPUShaderModule; arg2 : WGPUCompilationInfoCallbackInfo) return WGPUFuture
-   with Convention => C;  -- webgpu.h:3063
+   type WGPUProcShaderModuleGetCompilationInfo2 is access function (arg1 : WGPUShaderModule; arg2 : WGPUCompilationInfoCallbackInfo2) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3886
 
-  --*
-  -- * Proc pointer type for @ref wgpuShaderModuleSetLabel:
-  -- * > @copydoc wgpuShaderModuleSetLabel
-  --
+   type WGPUProcShaderModuleGetCompilationInfoF is access function (arg1 : WGPUShaderModule; arg2 : WGPUCompilationInfoCallbackInfo) return WGPUFuture
+   with Convention => C;  -- webgpu.h:3887
 
-   type WGPUProcShaderModuleSetLabel is access procedure (arg1 : WGPUShaderModule; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:3068
-
-  --*
-  -- * Proc pointer type for @ref wgpuShaderModuleAddRef.
-  -- * > @copydoc wgpuShaderModuleAddRef
-  --
+   type WGPUProcShaderModuleSetLabel is access procedure (arg1 : WGPUShaderModule; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3888
 
    type WGPUProcShaderModuleAddRef is access procedure (arg1 : WGPUShaderModule)
-   with Convention => C;  -- webgpu.h:3073
-
-  --*
-  -- * Proc pointer type for @ref wgpuShaderModuleRelease.
-  -- * > @copydoc wgpuShaderModuleRelease
-  --
+   with Convention => C;  -- webgpu.h:3889
 
    type WGPUProcShaderModuleRelease is access procedure (arg1 : WGPUShaderModule)
-   with Convention => C;  -- webgpu.h:3078
+   with Convention => C;  -- webgpu.h:3890
 
-  -- Procs of SupportedFeatures
-  --*
-  -- * Proc pointer type for @ref wgpuSupportedFeaturesFreeMembers:
-  -- * > @copydoc wgpuSupportedFeaturesFreeMembers
-  --
+  -- Procs of SharedBufferMemory
+   type WGPUProcSharedBufferMemoryBeginAccess is access function
+        (arg1 : WGPUSharedBufferMemory;
+         arg2 : WGPUBuffer;
+         arg3 : access constant WGPUSharedBufferMemoryBeginAccessDescriptor) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3893
 
-   type WGPUProcSupportedFeaturesFreeMembers is access procedure (arg1 : WGPUSupportedFeatures)
-   with Convention => C;  -- webgpu.h:3085
+   type WGPUProcSharedBufferMemoryCreateBuffer is access function (arg1 : WGPUSharedBufferMemory; arg2 : access constant WGPUBufferDescriptor) return WGPUBuffer
+   with Convention => C;  -- webgpu.h:3894
 
-  -- Procs of SupportedWGSLLanguageFeatures
-  --*
-  -- * Proc pointer type for @ref wgpuSupportedWGSLLanguageFeaturesFreeMembers:
-  -- * > @copydoc wgpuSupportedWGSLLanguageFeaturesFreeMembers
-  --
+   type WGPUProcSharedBufferMemoryEndAccess is access function
+        (arg1 : WGPUSharedBufferMemory;
+         arg2 : WGPUBuffer;
+         arg3 : access WGPUSharedBufferMemoryEndAccessState) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3895
 
-   type WGPUProcSupportedWGSLLanguageFeaturesFreeMembers is access procedure (arg1 : WGPUSupportedWGSLLanguageFeatures)
-   with Convention => C;  -- webgpu.h:3092
+   type WGPUProcSharedBufferMemoryGetProperties is access function (arg1 : WGPUSharedBufferMemory; arg2 : access WGPUSharedBufferMemoryProperties) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3896
+
+   type WGPUProcSharedBufferMemoryIsDeviceLost is access function (arg1 : WGPUSharedBufferMemory) return T_WGPUBool
+   with Convention => C;  -- webgpu.h:3897
+
+   type WGPUProcSharedBufferMemorySetLabel is access procedure (arg1 : WGPUSharedBufferMemory; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3898
+
+   type WGPUProcSharedBufferMemoryAddRef is access procedure (arg1 : WGPUSharedBufferMemory)
+   with Convention => C;  -- webgpu.h:3899
+
+   type WGPUProcSharedBufferMemoryRelease is access procedure (arg1 : WGPUSharedBufferMemory)
+   with Convention => C;  -- webgpu.h:3900
+
+  -- Procs of SharedFence
+   type WGPUProcSharedFenceExportInfo is access procedure (arg1 : WGPUSharedFence; arg2 : access T_WGPUSharedFenceExportInfo)
+   with Convention => C;  -- webgpu.h:3903
+
+   type WGPUProcSharedFenceAddRef is access procedure (arg1 : WGPUSharedFence)
+   with Convention => C;  -- webgpu.h:3904
+
+   type WGPUProcSharedFenceRelease is access procedure (arg1 : WGPUSharedFence)
+   with Convention => C;  -- webgpu.h:3905
+
+  -- Procs of SharedTextureMemory
+   type WGPUProcSharedTextureMemoryBeginAccess is access function
+        (arg1 : WGPUSharedTextureMemory;
+         arg2 : WGPUTexture;
+         arg3 : access constant WGPUSharedTextureMemoryBeginAccessDescriptor) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3908
+
+   type WGPUProcSharedTextureMemoryCreateTexture is access function (arg1 : WGPUSharedTextureMemory; arg2 : access constant WGPUTextureDescriptor) return WGPUTexture
+   with Convention => C;  -- webgpu.h:3909
+
+   type WGPUProcSharedTextureMemoryEndAccess is access function
+        (arg1 : WGPUSharedTextureMemory;
+         arg2 : WGPUTexture;
+         arg3 : access WGPUSharedTextureMemoryEndAccessState) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3910
+
+   type WGPUProcSharedTextureMemoryGetProperties is access function (arg1 : WGPUSharedTextureMemory; arg2 : access WGPUSharedTextureMemoryProperties) return WGPUStatus
+   with Convention => C;  -- webgpu.h:3911
+
+   type WGPUProcSharedTextureMemoryIsDeviceLost is access function (arg1 : WGPUSharedTextureMemory) return T_WGPUBool
+   with Convention => C;  -- webgpu.h:3912
+
+   type WGPUProcSharedTextureMemorySetLabel is access procedure (arg1 : WGPUSharedTextureMemory; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3913
+
+   type WGPUProcSharedTextureMemoryAddRef is access procedure (arg1 : WGPUSharedTextureMemory)
+   with Convention => C;  -- webgpu.h:3914
+
+   type WGPUProcSharedTextureMemoryRelease is access procedure (arg1 : WGPUSharedTextureMemory)
+   with Convention => C;  -- webgpu.h:3915
 
   -- Procs of Surface
-  --*
-  -- * Proc pointer type for @ref wgpuSurfaceConfigure:
-  -- * > @copydoc wgpuSurfaceConfigure
-  --
-
    type WGPUProcSurfaceConfigure is access procedure (arg1 : WGPUSurface; arg2 : access constant WGPUSurfaceConfiguration)
-   with Convention => C;  -- webgpu.h:3099
-
-  --*
-  -- * Proc pointer type for @ref wgpuSurfaceGetCapabilities:
-  -- * > @copydoc wgpuSurfaceGetCapabilities
-  --
+   with Convention => C;  -- webgpu.h:3918
 
    type WGPUProcSurfaceGetCapabilities is access function
         (arg1 : WGPUSurface;
          arg2 : WGPUAdapter;
          arg3 : access WGPUSurfaceCapabilities) return WGPUStatus
-   with Convention => C;  -- webgpu.h:3104
-
-  --*
-  -- * Proc pointer type for @ref wgpuSurfaceGetCurrentTexture:
-  -- * > @copydoc wgpuSurfaceGetCurrentTexture
-  --
+   with Convention => C;  -- webgpu.h:3919
 
    type WGPUProcSurfaceGetCurrentTexture is access procedure (arg1 : WGPUSurface; arg2 : access WGPUSurfaceTexture)
-   with Convention => C;  -- webgpu.h:3109
+   with Convention => C;  -- webgpu.h:3920
 
-  --*
-  -- * Proc pointer type for @ref wgpuSurfacePresent:
-  -- * > @copydoc wgpuSurfacePresent
-  --
+   type WGPUProcSurfacePresent is access procedure (arg1 : WGPUSurface)
+   with Convention => C;  -- webgpu.h:3921
 
-   type WGPUProcSurfacePresent is access function (arg1 : WGPUSurface) return WGPUStatus
-   with Convention => C;  -- webgpu.h:3114
-
-  --*
-  -- * Proc pointer type for @ref wgpuSurfaceSetLabel:
-  -- * > @copydoc wgpuSurfaceSetLabel
-  --
-
-   type WGPUProcSurfaceSetLabel is access procedure (arg1 : WGPUSurface; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:3119
-
-  --*
-  -- * Proc pointer type for @ref wgpuSurfaceUnconfigure:
-  -- * > @copydoc wgpuSurfaceUnconfigure
-  --
+   type WGPUProcSurfaceSetLabel is access procedure (arg1 : WGPUSurface; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3922
 
    type WGPUProcSurfaceUnconfigure is access procedure (arg1 : WGPUSurface)
-   with Convention => C;  -- webgpu.h:3124
-
-  --*
-  -- * Proc pointer type for @ref wgpuSurfaceAddRef.
-  -- * > @copydoc wgpuSurfaceAddRef
-  --
+   with Convention => C;  -- webgpu.h:3923
 
    type WGPUProcSurfaceAddRef is access procedure (arg1 : WGPUSurface)
-   with Convention => C;  -- webgpu.h:3129
-
-  --*
-  -- * Proc pointer type for @ref wgpuSurfaceRelease.
-  -- * > @copydoc wgpuSurfaceRelease
-  --
+   with Convention => C;  -- webgpu.h:3924
 
    type WGPUProcSurfaceRelease is access procedure (arg1 : WGPUSurface)
-   with Convention => C;  -- webgpu.h:3134
-
-  -- Procs of SurfaceCapabilities
-  --*
-  -- * Proc pointer type for @ref wgpuSurfaceCapabilitiesFreeMembers:
-  -- * > @copydoc wgpuSurfaceCapabilitiesFreeMembers
-  --
-
-   type WGPUProcSurfaceCapabilitiesFreeMembers is access procedure (arg1 : WGPUSurfaceCapabilities)
-   with Convention => C;  -- webgpu.h:3141
+   with Convention => C;  -- webgpu.h:3925
 
   -- Procs of Texture
-  --*
-  -- * Proc pointer type for @ref wgpuTextureCreateView:
-  -- * > @copydoc wgpuTextureCreateView
-  --
+   type WGPUProcTextureCreateErrorView is access function (arg1 : WGPUTexture; arg2 : access constant WGPUTextureViewDescriptor) return WGPUTextureView
+   with Convention => C;  -- webgpu.h:3928
 
    type WGPUProcTextureCreateView is access function (arg1 : WGPUTexture; arg2 : access constant WGPUTextureViewDescriptor) return WGPUTextureView
-   with Convention => C;  -- webgpu.h:3148
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureDestroy:
-  -- * > @copydoc wgpuTextureDestroy
-  --
+   with Convention => C;  -- webgpu.h:3929
 
    type WGPUProcTextureDestroy is access procedure (arg1 : WGPUTexture)
-   with Convention => C;  -- webgpu.h:3153
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureGetDepthOrArrayLayers:
-  -- * > @copydoc wgpuTextureGetDepthOrArrayLayers
-  --
+   with Convention => C;  -- webgpu.h:3930
 
    type WGPUProcTextureGetDepthOrArrayLayers is access function (arg1 : WGPUTexture) return bits_stdint_uintn_h.uint32_t
-   with Convention => C;  -- webgpu.h:3158
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureGetDimension:
-  -- * > @copydoc wgpuTextureGetDimension
-  --
+   with Convention => C;  -- webgpu.h:3931
 
    type WGPUProcTextureGetDimension is access function (arg1 : WGPUTexture) return WGPUTextureDimension
-   with Convention => C;  -- webgpu.h:3163
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureGetFormat:
-  -- * > @copydoc wgpuTextureGetFormat
-  --
+   with Convention => C;  -- webgpu.h:3932
 
    type WGPUProcTextureGetFormat is access function (arg1 : WGPUTexture) return WGPUTextureFormat
-   with Convention => C;  -- webgpu.h:3168
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureGetHeight:
-  -- * > @copydoc wgpuTextureGetHeight
-  --
+   with Convention => C;  -- webgpu.h:3933
 
    type WGPUProcTextureGetHeight is access function (arg1 : WGPUTexture) return bits_stdint_uintn_h.uint32_t
-   with Convention => C;  -- webgpu.h:3173
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureGetMipLevelCount:
-  -- * > @copydoc wgpuTextureGetMipLevelCount
-  --
+   with Convention => C;  -- webgpu.h:3934
 
    type WGPUProcTextureGetMipLevelCount is access function (arg1 : WGPUTexture) return bits_stdint_uintn_h.uint32_t
-   with Convention => C;  -- webgpu.h:3178
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureGetSampleCount:
-  -- * > @copydoc wgpuTextureGetSampleCount
-  --
+   with Convention => C;  -- webgpu.h:3935
 
    type WGPUProcTextureGetSampleCount is access function (arg1 : WGPUTexture) return bits_stdint_uintn_h.uint32_t
-   with Convention => C;  -- webgpu.h:3183
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureGetUsage:
-  -- * > @copydoc wgpuTextureGetUsage
-  --
+   with Convention => C;  -- webgpu.h:3936
 
    type WGPUProcTextureGetUsage is access function (arg1 : WGPUTexture) return WGPUTextureUsage
-   with Convention => C;  -- webgpu.h:3188
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureGetWidth:
-  -- * > @copydoc wgpuTextureGetWidth
-  --
+   with Convention => C;  -- webgpu.h:3937
 
    type WGPUProcTextureGetWidth is access function (arg1 : WGPUTexture) return bits_stdint_uintn_h.uint32_t
-   with Convention => C;  -- webgpu.h:3193
+   with Convention => C;  -- webgpu.h:3938
 
-  --*
-  -- * Proc pointer type for @ref wgpuTextureSetLabel:
-  -- * > @copydoc wgpuTextureSetLabel
-  --
-
-   type WGPUProcTextureSetLabel is access procedure (arg1 : WGPUTexture; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:3198
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureAddRef.
-  -- * > @copydoc wgpuTextureAddRef
-  --
+   type WGPUProcTextureSetLabel is access procedure (arg1 : WGPUTexture; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3939
 
    type WGPUProcTextureAddRef is access procedure (arg1 : WGPUTexture)
-   with Convention => C;  -- webgpu.h:3203
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureRelease.
-  -- * > @copydoc wgpuTextureRelease
-  --
+   with Convention => C;  -- webgpu.h:3940
 
    type WGPUProcTextureRelease is access procedure (arg1 : WGPUTexture)
-   with Convention => C;  -- webgpu.h:3208
+   with Convention => C;  -- webgpu.h:3941
 
   -- Procs of TextureView
-  --*
-  -- * Proc pointer type for @ref wgpuTextureViewSetLabel:
-  -- * > @copydoc wgpuTextureViewSetLabel
-  --
-
-   type WGPUProcTextureViewSetLabel is access procedure (arg1 : WGPUTextureView; arg2 : WGPUStringView)
-   with Convention => C;  -- webgpu.h:3215
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureViewAddRef.
-  -- * > @copydoc wgpuTextureViewAddRef
-  --
+   type WGPUProcTextureViewSetLabel is access procedure (arg1 : WGPUTextureView; arg2 : T_WGPUStringView)
+   with Convention => C;  -- webgpu.h:3944
 
    type WGPUProcTextureViewAddRef is access procedure (arg1 : WGPUTextureView)
-   with Convention => C;  -- webgpu.h:3220
-
-  --*
-  -- * Proc pointer type for @ref wgpuTextureViewRelease.
-  -- * > @copydoc wgpuTextureViewRelease
-  --
+   with Convention => C;  -- webgpu.h:3945
 
    type WGPUProcTextureViewRelease is access procedure (arg1 : WGPUTextureView)
-   with Convention => C;  -- webgpu.h:3225
+   with Convention => C;  -- webgpu.h:3946
 
-  --*
-  -- * \defgroup GlobalFunctions Global Functions
-  -- * \brief Functions that are not specific to an object.
-  -- *
-  -- * @{
-  --
-
-  --*
-  -- * Create a T_WGPUInstance
-  --
-
-   function wgpuCreateInstance (descriptor : access constant T_WGPUInstanceDescriptor) return T_WGPUInstance  -- webgpu.h:3239
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuCreateInstance";
-
-  --*
-  -- * Query the supported instance capabilities.
-  -- *
-  -- * @param capabilities
-  -- * The supported instance capabilities
-  -- *
-  -- * @returns
-  -- * Indicates if there was an @ref OutStructChainError.
-  --
-
-   function wgpuGetInstanceCapabilities (capabilities : access T_WGPUInstanceCapabilities) return WGPUStatus  -- webgpu.h:3249
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuGetInstanceCapabilities";
-
-  --*
-  -- * Returns the "procedure address" (function pointer) of the named function.
-  -- * The result must be cast to the appropriate proc pointer type.
-  --
-
-   function wgpuGetProcAddress (procName : WGPUStringView) return WGPUProc  -- webgpu.h:3254
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuGetProcAddress";
-
-  --* @}
-  --*
-  -- * \defgroup Methods
-  -- * \brief Functions that are relative to a specific object.
-  -- *
-  -- * @{
-  --
-
-  --*
-  -- * \defgroup WGPUAdapterMethods WGPUAdapter methods
-  -- * \brief Functions whose first argument has type WGPUAdapter.
-  -- *
-  -- * @{
-  --
-
-  --*
-  -- * Get the list of @ref WGPUFeatureName values supported by the adapter.
-  -- *
-  -- * @param features
-  -- * This parameter is @ref ReturnedWithOwnership.
-  --
-
-   procedure wgpuAdapterGetFeatures (adapter : WGPUAdapter; features : access WGPUSupportedFeatures)  -- webgpu.h:3278
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuAdapterGetFeatures";
-
-  --*
-  -- * @param info
-  -- * This parameter is @ref ReturnedWithOwnership.
-  -- *
-  -- * @returns
-  -- * Indicates if there was an @ref OutStructChainError.
-  --
-
-   function wgpuAdapterGetInfo (adapter : WGPUAdapter; info : access WGPUAdapterInfo) return WGPUStatus  -- webgpu.h:3286
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuAdapterGetInfo";
-
-  --*
-  -- * @returns
-  -- * Indicates if there was an @ref OutStructChainError.
-  --
-
-   function wgpuAdapterGetLimits (adapter : WGPUAdapter; limits : access WGPULimits) return WGPUStatus  -- webgpu.h:3291
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuAdapterGetLimits";
-
-   function wgpuAdapterHasFeature (adapter : WGPUAdapter; feature : WGPUFeatureName) return T_WGPUBool  -- webgpu.h:3292
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuAdapterHasFeature";
-
-   function wgpuAdapterRequestDevice
-     (adapter : WGPUAdapter;
-      descriptor : access constant WGPUDeviceDescriptor;
-      callbackInfo : WGPURequestDeviceCallbackInfo) return WGPUFuture  -- webgpu.h:3293
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuAdapterRequestDevice";
-
-   procedure wgpuAdapterAddRef (adapter : WGPUAdapter)  -- webgpu.h:3294
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuAdapterAddRef";
-
-   procedure wgpuAdapterRelease (adapter : WGPUAdapter)  -- webgpu.h:3295
-   with Import => True,
-        Convention => C,
-        External_Name => "wgpuAdapterRelease";
-
-  --* @}
-  --*
-  -- * \defgroup WGPUAdapterInfoMethods WGPUAdapterInfo methods
-  -- * \brief Functions whose first argument has type WGPUAdapterInfo.
-  -- *
-  -- * @{
-  --
-
-  --*
-  -- * Frees array members of WGPUAdapterInfo which were allocated by the API.
-  --
-
-   procedure wgpuAdapterInfoFreeMembers (adapterInfo : WGPUAdapterInfo)  -- webgpu.h:3309
+   procedure wgpuAdapterInfoFreeMembers (value : WGPUAdapterInfo)  -- webgpu.h:3953
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterInfoFreeMembers";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUBindGroupMethods WGPUBindGroup methods
-  -- * \brief Functions whose first argument has type WGPUBindGroup.
-  -- *
-  -- * @{
-  --
+   procedure wgpuAdapterPropertiesMemoryHeapsFreeMembers (value : WGPUAdapterPropertiesMemoryHeaps)  -- webgpu.h:3954
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterPropertiesMemoryHeapsFreeMembers";
 
-   procedure wgpuBindGroupSetLabel (bindGroup : WGPUBindGroup; label : WGPUStringView)  -- webgpu.h:3320
+   function wgpuCreateInstance (descriptor : access constant T_WGPUInstanceDescriptor) return WGPUInstance  -- webgpu.h:3955
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuCreateInstance";
+
+   procedure wgpuDrmFormatCapabilitiesFreeMembers (value : WGPUDrmFormatCapabilities)  -- webgpu.h:3956
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDrmFormatCapabilitiesFreeMembers";
+
+   function wgpuGetInstanceFeatures (features : access WGPUInstanceFeatures) return WGPUStatus  -- webgpu.h:3957
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuGetInstanceFeatures";
+
+   function wgpuGetProcAddress (procName : T_WGPUStringView) return WGPUProc  -- webgpu.h:3958
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuGetProcAddress";
+
+   procedure wgpuSharedBufferMemoryEndAccessStateFreeMembers (value : WGPUSharedBufferMemoryEndAccessState)  -- webgpu.h:3959
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedBufferMemoryEndAccessStateFreeMembers";
+
+   procedure wgpuSharedTextureMemoryEndAccessStateFreeMembers (value : WGPUSharedTextureMemoryEndAccessState)  -- webgpu.h:3960
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemoryEndAccessStateFreeMembers";
+
+   procedure wgpuSupportedFeaturesFreeMembers (value : WGPUSupportedFeatures)  -- webgpu.h:3961
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSupportedFeaturesFreeMembers";
+
+   procedure wgpuSurfaceCapabilitiesFreeMembers (value : WGPUSurfaceCapabilities)  -- webgpu.h:3962
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSurfaceCapabilitiesFreeMembers";
+
+  -- Methods of Adapter
+   function wgpuAdapterCreateDevice (adapter : WGPUAdapter; descriptor : access constant WGPUDeviceDescriptor) return WGPUDevice  -- webgpu.h:3965
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterCreateDevice";
+
+   function wgpuAdapterEnumerateFeatures (adapter : WGPUAdapter; features : access WGPUFeatureName) return T_Size  -- webgpu.h:3966
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterEnumerateFeatures";
+
+   procedure wgpuAdapterGetFeatures (adapter : WGPUAdapter; features : access WGPUSupportedFeatures)  -- webgpu.h:3967
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterGetFeatures";
+
+   function wgpuAdapterGetFormatCapabilities
+     (adapter : WGPUAdapter;
+      format : WGPUTextureFormat;
+      capabilities : access WGPUFormatCapabilities) return WGPUStatus  -- webgpu.h:3968
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterGetFormatCapabilities";
+
+   function wgpuAdapterGetInfo (adapter : WGPUAdapter; info : access WGPUAdapterInfo) return WGPUStatus  -- webgpu.h:3969
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterGetInfo";
+
+   function wgpuAdapterGetInstance (adapter : WGPUAdapter) return WGPUInstance  -- webgpu.h:3970
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterGetInstance";
+
+   function wgpuAdapterGetLimits (adapter : WGPUAdapter; limits : access WGPUSupportedLimits) return WGPUStatus  -- webgpu.h:3971
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterGetLimits";
+
+   function wgpuAdapterHasFeature (adapter : WGPUAdapter; feature : WGPUFeatureName) return T_WGPUBool  -- webgpu.h:3972
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterHasFeature";
+
+   procedure wgpuAdapterRequestDevice
+     (adapter : WGPUAdapter;
+      descriptor : access constant WGPUDeviceDescriptor;
+      callback : WGPURequestDeviceCallback;
+      userdata : System.Address)  -- webgpu.h:3973
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterRequestDevice";
+
+   function wgpuAdapterRequestDevice2
+     (adapter : WGPUAdapter;
+      options : access constant WGPUDeviceDescriptor;
+      callbackInfo : WGPURequestDeviceCallbackInfo2) return WGPUFuture  -- webgpu.h:3974
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterRequestDevice2";
+
+   function wgpuAdapterRequestDeviceF
+     (adapter : WGPUAdapter;
+      options : access constant WGPUDeviceDescriptor;
+      callbackInfo : WGPURequestDeviceCallbackInfo) return WGPUFuture  -- webgpu.h:3975
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterRequestDeviceF";
+
+   procedure wgpuAdapterAddRef (adapter : WGPUAdapter)  -- webgpu.h:3976
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterAddRef";
+
+   procedure wgpuAdapterRelease (adapter : WGPUAdapter)  -- webgpu.h:3977
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuAdapterRelease";
+
+  -- Methods of BindGroup
+   procedure wgpuBindGroupSetLabel (bindGroup : WGPUBindGroup; label : T_WGPUStringView)  -- webgpu.h:3980
    with Import => True,
         Convention => C,
         External_Name => "wgpuBindGroupSetLabel";
 
-   procedure wgpuBindGroupAddRef (bindGroup : WGPUBindGroup)  -- webgpu.h:3321
+   procedure wgpuBindGroupAddRef (bindGroup : WGPUBindGroup)  -- webgpu.h:3981
    with Import => True,
         Convention => C,
         External_Name => "wgpuBindGroupAddRef";
 
-   procedure wgpuBindGroupRelease (bindGroup : WGPUBindGroup)  -- webgpu.h:3322
+   procedure wgpuBindGroupRelease (bindGroup : WGPUBindGroup)  -- webgpu.h:3982
    with Import => True,
         Convention => C,
         External_Name => "wgpuBindGroupRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUBindGroupLayoutMethods WGPUBindGroupLayout methods
-  -- * \brief Functions whose first argument has type WGPUBindGroupLayout.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuBindGroupLayoutSetLabel (bindGroupLayout : WGPUBindGroupLayout; label : WGPUStringView)  -- webgpu.h:3333
+  -- Methods of BindGroupLayout
+   procedure wgpuBindGroupLayoutSetLabel (bindGroupLayout : WGPUBindGroupLayout; label : T_WGPUStringView)  -- webgpu.h:3985
    with Import => True,
         Convention => C,
         External_Name => "wgpuBindGroupLayoutSetLabel";
 
-   procedure wgpuBindGroupLayoutAddRef (bindGroupLayout : WGPUBindGroupLayout)  -- webgpu.h:3334
+   procedure wgpuBindGroupLayoutAddRef (bindGroupLayout : WGPUBindGroupLayout)  -- webgpu.h:3986
    with Import => True,
         Convention => C,
         External_Name => "wgpuBindGroupLayoutAddRef";
 
-   procedure wgpuBindGroupLayoutRelease (bindGroupLayout : WGPUBindGroupLayout)  -- webgpu.h:3335
+   procedure wgpuBindGroupLayoutRelease (bindGroupLayout : WGPUBindGroupLayout)  -- webgpu.h:3987
    with Import => True,
         Convention => C,
         External_Name => "wgpuBindGroupLayoutRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUBufferMethods WGPUBuffer methods
-  -- * \brief Functions whose first argument has type WGPUBuffer.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuBufferDestroy (buffer : WGPUBuffer)  -- webgpu.h:3346
+  -- Methods of Buffer
+   procedure wgpuBufferDestroy (buffer : WGPUBuffer)  -- webgpu.h:3990
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferDestroy";
 
-  --*
-  -- * @param offset
-  -- * Byte offset relative to the beginning of the buffer.
-  -- *
-  -- * @param size
-  -- * Byte size of the range to get. The returned pointer is valid for exactly this many bytes.
-  -- *
-  -- * @returns
-  -- * Returns a const pointer to beginning of the mapped range.
-  -- * It must not be written; writing to this range causes undefined behavior.
-  -- * Returns `NULL` with @ref ImplementationDefinedLogging if:
-  -- *
-  -- * - There is any content-timeline error as defined in the WebGPU specification for `getMappedRange()` (alignments, overlaps, etc.)
-  -- *   **except** for overlaps with other *const* ranges, which are allowed in C.
-  -- *   (JS does not allow this because const ranges do not exist.)
-  --
-
    function wgpuBufferGetConstMappedRange
      (buffer : WGPUBuffer;
       offset : T_Size;
-      size : T_Size) return System.Address  -- webgpu.h:3363
+      size : T_Size) return System.Address  -- webgpu.h:3991
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferGetConstMappedRange";
 
-   function wgpuBufferGetMapState (buffer : WGPUBuffer) return WGPUBufferMapState  -- webgpu.h:3364
+   function wgpuBufferGetMapState (buffer : WGPUBuffer) return WGPUBufferMapState  -- webgpu.h:3992
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferGetMapState";
 
-  --*
-  -- * @param offset
-  -- * Byte offset relative to the beginning of the buffer.
-  -- *
-  -- * @param size
-  -- * Byte size of the range to get. The returned pointer is valid for exactly this many bytes.
-  -- *
-  -- * @returns
-  -- * Returns a mutable pointer to beginning of the mapped range.
-  -- * Returns `NULL` with @ref ImplementationDefinedLogging if:
-  -- *
-  -- * - There is any content-timeline error as defined in the WebGPU specification for `getMappedRange()` (alignments, overlaps, etc.)
-  -- * - The buffer is not mapped with @ref WGPUMapMode_Write.
-  --
-
    function wgpuBufferGetMappedRange
      (buffer : WGPUBuffer;
       offset : T_Size;
-      size : T_Size) return System.Address  -- webgpu.h:3379
+      size : T_Size) return System.Address  -- webgpu.h:3993
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferGetMappedRange";
 
-   function wgpuBufferGetSize (buffer : WGPUBuffer) return bits_stdint_uintn_h.uint64_t  -- webgpu.h:3380
+   function wgpuBufferGetSize (buffer : WGPUBuffer) return bits_stdint_uintn_h.uint64_t  -- webgpu.h:3994
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferGetSize";
 
-   function wgpuBufferGetUsage (buffer : WGPUBuffer) return WGPUBufferUsage  -- webgpu.h:3381
+   function wgpuBufferGetUsage (buffer : WGPUBuffer) return WGPUBufferUsage  -- webgpu.h:3995
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferGetUsage";
 
-   function wgpuBufferMapAsync
+   procedure wgpuBufferMapAsync
      (buffer : WGPUBuffer;
       mode : WGPUMapMode;
       offset : T_Size;
       size : T_Size;
-      callbackInfo : WGPUBufferMapCallbackInfo) return WGPUFuture  -- webgpu.h:3382
+      callback : WGPUBufferMapCallback;
+      userdata : System.Address)  -- webgpu.h:3996
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferMapAsync";
 
-   procedure wgpuBufferSetLabel (buffer : WGPUBuffer; label : WGPUStringView)  -- webgpu.h:3383
+   function wgpuBufferMapAsync2
+     (buffer : WGPUBuffer;
+      mode : WGPUMapMode;
+      offset : T_Size;
+      size : T_Size;
+      callbackInfo : WGPUBufferMapCallbackInfo2) return WGPUFuture  -- webgpu.h:3997
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuBufferMapAsync2";
+
+   function wgpuBufferMapAsyncF
+     (buffer : WGPUBuffer;
+      mode : WGPUMapMode;
+      offset : T_Size;
+      size : T_Size;
+      callbackInfo : WGPUBufferMapCallbackInfo) return WGPUFuture  -- webgpu.h:3998
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuBufferMapAsyncF";
+
+   procedure wgpuBufferSetLabel (buffer : WGPUBuffer; label : T_WGPUStringView)  -- webgpu.h:3999
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferSetLabel";
 
-   procedure wgpuBufferUnmap (buffer : WGPUBuffer)  -- webgpu.h:3384
+   procedure wgpuBufferUnmap (buffer : WGPUBuffer)  -- webgpu.h:4000
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferUnmap";
 
-   procedure wgpuBufferAddRef (buffer : WGPUBuffer)  -- webgpu.h:3385
+   procedure wgpuBufferAddRef (buffer : WGPUBuffer)  -- webgpu.h:4001
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferAddRef";
 
-   procedure wgpuBufferRelease (buffer : WGPUBuffer)  -- webgpu.h:3386
+   procedure wgpuBufferRelease (buffer : WGPUBuffer)  -- webgpu.h:4002
    with Import => True,
         Convention => C,
         External_Name => "wgpuBufferRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUCommandBufferMethods WGPUCommandBuffer methods
-  -- * \brief Functions whose first argument has type WGPUCommandBuffer.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuCommandBufferSetLabel (commandBuffer : WGPUCommandBuffer; label : WGPUStringView)  -- webgpu.h:3397
+  -- Methods of CommandBuffer
+   procedure wgpuCommandBufferSetLabel (commandBuffer : WGPUCommandBuffer; label : T_WGPUStringView)  -- webgpu.h:4005
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandBufferSetLabel";
 
-   procedure wgpuCommandBufferAddRef (commandBuffer : WGPUCommandBuffer)  -- webgpu.h:3398
+   procedure wgpuCommandBufferAddRef (commandBuffer : WGPUCommandBuffer)  -- webgpu.h:4006
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandBufferAddRef";
 
-   procedure wgpuCommandBufferRelease (commandBuffer : WGPUCommandBuffer)  -- webgpu.h:3399
+   procedure wgpuCommandBufferRelease (commandBuffer : WGPUCommandBuffer)  -- webgpu.h:4007
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandBufferRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUCommandEncoderMethods WGPUCommandEncoder methods
-  -- * \brief Functions whose first argument has type WGPUCommandEncoder.
-  -- *
-  -- * @{
-  --
-
-   function wgpuCommandEncoderBeginComputePass (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPUComputePassDescriptor) return WGPUComputePassEncoder  -- webgpu.h:3410
+  -- Methods of CommandEncoder
+   function wgpuCommandEncoderBeginComputePass (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPUComputePassDescriptor) return WGPUComputePassEncoder  -- webgpu.h:4010
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderBeginComputePass";
 
-   function wgpuCommandEncoderBeginRenderPass (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPURenderPassDescriptor) return WGPURenderPassEncoder  -- webgpu.h:3411
+   function wgpuCommandEncoderBeginRenderPass (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPURenderPassDescriptor) return WGPURenderPassEncoder  -- webgpu.h:4011
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderBeginRenderPass";
@@ -4572,7 +4298,7 @@ package webgpu_h is
      (commandEncoder : WGPUCommandEncoder;
       buffer : WGPUBuffer;
       offset : bits_stdint_uintn_h.uint64_t;
-      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3412
+      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4012
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderClearBuffer";
@@ -4583,54 +4309,59 @@ package webgpu_h is
       sourceOffset : bits_stdint_uintn_h.uint64_t;
       destination : WGPUBuffer;
       destinationOffset : bits_stdint_uintn_h.uint64_t;
-      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3413
+      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4013
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderCopyBufferToBuffer";
 
    procedure wgpuCommandEncoderCopyBufferToTexture
      (commandEncoder : WGPUCommandEncoder;
-      source : access constant WGPUTexelCopyBufferInfo;
-      destination : access constant WGPUTexelCopyTextureInfo;
-      copySize : access constant WGPUExtent3D)  -- webgpu.h:3414
+      source : access constant WGPUImageCopyBuffer;
+      destination : access constant WGPUImageCopyTexture;
+      copySize : access constant WGPUExtent3D)  -- webgpu.h:4014
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderCopyBufferToTexture";
 
    procedure wgpuCommandEncoderCopyTextureToBuffer
      (commandEncoder : WGPUCommandEncoder;
-      source : access constant WGPUTexelCopyTextureInfo;
-      destination : access constant WGPUTexelCopyBufferInfo;
-      copySize : access constant WGPUExtent3D)  -- webgpu.h:3415
+      source : access constant WGPUImageCopyTexture;
+      destination : access constant WGPUImageCopyBuffer;
+      copySize : access constant WGPUExtent3D)  -- webgpu.h:4015
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderCopyTextureToBuffer";
 
    procedure wgpuCommandEncoderCopyTextureToTexture
      (commandEncoder : WGPUCommandEncoder;
-      source : access constant WGPUTexelCopyTextureInfo;
-      destination : access constant WGPUTexelCopyTextureInfo;
-      copySize : access constant WGPUExtent3D)  -- webgpu.h:3416
+      source : access constant WGPUImageCopyTexture;
+      destination : access constant WGPUImageCopyTexture;
+      copySize : access constant WGPUExtent3D)  -- webgpu.h:4016
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderCopyTextureToTexture";
 
-   function wgpuCommandEncoderFinish (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPUCommandBufferDescriptor) return WGPUCommandBuffer  -- webgpu.h:3417
+   function wgpuCommandEncoderFinish (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPUCommandBufferDescriptor) return WGPUCommandBuffer  -- webgpu.h:4017
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderFinish";
 
-   procedure wgpuCommandEncoderInsertDebugMarker (commandEncoder : WGPUCommandEncoder; markerLabel : WGPUStringView)  -- webgpu.h:3418
+   procedure wgpuCommandEncoderInjectValidationError (commandEncoder : WGPUCommandEncoder; message : T_WGPUStringView)  -- webgpu.h:4018
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuCommandEncoderInjectValidationError";
+
+   procedure wgpuCommandEncoderInsertDebugMarker (commandEncoder : WGPUCommandEncoder; markerLabel : T_WGPUStringView)  -- webgpu.h:4019
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderInsertDebugMarker";
 
-   procedure wgpuCommandEncoderPopDebugGroup (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:3419
+   procedure wgpuCommandEncoderPopDebugGroup (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:4020
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderPopDebugGroup";
 
-   procedure wgpuCommandEncoderPushDebugGroup (commandEncoder : WGPUCommandEncoder; groupLabel : WGPUStringView)  -- webgpu.h:3420
+   procedure wgpuCommandEncoderPushDebugGroup (commandEncoder : WGPUCommandEncoder; groupLabel : T_WGPUStringView)  -- webgpu.h:4021
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderPushDebugGroup";
@@ -4641,47 +4372,50 @@ package webgpu_h is
       firstQuery : bits_stdint_uintn_h.uint32_t;
       queryCount : bits_stdint_uintn_h.uint32_t;
       destination : WGPUBuffer;
-      destinationOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3421
+      destinationOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4022
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderResolveQuerySet";
 
-   procedure wgpuCommandEncoderSetLabel (commandEncoder : WGPUCommandEncoder; label : WGPUStringView)  -- webgpu.h:3422
+   procedure wgpuCommandEncoderSetLabel (commandEncoder : WGPUCommandEncoder; label : T_WGPUStringView)  -- webgpu.h:4023
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderSetLabel";
 
+   procedure wgpuCommandEncoderWriteBuffer
+     (commandEncoder : WGPUCommandEncoder;
+      buffer : WGPUBuffer;
+      bufferOffset : bits_stdint_uintn_h.uint64_t;
+      data : access bits_stdint_uintn_h.uint8_t;
+      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4024
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuCommandEncoderWriteBuffer";
+
    procedure wgpuCommandEncoderWriteTimestamp
      (commandEncoder : WGPUCommandEncoder;
       querySet : WGPUQuerySet;
-      queryIndex : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3423
+      queryIndex : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4025
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderWriteTimestamp";
 
-   procedure wgpuCommandEncoderAddRef (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:3424
+   procedure wgpuCommandEncoderAddRef (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:4026
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderAddRef";
 
-   procedure wgpuCommandEncoderRelease (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:3425
+   procedure wgpuCommandEncoderRelease (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:4027
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUComputePassEncoderMethods WGPUComputePassEncoder methods
-  -- * \brief Functions whose first argument has type WGPUComputePassEncoder.
-  -- *
-  -- * @{
-  --
-
+  -- Methods of ComputePassEncoder
    procedure wgpuComputePassEncoderDispatchWorkgroups
      (computePassEncoder : WGPUComputePassEncoder;
       workgroupCountX : bits_stdint_uintn_h.uint32_t;
       workgroupCountY : bits_stdint_uintn_h.uint32_t;
-      workgroupCountZ : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3436
+      workgroupCountZ : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4030
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderDispatchWorkgroups";
@@ -4689,27 +4423,27 @@ package webgpu_h is
    procedure wgpuComputePassEncoderDispatchWorkgroupsIndirect
      (computePassEncoder : WGPUComputePassEncoder;
       indirectBuffer : WGPUBuffer;
-      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3437
+      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4031
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderDispatchWorkgroupsIndirect";
 
-   procedure wgpuComputePassEncoderEnd (computePassEncoder : WGPUComputePassEncoder)  -- webgpu.h:3438
+   procedure wgpuComputePassEncoderEnd (computePassEncoder : WGPUComputePassEncoder)  -- webgpu.h:4032
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderEnd";
 
-   procedure wgpuComputePassEncoderInsertDebugMarker (computePassEncoder : WGPUComputePassEncoder; markerLabel : WGPUStringView)  -- webgpu.h:3439
+   procedure wgpuComputePassEncoderInsertDebugMarker (computePassEncoder : WGPUComputePassEncoder; markerLabel : T_WGPUStringView)  -- webgpu.h:4033
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderInsertDebugMarker";
 
-   procedure wgpuComputePassEncoderPopDebugGroup (computePassEncoder : WGPUComputePassEncoder)  -- webgpu.h:3440
+   procedure wgpuComputePassEncoderPopDebugGroup (computePassEncoder : WGPUComputePassEncoder)  -- webgpu.h:4034
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderPopDebugGroup";
 
-   procedure wgpuComputePassEncoderPushDebugGroup (computePassEncoder : WGPUComputePassEncoder; groupLabel : WGPUStringView)  -- webgpu.h:3441
+   procedure wgpuComputePassEncoderPushDebugGroup (computePassEncoder : WGPUComputePassEncoder; groupLabel : T_WGPUStringView)  -- webgpu.h:4035
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderPushDebugGroup";
@@ -4719,376 +4453,533 @@ package webgpu_h is
       groupIndex : bits_stdint_uintn_h.uint32_t;
       group : WGPUBindGroup;
       dynamicOffsetCount : T_Size;
-      dynamicOffsets : access bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3442
+      dynamicOffsets : access bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4036
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderSetBindGroup";
 
-   procedure wgpuComputePassEncoderSetLabel (computePassEncoder : WGPUComputePassEncoder; label : WGPUStringView)  -- webgpu.h:3443
+   procedure wgpuComputePassEncoderSetLabel (computePassEncoder : WGPUComputePassEncoder; label : T_WGPUStringView)  -- webgpu.h:4037
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderSetLabel";
 
-   procedure wgpuComputePassEncoderSetPipeline (computePassEncoder : WGPUComputePassEncoder; pipeline : WGPUComputePipeline)  -- webgpu.h:3444
+   procedure wgpuComputePassEncoderSetPipeline (computePassEncoder : WGPUComputePassEncoder; pipeline : WGPUComputePipeline)  -- webgpu.h:4038
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderSetPipeline";
 
-   procedure wgpuComputePassEncoderAddRef (computePassEncoder : WGPUComputePassEncoder)  -- webgpu.h:3445
+   procedure wgpuComputePassEncoderWriteTimestamp
+     (computePassEncoder : WGPUComputePassEncoder;
+      querySet : WGPUQuerySet;
+      queryIndex : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4039
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuComputePassEncoderWriteTimestamp";
+
+   procedure wgpuComputePassEncoderAddRef (computePassEncoder : WGPUComputePassEncoder)  -- webgpu.h:4040
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderAddRef";
 
-   procedure wgpuComputePassEncoderRelease (computePassEncoder : WGPUComputePassEncoder)  -- webgpu.h:3446
+   procedure wgpuComputePassEncoderRelease (computePassEncoder : WGPUComputePassEncoder)  -- webgpu.h:4041
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePassEncoderRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUComputePipelineMethods WGPUComputePipeline methods
-  -- * \brief Functions whose first argument has type WGPUComputePipeline.
-  -- *
-  -- * @{
-  --
-
-   function wgpuComputePipelineGetBindGroupLayout (computePipeline : WGPUComputePipeline; groupIndex : bits_stdint_uintn_h.uint32_t) return WGPUBindGroupLayout  -- webgpu.h:3457
+  -- Methods of ComputePipeline
+   function wgpuComputePipelineGetBindGroupLayout (computePipeline : WGPUComputePipeline; groupIndex : bits_stdint_uintn_h.uint32_t) return WGPUBindGroupLayout  -- webgpu.h:4044
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePipelineGetBindGroupLayout";
 
-   procedure wgpuComputePipelineSetLabel (computePipeline : WGPUComputePipeline; label : WGPUStringView)  -- webgpu.h:3458
+   procedure wgpuComputePipelineSetLabel (computePipeline : WGPUComputePipeline; label : T_WGPUStringView)  -- webgpu.h:4045
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePipelineSetLabel";
 
-   procedure wgpuComputePipelineAddRef (computePipeline : WGPUComputePipeline)  -- webgpu.h:3459
+   procedure wgpuComputePipelineAddRef (computePipeline : WGPUComputePipeline)  -- webgpu.h:4046
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePipelineAddRef";
 
-   procedure wgpuComputePipelineRelease (computePipeline : WGPUComputePipeline)  -- webgpu.h:3460
+   procedure wgpuComputePipelineRelease (computePipeline : WGPUComputePipeline)  -- webgpu.h:4047
    with Import => True,
         Convention => C,
         External_Name => "wgpuComputePipelineRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUDeviceMethods WGPUDevice methods
-  -- * \brief Functions whose first argument has type WGPUDevice.
-  -- *
-  -- * @{
-  --
-
-   function wgpuDeviceCreateBindGroup (device : WGPUDevice; descriptor : access constant WGPUBindGroupDescriptor) return WGPUBindGroup  -- webgpu.h:3471
+  -- Methods of Device
+   function wgpuDeviceCreateBindGroup (device : WGPUDevice; descriptor : access constant WGPUBindGroupDescriptor) return WGPUBindGroup  -- webgpu.h:4050
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateBindGroup";
 
-   function wgpuDeviceCreateBindGroupLayout (device : WGPUDevice; descriptor : access constant WGPUBindGroupLayoutDescriptor) return WGPUBindGroupLayout  -- webgpu.h:3472
+   function wgpuDeviceCreateBindGroupLayout (device : WGPUDevice; descriptor : access constant WGPUBindGroupLayoutDescriptor) return WGPUBindGroupLayout  -- webgpu.h:4051
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateBindGroupLayout";
 
-   function wgpuDeviceCreateBuffer (device : WGPUDevice; descriptor : access constant WGPUBufferDescriptor) return WGPUBuffer  -- webgpu.h:3473
+   function wgpuDeviceCreateBuffer (device : WGPUDevice; descriptor : access constant WGPUBufferDescriptor) return WGPUBuffer  -- webgpu.h:4052
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateBuffer";
 
-   function wgpuDeviceCreateCommandEncoder (device : WGPUDevice; descriptor : access constant WGPUCommandEncoderDescriptor) return WGPUCommandEncoder  -- webgpu.h:3474
+   function wgpuDeviceCreateCommandEncoder (device : WGPUDevice; descriptor : access constant WGPUCommandEncoderDescriptor) return WGPUCommandEncoder  -- webgpu.h:4053
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateCommandEncoder";
 
-   function wgpuDeviceCreateComputePipeline (device : WGPUDevice; descriptor : access constant WGPUComputePipelineDescriptor) return WGPUComputePipeline  -- webgpu.h:3475
+   function wgpuDeviceCreateComputePipeline (device : WGPUDevice; descriptor : access constant WGPUComputePipelineDescriptor) return WGPUComputePipeline  -- webgpu.h:4054
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateComputePipeline";
 
-   function wgpuDeviceCreateComputePipelineAsync
+   procedure wgpuDeviceCreateComputePipelineAsync
      (device : WGPUDevice;
       descriptor : access constant WGPUComputePipelineDescriptor;
-      callbackInfo : WGPUCreateComputePipelineAsyncCallbackInfo) return WGPUFuture  -- webgpu.h:3476
+      callback : WGPUCreateComputePipelineAsyncCallback;
+      userdata : System.Address)  -- webgpu.h:4055
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateComputePipelineAsync";
 
-   function wgpuDeviceCreatePipelineLayout (device : WGPUDevice; descriptor : access constant WGPUPipelineLayoutDescriptor) return WGPUPipelineLayout  -- webgpu.h:3477
+   function wgpuDeviceCreateComputePipelineAsync2
+     (device : WGPUDevice;
+      descriptor : access constant WGPUComputePipelineDescriptor;
+      callbackInfo : WGPUCreateComputePipelineAsyncCallbackInfo2) return WGPUFuture  -- webgpu.h:4056
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateComputePipelineAsync2";
+
+   function wgpuDeviceCreateComputePipelineAsyncF
+     (device : WGPUDevice;
+      descriptor : access constant WGPUComputePipelineDescriptor;
+      callbackInfo : WGPUCreateComputePipelineAsyncCallbackInfo) return WGPUFuture  -- webgpu.h:4057
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateComputePipelineAsyncF";
+
+   function wgpuDeviceCreateErrorBuffer (device : WGPUDevice; descriptor : access constant WGPUBufferDescriptor) return WGPUBuffer  -- webgpu.h:4058
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateErrorBuffer";
+
+   function wgpuDeviceCreateErrorExternalTexture (device : WGPUDevice) return WGPUExternalTexture  -- webgpu.h:4059
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateErrorExternalTexture";
+
+   function wgpuDeviceCreateErrorShaderModule
+     (device : WGPUDevice;
+      descriptor : access constant WGPUShaderModuleDescriptor;
+      errorMessage : T_WGPUStringView) return WGPUShaderModule  -- webgpu.h:4060
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateErrorShaderModule";
+
+   function wgpuDeviceCreateErrorTexture (device : WGPUDevice; descriptor : access constant WGPUTextureDescriptor) return WGPUTexture  -- webgpu.h:4061
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateErrorTexture";
+
+   function wgpuDeviceCreateExternalTexture (device : WGPUDevice; externalTextureDescriptor : access constant WGPUExternalTextureDescriptor) return WGPUExternalTexture  -- webgpu.h:4062
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateExternalTexture";
+
+   function wgpuDeviceCreatePipelineLayout (device : WGPUDevice; descriptor : access constant WGPUPipelineLayoutDescriptor) return WGPUPipelineLayout  -- webgpu.h:4063
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreatePipelineLayout";
 
-   function wgpuDeviceCreateQuerySet (device : WGPUDevice; descriptor : access constant WGPUQuerySetDescriptor) return WGPUQuerySet  -- webgpu.h:3478
+   function wgpuDeviceCreateQuerySet (device : WGPUDevice; descriptor : access constant WGPUQuerySetDescriptor) return WGPUQuerySet  -- webgpu.h:4064
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateQuerySet";
 
-   function wgpuDeviceCreateRenderBundleEncoder (device : WGPUDevice; descriptor : access constant WGPURenderBundleEncoderDescriptor) return WGPURenderBundleEncoder  -- webgpu.h:3479
+   function wgpuDeviceCreateRenderBundleEncoder (device : WGPUDevice; descriptor : access constant WGPURenderBundleEncoderDescriptor) return WGPURenderBundleEncoder  -- webgpu.h:4065
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateRenderBundleEncoder";
 
-   function wgpuDeviceCreateRenderPipeline (device : WGPUDevice; descriptor : access constant WGPURenderPipelineDescriptor) return WGPURenderPipeline  -- webgpu.h:3480
+   function wgpuDeviceCreateRenderPipeline (device : WGPUDevice; descriptor : access constant WGPURenderPipelineDescriptor) return WGPURenderPipeline  -- webgpu.h:4066
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateRenderPipeline";
 
-   function wgpuDeviceCreateRenderPipelineAsync
+   procedure wgpuDeviceCreateRenderPipelineAsync
      (device : WGPUDevice;
       descriptor : access constant WGPURenderPipelineDescriptor;
-      callbackInfo : WGPUCreateRenderPipelineAsyncCallbackInfo) return WGPUFuture  -- webgpu.h:3481
+      callback : WGPUCreateRenderPipelineAsyncCallback;
+      userdata : System.Address)  -- webgpu.h:4067
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateRenderPipelineAsync";
 
-   function wgpuDeviceCreateSampler (device : WGPUDevice; descriptor : access constant WGPUSamplerDescriptor) return WGPUSampler  -- webgpu.h:3482
+   function wgpuDeviceCreateRenderPipelineAsync2
+     (device : WGPUDevice;
+      descriptor : access constant WGPURenderPipelineDescriptor;
+      callbackInfo : WGPUCreateRenderPipelineAsyncCallbackInfo2) return WGPUFuture  -- webgpu.h:4068
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateRenderPipelineAsync2";
+
+   function wgpuDeviceCreateRenderPipelineAsyncF
+     (device : WGPUDevice;
+      descriptor : access constant WGPURenderPipelineDescriptor;
+      callbackInfo : WGPUCreateRenderPipelineAsyncCallbackInfo) return WGPUFuture  -- webgpu.h:4069
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceCreateRenderPipelineAsyncF";
+
+   function wgpuDeviceCreateSampler (device : WGPUDevice; descriptor : access constant WGPUSamplerDescriptor) return WGPUSampler  -- webgpu.h:4070
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateSampler";
 
-   function wgpuDeviceCreateShaderModule (device : WGPUDevice; descriptor : access constant WGPUShaderModuleDescriptor) return WGPUShaderModule  -- webgpu.h:3483
+   function wgpuDeviceCreateShaderModule (device : WGPUDevice; descriptor : access constant WGPUShaderModuleDescriptor) return WGPUShaderModule  -- webgpu.h:4071
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateShaderModule";
 
-   function wgpuDeviceCreateTexture (device : WGPUDevice; descriptor : access constant WGPUTextureDescriptor) return WGPUTexture  -- webgpu.h:3484
+   function wgpuDeviceCreateTexture (device : WGPUDevice; descriptor : access constant WGPUTextureDescriptor) return WGPUTexture  -- webgpu.h:4072
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateTexture";
 
-   procedure wgpuDeviceDestroy (device : WGPUDevice)  -- webgpu.h:3485
+   procedure wgpuDeviceDestroy (device : WGPUDevice)  -- webgpu.h:4073
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceDestroy";
 
-   function wgpuDeviceGetAdapterInfo (device : WGPUDevice) return WGPUAdapterInfo  -- webgpu.h:3486
+   function wgpuDeviceEnumerateFeatures (device : WGPUDevice; features : access WGPUFeatureName) return T_Size  -- webgpu.h:4074
    with Import => True,
         Convention => C,
-        External_Name => "wgpuDeviceGetAdapterInfo";
+        External_Name => "wgpuDeviceEnumerateFeatures";
 
-  --*
-  -- * Get the list of @ref WGPUFeatureName values supported by the device.
-  -- *
-  -- * @param features
-  -- * This parameter is @ref ReturnedWithOwnership.
-  --
+   procedure wgpuDeviceForceLoss
+     (device : WGPUDevice;
+      c_type : WGPUDeviceLostReason;
+      message : T_WGPUStringView)  -- webgpu.h:4075
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceForceLoss";
 
-   procedure wgpuDeviceGetFeatures (device : WGPUDevice; features : access WGPUSupportedFeatures)  -- webgpu.h:3493
+   function wgpuDeviceGetAHardwareBufferProperties
+     (device : WGPUDevice;
+      handle : System.Address;
+      properties : access WGPUAHardwareBufferProperties) return WGPUStatus  -- webgpu.h:4076
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceGetAHardwareBufferProperties";
+
+   function wgpuDeviceGetAdapter (device : WGPUDevice) return WGPUAdapter  -- webgpu.h:4077
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceGetAdapter";
+
+   procedure wgpuDeviceGetFeatures (device : WGPUDevice; features : access WGPUSupportedFeatures)  -- webgpu.h:4078
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceGetFeatures";
 
-  --*
-  -- * @returns
-  -- * Indicates if there was an @ref OutStructChainError.
-  --
-
-   function wgpuDeviceGetLimits (device : WGPUDevice; limits : access WGPULimits) return WGPUStatus  -- webgpu.h:3498
+   function wgpuDeviceGetLimits (device : WGPUDevice; limits : access WGPUSupportedLimits) return WGPUStatus  -- webgpu.h:4079
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceGetLimits";
 
-  --*
-  -- * @returns
-  -- * The @ref WGPUFuture for the device-lost event of the device.
-  --
-
-   function wgpuDeviceGetLostFuture (device : WGPUDevice) return WGPUFuture  -- webgpu.h:3503
+   function wgpuDeviceGetLostFuture (device : WGPUDevice) return WGPUFuture  -- webgpu.h:4080
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceGetLostFuture";
 
-   function wgpuDeviceGetQueue (device : WGPUDevice) return WGPUQueue  -- webgpu.h:3504
+   function wgpuDeviceGetQueue (device : WGPUDevice) return WGPUQueue  -- webgpu.h:4081
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceGetQueue";
 
-   function wgpuDeviceHasFeature (device : WGPUDevice; feature : WGPUFeatureName) return T_WGPUBool  -- webgpu.h:3505
+   function wgpuDeviceHasFeature (device : WGPUDevice; feature : WGPUFeatureName) return T_WGPUBool  -- webgpu.h:4082
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceHasFeature";
 
-   function wgpuDevicePopErrorScope (device : WGPUDevice; callbackInfo : WGPUPopErrorScopeCallbackInfo) return WGPUFuture  -- webgpu.h:3506
+   function wgpuDeviceImportSharedBufferMemory (device : WGPUDevice; descriptor : access constant WGPUSharedBufferMemoryDescriptor) return WGPUSharedBufferMemory  -- webgpu.h:4083
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceImportSharedBufferMemory";
+
+   function wgpuDeviceImportSharedFence (device : WGPUDevice; descriptor : access constant WGPUSharedFenceDescriptor) return WGPUSharedFence  -- webgpu.h:4084
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceImportSharedFence";
+
+   function wgpuDeviceImportSharedTextureMemory (device : WGPUDevice; descriptor : access constant WGPUSharedTextureMemoryDescriptor) return WGPUSharedTextureMemory  -- webgpu.h:4085
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceImportSharedTextureMemory";
+
+   procedure wgpuDeviceInjectError
+     (device : WGPUDevice;
+      c_type : WGPUErrorType;
+      message : T_WGPUStringView)  -- webgpu.h:4086
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceInjectError";
+
+   procedure wgpuDevicePopErrorScope
+     (device : WGPUDevice;
+      oldCallback : WGPUErrorCallback;
+      userdata : System.Address)  -- webgpu.h:4087
    with Import => True,
         Convention => C,
         External_Name => "wgpuDevicePopErrorScope";
 
-   procedure wgpuDevicePushErrorScope (device : WGPUDevice; filter : WGPUErrorFilter)  -- webgpu.h:3507
+   function wgpuDevicePopErrorScope2 (device : WGPUDevice; callbackInfo : WGPUPopErrorScopeCallbackInfo2) return WGPUFuture  -- webgpu.h:4088
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDevicePopErrorScope2";
+
+   function wgpuDevicePopErrorScopeF (device : WGPUDevice; callbackInfo : WGPUPopErrorScopeCallbackInfo) return WGPUFuture  -- webgpu.h:4089
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDevicePopErrorScopeF";
+
+   procedure wgpuDevicePushErrorScope (device : WGPUDevice; filter : WGPUErrorFilter)  -- webgpu.h:4090
    with Import => True,
         Convention => C,
         External_Name => "wgpuDevicePushErrorScope";
 
-   procedure wgpuDeviceSetLabel (device : WGPUDevice; label : WGPUStringView)  -- webgpu.h:3508
+   procedure wgpuDeviceSetDeviceLostCallback
+     (device : WGPUDevice;
+      callback : WGPUDeviceLostCallback;
+      userdata : System.Address)  -- webgpu.h:4091
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceSetDeviceLostCallback";
+
+   procedure wgpuDeviceSetLabel (device : WGPUDevice; label : T_WGPUStringView)  -- webgpu.h:4092
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceSetLabel";
 
-   procedure wgpuDeviceAddRef (device : WGPUDevice)  -- webgpu.h:3509
+   procedure wgpuDeviceSetLoggingCallback
+     (device : WGPUDevice;
+      callback : WGPULoggingCallback;
+      userdata : System.Address)  -- webgpu.h:4093
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceSetLoggingCallback";
+
+   procedure wgpuDeviceSetUncapturedErrorCallback
+     (device : WGPUDevice;
+      callback : WGPUErrorCallback;
+      userdata : System.Address)  -- webgpu.h:4094
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceSetUncapturedErrorCallback";
+
+   procedure wgpuDeviceTick (device : WGPUDevice)  -- webgpu.h:4095
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceTick";
+
+   procedure wgpuDeviceValidateTextureDescriptor (device : WGPUDevice; descriptor : access constant WGPUTextureDescriptor)  -- webgpu.h:4096
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuDeviceValidateTextureDescriptor";
+
+   procedure wgpuDeviceAddRef (device : WGPUDevice)  -- webgpu.h:4097
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceAddRef";
 
-   procedure wgpuDeviceRelease (device : WGPUDevice)  -- webgpu.h:3510
+   procedure wgpuDeviceRelease (device : WGPUDevice)  -- webgpu.h:4098
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUInstanceMethods T_WGPUInstance methods
-  -- * \brief Functions whose first argument has type T_WGPUInstance.
-  -- *
-  -- * @{
-  --
+  -- Methods of ExternalTexture
+   procedure wgpuExternalTextureDestroy (externalTexture : WGPUExternalTexture)  -- webgpu.h:4101
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuExternalTextureDestroy";
 
-  --*
-  -- * Creates a @ref WGPUSurface, see @ref Surface-Creation for more details.
-  -- *
-  -- * @param descriptor
-  -- * The description of the @ref WGPUSurface to create.
-  -- *
-  -- * @returns
-  -- * A new @ref WGPUSurface for this descriptor (or an error @ref WGPUSurface).
-  --
+   procedure wgpuExternalTextureExpire (externalTexture : WGPUExternalTexture)  -- webgpu.h:4102
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuExternalTextureExpire";
 
-   function wgpuInstanceCreateSurface (instance : T_WGPUInstance; descriptor : access constant WGPUSurfaceDescriptor) return WGPUSurface  -- webgpu.h:3530
+   procedure wgpuExternalTextureRefresh (externalTexture : WGPUExternalTexture)  -- webgpu.h:4103
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuExternalTextureRefresh";
+
+   procedure wgpuExternalTextureSetLabel (externalTexture : WGPUExternalTexture; label : T_WGPUStringView)  -- webgpu.h:4104
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuExternalTextureSetLabel";
+
+   procedure wgpuExternalTextureAddRef (externalTexture : WGPUExternalTexture)  -- webgpu.h:4105
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuExternalTextureAddRef";
+
+   procedure wgpuExternalTextureRelease (externalTexture : WGPUExternalTexture)  -- webgpu.h:4106
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuExternalTextureRelease";
+
+  -- Methods of Instance
+   function wgpuInstanceCreateSurface (instance : WGPUInstance; descriptor : access constant WGPUSurfaceDescriptor) return WGPUSurface  -- webgpu.h:4109
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceCreateSurface";
 
-  --*
-  -- * Get the list of @ref WGPUWGSLLanguageFeatureName values supported by the instance.
-  --
-
-   function wgpuInstanceGetWGSLLanguageFeatures (instance : T_WGPUInstance; features : access WGPUSupportedWGSLLanguageFeatures) return WGPUStatus  -- webgpu.h:3534
+   function wgpuInstanceEnumerateWGSLLanguageFeatures (instance : WGPUInstance; features : access WGPUWGSLFeatureName) return T_Size  -- webgpu.h:4110
    with Import => True,
         Convention => C,
-        External_Name => "wgpuInstanceGetWGSLLanguageFeatures";
+        External_Name => "wgpuInstanceEnumerateWGSLLanguageFeatures";
 
-   function wgpuInstanceHasWGSLLanguageFeature (instance : T_WGPUInstance; feature : WGPUWGSLLanguageFeatureName) return T_WGPUBool  -- webgpu.h:3535
+   function wgpuInstanceHasWGSLLanguageFeature (instance : WGPUInstance; feature : WGPUWGSLFeatureName) return T_WGPUBool  -- webgpu.h:4111
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceHasWGSLLanguageFeature";
 
-  --*
-  -- * Processes asynchronous events on this `T_WGPUInstance`, calling any callbacks for asynchronous operations created with `::WGPUCallbackMode_AllowProcessEvents`.
-  -- *
-  -- * See @ref Process-Events for more information.
-  --
-
-   procedure wgpuInstanceProcessEvents (instance : T_WGPUInstance)  -- webgpu.h:3541
+   procedure wgpuInstanceProcessEvents (instance : WGPUInstance)  -- webgpu.h:4112
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceProcessEvents";
 
-   function wgpuInstanceRequestAdapter
-     (instance : T_WGPUInstance;
-      options : access constant WGPURequestAdapterOptions;
-      callbackInfo : WGPURequestAdapterCallbackInfo) return WGPUFuture  -- webgpu.h:3542
+   procedure wgpuInstanceRequestAdapter
+     (instance : WGPUInstance;
+      options : access constant T_WGPURequestAdapterOptions;
+      callback : WGPURequestAdapterCallback;
+      userdata : System.Address)  -- webgpu.h:4113
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceRequestAdapter";
 
-  --*
-  -- * Wait for at least one WGPUFuture in `futures` to complete, and call callbacks of the respective completed asynchronous operations.
-  -- *
-  -- * See @ref Wait-Any for more information.
-  --
+   function wgpuInstanceRequestAdapter2
+     (instance : WGPUInstance;
+      options : access constant T_WGPURequestAdapterOptions;
+      callbackInfo : WGPURequestAdapterCallbackInfo2) return WGPUFuture  -- webgpu.h:4114
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuInstanceRequestAdapter2";
+
+   function wgpuInstanceRequestAdapterF
+     (instance : WGPUInstance;
+      options : access constant T_WGPURequestAdapterOptions;
+      callbackInfo : WGPURequestAdapterCallbackInfo) return WGPUFuture  -- webgpu.h:4115
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuInstanceRequestAdapterF";
 
    function wgpuInstanceWaitAny
-     (instance : T_WGPUInstance;
+     (instance : WGPUInstance;
       futureCount : T_Size;
       futures : access WGPUFutureWaitInfo;
-      timeoutNS : bits_stdint_uintn_h.uint64_t) return WGPUWaitStatus  -- webgpu.h:3548
+      timeoutNS : bits_stdint_uintn_h.uint64_t) return WGPUWaitStatus  -- webgpu.h:4116
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceWaitAny";
 
-   procedure wgpuInstanceAddRef (instance : T_WGPUInstance)  -- webgpu.h:3549
+   procedure wgpuInstanceAddRef (instance : WGPUInstance)  -- webgpu.h:4117
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceAddRef";
 
-   procedure wgpuInstanceRelease (instance : T_WGPUInstance)  -- webgpu.h:3550
+   procedure wgpuInstanceRelease (instance : WGPUInstance)  -- webgpu.h:4118
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUPipelineLayoutMethods WGPUPipelineLayout methods
-  -- * \brief Functions whose first argument has type WGPUPipelineLayout.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuPipelineLayoutSetLabel (pipelineLayout : WGPUPipelineLayout; label : WGPUStringView)  -- webgpu.h:3561
+  -- Methods of PipelineLayout
+   procedure wgpuPipelineLayoutSetLabel (pipelineLayout : WGPUPipelineLayout; label : T_WGPUStringView)  -- webgpu.h:4121
    with Import => True,
         Convention => C,
         External_Name => "wgpuPipelineLayoutSetLabel";
 
-   procedure wgpuPipelineLayoutAddRef (pipelineLayout : WGPUPipelineLayout)  -- webgpu.h:3562
+   procedure wgpuPipelineLayoutAddRef (pipelineLayout : WGPUPipelineLayout)  -- webgpu.h:4122
    with Import => True,
         Convention => C,
         External_Name => "wgpuPipelineLayoutAddRef";
 
-   procedure wgpuPipelineLayoutRelease (pipelineLayout : WGPUPipelineLayout)  -- webgpu.h:3563
+   procedure wgpuPipelineLayoutRelease (pipelineLayout : WGPUPipelineLayout)  -- webgpu.h:4123
    with Import => True,
         Convention => C,
         External_Name => "wgpuPipelineLayoutRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUQuerySetMethods WGPUQuerySet methods
-  -- * \brief Functions whose first argument has type WGPUQuerySet.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuQuerySetDestroy (querySet : WGPUQuerySet)  -- webgpu.h:3574
+  -- Methods of QuerySet
+   procedure wgpuQuerySetDestroy (querySet : WGPUQuerySet)  -- webgpu.h:4126
    with Import => True,
         Convention => C,
         External_Name => "wgpuQuerySetDestroy";
 
-   function wgpuQuerySetGetCount (querySet : WGPUQuerySet) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:3575
+   function wgpuQuerySetGetCount (querySet : WGPUQuerySet) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:4127
    with Import => True,
         Convention => C,
         External_Name => "wgpuQuerySetGetCount";
 
-   function wgpuQuerySetGetType (querySet : WGPUQuerySet) return WGPUQueryType  -- webgpu.h:3576
+   function wgpuQuerySetGetType (querySet : WGPUQuerySet) return WGPUQueryType  -- webgpu.h:4128
    with Import => True,
         Convention => C,
         External_Name => "wgpuQuerySetGetType";
 
-   procedure wgpuQuerySetSetLabel (querySet : WGPUQuerySet; label : WGPUStringView)  -- webgpu.h:3577
+   procedure wgpuQuerySetSetLabel (querySet : WGPUQuerySet; label : T_WGPUStringView)  -- webgpu.h:4129
    with Import => True,
         Convention => C,
         External_Name => "wgpuQuerySetSetLabel";
 
-   procedure wgpuQuerySetAddRef (querySet : WGPUQuerySet)  -- webgpu.h:3578
+   procedure wgpuQuerySetAddRef (querySet : WGPUQuerySet)  -- webgpu.h:4130
    with Import => True,
         Convention => C,
         External_Name => "wgpuQuerySetAddRef";
 
-   procedure wgpuQuerySetRelease (querySet : WGPUQuerySet)  -- webgpu.h:3579
+   procedure wgpuQuerySetRelease (querySet : WGPUQuerySet)  -- webgpu.h:4131
    with Import => True,
         Convention => C,
         External_Name => "wgpuQuerySetRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUQueueMethods WGPUQueue methods
-  -- * \brief Functions whose first argument has type WGPUQueue.
-  -- *
-  -- * @{
-  --
+  -- Methods of Queue
+   procedure wgpuQueueCopyExternalTextureForBrowser
+     (queue : WGPUQueue;
+      source : access constant WGPUImageCopyExternalTexture;
+      destination : access constant WGPUImageCopyTexture;
+      copySize : access constant WGPUExtent3D;
+      options : access constant WGPUCopyTextureForBrowserOptions)  -- webgpu.h:4134
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuQueueCopyExternalTextureForBrowser";
 
-   function wgpuQueueOnSubmittedWorkDone (queue : WGPUQueue; callbackInfo : WGPUQueueWorkDoneCallbackInfo) return WGPUFuture  -- webgpu.h:3590
+   procedure wgpuQueueCopyTextureForBrowser
+     (queue : WGPUQueue;
+      source : access constant WGPUImageCopyTexture;
+      destination : access constant WGPUImageCopyTexture;
+      copySize : access constant WGPUExtent3D;
+      options : access constant WGPUCopyTextureForBrowserOptions)  -- webgpu.h:4135
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuQueueCopyTextureForBrowser";
+
+   procedure wgpuQueueOnSubmittedWorkDone
+     (queue : WGPUQueue;
+      callback : WGPUQueueWorkDoneCallback;
+      userdata : System.Address)  -- webgpu.h:4136
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueOnSubmittedWorkDone";
 
-   procedure wgpuQueueSetLabel (queue : WGPUQueue; label : WGPUStringView)  -- webgpu.h:3591
+   function wgpuQueueOnSubmittedWorkDone2 (queue : WGPUQueue; callbackInfo : WGPUQueueWorkDoneCallbackInfo2) return WGPUFuture  -- webgpu.h:4137
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuQueueOnSubmittedWorkDone2";
+
+   function wgpuQueueOnSubmittedWorkDoneF (queue : WGPUQueue; callbackInfo : WGPUQueueWorkDoneCallbackInfo) return WGPUFuture  -- webgpu.h:4138
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuQueueOnSubmittedWorkDoneF";
+
+   procedure wgpuQueueSetLabel (queue : WGPUQueue; label : T_WGPUStringView)  -- webgpu.h:4139
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueSetLabel";
@@ -5096,84 +4987,65 @@ package webgpu_h is
    procedure wgpuQueueSubmit
      (queue : WGPUQueue;
       commandCount : T_Size;
-      commands : System.Address)  -- webgpu.h:3592
+      commands : System.Address)  -- webgpu.h:4140
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueSubmit";
-
-  --*
-  -- * Produces a @ref DeviceError both content-timeline (`size` alignment) and device-timeline
-  -- * errors defined by the WebGPU specification.
-  --
 
    procedure wgpuQueueWriteBuffer
      (queue : WGPUQueue;
       buffer : WGPUBuffer;
       bufferOffset : bits_stdint_uintn_h.uint64_t;
       data : System.Address;
-      size : T_Size)  -- webgpu.h:3597
+      size : T_Size)  -- webgpu.h:4141
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueWriteBuffer";
 
    procedure wgpuQueueWriteTexture
      (queue : WGPUQueue;
-      destination : access constant WGPUTexelCopyTextureInfo;
+      destination : access constant WGPUImageCopyTexture;
       data : System.Address;
       dataSize : T_Size;
-      dataLayout : access constant WGPUTexelCopyBufferLayout;
-      writeSize : access constant WGPUExtent3D)  -- webgpu.h:3598
+      dataLayout : access constant WGPUTextureDataLayout;
+      writeSize : access constant WGPUExtent3D)  -- webgpu.h:4142
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueWriteTexture";
 
-   procedure wgpuQueueAddRef (queue : WGPUQueue)  -- webgpu.h:3599
+   procedure wgpuQueueAddRef (queue : WGPUQueue)  -- webgpu.h:4143
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueAddRef";
 
-   procedure wgpuQueueRelease (queue : WGPUQueue)  -- webgpu.h:3600
+   procedure wgpuQueueRelease (queue : WGPUQueue)  -- webgpu.h:4144
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPURenderBundleMethods WGPURenderBundle methods
-  -- * \brief Functions whose first argument has type WGPURenderBundle.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuRenderBundleSetLabel (renderBundle : WGPURenderBundle; label : WGPUStringView)  -- webgpu.h:3611
+  -- Methods of RenderBundle
+   procedure wgpuRenderBundleSetLabel (renderBundle : WGPURenderBundle; label : T_WGPUStringView)  -- webgpu.h:4147
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleSetLabel";
 
-   procedure wgpuRenderBundleAddRef (renderBundle : WGPURenderBundle)  -- webgpu.h:3612
+   procedure wgpuRenderBundleAddRef (renderBundle : WGPURenderBundle)  -- webgpu.h:4148
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleAddRef";
 
-   procedure wgpuRenderBundleRelease (renderBundle : WGPURenderBundle)  -- webgpu.h:3613
+   procedure wgpuRenderBundleRelease (renderBundle : WGPURenderBundle)  -- webgpu.h:4149
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPURenderBundleEncoderMethods WGPURenderBundleEncoder methods
-  -- * \brief Functions whose first argument has type WGPURenderBundleEncoder.
-  -- *
-  -- * @{
-  --
-
+  -- Methods of RenderBundleEncoder
    procedure wgpuRenderBundleEncoderDraw
      (renderBundleEncoder : WGPURenderBundleEncoder;
       vertexCount : bits_stdint_uintn_h.uint32_t;
       instanceCount : bits_stdint_uintn_h.uint32_t;
       firstVertex : bits_stdint_uintn_h.uint32_t;
-      firstInstance : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3624
+      firstInstance : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4152
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderDraw";
@@ -5184,7 +5056,7 @@ package webgpu_h is
       instanceCount : bits_stdint_uintn_h.uint32_t;
       firstIndex : bits_stdint_uintn_h.uint32_t;
       baseVertex : bits_stdint_intn_h.int32_t;
-      firstInstance : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3625
+      firstInstance : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4153
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderDrawIndexed";
@@ -5192,7 +5064,7 @@ package webgpu_h is
    procedure wgpuRenderBundleEncoderDrawIndexedIndirect
      (renderBundleEncoder : WGPURenderBundleEncoder;
       indirectBuffer : WGPUBuffer;
-      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3626
+      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4154
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderDrawIndexedIndirect";
@@ -5200,27 +5072,27 @@ package webgpu_h is
    procedure wgpuRenderBundleEncoderDrawIndirect
      (renderBundleEncoder : WGPURenderBundleEncoder;
       indirectBuffer : WGPUBuffer;
-      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3627
+      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4155
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderDrawIndirect";
 
-   function wgpuRenderBundleEncoderFinish (renderBundleEncoder : WGPURenderBundleEncoder; descriptor : access constant WGPURenderBundleDescriptor) return WGPURenderBundle  -- webgpu.h:3628
+   function wgpuRenderBundleEncoderFinish (renderBundleEncoder : WGPURenderBundleEncoder; descriptor : access constant WGPURenderBundleDescriptor) return WGPURenderBundle  -- webgpu.h:4156
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderFinish";
 
-   procedure wgpuRenderBundleEncoderInsertDebugMarker (renderBundleEncoder : WGPURenderBundleEncoder; markerLabel : WGPUStringView)  -- webgpu.h:3629
+   procedure wgpuRenderBundleEncoderInsertDebugMarker (renderBundleEncoder : WGPURenderBundleEncoder; markerLabel : T_WGPUStringView)  -- webgpu.h:4157
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderInsertDebugMarker";
 
-   procedure wgpuRenderBundleEncoderPopDebugGroup (renderBundleEncoder : WGPURenderBundleEncoder)  -- webgpu.h:3630
+   procedure wgpuRenderBundleEncoderPopDebugGroup (renderBundleEncoder : WGPURenderBundleEncoder)  -- webgpu.h:4158
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderPopDebugGroup";
 
-   procedure wgpuRenderBundleEncoderPushDebugGroup (renderBundleEncoder : WGPURenderBundleEncoder; groupLabel : WGPUStringView)  -- webgpu.h:3631
+   procedure wgpuRenderBundleEncoderPushDebugGroup (renderBundleEncoder : WGPURenderBundleEncoder; groupLabel : T_WGPUStringView)  -- webgpu.h:4159
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderPushDebugGroup";
@@ -5230,7 +5102,7 @@ package webgpu_h is
       groupIndex : bits_stdint_uintn_h.uint32_t;
       group : WGPUBindGroup;
       dynamicOffsetCount : T_Size;
-      dynamicOffsets : access bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3632
+      dynamicOffsets : access bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4160
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderSetBindGroup";
@@ -5240,17 +5112,17 @@ package webgpu_h is
       buffer : WGPUBuffer;
       format : WGPUIndexFormat;
       offset : bits_stdint_uintn_h.uint64_t;
-      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3633
+      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4161
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderSetIndexBuffer";
 
-   procedure wgpuRenderBundleEncoderSetLabel (renderBundleEncoder : WGPURenderBundleEncoder; label : WGPUStringView)  -- webgpu.h:3634
+   procedure wgpuRenderBundleEncoderSetLabel (renderBundleEncoder : WGPURenderBundleEncoder; label : T_WGPUStringView)  -- webgpu.h:4162
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderSetLabel";
 
-   procedure wgpuRenderBundleEncoderSetPipeline (renderBundleEncoder : WGPURenderBundleEncoder; pipeline : WGPURenderPipeline)  -- webgpu.h:3635
+   procedure wgpuRenderBundleEncoderSetPipeline (renderBundleEncoder : WGPURenderBundleEncoder; pipeline : WGPURenderPipeline)  -- webgpu.h:4163
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderSetPipeline";
@@ -5260,30 +5132,23 @@ package webgpu_h is
       slot : bits_stdint_uintn_h.uint32_t;
       buffer : WGPUBuffer;
       offset : bits_stdint_uintn_h.uint64_t;
-      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3636
+      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4164
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderSetVertexBuffer";
 
-   procedure wgpuRenderBundleEncoderAddRef (renderBundleEncoder : WGPURenderBundleEncoder)  -- webgpu.h:3637
+   procedure wgpuRenderBundleEncoderAddRef (renderBundleEncoder : WGPURenderBundleEncoder)  -- webgpu.h:4165
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderAddRef";
 
-   procedure wgpuRenderBundleEncoderRelease (renderBundleEncoder : WGPURenderBundleEncoder)  -- webgpu.h:3638
+   procedure wgpuRenderBundleEncoderRelease (renderBundleEncoder : WGPURenderBundleEncoder)  -- webgpu.h:4166
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderBundleEncoderRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPURenderPassEncoderMethods WGPURenderPassEncoder methods
-  -- * \brief Functions whose first argument has type WGPURenderPassEncoder.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuRenderPassEncoderBeginOcclusionQuery (renderPassEncoder : WGPURenderPassEncoder; queryIndex : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3649
+  -- Methods of RenderPassEncoder
+   procedure wgpuRenderPassEncoderBeginOcclusionQuery (renderPassEncoder : WGPURenderPassEncoder; queryIndex : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4169
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderBeginOcclusionQuery";
@@ -5293,7 +5158,7 @@ package webgpu_h is
       vertexCount : bits_stdint_uintn_h.uint32_t;
       instanceCount : bits_stdint_uintn_h.uint32_t;
       firstVertex : bits_stdint_uintn_h.uint32_t;
-      firstInstance : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3650
+      firstInstance : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4170
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderDraw";
@@ -5304,7 +5169,7 @@ package webgpu_h is
       instanceCount : bits_stdint_uintn_h.uint32_t;
       firstIndex : bits_stdint_uintn_h.uint32_t;
       baseVertex : bits_stdint_intn_h.int32_t;
-      firstInstance : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3651
+      firstInstance : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4171
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderDrawIndexed";
@@ -5312,7 +5177,7 @@ package webgpu_h is
    procedure wgpuRenderPassEncoderDrawIndexedIndirect
      (renderPassEncoder : WGPURenderPassEncoder;
       indirectBuffer : WGPUBuffer;
-      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3652
+      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4172
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderDrawIndexedIndirect";
@@ -5320,17 +5185,17 @@ package webgpu_h is
    procedure wgpuRenderPassEncoderDrawIndirect
      (renderPassEncoder : WGPURenderPassEncoder;
       indirectBuffer : WGPUBuffer;
-      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3653
+      indirectOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4173
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderDrawIndirect";
 
-   procedure wgpuRenderPassEncoderEnd (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:3654
+   procedure wgpuRenderPassEncoderEnd (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:4174
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderEnd";
 
-   procedure wgpuRenderPassEncoderEndOcclusionQuery (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:3655
+   procedure wgpuRenderPassEncoderEndOcclusionQuery (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:4175
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderEndOcclusionQuery";
@@ -5338,22 +5203,49 @@ package webgpu_h is
    procedure wgpuRenderPassEncoderExecuteBundles
      (renderPassEncoder : WGPURenderPassEncoder;
       bundleCount : T_Size;
-      bundles : System.Address)  -- webgpu.h:3656
+      bundles : System.Address)  -- webgpu.h:4176
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderExecuteBundles";
 
-   procedure wgpuRenderPassEncoderInsertDebugMarker (renderPassEncoder : WGPURenderPassEncoder; markerLabel : WGPUStringView)  -- webgpu.h:3657
+   procedure wgpuRenderPassEncoderInsertDebugMarker (renderPassEncoder : WGPURenderPassEncoder; markerLabel : T_WGPUStringView)  -- webgpu.h:4177
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderInsertDebugMarker";
 
-   procedure wgpuRenderPassEncoderPopDebugGroup (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:3658
+   procedure wgpuRenderPassEncoderMultiDrawIndexedIndirect
+     (renderPassEncoder : WGPURenderPassEncoder;
+      indirectBuffer : WGPUBuffer;
+      indirectOffset : bits_stdint_uintn_h.uint64_t;
+      maxDrawCount : bits_stdint_uintn_h.uint32_t;
+      drawCountBuffer : WGPUBuffer;
+      drawCountBufferOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4178
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuRenderPassEncoderMultiDrawIndexedIndirect";
+
+   procedure wgpuRenderPassEncoderMultiDrawIndirect
+     (renderPassEncoder : WGPURenderPassEncoder;
+      indirectBuffer : WGPUBuffer;
+      indirectOffset : bits_stdint_uintn_h.uint64_t;
+      maxDrawCount : bits_stdint_uintn_h.uint32_t;
+      drawCountBuffer : WGPUBuffer;
+      drawCountBufferOffset : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4179
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuRenderPassEncoderMultiDrawIndirect";
+
+   procedure wgpuRenderPassEncoderPixelLocalStorageBarrier (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:4180
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuRenderPassEncoderPixelLocalStorageBarrier";
+
+   procedure wgpuRenderPassEncoderPopDebugGroup (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:4181
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderPopDebugGroup";
 
-   procedure wgpuRenderPassEncoderPushDebugGroup (renderPassEncoder : WGPURenderPassEncoder; groupLabel : WGPUStringView)  -- webgpu.h:3659
+   procedure wgpuRenderPassEncoderPushDebugGroup (renderPassEncoder : WGPURenderPassEncoder; groupLabel : T_WGPUStringView)  -- webgpu.h:4182
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderPushDebugGroup";
@@ -5363,12 +5255,12 @@ package webgpu_h is
       groupIndex : bits_stdint_uintn_h.uint32_t;
       group : WGPUBindGroup;
       dynamicOffsetCount : T_Size;
-      dynamicOffsets : access bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3660
+      dynamicOffsets : access bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4183
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetBindGroup";
 
-   procedure wgpuRenderPassEncoderSetBlendConstant (renderPassEncoder : WGPURenderPassEncoder; color : access constant WGPUColor)  -- webgpu.h:3661
+   procedure wgpuRenderPassEncoderSetBlendConstant (renderPassEncoder : WGPURenderPassEncoder; color : access constant WGPUColor)  -- webgpu.h:4184
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetBlendConstant";
@@ -5378,17 +5270,17 @@ package webgpu_h is
       buffer : WGPUBuffer;
       format : WGPUIndexFormat;
       offset : bits_stdint_uintn_h.uint64_t;
-      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3662
+      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4185
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetIndexBuffer";
 
-   procedure wgpuRenderPassEncoderSetLabel (renderPassEncoder : WGPURenderPassEncoder; label : WGPUStringView)  -- webgpu.h:3663
+   procedure wgpuRenderPassEncoderSetLabel (renderPassEncoder : WGPURenderPassEncoder; label : T_WGPUStringView)  -- webgpu.h:4186
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetLabel";
 
-   procedure wgpuRenderPassEncoderSetPipeline (renderPassEncoder : WGPURenderPassEncoder; pipeline : WGPURenderPipeline)  -- webgpu.h:3664
+   procedure wgpuRenderPassEncoderSetPipeline (renderPassEncoder : WGPURenderPassEncoder; pipeline : WGPURenderPipeline)  -- webgpu.h:4187
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetPipeline";
@@ -5398,12 +5290,12 @@ package webgpu_h is
       x : bits_stdint_uintn_h.uint32_t;
       y : bits_stdint_uintn_h.uint32_t;
       width : bits_stdint_uintn_h.uint32_t;
-      height : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3665
+      height : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4188
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetScissorRect";
 
-   procedure wgpuRenderPassEncoderSetStencilReference (renderPassEncoder : WGPURenderPassEncoder; reference : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:3666
+   procedure wgpuRenderPassEncoderSetStencilReference (renderPassEncoder : WGPURenderPassEncoder; reference : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4189
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetStencilReference";
@@ -5413,7 +5305,7 @@ package webgpu_h is
       slot : bits_stdint_uintn_h.uint32_t;
       buffer : WGPUBuffer;
       offset : bits_stdint_uintn_h.uint64_t;
-      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:3667
+      size : bits_stdint_uintn_h.uint64_t)  -- webgpu.h:4190
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetVertexBuffer";
@@ -5425,356 +5317,341 @@ package webgpu_h is
       width : float;
       height : float;
       minDepth : float;
-      maxDepth : float)  -- webgpu.h:3668
+      maxDepth : float)  -- webgpu.h:4191
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderSetViewport";
 
-   procedure wgpuRenderPassEncoderAddRef (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:3669
+   procedure wgpuRenderPassEncoderWriteTimestamp
+     (renderPassEncoder : WGPURenderPassEncoder;
+      querySet : WGPUQuerySet;
+      queryIndex : bits_stdint_uintn_h.uint32_t)  -- webgpu.h:4192
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuRenderPassEncoderWriteTimestamp";
+
+   procedure wgpuRenderPassEncoderAddRef (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:4193
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderAddRef";
 
-   procedure wgpuRenderPassEncoderRelease (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:3670
+   procedure wgpuRenderPassEncoderRelease (renderPassEncoder : WGPURenderPassEncoder)  -- webgpu.h:4194
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPassEncoderRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPURenderPipelineMethods WGPURenderPipeline methods
-  -- * \brief Functions whose first argument has type WGPURenderPipeline.
-  -- *
-  -- * @{
-  --
-
-   function wgpuRenderPipelineGetBindGroupLayout (renderPipeline : WGPURenderPipeline; groupIndex : bits_stdint_uintn_h.uint32_t) return WGPUBindGroupLayout  -- webgpu.h:3681
+  -- Methods of RenderPipeline
+   function wgpuRenderPipelineGetBindGroupLayout (renderPipeline : WGPURenderPipeline; groupIndex : bits_stdint_uintn_h.uint32_t) return WGPUBindGroupLayout  -- webgpu.h:4197
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPipelineGetBindGroupLayout";
 
-   procedure wgpuRenderPipelineSetLabel (renderPipeline : WGPURenderPipeline; label : WGPUStringView)  -- webgpu.h:3682
+   procedure wgpuRenderPipelineSetLabel (renderPipeline : WGPURenderPipeline; label : T_WGPUStringView)  -- webgpu.h:4198
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPipelineSetLabel";
 
-   procedure wgpuRenderPipelineAddRef (renderPipeline : WGPURenderPipeline)  -- webgpu.h:3683
+   procedure wgpuRenderPipelineAddRef (renderPipeline : WGPURenderPipeline)  -- webgpu.h:4199
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPipelineAddRef";
 
-   procedure wgpuRenderPipelineRelease (renderPipeline : WGPURenderPipeline)  -- webgpu.h:3684
+   procedure wgpuRenderPipelineRelease (renderPipeline : WGPURenderPipeline)  -- webgpu.h:4200
    with Import => True,
         Convention => C,
         External_Name => "wgpuRenderPipelineRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUSamplerMethods WGPUSampler methods
-  -- * \brief Functions whose first argument has type WGPUSampler.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuSamplerSetLabel (sampler : WGPUSampler; label : WGPUStringView)  -- webgpu.h:3695
+  -- Methods of Sampler
+   procedure wgpuSamplerSetLabel (sampler : WGPUSampler; label : T_WGPUStringView)  -- webgpu.h:4203
    with Import => True,
         Convention => C,
         External_Name => "wgpuSamplerSetLabel";
 
-   procedure wgpuSamplerAddRef (sampler : WGPUSampler)  -- webgpu.h:3696
+   procedure wgpuSamplerAddRef (sampler : WGPUSampler)  -- webgpu.h:4204
    with Import => True,
         Convention => C,
         External_Name => "wgpuSamplerAddRef";
 
-   procedure wgpuSamplerRelease (sampler : WGPUSampler)  -- webgpu.h:3697
+   procedure wgpuSamplerRelease (sampler : WGPUSampler)  -- webgpu.h:4205
    with Import => True,
         Convention => C,
         External_Name => "wgpuSamplerRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUShaderModuleMethods WGPUShaderModule methods
-  -- * \brief Functions whose first argument has type WGPUShaderModule.
-  -- *
-  -- * @{
-  --
-
-   function wgpuShaderModuleGetCompilationInfo (shaderModule : WGPUShaderModule; callbackInfo : WGPUCompilationInfoCallbackInfo) return WGPUFuture  -- webgpu.h:3708
+  -- Methods of ShaderModule
+   procedure wgpuShaderModuleGetCompilationInfo
+     (shaderModule : WGPUShaderModule;
+      callback : WGPUCompilationInfoCallback;
+      userdata : System.Address)  -- webgpu.h:4208
    with Import => True,
         Convention => C,
         External_Name => "wgpuShaderModuleGetCompilationInfo";
 
-   procedure wgpuShaderModuleSetLabel (shaderModule : WGPUShaderModule; label : WGPUStringView)  -- webgpu.h:3709
+   function wgpuShaderModuleGetCompilationInfo2 (shaderModule : WGPUShaderModule; callbackInfo : WGPUCompilationInfoCallbackInfo2) return WGPUFuture  -- webgpu.h:4209
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuShaderModuleGetCompilationInfo2";
+
+   function wgpuShaderModuleGetCompilationInfoF (shaderModule : WGPUShaderModule; callbackInfo : WGPUCompilationInfoCallbackInfo) return WGPUFuture  -- webgpu.h:4210
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuShaderModuleGetCompilationInfoF";
+
+   procedure wgpuShaderModuleSetLabel (shaderModule : WGPUShaderModule; label : T_WGPUStringView)  -- webgpu.h:4211
    with Import => True,
         Convention => C,
         External_Name => "wgpuShaderModuleSetLabel";
 
-   procedure wgpuShaderModuleAddRef (shaderModule : WGPUShaderModule)  -- webgpu.h:3710
+   procedure wgpuShaderModuleAddRef (shaderModule : WGPUShaderModule)  -- webgpu.h:4212
    with Import => True,
         Convention => C,
         External_Name => "wgpuShaderModuleAddRef";
 
-   procedure wgpuShaderModuleRelease (shaderModule : WGPUShaderModule)  -- webgpu.h:3711
+   procedure wgpuShaderModuleRelease (shaderModule : WGPUShaderModule)  -- webgpu.h:4213
    with Import => True,
         Convention => C,
         External_Name => "wgpuShaderModuleRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUSupportedFeaturesMethods WGPUSupportedFeatures methods
-  -- * \brief Functions whose first argument has type WGPUSupportedFeatures.
-  -- *
-  -- * @{
-  --
-
-  --*
-  -- * Frees array members of WGPUSupportedFeatures which were allocated by the API.
-  --
-
-   procedure wgpuSupportedFeaturesFreeMembers (supportedFeatures : WGPUSupportedFeatures)  -- webgpu.h:3725
+  -- Methods of SharedBufferMemory
+   function wgpuSharedBufferMemoryBeginAccess
+     (sharedBufferMemory : WGPUSharedBufferMemory;
+      buffer : WGPUBuffer;
+      descriptor : access constant WGPUSharedBufferMemoryBeginAccessDescriptor) return WGPUStatus  -- webgpu.h:4216
    with Import => True,
         Convention => C,
-        External_Name => "wgpuSupportedFeaturesFreeMembers";
+        External_Name => "wgpuSharedBufferMemoryBeginAccess";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUSupportedWGSLLanguageFeaturesMethods WGPUSupportedWGSLLanguageFeatures methods
-  -- * \brief Functions whose first argument has type WGPUSupportedWGSLLanguageFeatures.
-  -- *
-  -- * @{
-  --
-
-  --*
-  -- * Frees array members of WGPUSupportedWGSLLanguageFeatures which were allocated by the API.
-  --
-
-   procedure wgpuSupportedWGSLLanguageFeaturesFreeMembers (supportedWGSLLanguageFeatures : WGPUSupportedWGSLLanguageFeatures)  -- webgpu.h:3739
+   function wgpuSharedBufferMemoryCreateBuffer (sharedBufferMemory : WGPUSharedBufferMemory; descriptor : access constant WGPUBufferDescriptor) return WGPUBuffer  -- webgpu.h:4217
    with Import => True,
         Convention => C,
-        External_Name => "wgpuSupportedWGSLLanguageFeaturesFreeMembers";
+        External_Name => "wgpuSharedBufferMemoryCreateBuffer";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUSurfaceMethods WGPUSurface methods
-  -- * \brief Functions whose first argument has type WGPUSurface.
-  -- *
-  -- * @{
-  --
+   function wgpuSharedBufferMemoryEndAccess
+     (sharedBufferMemory : WGPUSharedBufferMemory;
+      buffer : WGPUBuffer;
+      descriptor : access WGPUSharedBufferMemoryEndAccessState) return WGPUStatus  -- webgpu.h:4218
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedBufferMemoryEndAccess";
 
-  --*
-  -- * Configures parameters for rendering to `surface`.
-  -- * Produces a @ref DeviceError for all content-timeline errors defined by the WebGPU specification.
-  -- *
-  -- * See @ref Surface-Configuration for more details.
-  -- *
-  -- * @param config
-  -- * The new configuration to use.
-  --
+   function wgpuSharedBufferMemoryGetProperties (sharedBufferMemory : WGPUSharedBufferMemory; properties : access WGPUSharedBufferMemoryProperties) return WGPUStatus  -- webgpu.h:4219
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedBufferMemoryGetProperties";
 
-   procedure wgpuSurfaceConfigure (surface : WGPUSurface; config : access constant WGPUSurfaceConfiguration)  -- webgpu.h:3759
+   function wgpuSharedBufferMemoryIsDeviceLost (sharedBufferMemory : WGPUSharedBufferMemory) return T_WGPUBool  -- webgpu.h:4220
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedBufferMemoryIsDeviceLost";
+
+   procedure wgpuSharedBufferMemorySetLabel (sharedBufferMemory : WGPUSharedBufferMemory; label : T_WGPUStringView)  -- webgpu.h:4221
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedBufferMemorySetLabel";
+
+   procedure wgpuSharedBufferMemoryAddRef (sharedBufferMemory : WGPUSharedBufferMemory)  -- webgpu.h:4222
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedBufferMemoryAddRef";
+
+   procedure wgpuSharedBufferMemoryRelease (sharedBufferMemory : WGPUSharedBufferMemory)  -- webgpu.h:4223
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedBufferMemoryRelease";
+
+  -- Methods of SharedFence
+   procedure wgpuSharedFenceExportInfo (sharedFence : WGPUSharedFence; info : access T_WGPUSharedFenceExportInfo)  -- webgpu.h:4226
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedFenceExportInfo";
+
+   procedure wgpuSharedFenceAddRef (sharedFence : WGPUSharedFence)  -- webgpu.h:4227
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedFenceAddRef";
+
+   procedure wgpuSharedFenceRelease (sharedFence : WGPUSharedFence)  -- webgpu.h:4228
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedFenceRelease";
+
+  -- Methods of SharedTextureMemory
+   function wgpuSharedTextureMemoryBeginAccess
+     (sharedTextureMemory : WGPUSharedTextureMemory;
+      texture : WGPUTexture;
+      descriptor : access constant WGPUSharedTextureMemoryBeginAccessDescriptor) return WGPUStatus  -- webgpu.h:4231
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemoryBeginAccess";
+
+   function wgpuSharedTextureMemoryCreateTexture (sharedTextureMemory : WGPUSharedTextureMemory; descriptor : access constant WGPUTextureDescriptor) return WGPUTexture  -- webgpu.h:4232
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemoryCreateTexture";
+
+   function wgpuSharedTextureMemoryEndAccess
+     (sharedTextureMemory : WGPUSharedTextureMemory;
+      texture : WGPUTexture;
+      descriptor : access WGPUSharedTextureMemoryEndAccessState) return WGPUStatus  -- webgpu.h:4233
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemoryEndAccess";
+
+   function wgpuSharedTextureMemoryGetProperties (sharedTextureMemory : WGPUSharedTextureMemory; properties : access WGPUSharedTextureMemoryProperties) return WGPUStatus  -- webgpu.h:4234
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemoryGetProperties";
+
+   function wgpuSharedTextureMemoryIsDeviceLost (sharedTextureMemory : WGPUSharedTextureMemory) return T_WGPUBool  -- webgpu.h:4235
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemoryIsDeviceLost";
+
+   procedure wgpuSharedTextureMemorySetLabel (sharedTextureMemory : WGPUSharedTextureMemory; label : T_WGPUStringView)  -- webgpu.h:4236
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemorySetLabel";
+
+   procedure wgpuSharedTextureMemoryAddRef (sharedTextureMemory : WGPUSharedTextureMemory)  -- webgpu.h:4237
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemoryAddRef";
+
+   procedure wgpuSharedTextureMemoryRelease (sharedTextureMemory : WGPUSharedTextureMemory)  -- webgpu.h:4238
+   with Import => True,
+        Convention => C,
+        External_Name => "wgpuSharedTextureMemoryRelease";
+
+  -- Methods of Surface
+   procedure wgpuSurfaceConfigure (surface : WGPUSurface; config : access constant WGPUSurfaceConfiguration)  -- webgpu.h:4241
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceConfigure";
 
-  --*
-  -- * Provides information on how `adapter` is able to use `surface`.
-  -- * See @ref Surface-Capabilities for more details.
-  -- *
-  -- * @param adapter
-  -- * The @ref WGPUAdapter to get capabilities for presenting to this @ref WGPUSurface.
-  -- *
-  -- * @param capabilities
-  -- * The structure to fill capabilities in.
-  -- * It may contain memory allocations so `::wgpuSurfaceCapabilitiesFreeMembers` must be called to avoid memory leaks.
-  -- * This parameter is @ref ReturnedWithOwnership.
-  -- *
-  -- * @returns
-  -- * Indicates if there was an @ref OutStructChainError.
-  --
-
    function wgpuSurfaceGetCapabilities
      (surface : WGPUSurface;
       adapter : WGPUAdapter;
-      capabilities : access WGPUSurfaceCapabilities) return WGPUStatus  -- webgpu.h:3775
+      capabilities : access WGPUSurfaceCapabilities) return WGPUStatus  -- webgpu.h:4242
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceGetCapabilities";
 
-  --*
-  -- * Returns the @ref WGPUTexture to render to `surface` this frame along with metadata on the frame.
-  -- * Returns `NULL` and @ref WGPUSurfaceGetCurrentTextureStatus_Error if the surface is not configured.
-  -- *
-  -- * See @ref Surface-Presenting for more details.
-  -- *
-  -- * @param surfaceTexture
-  -- * The structure to fill the @ref WGPUTexture and metadata in.
-  --
-
-   procedure wgpuSurfaceGetCurrentTexture (surface : WGPUSurface; surfaceTexture : access WGPUSurfaceTexture)  -- webgpu.h:3785
+   procedure wgpuSurfaceGetCurrentTexture (surface : WGPUSurface; surfaceTexture : access WGPUSurfaceTexture)  -- webgpu.h:4243
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceGetCurrentTexture";
 
-  --*
-  -- * Shows `surface`'s current texture to the user.
-  -- * See @ref Surface-Presenting for more details.
-  -- *
-  -- * @returns
-  -- * Returns @ref WGPUStatus_Error if the surface doesn't have a current texture.
-  --
-
-   function wgpuSurfacePresent (surface : WGPUSurface) return WGPUStatus  -- webgpu.h:3793
+   procedure wgpuSurfacePresent (surface : WGPUSurface)  -- webgpu.h:4244
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfacePresent";
 
-  --*
-  -- * Modifies the label used to refer to `surface`.
-  -- *
-  -- * @param label
-  -- * The new label.
-  --
-
-   procedure wgpuSurfaceSetLabel (surface : WGPUSurface; label : WGPUStringView)  -- webgpu.h:3800
+   procedure wgpuSurfaceSetLabel (surface : WGPUSurface; label : T_WGPUStringView)  -- webgpu.h:4245
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceSetLabel";
 
-  --*
-  -- * Removes the configuration for `surface`.
-  -- * See @ref Surface-Configuration for more details.
-  --
-
-   procedure wgpuSurfaceUnconfigure (surface : WGPUSurface)  -- webgpu.h:3805
+   procedure wgpuSurfaceUnconfigure (surface : WGPUSurface)  -- webgpu.h:4246
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceUnconfigure";
 
-   procedure wgpuSurfaceAddRef (surface : WGPUSurface)  -- webgpu.h:3806
+   procedure wgpuSurfaceAddRef (surface : WGPUSurface)  -- webgpu.h:4247
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceAddRef";
 
-   procedure wgpuSurfaceRelease (surface : WGPUSurface)  -- webgpu.h:3807
+   procedure wgpuSurfaceRelease (surface : WGPUSurface)  -- webgpu.h:4248
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUSurfaceCapabilitiesMethods WGPUSurfaceCapabilities methods
-  -- * \brief Functions whose first argument has type WGPUSurfaceCapabilities.
-  -- *
-  -- * @{
-  --
-
-  --*
-  -- * Frees array members of WGPUSurfaceCapabilities which were allocated by the API.
-  --
-
-   procedure wgpuSurfaceCapabilitiesFreeMembers (surfaceCapabilities : WGPUSurfaceCapabilities)  -- webgpu.h:3821
+  -- Methods of Texture
+   function wgpuTextureCreateErrorView (texture : WGPUTexture; descriptor : access constant WGPUTextureViewDescriptor) return WGPUTextureView  -- webgpu.h:4251
    with Import => True,
         Convention => C,
-        External_Name => "wgpuSurfaceCapabilitiesFreeMembers";
+        External_Name => "wgpuTextureCreateErrorView";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUTextureMethods WGPUTexture methods
-  -- * \brief Functions whose first argument has type WGPUTexture.
-  -- *
-  -- * @{
-  --
-
-   function wgpuTextureCreateView (texture : WGPUTexture; descriptor : access constant WGPUTextureViewDescriptor) return WGPUTextureView  -- webgpu.h:3832
+   function wgpuTextureCreateView (texture : WGPUTexture; descriptor : access constant WGPUTextureViewDescriptor) return WGPUTextureView  -- webgpu.h:4252
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureCreateView";
 
-   procedure wgpuTextureDestroy (texture : WGPUTexture)  -- webgpu.h:3833
+   procedure wgpuTextureDestroy (texture : WGPUTexture)  -- webgpu.h:4253
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureDestroy";
 
-   function wgpuTextureGetDepthOrArrayLayers (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:3834
+   function wgpuTextureGetDepthOrArrayLayers (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:4254
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetDepthOrArrayLayers";
 
-   function wgpuTextureGetDimension (texture : WGPUTexture) return WGPUTextureDimension  -- webgpu.h:3835
+   function wgpuTextureGetDimension (texture : WGPUTexture) return WGPUTextureDimension  -- webgpu.h:4255
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetDimension";
 
-   function wgpuTextureGetFormat (texture : WGPUTexture) return WGPUTextureFormat  -- webgpu.h:3836
+   function wgpuTextureGetFormat (texture : WGPUTexture) return WGPUTextureFormat  -- webgpu.h:4256
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetFormat";
 
-   function wgpuTextureGetHeight (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:3837
+   function wgpuTextureGetHeight (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:4257
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetHeight";
 
-   function wgpuTextureGetMipLevelCount (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:3838
+   function wgpuTextureGetMipLevelCount (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:4258
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetMipLevelCount";
 
-   function wgpuTextureGetSampleCount (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:3839
+   function wgpuTextureGetSampleCount (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:4259
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetSampleCount";
 
-   function wgpuTextureGetUsage (texture : WGPUTexture) return WGPUTextureUsage  -- webgpu.h:3840
+   function wgpuTextureGetUsage (texture : WGPUTexture) return WGPUTextureUsage  -- webgpu.h:4260
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetUsage";
 
-   function wgpuTextureGetWidth (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:3841
+   function wgpuTextureGetWidth (texture : WGPUTexture) return bits_stdint_uintn_h.uint32_t  -- webgpu.h:4261
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetWidth";
 
-   procedure wgpuTextureSetLabel (texture : WGPUTexture; label : WGPUStringView)  -- webgpu.h:3842
+   procedure wgpuTextureSetLabel (texture : WGPUTexture; label : T_WGPUStringView)  -- webgpu.h:4262
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureSetLabel";
 
-   procedure wgpuTextureAddRef (texture : WGPUTexture)  -- webgpu.h:3843
+   procedure wgpuTextureAddRef (texture : WGPUTexture)  -- webgpu.h:4263
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureAddRef";
 
-   procedure wgpuTextureRelease (texture : WGPUTexture)  -- webgpu.h:3844
+   procedure wgpuTextureRelease (texture : WGPUTexture)  -- webgpu.h:4264
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureRelease";
 
-  --* @}
-  --*
-  -- * \defgroup WGPUTextureViewMethods WGPUTextureView methods
-  -- * \brief Functions whose first argument has type WGPUTextureView.
-  -- *
-  -- * @{
-  --
-
-   procedure wgpuTextureViewSetLabel (textureView : WGPUTextureView; label : WGPUStringView)  -- webgpu.h:3855
+  -- Methods of TextureView
+   procedure wgpuTextureViewSetLabel (textureView : WGPUTextureView; label : T_WGPUStringView)  -- webgpu.h:4267
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureViewSetLabel";
 
-   procedure wgpuTextureViewAddRef (textureView : WGPUTextureView)  -- webgpu.h:3856
+   procedure wgpuTextureViewAddRef (textureView : WGPUTextureView)  -- webgpu.h:4268
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureViewAddRef";
 
-   procedure wgpuTextureViewRelease (textureView : WGPUTextureView)  -- webgpu.h:3857
+   procedure wgpuTextureViewRelease (textureView : WGPUTextureView)  -- webgpu.h:4269
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureViewRelease";
 
-  --* @}
-  --* @}
   -- extern "C"
 end webgpu_h;
 

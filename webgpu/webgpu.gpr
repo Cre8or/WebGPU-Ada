@@ -34,10 +34,13 @@ library project WebGPU is
 	GLFW_Lib   := external ("GLFW_Linker_Param", Default_GLFW_Linker_Param);
 	WebGPU_Lib := external ("WebGPU_Linker_Param", "-lwebgpu_dawn");
 
+	--Treat_Warnings_As_Errors := "-gnatwe";
+	Treat_Warnings_As_Errors := "";
+
 
 
 	package Compiler is
-		for Default_Switches ("ada") use ("-gnat12", "-gnatwa", "-gnatwl", "-gnatwe", "-gnatwV", "-gnatwJ", "-fstack-check", "-gnaty3abcefhiklmNprt", "-E");
+		for Default_Switches ("ada") use ("-gnat12", "-gnatwa", "-gnatwl", Treat_Warnings_As_Errors, "-gnatwV", "-gnatwJ", "-fstack-check", "-gnaty3abcefhiklmNprt", "-E");
 	end Compiler;
 
 
