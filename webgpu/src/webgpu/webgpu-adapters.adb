@@ -63,9 +63,10 @@ package body WebGPU.Adapters is
 			userdata   => User_Data'Address
 		);
 
-		while not User_Data.Request_Ended loop
-			delay 0.001;
-		end loop;
+		-- Safeguard against potential Dawn issues (this should never happen, so we need to know about it)
+		if not User_Data.Request_Ended then
+			raise EX_REQUEST_ERROR with "wgpuAdapterRequestDevice callback failed";
+		end if;
 
 		Device.Set_Raw_Internal (User_Data.Device);
 
