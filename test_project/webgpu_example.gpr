@@ -1,4 +1,4 @@
-with "../webgpu/webgpu.gpr";
+with "../webgpu.gpr";
 
 
 

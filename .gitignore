@@ -19,13 +19,15 @@
 *.clang-format
 
 # Library
-webgpu/obj/*
-webgpu/lib/*
-webgpu/src/glfw/*
+obj/*
+lib/*
+src/glfw/*
 
 # Included
-webgpu/src/GENERATED/webgpu.h
+src/GENERATED/webgpu.h
 
+# Alire
+alire/*
 
 # Example project
-webgpu_example/obj/*
+test_project/obj/*
