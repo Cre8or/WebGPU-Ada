@@ -31,4 +31,4 @@ alire/*
 config/*
 
 # Example project
-test_project/obj/*
+example_project/obj/*
