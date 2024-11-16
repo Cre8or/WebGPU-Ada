@@ -6,6 +6,7 @@ pragma License (Unrestricted);
 private with Ada.Finalization;
 
         with WebGPU.Adapters;
+private with WebGPU.API;
         with WebGPU.Types;
 
 
@@ -13,6 +14,7 @@ private with Ada.Finalization;
 pragma Elaborate_All (Ada.Finalization);
 
 pragma Elaborate_All (WebGPU.Adapters);
+pragma Elaborate_All (WebGPU.API);
 pragma Elaborate_All (WebGPU.Types);
 
 
@@ -51,7 +53,7 @@ package WebGPU.Instances is
 		-- Backend_Type sets the particular backend the adapter should use. If this is not possible, an empty handle is returned.
 		-- If Force_Fallback_Adapter is true, requires the adapter to have a particular backend type. If this is not possible, an empty
 		-- handle is returned.
-		-- Compatibility_Mode: TODO
+		-- Compatibility_Mode allows backends that aren't 100% compliant to be used (in particular OpenGL/OpenGLES).
 		--------------------------------------------------------------------------------------------------------------------------------
 		not overriding function Request_Adapter (
 			This                   : in T_Instance;
@@ -77,47 +79,13 @@ private
 
 
 
+	-- Use clauses
+	use WebGPU.API;
+
+
+
 	-- Types
-	-- Structures used to extend descriptors.
-	type T_WGPUChainedStruct;
-	type T_WGPUChainedStruct is record
-		next  : access constant T_WGPUChainedStruct;  -- webgpu.h:1269
-		sType : aliased T_WGPUSType := 0;  -- webgpu.h:1270
-	end record
-	with Convention => C_Pass_By_Copy;  -- webgpu.h:1268
-
-	type T_WGPUChainedStructOut;
-	type T_WGPUChainedStructOut is record
-		next  : access T_WGPUChainedStructOut;  -- webgpu.h:1274
-		sType : aliased T_WGPUSType := 0;  -- webgpu.h:1275
-	end record
-	with Convention => C_Pass_By_Copy;  -- webgpu.h:1273
-
-	type T_WGPUStringView is record
-		data   : T_Chars_Ptr;  -- webgpu.h:121
-		length : aliased T_Size := 0;  -- webgpu.h:122
-	end record
-	with Convention => C_Pass_By_Copy;  -- webgpu.h:120
-
-	type T_WGPURequestAdapterCallback is access procedure (
-		status   : T_WGPURequestAdapterStatus;
-		adapter  : T_WGPUAdapter;
-		message  : T_WGPUStringView;
-		userdata : T_Address := C_Null_Address
-	) with Convention => C;  -- webgpu.h:1242
-
-	type T_WGPURequestAdapterOptions is record
-		nextInChain          : access constant T_WGPUChainedStruct;
-		compatibleSurface    : T_WGPUSurface;
-		powerPreference      : aliased T_Power_Preference := E_Undefined;
-		backendType          : aliased T_Backend_Type     := E_Undefined;
-		forceFallbackAdapter : aliased T_WGPUBool         := false;
-		compatibilityMode    : aliased T_WGPUBool         := false;
-	end record
-	with Convention => C_Pass_By_Copy;
-
-	-- Custom userdata type
-	type T_WGPUAdapter_Request_Userdata is record
+	type T_Request_Userdata is record
 		Adapter       : T_WGPUAdapter;
 		Request_Ended : Boolean := false;
 	end record
@@ -141,7 +109,7 @@ private
 	-- Specifications
 	--------------------------------------------------------------------------------------------------------------------------------
 	procedure Request_Callback (
-		status   : T_WGPURequestAdapterStatus;
+		status   : T_Request_Adapter_Status;
 		adapter  : T_WGPUAdapter;
 		message  : T_WGPUStringView;
 		userdata : T_Address := C_Null_Address

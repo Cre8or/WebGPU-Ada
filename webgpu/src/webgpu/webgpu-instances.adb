@@ -45,7 +45,7 @@ package body WebGPU.Instances is
 
 		Adapter   : T_Adapter;
 		Options   : aliased T_WGPURequestAdapterOptions;
-		User_Data : aliased T_WGPUAdapter_Request_Userdata;
+		User_Data : aliased T_Request_Userdata;
 
 	begin
 
@@ -129,7 +129,7 @@ package body WebGPU.Instances is
 	-- Bodies
 	--------------------------------------------------------------------------------------------------------------------------------
 	procedure Request_Callback (
-		status   : T_WGPURequestAdapterStatus;
+		status   : T_Request_Adapter_Status;
 		adapter  : T_WGPUAdapter;
 		message  : T_WGPUStringView;
 		userdata : T_Address := C_Null_Address
@@ -138,7 +138,7 @@ package body WebGPU.Instances is
 		pragma Unreferenced (status);
 		pragma Unreferenced (message);
 
-		User_Data : aliased T_WGPUAdapter_Request_Userdata
+		User_Data : aliased T_Request_Userdata
 		with Import, Address => userdata;
 
 	begin
