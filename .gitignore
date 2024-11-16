@@ -28,6 +28,7 @@ src/GENERATED/webgpu.h
 
 # Alire
 alire/*
+config/*
 
 # Example project
 test_project/obj/*

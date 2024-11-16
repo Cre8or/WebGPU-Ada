@@ -4,7 +4,10 @@ version = "0.1.0-dev"
 
 authors = ["Cre8or"]
 maintainers = ["Cre8or <cre8or@tuta.io>"]
-maintainers-logins = ["cre8or"]
+maintainers-logins = ["Cre8or"]
 licenses = "MIT"
 website = "https://github.com/Cre8or/WebGPU-Ada"
 tags = ["webgpu", "binding", "gamedev", "graphics", "rendering", "vulkan", "opengl", "opengles", "d3d11", "d3d12", "dx11", "dx12"]
+
+[configuration]
+disabled = true

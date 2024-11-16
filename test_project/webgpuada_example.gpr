@@ -1,8 +1,8 @@
-with "../webgpu.gpr";
+with "../webgpuada.gpr";
 
 
 
-project WebGPU_Example is
+project WebGPUAda_Example is
 
 	for Create_Missing_Dirs use "True";
 	for Source_Dirs use ("src/**");
@@ -27,4 +27,4 @@ project WebGPU_Example is
 		for Switches ("ada") use ("-Es");
 	end Binder;
 
-end WebGPU_Example;
+end WebGPUAda_Example;
