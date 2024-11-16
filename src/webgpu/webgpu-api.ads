@@ -49,12 +49,6 @@ private package WebGPU.API is
 	type T_WGPUBool is new Boolean
 	with Convention => C, Size => 32;
 
-	type T_UInt32 is mod 2**32
-	with Convention => C;
-
-	type T_UInt64 is mod 2**64
-	with Convention => C;
-
 	type T_WGPUSType is new T_UInt; -- TODO: Convert into an enum?
 
 
@@ -135,7 +129,7 @@ private package WebGPU.API is
 		message   : in T_WGPUStringView;
 		userdata1 : in T_Address := C_Null_Address;
 		userdata2 : in T_Address := C_Null_Address
-	) with Convention => C;
+																		  ) with Convention => C;
 
 
 
@@ -182,45 +176,15 @@ private package WebGPU.API is
 	end record
 	with Convention => C_Pass_By_Copy;
 
-   type T_WGPULimits is record
-      maxTextureDimension1D                     : aliased T_UInt32;
-      maxTextureDimension2D                     : aliased T_UInt32;
-      maxTextureDimension3D                     : aliased T_UInt32;
-      maxTextureArrayLayers                     : aliased T_UInt32;
-      maxBindGroups                             : aliased T_UInt32;
-      maxBindGroupsPlusVertexBuffers            : aliased T_UInt32;
-      maxBindingsPerBindGroup                   : aliased T_UInt32;
-      maxDynamicUniformBuffersPerPipelineLayout : aliased T_UInt32;
-      maxDynamicStorageBuffersPerPipelineLayout : aliased T_UInt32;
-      maxSampledTexturesPerShaderStage          : aliased T_UInt32;
-      maxSamplersPerShaderStage                 : aliased T_UInt32;
-      maxStorageBuffersPerShaderStage           : aliased T_UInt32;
-      maxStorageTexturesPerShaderStage          : aliased T_UInt32;
-      maxUniformBuffersPerShaderStage           : aliased T_UInt32;
-      maxUniformBufferBindingSize               : aliased T_UInt64;
-      maxStorageBufferBindingSize               : aliased T_UInt64;
-      minUniformBufferOffsetAlignment           : aliased T_UInt32;
-      minStorageBufferOffsetAlignment           : aliased T_UInt32;
-      maxVertexBuffers                          : aliased T_UInt32;
-      maxBufferSize                             : aliased T_UInt64;
-      maxVertexAttributes                       : aliased T_UInt32;
-      maxVertexBufferArrayStride                : aliased T_UInt32;
-      maxInterStageShaderComponents             : aliased T_UInt32;
-      maxInterStageShaderVariables              : aliased T_UInt32;
-      maxColorAttachments                       : aliased T_UInt32;
-      maxColorAttachmentBytesPerSample          : aliased T_UInt32;
-      maxComputeWorkgroupStorageSize            : aliased T_UInt32;
-      maxComputeInvocationsPerWorkgroup         : aliased T_UInt32;
-      maxComputeWorkgroupSizeX                  : aliased T_UInt32;
-      maxComputeWorkgroupSizeY                  : aliased T_UInt32;
-      maxComputeWorkgroupSizeZ                  : aliased T_UInt32;
-      maxComputeWorkgroupsPerDimension          : aliased T_UInt32;
-   end record
-   with Convention => C_Pass_By_Copy;
-
 	type T_WGPURequiredLimits is record
 		nextInChain : access constant T_WGPUChainedStruct;
-		limits      : aliased T_WGPULimits;
+		limits      : aliased T_Device_Limits;
+	end record
+	with Convention => C_Pass_By_Copy;
+
+	type T_WGPUSupportedLimits is record
+		nextInChain : access T_WGPUChainedStructOut;
+		limits      : aliased T_Device_Limits;
 	end record
 	with Convention => C_Pass_By_Copy;
 

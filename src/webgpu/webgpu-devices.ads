@@ -6,15 +6,26 @@ pragma License (Unrestricted);
 
 private with Ada.Finalization;
 
+private with WebGPU.API;
+        with WebGPU.Types;
+
 
 
 pragma Elaborate_All (Ada.Finalization);
+
+pragma Elaborate_All (WebGPU.API);
+pragma Elaborate_All (WebGPU.Types);
 
 
 
 
 
 package WebGPU.Devices is
+
+
+
+	-- Use clauses
+	use WebGPU.Types;
 
 
 
@@ -33,6 +44,12 @@ package WebGPU.Devices is
 		with Inline;
 
 		--------------------------------------------------------------------------------------------------------------------------------
+		-- Returns the device's limits. The device must be initialised.
+		--------------------------------------------------------------------------------------------------------------------------------
+		not overriding function Get_Limits (This : in T_Device) return T_Device_Limits
+		with Inline;
+
+		--------------------------------------------------------------------------------------------------------------------------------
 		-- Helper function to set the devices's raw pointer. For internal use only.
 		--------------------------------------------------------------------------------------------------------------------------------
 		not overriding procedure Set_Raw_Internal (
@@ -43,6 +60,11 @@ package WebGPU.Devices is
 
 
 private
+
+
+
+	-- Use clauses
+	use WebGPU.API;
 
 
 
@@ -70,6 +92,20 @@ private
 	--------------------------------------------------------------------------------------------------------------------------------
 	procedure wgpuDeviceRelease (device : in T_WGPUDevice)
 	with Import, Convention => C, External_Name => "wgpuDeviceRelease";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+   function wgpuDeviceEnumerateFeatures (
+		device   : in T_WGPUDevice;
+		features : access T_Feature_Name
+	) return T_Size
+	with Import, Convention => C, External_Name => "wgpuDeviceEnumerateFeatures";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+   function wgpuDeviceGetLimits (
+		device : in T_WGPUDevice;
+		limits : access T_WGPUSupportedLimits
+	) return T_Status
+	with Import, Convention => C, External_Name => "wgpuDeviceGetLimits";
 
 
 

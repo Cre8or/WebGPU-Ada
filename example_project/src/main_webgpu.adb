@@ -41,6 +41,7 @@ procedure Main_WebGPU is
 	Adapter  : T_Adapter;
 	Device   : T_Device;
 
+	Limits : T_Device_Limits;
 
 
 begin
@@ -48,25 +49,24 @@ begin
 
 
 	Instance := Create_Instance;
-	Adapter  := Instance.Request_Adapter;
-	Device   := Adapter.Request_Device (
-		(E_Timestamp_Query, E_Clip_Distances)
-	);
-
 	if not Instance.Is_Initialised then
 		Text_IO.Put_Line ("ERROR: Instance is null");
 		return;
 	end if;
 
+	Adapter := Instance.Request_Adapter;
 	if not Adapter.Is_Initialised then
 		Text_IO.Put_Line ("ERROR: Adapter is null");
 		return;
 	end if;
 
+	Device := Adapter.Request_Device;
 	if not Device.Is_Initialised then
 		Text_IO.Put_Line ("ERROR: Device is null");
 		return;
 	end if;
+
+	Limits := Device.Get_Limits;
 
 	Text_IO.Put_Line ("SUCCESS");
 

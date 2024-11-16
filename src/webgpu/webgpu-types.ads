@@ -18,6 +18,15 @@ package WebGPU.Types is
 
 
 
+	-- API base types
+	type T_UInt32 is mod 2**32
+	with Convention => C;
+
+	type T_UInt64 is mod 2**64
+	with Convention => C;
+
+
+
 	-- Types
 	type T_Power_Preference is (
 		E_Undefined, -- No preference
@@ -282,6 +291,55 @@ package WebGPU.Types is
 		E_Unknown       => 5,
 		E_Device_Lost   => 6
 	);
+
+	type T_Status is (
+		E_Success,
+		E_Error
+	) with Convention => C, Size => 32;
+
+	for T_Status use (
+		E_Success => 1,
+		E_Error   => 2
+	);
+
+
+
+	-- Data records
+	type T_Device_Limits is record
+		Max_Texture_Dimension1D                         : aliased T_UInt32 := 0;
+		Max_Texture_Dimension2D                         : aliased T_UInt32 := 0;
+		Max_Texture_Dimension3D                         : aliased T_UInt32 := 0;
+		Max_Texture_Array_Layers                        : aliased T_UInt32 := 0;
+		Max_Bind_Groups                                 : aliased T_UInt32 := 0;
+		Max_Bind_Groups_Plus_Vertex_Buffers             : aliased T_UInt32 := 0;
+		Max_Bindings_Per_Bind_Group                     : aliased T_UInt32 := 0;
+		Max_Dynamic_Uniform_Buffers_Per_Pipeline_Layout : aliased T_UInt32 := 0;
+		Max_Dynamic_Storage_Buffers_Per_Pipeline_Layout : aliased T_UInt32 := 0;
+		Max_Sampled_Textures_Per_Shader_Stage           : aliased T_UInt32 := 0;
+		Max_Samplers_Per_Shader_Stage                   : aliased T_UInt32 := 0;
+		Max_Storage_Buffers_Per_Shader_Stage            : aliased T_UInt32 := 0;
+		Max_Storage_Textures_Per_Shader_Stage           : aliased T_UInt32 := 0;
+		Max_Uniform_Buffers_Per_Shader_Stage            : aliased T_UInt32 := 0;
+		Max_Uniform_Buffer_Binding_Size                 : aliased T_UInt64 := 0;
+		Max_Storage_Buffer_Binding_Size                 : aliased T_UInt64 := 0;
+		Min_Uniform_Buffer_Offset_Alignment             : aliased T_UInt32 := 0;
+		Min_Storage_Buffer_Offset_Alignment             : aliased T_UInt32 := 0;
+		Max_Vertex_Buffers                              : aliased T_UInt32 := 0;
+		Max_Buffer_Size                                 : aliased T_UInt64 := 0;
+		Max_Vertex_Attributes                           : aliased T_UInt32 := 0;
+		Max_Vertex_Buffer_Array_Stride                  : aliased T_UInt32 := 0;
+		Max_Inter_Stage_Shader_Components               : aliased T_UInt32 := 0;
+		Max_Inter_Stage_Shader_Variables                : aliased T_UInt32 := 0;
+		Max_Color_Attachments                           : aliased T_UInt32 := 0;
+		Max_Color_Attachment_Bytes_Per_Sample           : aliased T_UInt32 := 0;
+		Max_Compute_Workgroup_Storage_Size              : aliased T_UInt32 := 0;
+		Max_Compute_Invocations_Per_Workgroup           : aliased T_UInt32 := 0;
+		Max_Compute_Workgroup_Size_X                    : aliased T_UInt32 := 0;
+		Max_Compute_Workgroup_Size_Y                    : aliased T_UInt32 := 0;
+		Max_Compute_Workgroup_Size_Z                    : aliased T_UInt32 := 0;
+		Max_Compute_Workgroups_Per_Dimension            : aliased T_UInt32 := 0;
+	end record
+	with Convention => C_Pass_By_Copy;
 
 
 

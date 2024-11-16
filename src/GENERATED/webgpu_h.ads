@@ -56,7 +56,7 @@ package webgpu_h is
    --  unsupported macro: WGPU_FORMAT_CAPABILITIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUFormatCapabilities, { nullptr WGPU_COMMA })
    --  unsupported macro: WGPU_FUTURE_INIT WGPU_MAKE_INIT_STRUCT(WGPUFuture, { {} WGPU_COMMA })
    --  unsupported macro: WGPU_INSTANCE_FEATURES_INIT WGPU_MAKE_INIT_STRUCT(WGPUInstanceFeatures, { nullptr WGPU_COMMA false WGPU_COMMA 0 WGPU_COMMA })
-   --  unsupported macro: WGPU_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(T_WGPULimits, { WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA })
+   --  unsupported macro: WGPU_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(T_Device_Limits, { WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U64_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA WGPU_LIMIT_U32_UNDEFINED WGPU_COMMA })
    --  unsupported macro: WGPU_MEMORY_HEAP_INFO_INIT WGPU_MAKE_INIT_STRUCT(WGPUMemoryHeapInfo, { {} WGPU_COMMA {} WGPU_COMMA })
    --  unsupported macro: WGPU_MULTISAMPLE_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUMultisampleState, { nullptr WGPU_COMMA 1 WGPU_COMMA 0xFFFFFFFF WGPU_COMMA false WGPU_COMMA })
    --  unsupported macro: WGPU_ORIGIN_2D_INIT WGPU_MAKE_INIT_STRUCT(WGPUOrigin2D, { 0 WGPU_COMMA 0 WGPU_COMMA })
@@ -90,7 +90,7 @@ package webgpu_h is
    --  unsupported macro: WGPU_REQUIRED_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(T_WGPURequiredLimits, { nullptr WGPU_COMMA WGPU_LIMITS_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_SAMPLER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSamplerDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUFilterMode_Nearest WGPU_COMMA WGPUFilterMode_Nearest WGPU_COMMA WGPUMipmapFilterMode_Nearest WGPU_COMMA 0.0f WGPU_COMMA 32.0f WGPU_COMMA WGPUCompareFunction_Undefined WGPU_COMMA 1 WGPU_COMMA })
    --  unsupported macro: WGPU_SHADER_SOURCE_WGSL_INIT WGPU_MAKE_INIT_STRUCT(WGPUShaderSourceWGSL, { { nullptr WGPU_COMMA WGPUSType_ShaderSourceWGSL} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
-   --  unsupported macro: WGPU_SUPPORTED_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(WGPUSupportedLimits, { nullptr WGPU_COMMA WGPU_LIMITS_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SUPPORTED_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSupportedLimits, { nullptr WGPU_COMMA WGPU_LIMITS_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_SURFACE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_TEXTURE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA WGPUTextureDimension_2D WGPU_COMMA WGPU_EXTENT_3D_INIT WGPU_COMMA {} WGPU_COMMA 1 WGPU_COMMA 1 WGPU_COMMA 0 WGPU_COMMA nullptr WGPU_COMMA })
    --  unsupported macro: WGPU_VERTEX_BUFFER_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUVertexBufferLayout, { {} WGPU_COMMA WGPUVertexStepMode_Vertex WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
@@ -821,10 +821,10 @@ package webgpu_h is
    WGPUSharedFenceType_WGPUSharedFenceType_MTLSharedEvent : constant WGPUSharedFenceType := 5;
    WGPUSharedFenceType_WGPUSharedFenceType_Force32 : constant WGPUSharedFenceType := 2147483647;  -- webgpu.h:759
 
-   subtype WGPUStatus is unsigned;
-   WGPUStatus_WGPUStatus_Success : constant WGPUStatus := 1;
-   WGPUStatus_WGPUStatus_Error : constant WGPUStatus := 2;
-   WGPUStatus_WGPUStatus_Force32 : constant WGPUStatus := 2147483647;  -- webgpu.h:767
+   subtype T_Status is unsigned;
+   WGPUStatus_WGPUStatus_Success : constant T_Status := 1;
+   WGPUStatus_WGPUStatus_Error : constant T_Status := 2;
+   WGPUStatus_WGPUStatus_Force32 : constant T_Status := 2147483647;  -- webgpu.h:767
 
    subtype WGPUStencilOperation is unsigned;
    WGPUStencilOperation_WGPUStencilOperation_Undefined : constant WGPUStencilOperation := 0;
@@ -1700,14 +1700,14 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1516
 
-  -- Can be chained in WGPUSupportedLimits
+  -- Can be chained in T_WGPUSupportedLimits
    type WGPUDawnExperimentalImmediateDataLimits is record
       chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:1528
       maxImmediateDataRangeByteSize : aliased T_UInt32;  -- webgpu.h:1529
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1527
 
-  -- Can be chained in WGPUSupportedLimits
+  -- Can be chained in T_WGPUSupportedLimits
    type WGPUDawnExperimentalSubgroupLimits is record
       chain : aliased T_WGPUChainedStructOut;  -- webgpu.h:1539
       minSubgroupSize : aliased T_UInt32;  -- webgpu.h:1540
@@ -1814,41 +1814,41 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1699
 
-   type T_WGPULimits is record
-      maxTextureDimension1D : aliased T_UInt32;  -- webgpu.h:1712
-      maxTextureDimension2D : aliased T_UInt32;  -- webgpu.h:1713
-      maxTextureDimension3D : aliased T_UInt32;  -- webgpu.h:1714
-      maxTextureArrayLayers : aliased T_UInt32;  -- webgpu.h:1715
-      maxBindGroups : aliased T_UInt32;  -- webgpu.h:1716
-      maxBindGroupsPlusVertexBuffers : aliased T_UInt32;  -- webgpu.h:1717
-      maxBindingsPerBindGroup : aliased T_UInt32;  -- webgpu.h:1718
-      maxDynamicUniformBuffersPerPipelineLayout : aliased T_UInt32;  -- webgpu.h:1719
-      maxDynamicStorageBuffersPerPipelineLayout : aliased T_UInt32;  -- webgpu.h:1720
-      maxSampledTexturesPerShaderStage : aliased T_UInt32;  -- webgpu.h:1721
-      maxSamplersPerShaderStage : aliased T_UInt32;  -- webgpu.h:1722
-      maxStorageBuffersPerShaderStage : aliased T_UInt32;  -- webgpu.h:1723
-      maxStorageTexturesPerShaderStage : aliased T_UInt32;  -- webgpu.h:1724
-      maxUniformBuffersPerShaderStage : aliased T_UInt32;  -- webgpu.h:1725
-      maxUniformBufferBindingSize : aliased T_UInt64;  -- webgpu.h:1726
-      maxStorageBufferBindingSize : aliased T_UInt64;  -- webgpu.h:1727
-      minUniformBufferOffsetAlignment : aliased T_UInt32;  -- webgpu.h:1728
-      minStorageBufferOffsetAlignment : aliased T_UInt32;  -- webgpu.h:1729
-      maxVertexBuffers : aliased T_UInt32;  -- webgpu.h:1730
-      maxBufferSize : aliased T_UInt64;  -- webgpu.h:1731
-      maxVertexAttributes : aliased T_UInt32;  -- webgpu.h:1732
-      maxVertexBufferArrayStride : aliased T_UInt32;  -- webgpu.h:1733
-      maxInterStageShaderComponents : aliased T_UInt32;  -- webgpu.h:1734
-      maxInterStageShaderVariables : aliased T_UInt32;  -- webgpu.h:1735
-      maxColorAttachments : aliased T_UInt32;  -- webgpu.h:1736
-      maxColorAttachmentBytesPerSample : aliased T_UInt32;  -- webgpu.h:1737
-      maxComputeWorkgroupStorageSize : aliased T_UInt32;  -- webgpu.h:1738
-      maxComputeInvocationsPerWorkgroup : aliased T_UInt32;  -- webgpu.h:1739
-      maxComputeWorkgroupSizeX : aliased T_UInt32;  -- webgpu.h:1740
-      maxComputeWorkgroupSizeY : aliased T_UInt32;  -- webgpu.h:1741
-      maxComputeWorkgroupSizeZ : aliased T_UInt32;  -- webgpu.h:1742
-      maxComputeWorkgroupsPerDimension : aliased T_UInt32;  -- webgpu.h:1743
-   end record
-   with Convention => C_Pass_By_Copy;  -- webgpu.h:1711
+	type T_Device_Limits is record
+		Max_Texture_Dimension1D                         : aliased T_UInt32 := 0;
+		Max_Texture_Dimension2D                         : aliased T_UInt32 := 0;
+		Max_Texture_Dimension3D                         : aliased T_UInt32 := 0;
+		Max_Texture_Array_Layers                        : aliased T_UInt32 := 0;
+		Max_Bind_Groups                                 : aliased T_UInt32 := 0;
+		Max_Bind_Groups_Plus_Vertex_Buffers             : aliased T_UInt32 := 0;
+		Max_Bindings_Per_Bind_Group                     : aliased T_UInt32 := 0;
+		Max_Dynamic_Uniform_Buffers_Per_Pipeline_Layout : aliased T_UInt32 := 0;
+		Max_Dynamic_Storage_Buffers_Per_Pipeline_Layout : aliased T_UInt32 := 0;
+		Max_Sampled_Textures_Per_Shader_Stage           : aliased T_UInt32 := 0;
+		Max_Samplers_Per_Shader_Stage                   : aliased T_UInt32 := 0;
+		Max_Storage_Buffers_Per_Shader_Stage            : aliased T_UInt32 := 0;
+		Max_Storage_Textures_Per_Shader_Stage           : aliased T_UInt32 := 0;
+		Max_Uniform_Buffers_Per_Shader_Stage            : aliased T_UInt32 := 0;
+		Max_Uniform_Buffer_Binding_Size                 : aliased T_UInt64 := 0;
+		Max_Storage_Buffer_Binding_Size                 : aliased T_UInt64 := 0;
+		Min_Uniform_Buffer_Offset_Alignment             : aliased T_UInt32 := 0;
+		Min_Storage_Buffer_Offset_Alignment             : aliased T_UInt32 := 0;
+		Max_Vertex_Buffers                              : aliased T_UInt32 := 0;
+		Max_Buffer_Size                                 : aliased T_UInt64 := 0;
+		Max_Vertex_Attributes                           : aliased T_UInt32 := 0;
+		Max_Vertex_Buffer_Array_Stride                  : aliased T_UInt32 := 0;
+		Max_Inter_Stage_Shader_Components               : aliased T_UInt32 := 0;
+		Max_Inter_Stage_Shader_Variables                : aliased T_UInt32 := 0;
+		Max_Color_Attachments                           : aliased T_UInt32 := 0;
+		Max_Color_Attachment_Bytes_Per_Sample           : aliased T_UInt32 := 0;
+		Max_Compute_Workgroup_Storage_Size              : aliased T_UInt32 := 0;
+		Max_Compute_Invocations_Per_Workgroup           : aliased T_UInt32 := 0;
+		Max_Compute_Workgroup_Size_X                    : aliased T_UInt32 := 0;
+		Max_Compute_Workgroup_Size_Y                    : aliased T_UInt32 := 0;
+		Max_Compute_Workgroup_Size_Z                    : aliased T_UInt32 := 0;
+		Max_Compute_Workgroups_Per_Dimension            : aliased T_UInt32 := 0;
+	end record
+	with Convention => C_Pass_By_Copy;
 
    type WGPUMemoryHeapInfo is record
       properties : aliased WGPUHeapProperty;  -- webgpu.h:1782
@@ -2648,7 +2648,7 @@ package webgpu_h is
 
 	type T_WGPURequiredLimits is record
 		nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3142
-		limits      : aliased T_WGPULimits;  -- webgpu.h:3143
+		limits      : aliased T_Device_Limits;  -- webgpu.h:3143
 	end record
 	with Convention => C_Pass_By_Copy;  -- webgpu.h:3141
 
@@ -2725,9 +2725,9 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:3262
 
-   type WGPUSupportedLimits is record
+   type T_WGPUSupportedLimits is record
       nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:3277
-      limits : aliased T_WGPULimits;  -- webgpu.h:3278
+      limits : aliased T_Device_Limits;  -- webgpu.h:3278
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:3276
 
@@ -2952,7 +2952,7 @@ package webgpu_h is
    type WGPUProcDrmFormatCapabilitiesFreeMembers is access procedure (arg1 : WGPUDrmFormatCapabilities)
    with Convention => C;  -- webgpu.h:3633
 
-   type WGPUProcGetInstanceFeatures is access function (arg1 : access WGPUInstanceFeatures) return WGPUStatus
+   type WGPUProcGetInstanceFeatures is access function (arg1 : access WGPUInstanceFeatures) return T_Status
    with Convention => C;  -- webgpu.h:3634
 
    type WGPUProcGetProcAddress is access function (arg1 : T_WGPUStringView) return WGPUProc
@@ -2983,16 +2983,16 @@ package webgpu_h is
    type WGPUProcAdapterGetFormatCapabilities is access function
         (arg1 : T_WGPUAdapter;
          arg2 : WGPUTextureFormat;
-         arg3 : access WGPUFormatCapabilities) return WGPUStatus
+         arg3 : access WGPUFormatCapabilities) return T_Status
    with Convention => C;  -- webgpu.h:3645
 
-   type WGPUProcAdapterGetInfo is access function (arg1 : T_WGPUAdapter; arg2 : access WGPUAdapterInfo) return WGPUStatus
+   type WGPUProcAdapterGetInfo is access function (arg1 : T_WGPUAdapter; arg2 : access WGPUAdapterInfo) return T_Status
    with Convention => C;  -- webgpu.h:3646
 
    type WGPUProcAdapterGetInstance is access function (arg1 : T_WGPUAdapter) return T_WGPUInstance
    with Convention => C;  -- webgpu.h:3647
 
-   type WGPUProcAdapterGetLimits is access function (arg1 : T_WGPUAdapter; arg2 : access WGPUSupportedLimits) return WGPUStatus
+   type WGPUProcAdapterGetLimits is access function (arg1 : T_WGPUAdapter; arg2 : access T_WGPUSupportedLimits) return T_Status
    with Convention => C;  -- webgpu.h:3648
 
    type WGPUProcAdapterHasFeature is access function (arg1 : T_WGPUAdapter; arg2 : T_Feature_Name) return T_WGPUBool
@@ -3379,7 +3379,7 @@ package webgpu_h is
    type WGPUProcDeviceGetAHardwareBufferProperties is access function
         (arg1 : T_WGPUDevice;
          arg2 : T_Address;
-         arg3 : access WGPUAHardwareBufferProperties) return WGPUStatus
+         arg3 : access WGPUAHardwareBufferProperties) return T_Status
    with Convention => C;  -- webgpu.h:3753
 
    type WGPUProcDeviceGetAdapter is access function (arg1 : T_WGPUDevice) return T_WGPUAdapter
@@ -3388,7 +3388,7 @@ package webgpu_h is
    type WGPUProcDeviceGetFeatures is access procedure (arg1 : T_WGPUDevice; arg2 : access WGPUSupportedFeatures)
    with Convention => C;  -- webgpu.h:3755
 
-   type WGPUProcDeviceGetLimits is access function (arg1 : T_WGPUDevice; arg2 : access WGPUSupportedLimits) return WGPUStatus
+   type WGPUProcDeviceGetLimits is access function (arg1 : T_WGPUDevice; arg2 : access T_WGPUSupportedLimits) return T_Status
    with Convention => C;  -- webgpu.h:3756
 
    type WGPUProcDeviceGetLostFuture is access function (arg1 : T_WGPUDevice) return WGPUFuture
@@ -3895,7 +3895,7 @@ package webgpu_h is
    type WGPUProcSharedBufferMemoryBeginAccess is access function
         (arg1 : WGPUSharedBufferMemory;
          arg2 : WGPUBuffer;
-         arg3 : access constant WGPUSharedBufferMemoryBeginAccessDescriptor) return WGPUStatus
+         arg3 : access constant WGPUSharedBufferMemoryBeginAccessDescriptor) return T_Status
    with Convention => C;  -- webgpu.h:3893
 
    type WGPUProcSharedBufferMemoryCreateBuffer is access function (arg1 : WGPUSharedBufferMemory; arg2 : access constant WGPUBufferDescriptor) return WGPUBuffer
@@ -3904,10 +3904,10 @@ package webgpu_h is
    type WGPUProcSharedBufferMemoryEndAccess is access function
         (arg1 : WGPUSharedBufferMemory;
          arg2 : WGPUBuffer;
-         arg3 : access WGPUSharedBufferMemoryEndAccessState) return WGPUStatus
+         arg3 : access WGPUSharedBufferMemoryEndAccessState) return T_Status
    with Convention => C;  -- webgpu.h:3895
 
-   type WGPUProcSharedBufferMemoryGetProperties is access function (arg1 : WGPUSharedBufferMemory; arg2 : access WGPUSharedBufferMemoryProperties) return WGPUStatus
+   type WGPUProcSharedBufferMemoryGetProperties is access function (arg1 : WGPUSharedBufferMemory; arg2 : access WGPUSharedBufferMemoryProperties) return T_Status
    with Convention => C;  -- webgpu.h:3896
 
    type WGPUProcSharedBufferMemoryIsDeviceLost is access function (arg1 : WGPUSharedBufferMemory) return T_WGPUBool
@@ -3936,7 +3936,7 @@ package webgpu_h is
    type WGPUProcSharedTextureMemoryBeginAccess is access function
         (arg1 : WGPUSharedTextureMemory;
          arg2 : WGPUTexture;
-         arg3 : access constant WGPUSharedTextureMemoryBeginAccessDescriptor) return WGPUStatus
+         arg3 : access constant WGPUSharedTextureMemoryBeginAccessDescriptor) return T_Status
    with Convention => C;  -- webgpu.h:3908
 
    type WGPUProcSharedTextureMemoryCreateTexture is access function (arg1 : WGPUSharedTextureMemory; arg2 : access constant WGPUTextureDescriptor) return WGPUTexture
@@ -3945,10 +3945,10 @@ package webgpu_h is
    type WGPUProcSharedTextureMemoryEndAccess is access function
         (arg1 : WGPUSharedTextureMemory;
          arg2 : WGPUTexture;
-         arg3 : access WGPUSharedTextureMemoryEndAccessState) return WGPUStatus
+         arg3 : access WGPUSharedTextureMemoryEndAccessState) return T_Status
    with Convention => C;  -- webgpu.h:3910
 
-   type WGPUProcSharedTextureMemoryGetProperties is access function (arg1 : WGPUSharedTextureMemory; arg2 : access WGPUSharedTextureMemoryProperties) return WGPUStatus
+   type WGPUProcSharedTextureMemoryGetProperties is access function (arg1 : WGPUSharedTextureMemory; arg2 : access WGPUSharedTextureMemoryProperties) return T_Status
    with Convention => C;  -- webgpu.h:3911
 
    type WGPUProcSharedTextureMemoryIsDeviceLost is access function (arg1 : WGPUSharedTextureMemory) return T_WGPUBool
@@ -3970,7 +3970,7 @@ package webgpu_h is
    type WGPUProcSurfaceGetCapabilities is access function
         (arg1 : T_WGPUSurface;
          arg2 : T_WGPUAdapter;
-         arg3 : access WGPUSurfaceCapabilities) return WGPUStatus
+         arg3 : access WGPUSurfaceCapabilities) return T_Status
    with Convention => C;  -- webgpu.h:3919
 
    type WGPUProcSurfaceGetCurrentTexture is access procedure (arg1 : T_WGPUSurface; arg2 : access WGPUSurfaceTexture)
@@ -4064,7 +4064,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuDrmFormatCapabilitiesFreeMembers";
 
-   function wgpuGetInstanceFeatures (features : access WGPUInstanceFeatures) return WGPUStatus  -- webgpu.h:3957
+   function wgpuGetInstanceFeatures (features : access WGPUInstanceFeatures) return T_Status  -- webgpu.h:3957
    with Import => True,
         Convention => C,
         External_Name => "wgpuGetInstanceFeatures";
@@ -4113,12 +4113,12 @@ package webgpu_h is
    function wgpuAdapterGetFormatCapabilities
      (adapter : T_WGPUAdapter;
       format : WGPUTextureFormat;
-      capabilities : access WGPUFormatCapabilities) return WGPUStatus  -- webgpu.h:3968
+      capabilities : access WGPUFormatCapabilities) return T_Status  -- webgpu.h:3968
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterGetFormatCapabilities";
 
-   function wgpuAdapterGetInfo (adapter : T_WGPUAdapter; info : access WGPUAdapterInfo) return WGPUStatus  -- webgpu.h:3969
+   function wgpuAdapterGetInfo (adapter : T_WGPUAdapter; info : access WGPUAdapterInfo) return T_Status  -- webgpu.h:3969
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterGetInfo";
@@ -4128,7 +4128,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuAdapterGetInstance";
 
-   function wgpuAdapterGetLimits (adapter : T_WGPUAdapter; limits : access WGPUSupportedLimits) return WGPUStatus  -- webgpu.h:3971
+   function wgpuAdapterGetLimits (adapter : T_WGPUAdapter; limits : access T_WGPUSupportedLimits) return T_Status  -- webgpu.h:3971
    with Import => True,
         Convention => C,
         External_Name => "wgpuAdapterGetLimits";
@@ -4693,7 +4693,7 @@ package webgpu_h is
    function wgpuDeviceGetAHardwareBufferProperties
      (device : T_WGPUDevice;
       handle : T_Address;
-      properties : access WGPUAHardwareBufferProperties) return WGPUStatus  -- webgpu.h:4076
+      properties : access WGPUAHardwareBufferProperties) return T_Status  -- webgpu.h:4076
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceGetAHardwareBufferProperties";
@@ -4708,7 +4708,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuDeviceGetFeatures";
 
-   function wgpuDeviceGetLimits (device : T_WGPUDevice; limits : access WGPUSupportedLimits) return WGPUStatus  -- webgpu.h:4079
+   function wgpuDeviceGetLimits (device : T_WGPUDevice; limits : access T_WGPUSupportedLimits) return T_Status  -- webgpu.h:4079
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceGetLimits";
@@ -5441,7 +5441,7 @@ package webgpu_h is
    function wgpuSharedBufferMemoryBeginAccess
      (sharedBufferMemory : WGPUSharedBufferMemory;
       buffer : WGPUBuffer;
-      descriptor : access constant WGPUSharedBufferMemoryBeginAccessDescriptor) return WGPUStatus  -- webgpu.h:4216
+      descriptor : access constant WGPUSharedBufferMemoryBeginAccessDescriptor) return T_Status  -- webgpu.h:4216
    with Import => True,
         Convention => C,
         External_Name => "wgpuSharedBufferMemoryBeginAccess";
@@ -5454,12 +5454,12 @@ package webgpu_h is
    function wgpuSharedBufferMemoryEndAccess
      (sharedBufferMemory : WGPUSharedBufferMemory;
       buffer : WGPUBuffer;
-      descriptor : access WGPUSharedBufferMemoryEndAccessState) return WGPUStatus  -- webgpu.h:4218
+      descriptor : access WGPUSharedBufferMemoryEndAccessState) return T_Status  -- webgpu.h:4218
    with Import => True,
         Convention => C,
         External_Name => "wgpuSharedBufferMemoryEndAccess";
 
-   function wgpuSharedBufferMemoryGetProperties (sharedBufferMemory : WGPUSharedBufferMemory; properties : access WGPUSharedBufferMemoryProperties) return WGPUStatus  -- webgpu.h:4219
+   function wgpuSharedBufferMemoryGetProperties (sharedBufferMemory : WGPUSharedBufferMemory; properties : access WGPUSharedBufferMemoryProperties) return T_Status  -- webgpu.h:4219
    with Import => True,
         Convention => C,
         External_Name => "wgpuSharedBufferMemoryGetProperties";
@@ -5504,7 +5504,7 @@ package webgpu_h is
    function wgpuSharedTextureMemoryBeginAccess
      (sharedTextureMemory : WGPUSharedTextureMemory;
       texture : WGPUTexture;
-      descriptor : access constant WGPUSharedTextureMemoryBeginAccessDescriptor) return WGPUStatus  -- webgpu.h:4231
+      descriptor : access constant WGPUSharedTextureMemoryBeginAccessDescriptor) return T_Status  -- webgpu.h:4231
    with Import => True,
         Convention => C,
         External_Name => "wgpuSharedTextureMemoryBeginAccess";
@@ -5517,12 +5517,12 @@ package webgpu_h is
    function wgpuSharedTextureMemoryEndAccess
      (sharedTextureMemory : WGPUSharedTextureMemory;
       texture : WGPUTexture;
-      descriptor : access WGPUSharedTextureMemoryEndAccessState) return WGPUStatus  -- webgpu.h:4233
+      descriptor : access WGPUSharedTextureMemoryEndAccessState) return T_Status  -- webgpu.h:4233
    with Import => True,
         Convention => C,
         External_Name => "wgpuSharedTextureMemoryEndAccess";
 
-   function wgpuSharedTextureMemoryGetProperties (sharedTextureMemory : WGPUSharedTextureMemory; properties : access WGPUSharedTextureMemoryProperties) return WGPUStatus  -- webgpu.h:4234
+   function wgpuSharedTextureMemoryGetProperties (sharedTextureMemory : WGPUSharedTextureMemory; properties : access WGPUSharedTextureMemoryProperties) return T_Status  -- webgpu.h:4234
    with Import => True,
         Convention => C,
         External_Name => "wgpuSharedTextureMemoryGetProperties";
@@ -5556,7 +5556,7 @@ package webgpu_h is
    function wgpuSurfaceGetCapabilities
      (surface : T_WGPUSurface;
       adapter : T_WGPUAdapter;
-      capabilities : access WGPUSurfaceCapabilities) return WGPUStatus  -- webgpu.h:4242
+      capabilities : access WGPUSurfaceCapabilities) return T_Status  -- webgpu.h:4242
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceGetCapabilities";

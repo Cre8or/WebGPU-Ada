@@ -17,6 +17,7 @@ package WebGPU.Exceptions is
 	EX_REQUEST_ERROR            : exception;
 	EX_INSTANCE_NOT_INITIALISED : exception;
 	EX_ADAPTER_NOT_INITIALISED  : exception;
+	EX_DEVICE_NOT_INITIALISED   : exception;
 
 
 

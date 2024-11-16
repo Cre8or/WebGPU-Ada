@@ -4,7 +4,22 @@ pragma License (Unrestricted);
 
 
 
+with WebGPU.Exceptions;
+
+
+
+pragma Elaborate_All (WebGPU.Exceptions);
+
+
+
+
+
 package body WebGPU.Devices is
+
+
+
+	-- Use clauses
+	use WebGPU.Exceptions;
 
 
 
@@ -18,6 +33,28 @@ package body WebGPU.Devices is
 		return This.m_Device /= null;
 
 	end Is_Initialised;
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	not overriding function Get_Limits (This : in T_Device) return T_Device_Limits is
+
+		Result : T_Status;
+		Data   : aliased T_WGPUSupportedLimits;
+
+	begin
+
+		if This.m_Device = null then
+			raise EX_DEVICE_NOT_INITIALISED;
+		end if;
+
+		Result := wgpuDeviceGetLimits (This.m_Device, Data'Access);
+
+		if Result /= E_Success then
+			raise EX_REQUEST_ERROR;
+		end if;
+
+		return Data.limits;
+
+	end Get_Limits;
 
 	--------------------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Set_Raw_Internal (
@@ -61,6 +98,7 @@ package body WebGPU.Devices is
 		end if;
 
 		wgpuDeviceRelease (This.m_Device);
+		This.m_Device := null;
 
 	end Finalize;
 

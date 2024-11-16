@@ -115,6 +115,7 @@ package body WebGPU.Adapters is
 		end if;
 
 		wgpuAdapterRelease (This.m_Adapter);
+		This.m_Adapter := null;
 
 	end Finalize;
 

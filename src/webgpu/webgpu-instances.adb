@@ -122,6 +122,7 @@ package body WebGPU.Instances is
 		end if;
 
 		wgpuInstanceRelease (This.m_Instance);
+		This.m_Instance := null;
 
 	end Finalize;
 

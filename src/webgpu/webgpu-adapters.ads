@@ -16,6 +16,7 @@ pragma Elaborate_All (Ada.Finalization);
 
 pragma Elaborate_All (WebGPU.Devices);
 pragma Elaborate_All (WebGPU.Types);
+pragma Elaborate_All (WebGPU.API);
 
 
 
