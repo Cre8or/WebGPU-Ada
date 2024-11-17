@@ -46,11 +46,16 @@ package WebGPU.Adapters is
 		with Inline;
 
 		--------------------------------------------------------------------------------------------------------------------------------
-		-- TODO
+		-- Requests a WebGPU device from the adapter. The adapter must be initialised.
+		--
+		-- This function optionally accepts a list of features that the returned device should have.
+		-- Device_Lost_Callback, if set, should point to a callback procedure for when the device becomes unuseable. Care must be taken
+		-- to pevent concurrency issues when the procedure is called!
 		--------------------------------------------------------------------------------------------------------------------------------
 		not overriding function Request_Device (
-			This     : in T_Adapter;
-			Features : in T_Feature_Name_Arr := (1 .. 0 => <>)
+			This                 : in T_Adapter;
+			Features             : in T_Feature_Name_Arr     := (1 .. 0 => <>);
+			Device_Lost_Callback : in T_Device_Lost_Callback := null
 		) return T_Device
 		with Inline;
 
@@ -97,12 +102,20 @@ private
 
 	-- Specifications
 	--------------------------------------------------------------------------------------------------------------------------------
-	procedure Request_Callback (
+	procedure Request_Device_Callback (
 		status   : T_Request_Device_Status;
 		device   : T_WGPUDevice;
 		message  : T_WGPUStringView;
 		userdata : T_Address := C_Null_Address
-	) with Inline, Convention => C;
+	) with Convention => C;
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure Internal_Device_Lost_Callback (
+		device   : in T_WGPUDevice;
+		reason   : in T_Device_Lost_Reason;
+		message  : in T_WGPUStringView;
+		userdata : in T_Device_Lost_Callback := null
+	) with Convention => C;
 
 
 

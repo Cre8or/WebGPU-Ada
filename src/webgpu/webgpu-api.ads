@@ -106,7 +106,7 @@ private package WebGPU.API is
 		device   : in T_WGPUDevice;
 		reason   : in T_Device_Lost_Reason;
 		message  : in T_WGPUStringView;
-		userdata : in T_Address := C_Null_Address
+		userdata : in T_Device_Lost_Callback
    	) with Convention => C;
 
    	type T_WGPUDeviceLostCallback2 is access procedure (
@@ -129,22 +129,22 @@ private package WebGPU.API is
 		message   : in T_WGPUStringView;
 		userdata1 : in T_Address := C_Null_Address;
 		userdata2 : in T_Address := C_Null_Address
-																		  ) with Convention => C;
+	) with Convention => C;
 
 
 
 	-- Request structs
 	type T_WGPUDeviceLostCallbackInfo is record
 		nextInChain : access constant T_WGPUChainedStruct;
-		mode        : aliased T_Callback_Mode;
+		mode        : aliased T_Callback_Mode := E_Wait_Any_Only;
 		callback    : T_WGPUDeviceLostCallback;
-		userdata    : T_Address := C_Null_Address;
+		userdata    : T_Device_Lost_Callback;
 	end record
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUDeviceLostCallbackInfo2 is record
 		nextInChain : access constant T_WGPUChainedStruct;
-		mode        : aliased T_Callback_Mode;
+		mode        : aliased T_Callback_Mode := E_Wait_Any_Only;
 		callback    : T_WGPUDeviceLostCallback2;
 		userdata1   : T_Address := C_Null_Address;
 		userdata2   : T_Address := C_Null_Address;

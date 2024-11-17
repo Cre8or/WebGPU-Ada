@@ -108,12 +108,12 @@ private
 
 	-- Specifications
 	--------------------------------------------------------------------------------------------------------------------------------
-	procedure Request_Callback (
+	procedure Request_Instance_Callback (
 		status   : T_Request_Adapter_Status;
 		adapter  : T_WGPUAdapter;
 		message  : T_WGPUStringView;
 		userdata : T_Address := C_Null_Address
-	) with Inline, Convention => C;
+	) with Convention => C;
 
 
 

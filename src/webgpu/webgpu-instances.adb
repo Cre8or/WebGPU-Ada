@@ -64,7 +64,7 @@ package body WebGPU.Instances is
 		wgpuInstanceRequestAdapter (
 			instance => This.m_Instance,
 			options  => Options'Access,
-			callback => Request_Callback'Access,
+			callback => Request_Instance_Callback'Access,
 			userdata => User_Data'Address
 		);
 
@@ -130,7 +130,7 @@ package body WebGPU.Instances is
 
 	-- Bodies
 	--------------------------------------------------------------------------------------------------------------------------------
-	procedure Request_Callback (
+	procedure Request_Instance_Callback (
 		status   : T_Request_Adapter_Status;
 		adapter  : T_WGPUAdapter;
 		message  : T_WGPUStringView;
@@ -148,7 +148,7 @@ package body WebGPU.Instances is
 		User_Data.Adapter       := adapter;
 		User_Data.Request_Ended := true;
 
-	end Request_Callback;
+	end Request_Instance_Callback;
 
 
 

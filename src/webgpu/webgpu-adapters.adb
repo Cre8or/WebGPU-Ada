@@ -36,13 +36,15 @@ package body WebGPU.Adapters is
 
 	--------------------------------------------------------------------------------------------------------------------------------
 	not overriding function Request_Device (
-		This     : in T_Adapter;
-		Features : in T_Feature_Name_Arr := (1 .. 0 => <>)
+		This                 : in T_Adapter;
+		Features             : in T_Feature_Name_Arr     := (1 .. 0 => <>);
+		Device_Lost_Callback : in T_Device_Lost_Callback := null
 	) return T_Device is
 
-		Device     : T_Device;
-		Descriptor : aliased T_WGPUDeviceDescriptor;
-		User_Data  : aliased T_Request_Userdata;
+		Device                    : T_Device;
+		Descriptor                : aliased T_WGPUDeviceDescriptor;
+		User_Data                 : aliased T_Request_Userdata;
+		Device_Lost_Callback_Info : T_WGPUDeviceLostCallbackInfo;
 
 	begin
 
@@ -50,16 +52,20 @@ package body WebGPU.Adapters is
 			raise EX_ADAPTER_NOT_INITIALISED;
 		end if;
 
+		Device_Lost_Callback_Info.callback := Internal_Device_Lost_Callback'Access;
+		Device_Lost_Callback_Info.userdata := Device_Lost_Callback;
+
 		Descriptor := (
-			requiredFeatureCount => Features'Length,
-			requiredFeatures     => (if Features'Length > 0 then Features (Features'First)'Unrestricted_Access else null),
-			others               => <>
+			requiredFeatureCount   => Features'Length,
+			requiredFeatures       => (if Features'Length > 0 then Features (Features'First)'Unrestricted_Access else null),
+			deviceLostCallbackInfo => Device_Lost_Callback_Info,
+			others                 => <>
 		);
 
 		wgpuAdapterRequestDevice (
 			adapter    => This.m_Adapter,
 			descriptor => Descriptor'Access,
-			callback   => Request_Callback'Access,
+			callback   => Request_Device_Callback'Access,
 			userdata   => User_Data'Address
 		);
 
@@ -123,7 +129,7 @@ package body WebGPU.Adapters is
 
 	-- Bodies
 	--------------------------------------------------------------------------------------------------------------------------------
-	procedure Request_Callback (
+	procedure Request_Device_Callback (
 		status   : T_Request_Device_Status;
 		device   : T_WGPUDevice;
 		message  : T_WGPUStringView;
@@ -141,7 +147,25 @@ package body WebGPU.Adapters is
 		User_Data.Device        := device;
 		User_Data.Request_Ended := true;
 
-	end Request_Callback;
+	end Request_Device_Callback;
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure Internal_Device_Lost_Callback (
+		device   : in T_WGPUDevice;
+		reason   : in T_Device_Lost_Reason;
+		message  : in T_WGPUStringView;
+		userdata : in T_Device_Lost_Callback := null
+	) is
+
+		pragma Unreferenced (device);
+
+	begin
+
+		if userdata /= null then
+			userdata.all (reason, "test"); -- DEBUG
+		end if;
+
+	end Internal_Device_Lost_Callback;
 
 
 

@@ -343,4 +343,12 @@ package WebGPU.Types is
 
 
 
+	-- Callbacks
+	type T_Device_Lost_Callback is access procedure (
+		Reason  : in T_Device_Lost_Reason;
+		message : in String
+	);
+
+
+
 end WebGPU.Types;
