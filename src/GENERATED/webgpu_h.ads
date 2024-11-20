@@ -260,13 +260,13 @@ package webgpu_h is
 
    type WGPUBuffer is access all WGPUBufferImpl;  -- webgpu.h:124
 
-   type WGPUCommandBufferImpl is null record;   -- incomplete struct
+   type T_WGPUCommandBufferImpl is null record;   -- incomplete struct
 
-   type WGPUCommandBuffer is access all WGPUCommandBufferImpl;  -- webgpu.h:125
+   type T_WGPUCommandBuffer is access all T_WGPUCommandBufferImpl;  -- webgpu.h:125
 
-   type WGPUCommandEncoderImpl is null record;   -- incomplete struct
+   type T_WGPUCommandEncoderImpl is null record;   -- incomplete struct
 
-   type WGPUCommandEncoder is access all WGPUCommandEncoderImpl;  -- webgpu.h:126
+   type T_WGPUCommandEncoder is access all T_WGPUCommandEncoderImpl;  -- webgpu.h:126
 
    type WGPUComputePassEncoderImpl is null record;   -- incomplete struct
 
@@ -296,9 +296,9 @@ package webgpu_h is
 
    type WGPUQuerySet is access all WGPUQuerySetImpl;  -- webgpu.h:133
 
-   type WGPUQueueImpl is null record;   -- incomplete struct
+   type T_WGPUQueueImpl is null record;   -- incomplete struct
 
-   type WGPUQueue is access all WGPUQueueImpl;  -- webgpu.h:134
+   type T_WGPUQueue is access all T_WGPUQueueImpl;  -- webgpu.h:134
 
    type WGPURenderBundleImpl is null record;   -- incomplete struct
 
@@ -3106,31 +3106,31 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3679
 
   -- Procs of CommandBuffer
-   type WGPUProcCommandBufferSetLabel is access procedure (arg1 : WGPUCommandBuffer; arg2 : T_WGPUStringView)
+   type WGPUProcCommandBufferSetLabel is access procedure (arg1 : T_WGPUCommandBuffer; arg2 : T_WGPUStringView)
    with Convention => C;  -- webgpu.h:3682
 
-   type WGPUProcCommandBufferAddRef is access procedure (arg1 : WGPUCommandBuffer)
+   type WGPUProcCommandBufferAddRef is access procedure (arg1 : T_WGPUCommandBuffer)
    with Convention => C;  -- webgpu.h:3683
 
-   type WGPUProcCommandBufferRelease is access procedure (arg1 : WGPUCommandBuffer)
+   type WGPUProcCommandBufferRelease is access procedure (arg1 : T_WGPUCommandBuffer)
    with Convention => C;  -- webgpu.h:3684
 
   -- Procs of CommandEncoder
-   type WGPUProcCommandEncoderBeginComputePass is access function (arg1 : WGPUCommandEncoder; arg2 : access constant WGPUComputePassDescriptor) return WGPUComputePassEncoder
+   type WGPUProcCommandEncoderBeginComputePass is access function (arg1 : T_WGPUCommandEncoder; arg2 : access constant WGPUComputePassDescriptor) return WGPUComputePassEncoder
    with Convention => C;  -- webgpu.h:3687
 
-   type WGPUProcCommandEncoderBeginRenderPass is access function (arg1 : WGPUCommandEncoder; arg2 : access constant WGPURenderPassDescriptor) return WGPURenderPassEncoder
+   type WGPUProcCommandEncoderBeginRenderPass is access function (arg1 : T_WGPUCommandEncoder; arg2 : access constant WGPURenderPassDescriptor) return WGPURenderPassEncoder
    with Convention => C;  -- webgpu.h:3688
 
    type WGPUProcCommandEncoderClearBuffer is access procedure
-        (arg1 : WGPUCommandEncoder;
+        (arg1 : T_WGPUCommandEncoder;
          arg2 : WGPUBuffer;
          arg3 : T_UInt64;
          arg4 : T_UInt64)
    with Convention => C;  -- webgpu.h:3689
 
    type WGPUProcCommandEncoderCopyBufferToBuffer is access procedure
-        (arg1 : WGPUCommandEncoder;
+        (arg1 : T_WGPUCommandEncoder;
          arg2 : WGPUBuffer;
          arg3 : T_UInt64;
          arg4 : WGPUBuffer;
@@ -3139,43 +3139,43 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3690
 
    type WGPUProcCommandEncoderCopyBufferToTexture is access procedure
-        (arg1 : WGPUCommandEncoder;
+        (arg1 : T_WGPUCommandEncoder;
          arg2 : access constant WGPUImageCopyBuffer;
          arg3 : access constant WGPUImageCopyTexture;
          arg4 : access constant WGPUExtent3D)
    with Convention => C;  -- webgpu.h:3691
 
    type WGPUProcCommandEncoderCopyTextureToBuffer is access procedure
-        (arg1 : WGPUCommandEncoder;
+        (arg1 : T_WGPUCommandEncoder;
          arg2 : access constant WGPUImageCopyTexture;
          arg3 : access constant WGPUImageCopyBuffer;
          arg4 : access constant WGPUExtent3D)
    with Convention => C;  -- webgpu.h:3692
 
    type WGPUProcCommandEncoderCopyTextureToTexture is access procedure
-        (arg1 : WGPUCommandEncoder;
+        (arg1 : T_WGPUCommandEncoder;
          arg2 : access constant WGPUImageCopyTexture;
          arg3 : access constant WGPUImageCopyTexture;
          arg4 : access constant WGPUExtent3D)
    with Convention => C;  -- webgpu.h:3693
 
-   type WGPUProcCommandEncoderFinish is access function (arg1 : WGPUCommandEncoder; arg2 : access constant WGPUCommandBufferDescriptor) return WGPUCommandBuffer
+   type WGPUProcCommandEncoderFinish is access function (arg1 : T_WGPUCommandEncoder; arg2 : access constant WGPUCommandBufferDescriptor) return T_WGPUCommandBuffer
    with Convention => C;  -- webgpu.h:3694
 
-   type WGPUProcCommandEncoderInjectValidationError is access procedure (arg1 : WGPUCommandEncoder; arg2 : T_WGPUStringView)
+   type WGPUProcCommandEncoderInjectValidationError is access procedure (arg1 : T_WGPUCommandEncoder; arg2 : T_WGPUStringView)
    with Convention => C;  -- webgpu.h:3695
 
-   type WGPUProcCommandEncoderInsertDebugMarker is access procedure (arg1 : WGPUCommandEncoder; arg2 : T_WGPUStringView)
+   type WGPUProcCommandEncoderInsertDebugMarker is access procedure (arg1 : T_WGPUCommandEncoder; arg2 : T_WGPUStringView)
    with Convention => C;  -- webgpu.h:3696
 
-   type WGPUProcCommandEncoderPopDebugGroup is access procedure (arg1 : WGPUCommandEncoder)
+   type WGPUProcCommandEncoderPopDebugGroup is access procedure (arg1 : T_WGPUCommandEncoder)
    with Convention => C;  -- webgpu.h:3697
 
-   type WGPUProcCommandEncoderPushDebugGroup is access procedure (arg1 : WGPUCommandEncoder; arg2 : T_WGPUStringView)
+   type WGPUProcCommandEncoderPushDebugGroup is access procedure (arg1 : T_WGPUCommandEncoder; arg2 : T_WGPUStringView)
    with Convention => C;  -- webgpu.h:3698
 
    type WGPUProcCommandEncoderResolveQuerySet is access procedure
-        (arg1 : WGPUCommandEncoder;
+        (arg1 : T_WGPUCommandEncoder;
          arg2 : WGPUQuerySet;
          arg3 : T_UInt32;
          arg4 : T_UInt32;
@@ -3183,11 +3183,11 @@ package webgpu_h is
          arg6 : T_UInt64)
    with Convention => C;  -- webgpu.h:3699
 
-   type WGPUProcCommandEncoderSetLabel is access procedure (arg1 : WGPUCommandEncoder; arg2 : T_WGPUStringView)
+   type WGPUProcCommandEncoderSetLabel is access procedure (arg1 : T_WGPUCommandEncoder; arg2 : T_WGPUStringView)
    with Convention => C;  -- webgpu.h:3700
 
    type WGPUProcCommandEncoderWriteBuffer is access procedure
-        (arg1 : WGPUCommandEncoder;
+        (arg1 : T_WGPUCommandEncoder;
          arg2 : WGPUBuffer;
          arg3 : T_UInt64;
          arg4 : access bits_stdint_uintn_h.uint8_t;
@@ -3195,15 +3195,15 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3701
 
    type WGPUProcCommandEncoderWriteTimestamp is access procedure
-        (arg1 : WGPUCommandEncoder;
+        (arg1 : T_WGPUCommandEncoder;
          arg2 : WGPUQuerySet;
          arg3 : T_UInt32)
    with Convention => C;  -- webgpu.h:3702
 
-   type WGPUProcCommandEncoderAddRef is access procedure (arg1 : WGPUCommandEncoder)
+   type WGPUProcCommandEncoderAddRef is access procedure (arg1 : T_WGPUCommandEncoder)
    with Convention => C;  -- webgpu.h:3703
 
-   type WGPUProcCommandEncoderRelease is access procedure (arg1 : WGPUCommandEncoder)
+   type WGPUProcCommandEncoderRelease is access procedure (arg1 : T_WGPUCommandEncoder)
    with Convention => C;  -- webgpu.h:3704
 
   -- Procs of ComputePassEncoder
@@ -3281,7 +3281,7 @@ package webgpu_h is
    type WGPUProcDeviceCreateBuffer is access function (arg1 : T_WGPUDevice; arg2 : access constant WGPUBufferDescriptor) return WGPUBuffer
    with Convention => C;  -- webgpu.h:3729
 
-   type WGPUProcDeviceCreateCommandEncoder is access function (arg1 : T_WGPUDevice; arg2 : access constant WGPUCommandEncoderDescriptor) return WGPUCommandEncoder
+   type WGPUProcDeviceCreateCommandEncoder is access function (arg1 : T_WGPUDevice; arg2 : access constant WGPUCommandEncoderDescriptor) return T_WGPUCommandEncoder
    with Convention => C;  -- webgpu.h:3730
 
    type WGPUProcDeviceCreateComputePipeline is access function (arg1 : T_WGPUDevice; arg2 : access constant WGPUComputePipelineDescriptor) return WGPUComputePipeline
@@ -3394,7 +3394,7 @@ package webgpu_h is
    type WGPUProcDeviceGetLostFuture is access function (arg1 : T_WGPUDevice) return WGPUFuture
    with Convention => C;  -- webgpu.h:3757
 
-   type WGPUProcDeviceGetQueue is access function (arg1 : T_WGPUDevice) return WGPUQueue
+   type WGPUProcDeviceGetQueue is access function (arg1 : T_WGPUDevice) return T_WGPUQueue
    with Convention => C;  -- webgpu.h:3758
 
    type WGPUProcDeviceHasFeature is access function (arg1 : T_WGPUDevice; arg2 : T_Feature_Name) return T_WGPUBool
@@ -3558,7 +3558,7 @@ package webgpu_h is
 
   -- Procs of Queue
    type WGPUProcQueueCopyExternalTextureForBrowser is access procedure
-        (arg1 : WGPUQueue;
+        (arg1 : T_WGPUQueue;
          arg2 : access constant WGPUImageCopyExternalTexture;
          arg3 : access constant WGPUImageCopyTexture;
          arg4 : access constant WGPUExtent3D;
@@ -3566,7 +3566,7 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3811
 
    type WGPUProcQueueCopyTextureForBrowser is access procedure
-        (arg1 : WGPUQueue;
+        (arg1 : T_WGPUQueue;
          arg2 : access constant WGPUImageCopyTexture;
          arg3 : access constant WGPUImageCopyTexture;
          arg4 : access constant WGPUExtent3D;
@@ -3574,28 +3574,28 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3812
 
    type WGPUProcQueueOnSubmittedWorkDone is access procedure
-        (arg1 : WGPUQueue;
+        (arg1 : T_WGPUQueue;
          arg2 : WGPUQueueWorkDoneCallback;
          arg3 : T_Address)
    with Convention => C;  -- webgpu.h:3813
 
-   type WGPUProcQueueOnSubmittedWorkDone2 is access function (arg1 : WGPUQueue; arg2 : WGPUQueueWorkDoneCallbackInfo2) return WGPUFuture
+   type WGPUProcQueueOnSubmittedWorkDone2 is access function (arg1 : T_WGPUQueue; arg2 : WGPUQueueWorkDoneCallbackInfo2) return WGPUFuture
    with Convention => C;  -- webgpu.h:3814
 
-   type WGPUProcQueueOnSubmittedWorkDoneF is access function (arg1 : WGPUQueue; arg2 : WGPUQueueWorkDoneCallbackInfo) return WGPUFuture
+   type WGPUProcQueueOnSubmittedWorkDoneF is access function (arg1 : T_WGPUQueue; arg2 : WGPUQueueWorkDoneCallbackInfo) return WGPUFuture
    with Convention => C;  -- webgpu.h:3815
 
-   type WGPUProcQueueSetLabel is access procedure (arg1 : WGPUQueue; arg2 : T_WGPUStringView)
+   type WGPUProcQueueSetLabel is access procedure (arg1 : T_WGPUQueue; arg2 : T_WGPUStringView)
    with Convention => C;  -- webgpu.h:3816
 
    type WGPUProcQueueSubmit is access procedure
-        (arg1 : WGPUQueue;
+        (arg1 : T_WGPUQueue;
          arg2 : T_Size;
          arg3 : T_Address)
    with Convention => C;  -- webgpu.h:3817
 
    type WGPUProcQueueWriteBuffer is access procedure
-        (arg1 : WGPUQueue;
+        (arg1 : T_WGPUQueue;
          arg2 : WGPUBuffer;
          arg3 : T_UInt64;
          arg4 : T_Address;
@@ -3603,7 +3603,7 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3818
 
    type WGPUProcQueueWriteTexture is access procedure
-        (arg1 : WGPUQueue;
+        (arg1 : T_WGPUQueue;
          arg2 : access constant WGPUImageCopyTexture;
          arg3 : T_Address;
          arg4 : T_Size;
@@ -3611,10 +3611,10 @@ package webgpu_h is
          arg6 : access constant WGPUExtent3D)
    with Convention => C;  -- webgpu.h:3819
 
-   type WGPUProcQueueAddRef is access procedure (arg1 : WGPUQueue)
+   type WGPUProcQueueAddRef is access procedure (arg1 : T_WGPUQueue)
    with Convention => C;  -- webgpu.h:3820
 
-   type WGPUProcQueueRelease is access procedure (arg1 : WGPUQueue)
+   type WGPUProcQueueRelease is access procedure (arg1 : T_WGPUQueue)
    with Convention => C;  -- webgpu.h:3821
 
   -- Procs of RenderBundle
@@ -4294,34 +4294,34 @@ package webgpu_h is
         External_Name => "wgpuBufferRelease";
 
   -- Methods of CommandBuffer
-   procedure wgpuCommandBufferSetLabel (commandBuffer : WGPUCommandBuffer; label : T_WGPUStringView)  -- webgpu.h:4005
+   procedure wgpuCommandBufferSetLabel (commandBuffer : T_WGPUCommandBuffer; label : T_WGPUStringView)  -- webgpu.h:4005
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandBufferSetLabel";
 
-   procedure wgpuCommandBufferAddRef (commandBuffer : WGPUCommandBuffer)  -- webgpu.h:4006
+   procedure wgpuCommandBufferAddRef (commandBuffer : T_WGPUCommandBuffer)  -- webgpu.h:4006
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandBufferAddRef";
 
-   procedure wgpuCommandBufferRelease (commandBuffer : WGPUCommandBuffer)  -- webgpu.h:4007
+   procedure wgpuCommandBufferRelease (commandBuffer : T_WGPUCommandBuffer)  -- webgpu.h:4007
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandBufferRelease";
 
   -- Methods of CommandEncoder
-   function wgpuCommandEncoderBeginComputePass (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPUComputePassDescriptor) return WGPUComputePassEncoder  -- webgpu.h:4010
+   function wgpuCommandEncoderBeginComputePass (commandEncoder : T_WGPUCommandEncoder; descriptor : access constant WGPUComputePassDescriptor) return WGPUComputePassEncoder  -- webgpu.h:4010
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderBeginComputePass";
 
-   function wgpuCommandEncoderBeginRenderPass (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPURenderPassDescriptor) return WGPURenderPassEncoder  -- webgpu.h:4011
+   function wgpuCommandEncoderBeginRenderPass (commandEncoder : T_WGPUCommandEncoder; descriptor : access constant WGPURenderPassDescriptor) return WGPURenderPassEncoder  -- webgpu.h:4011
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderBeginRenderPass";
 
    procedure wgpuCommandEncoderClearBuffer
-     (commandEncoder : WGPUCommandEncoder;
+     (commandEncoder : T_WGPUCommandEncoder;
       buffer : WGPUBuffer;
       offset : T_UInt64;
       size : T_UInt64)  -- webgpu.h:4012
@@ -4330,7 +4330,7 @@ package webgpu_h is
         External_Name => "wgpuCommandEncoderClearBuffer";
 
    procedure wgpuCommandEncoderCopyBufferToBuffer
-     (commandEncoder : WGPUCommandEncoder;
+     (commandEncoder : T_WGPUCommandEncoder;
       source : WGPUBuffer;
       sourceOffset : T_UInt64;
       destination : WGPUBuffer;
@@ -4341,7 +4341,7 @@ package webgpu_h is
         External_Name => "wgpuCommandEncoderCopyBufferToBuffer";
 
    procedure wgpuCommandEncoderCopyBufferToTexture
-     (commandEncoder : WGPUCommandEncoder;
+     (commandEncoder : T_WGPUCommandEncoder;
       source : access constant WGPUImageCopyBuffer;
       destination : access constant WGPUImageCopyTexture;
       copySize : access constant WGPUExtent3D)  -- webgpu.h:4014
@@ -4350,7 +4350,7 @@ package webgpu_h is
         External_Name => "wgpuCommandEncoderCopyBufferToTexture";
 
    procedure wgpuCommandEncoderCopyTextureToBuffer
-     (commandEncoder : WGPUCommandEncoder;
+     (commandEncoder : T_WGPUCommandEncoder;
       source : access constant WGPUImageCopyTexture;
       destination : access constant WGPUImageCopyBuffer;
       copySize : access constant WGPUExtent3D)  -- webgpu.h:4015
@@ -4359,7 +4359,7 @@ package webgpu_h is
         External_Name => "wgpuCommandEncoderCopyTextureToBuffer";
 
    procedure wgpuCommandEncoderCopyTextureToTexture
-     (commandEncoder : WGPUCommandEncoder;
+     (commandEncoder : T_WGPUCommandEncoder;
       source : access constant WGPUImageCopyTexture;
       destination : access constant WGPUImageCopyTexture;
       copySize : access constant WGPUExtent3D)  -- webgpu.h:4016
@@ -4367,33 +4367,33 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuCommandEncoderCopyTextureToTexture";
 
-   function wgpuCommandEncoderFinish (commandEncoder : WGPUCommandEncoder; descriptor : access constant WGPUCommandBufferDescriptor) return WGPUCommandBuffer  -- webgpu.h:4017
+   function wgpuCommandEncoderFinish (commandEncoder : T_WGPUCommandEncoder; descriptor : access constant WGPUCommandBufferDescriptor) return T_WGPUCommandBuffer  -- webgpu.h:4017
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderFinish";
 
-   procedure wgpuCommandEncoderInjectValidationError (commandEncoder : WGPUCommandEncoder; message : T_WGPUStringView)  -- webgpu.h:4018
+   procedure wgpuCommandEncoderInjectValidationError (commandEncoder : T_WGPUCommandEncoder; message : T_WGPUStringView)  -- webgpu.h:4018
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderInjectValidationError";
 
-   procedure wgpuCommandEncoderInsertDebugMarker (commandEncoder : WGPUCommandEncoder; markerLabel : T_WGPUStringView)  -- webgpu.h:4019
+   procedure wgpuCommandEncoderInsertDebugMarker (commandEncoder : T_WGPUCommandEncoder; markerLabel : T_WGPUStringView)  -- webgpu.h:4019
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderInsertDebugMarker";
 
-   procedure wgpuCommandEncoderPopDebugGroup (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:4020
+   procedure wgpuCommandEncoderPopDebugGroup (commandEncoder : T_WGPUCommandEncoder)  -- webgpu.h:4020
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderPopDebugGroup";
 
-   procedure wgpuCommandEncoderPushDebugGroup (commandEncoder : WGPUCommandEncoder; groupLabel : T_WGPUStringView)  -- webgpu.h:4021
+   procedure wgpuCommandEncoderPushDebugGroup (commandEncoder : T_WGPUCommandEncoder; groupLabel : T_WGPUStringView)  -- webgpu.h:4021
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderPushDebugGroup";
 
    procedure wgpuCommandEncoderResolveQuerySet
-     (commandEncoder : WGPUCommandEncoder;
+     (commandEncoder : T_WGPUCommandEncoder;
       querySet : WGPUQuerySet;
       firstQuery : T_UInt32;
       queryCount : T_UInt32;
@@ -4403,13 +4403,13 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuCommandEncoderResolveQuerySet";
 
-   procedure wgpuCommandEncoderSetLabel (commandEncoder : WGPUCommandEncoder; label : T_WGPUStringView)  -- webgpu.h:4023
+   procedure wgpuCommandEncoderSetLabel (commandEncoder : T_WGPUCommandEncoder; label : T_WGPUStringView)  -- webgpu.h:4023
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderSetLabel";
 
    procedure wgpuCommandEncoderWriteBuffer
-     (commandEncoder : WGPUCommandEncoder;
+     (commandEncoder : T_WGPUCommandEncoder;
       buffer : WGPUBuffer;
       bufferOffset : T_UInt64;
       data : access bits_stdint_uintn_h.uint8_t;
@@ -4419,19 +4419,19 @@ package webgpu_h is
         External_Name => "wgpuCommandEncoderWriteBuffer";
 
    procedure wgpuCommandEncoderWriteTimestamp
-     (commandEncoder : WGPUCommandEncoder;
+     (commandEncoder : T_WGPUCommandEncoder;
       querySet : WGPUQuerySet;
       queryIndex : T_UInt32)  -- webgpu.h:4025
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderWriteTimestamp";
 
-   procedure wgpuCommandEncoderAddRef (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:4026
+   procedure wgpuCommandEncoderAddRef (commandEncoder : T_WGPUCommandEncoder)  -- webgpu.h:4026
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderAddRef";
 
-   procedure wgpuCommandEncoderRelease (commandEncoder : WGPUCommandEncoder)  -- webgpu.h:4027
+   procedure wgpuCommandEncoderRelease (commandEncoder : T_WGPUCommandEncoder)  -- webgpu.h:4027
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderRelease";
@@ -4549,7 +4549,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuDeviceCreateBuffer";
 
-   function wgpuDeviceCreateCommandEncoder (device : T_WGPUDevice; descriptor : access constant WGPUCommandEncoderDescriptor) return WGPUCommandEncoder  -- webgpu.h:4053
+   function wgpuDeviceCreateCommandEncoder (device : T_WGPUDevice; descriptor : access constant WGPUCommandEncoderDescriptor) return T_WGPUCommandEncoder  -- webgpu.h:4053
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateCommandEncoder";
@@ -4718,7 +4718,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuDeviceGetLostFuture";
 
-   function wgpuDeviceGetQueue (device : T_WGPUDevice) return WGPUQueue  -- webgpu.h:4081
+   function wgpuDeviceGetQueue (device : T_WGPUDevice) return T_WGPUQueue  -- webgpu.h:4081
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceGetQueue";
@@ -4968,7 +4968,7 @@ package webgpu_h is
 
   -- Methods of Queue
    procedure wgpuQueueCopyExternalTextureForBrowser
-     (queue : WGPUQueue;
+     (queue : T_WGPUQueue;
       source : access constant WGPUImageCopyExternalTexture;
       destination : access constant WGPUImageCopyTexture;
       copySize : access constant WGPUExtent3D;
@@ -4978,7 +4978,7 @@ package webgpu_h is
         External_Name => "wgpuQueueCopyExternalTextureForBrowser";
 
    procedure wgpuQueueCopyTextureForBrowser
-     (queue : WGPUQueue;
+     (queue : T_WGPUQueue;
       source : access constant WGPUImageCopyTexture;
       destination : access constant WGPUImageCopyTexture;
       copySize : access constant WGPUExtent3D;
@@ -4988,30 +4988,30 @@ package webgpu_h is
         External_Name => "wgpuQueueCopyTextureForBrowser";
 
    procedure wgpuQueueOnSubmittedWorkDone
-     (queue : WGPUQueue;
+     (queue : T_WGPUQueue;
       callback : WGPUQueueWorkDoneCallback;
       userdata : T_Address)  -- webgpu.h:4136
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueOnSubmittedWorkDone";
 
-   function wgpuQueueOnSubmittedWorkDone2 (queue : WGPUQueue; callbackInfo : WGPUQueueWorkDoneCallbackInfo2) return WGPUFuture  -- webgpu.h:4137
+   function wgpuQueueOnSubmittedWorkDone2 (queue : T_WGPUQueue; callbackInfo : WGPUQueueWorkDoneCallbackInfo2) return WGPUFuture  -- webgpu.h:4137
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueOnSubmittedWorkDone2";
 
-   function wgpuQueueOnSubmittedWorkDoneF (queue : WGPUQueue; callbackInfo : WGPUQueueWorkDoneCallbackInfo) return WGPUFuture  -- webgpu.h:4138
+   function wgpuQueueOnSubmittedWorkDoneF (queue : T_WGPUQueue; callbackInfo : WGPUQueueWorkDoneCallbackInfo) return WGPUFuture  -- webgpu.h:4138
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueOnSubmittedWorkDoneF";
 
-   procedure wgpuQueueSetLabel (queue : WGPUQueue; label : T_WGPUStringView)  -- webgpu.h:4139
+   procedure wgpuQueueSetLabel (queue : T_WGPUQueue; label : T_WGPUStringView)  -- webgpu.h:4139
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueSetLabel";
 
    procedure wgpuQueueSubmit
-     (queue : WGPUQueue;
+     (queue : T_WGPUQueue;
       commandCount : T_Size;
       commands : T_Address)  -- webgpu.h:4140
    with Import => True,
@@ -5019,7 +5019,7 @@ package webgpu_h is
         External_Name => "wgpuQueueSubmit";
 
    procedure wgpuQueueWriteBuffer
-     (queue : WGPUQueue;
+     (queue : T_WGPUQueue;
       buffer : WGPUBuffer;
       bufferOffset : T_UInt64;
       data : T_Address;
@@ -5029,7 +5029,7 @@ package webgpu_h is
         External_Name => "wgpuQueueWriteBuffer";
 
    procedure wgpuQueueWriteTexture
-     (queue : WGPUQueue;
+     (queue : T_WGPUQueue;
       destination : access constant WGPUImageCopyTexture;
       data : T_Address;
       dataSize : T_Size;
@@ -5039,12 +5039,12 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuQueueWriteTexture";
 
-   procedure wgpuQueueAddRef (queue : WGPUQueue)  -- webgpu.h:4143
+   procedure wgpuQueueAddRef (queue : T_WGPUQueue)  -- webgpu.h:4143
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueAddRef";
 
-   procedure wgpuQueueRelease (queue : WGPUQueue)  -- webgpu.h:4144
+   procedure wgpuQueueRelease (queue : T_WGPUQueue)  -- webgpu.h:4144
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueRelease";

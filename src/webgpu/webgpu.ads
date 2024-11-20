@@ -27,6 +27,15 @@ package WebGPU is
 	type T_WGPUDeviceImpl is private;
 	type T_WGPUDevice is access all T_WGPUDeviceImpl;
 
+	type T_WGPUQueueImpl is private;
+	type T_WGPUQueue is access all T_WGPUQueueImpl;
+
+	type T_WGPUCommandBufferImpl is private;
+	type T_WGPUCommandBuffer is access all T_WGPUCommandBufferImpl;
+
+	type T_WGPUCommandEncoderImpl is private;
+	type T_WGPUCommandEncoder is access all T_WGPUCommandEncoderImpl;
+
 
 
 private
@@ -41,6 +50,12 @@ private
 	type T_WGPUSurfaceImpl is null record;
 
 	type T_WGPUDeviceImpl is null record;
+
+	type T_WGPUQueueImpl is null record;
+
+	type T_WGPUCommandBufferImpl is null record;
+
+	type T_WGPUCommandEncoderImpl is null record;
 
 
 

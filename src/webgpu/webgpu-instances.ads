@@ -39,7 +39,7 @@ package WebGPU.Instances is
 
 		-- Primitives
 		--------------------------------------------------------------------------------------------------------------------------------
-		-- Returns true if the WebGPU instance has been initialised (is not null), otherwise false.
+		-- Returns true if the instance has been initialised (is not null), otherwise false.
 		--------------------------------------------------------------------------------------------------------------------------------
 		not overriding function Is_Initialised (This : in T_Instance) return Boolean
 		with Inline;
@@ -114,29 +114,6 @@ private
 		message  : T_WGPUStringView;
 		userdata : T_Address := C_Null_Address
 	) with Convention => C;
-
-
-
-	-- Imports
-	--------------------------------------------------------------------------------------------------------------------------------
-   	procedure wgpuInstanceRequestAdapter (
-		instance : in T_WGPUInstance;
-		options  : access constant T_WGPURequestAdapterOptions;
-		callback : in T_WGPURequestAdapterCallback;
-		userdata : in T_Address := C_Null_Address
-	) with Import, Convention => C, External_Name => "wgpuInstanceRequestAdapter";
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	function wgpuCreateInstance (descriptor : in T_Address := C_Null_Address) return T_WGPUInstance
-	with Import, Convention => C, External_Name => "wgpuCreateInstance";
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	procedure wgpuInstanceAddRef (instance : in T_WGPUInstance)
-	with Import, Convention => C, External_Name => "wgpuInstanceAddRef"; -- wgpuInstanceReference
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	procedure wgpuInstanceRelease (instance : in T_WGPUInstance)
-	with Import, Convention => C, External_Name => "wgpuInstanceRelease";
 
 
 

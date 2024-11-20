@@ -4,10 +4,12 @@ pragma License (Unrestricted);
 
 
 
+with WebGPU.API;
 with WebGPU.Exceptions;
 
 
 
+pragma Elaborate_All (WebGPU.API);
 pragma Elaborate_All (WebGPU.Exceptions);
 
 
@@ -19,6 +21,7 @@ package body WebGPU.Devices is
 
 
 	-- Use clauses
+	use WebGPU.API;
 	use WebGPU.Exceptions;
 
 
@@ -33,6 +36,17 @@ package body WebGPU.Devices is
 		return This.m_Device /= null;
 
 	end Is_Initialised;
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	not overriding procedure Set_Raw_Internal (
+		This : in out T_Device;
+		Raw  : in     T_WGPUDevice
+	) is
+	begin
+
+		This.m_Device := Raw;
+
+	end Set_Raw_Internal;
 
 	--------------------------------------------------------------------------------------------------------------------------------
 	not overriding function Get_Limits (This : in T_Device) return T_Device_Limits is
@@ -57,16 +71,25 @@ package body WebGPU.Devices is
 	end Get_Limits;
 
 	--------------------------------------------------------------------------------------------------------------------------------
-	not overriding procedure Set_Raw_Internal (
-		This : in out T_Device;
-		Raw  : in     T_WGPUDevice
-	) is
+	not overriding function Get_Queue (This : in out T_Device) return T_Queue is
+
+		Queue_Internal : T_WGPUQueue;
+
 	begin
 
-		This.m_Device := Raw;
+		if This.m_Device = null then
+			raise EX_DEVICE_NOT_INITIALISED;
+		end if;
 
-	end Set_Raw_Internal;
+		if not This.m_Queue.Is_Initialised then
+			Queue_Internal := wgpuDeviceGetQueue (This.m_Device);
 
+			This.m_Queue.Set_Raw_Internal (Queue_Internal);
+		end if;
+
+		return This.m_Queue;
+
+	end Get_Queue;
 
 
 

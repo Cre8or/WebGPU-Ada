@@ -158,6 +158,7 @@ package body WebGPU.Adapters is
 	) is
 
 		pragma Unreferenced (device);
+		pragma Unreferenced (message);
 
 	begin
 

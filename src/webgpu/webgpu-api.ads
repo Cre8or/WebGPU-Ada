@@ -206,4 +206,105 @@ private package WebGPU.API is
 
 
 
+	-- Imports
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Instances
+	--------------------------------------------------------------------------------------------------------------------------------
+   	procedure wgpuInstanceRequestAdapter (
+		instance : in T_WGPUInstance;
+		options  : access constant T_WGPURequestAdapterOptions;
+		callback : in T_WGPURequestAdapterCallback;
+		userdata : in T_Address := C_Null_Address
+	) with Import, Convention => C, External_Name => "wgpuInstanceRequestAdapter";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	function wgpuCreateInstance (descriptor : in T_Address := C_Null_Address) return T_WGPUInstance
+	with Import, Convention => C, External_Name => "wgpuCreateInstance";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuInstanceAddRef (instance : in T_WGPUInstance)
+	with Import, Convention => C, External_Name => "wgpuInstanceAddRef"; -- wgpuInstanceReference
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuInstanceRelease (instance : in T_WGPUInstance)
+	with Import, Convention => C, External_Name => "wgpuInstanceRelease";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Adapters
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuAdapterRequestDevice (
+		adapter    : in T_WGPUAdapter;
+		descriptor : access constant T_WGPUDeviceDescriptor;
+		callback   : in T_WGPURequestDeviceCallback;
+		userdata   : in T_Address := C_Null_Address
+	) with Import, Convention => C, External_Name => "wgpuAdapterRequestDevice";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuAdapterAddRef (adapter : in T_WGPUAdapter)
+	with Import, Convention => C, External_Name => "wgpuAdapterAddRef";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuAdapterRelease (adapter : in T_WGPUAdapter)
+	with Import, Convention => C, External_Name => "wgpuAdapterRelease";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Devices
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuDeviceAddRef (device : in T_WGPUDevice)
+	with Import, Convention => C, External_Name => "wgpuDeviceAddRef";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuDeviceRelease (device : in T_WGPUDevice)
+	with Import, Convention => C, External_Name => "wgpuDeviceRelease";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+   function wgpuDeviceEnumerateFeatures (
+		device   : in T_WGPUDevice;
+		features : access T_Feature_Name
+	) return T_Size
+	with Import, Convention => C, External_Name => "wgpuDeviceEnumerateFeatures";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+   function wgpuDeviceGetLimits (
+		device : in T_WGPUDevice;
+		limits : access T_WGPUSupportedLimits
+	) return T_Status
+	with Import, Convention => C, External_Name => "wgpuDeviceGetLimits";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+   function wgpuDeviceGetQueue (device : in T_WGPUDevice) return T_WGPUQueue
+	with Import, Convention => C, External_Name => "wgpuDeviceGetQueue";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Queues
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuQueueAddRef (queue : in T_WGPUQueue)
+	with Import, Convention => C, External_Name => "wgpuQueueAddRef";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuQueueRelease (queue : in T_WGPUQueue)
+	with Import, Convention => C, External_Name => "wgpuQueueRelease";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Command buffers
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuCommandBufferAddRef (commandBuffer : in T_WGPUCommandBuffer)
+	with Import, Convention => C, External_Name => "wgpuCommandBufferAddRef";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuCommandBufferRelease (commandBuffer : in T_WGPUCommandBuffer)
+	with Import, Convention => C, External_Name => "wgpuCommandBufferRelease";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	-- Command encoders
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuCommandEncoderAddRef (commandEncoder : in T_WGPUCommandEncoder)
+	with Import, Convention => C, External_Name => "wgpuCommandEncoderAddRef";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuCommandEncoderRelease (commandEncoder : in T_WGPUCommandEncoder)
+	with Import, Convention => C, External_Name => "wgpuCommandEncoderRelease";
+
+
+
 end WebGPU.API;

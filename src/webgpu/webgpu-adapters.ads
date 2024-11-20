@@ -21,6 +21,7 @@ pragma Elaborate_All (WebGPU.API);
 
 
 
+
 package WebGPU.Adapters is
 
 
@@ -40,7 +41,7 @@ package WebGPU.Adapters is
 
 		-- Primitives
 		--------------------------------------------------------------------------------------------------------------------------------
-		-- Returns true if the WebGPU adapter has been initialised (is not null), otherwise false.
+		-- Returns true if the adapter has been initialised (is not null), otherwise false.
 		--------------------------------------------------------------------------------------------------------------------------------
 		not overriding function Is_Initialised (This : in T_Adapter) return Boolean
 		with Inline;
@@ -116,25 +117,6 @@ private
 		message  : in T_WGPUStringView;
 		userdata : in T_Device_Lost_Callback := null
 	) with Convention => C;
-
-
-
-	-- Imports
-	--------------------------------------------------------------------------------------------------------------------------------
-	procedure wgpuAdapterRequestDevice (
-		adapter    : in T_WGPUAdapter;
-		descriptor : access constant T_WGPUDeviceDescriptor;
-		callback   : in T_WGPURequestDeviceCallback;
-		userdata   : in T_Address := C_Null_Address
-	) with Import, Convention => C, External_Name => "wgpuAdapterRequestDevice";
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	procedure wgpuAdapterAddRef (adapter : in T_WGPUAdapter)
-	with Import, Convention => C, External_Name => "wgpuAdapterAddRef";
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	procedure wgpuAdapterRelease (adapter : in T_WGPUAdapter)
-	with Import, Convention => C, External_Name => "wgpuAdapterRelease";
 
 
 

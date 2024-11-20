@@ -6,63 +6,55 @@ pragma License (Unrestricted);
 
 private with Ada.Finalization;
 
-        with WebGPU.Queues;
-        with WebGPU.Types;
+        with WebGPU.Commands;
 
 
 
 pragma Elaborate_All (Ada.Finalization);
 
-pragma Elaborate_All (WebGPU.Queues);
-pragma Elaborate_All (WebGPU.Types);
+pragma Elaborate_All (WebGPU.Commands);
 
 
 
 
 
-package WebGPU.Devices is
+package WebGPU.Queues is
 
 
 
 	-- Use clauses
-	use WebGPU.Queues;
-	use WebGPU.Types;
+	use WebGPU.Commands;
 
 
 
 	-- Types
 	--------------------------------------------------------------------------------------------------------------------------------
-	-- Wrapper handle for WebGPU devices. Performs automatic reference counting.
-	-- To create a device, refer to WebGPU.Adapters.
+	-- Wrapper handle for WebGPU queues. Performs automatic reference counting.
 	--------------------------------------------------------------------------------------------------------------------------------
-	type T_Device is tagged private;
+	type T_Queue is tagged private;
 
 		-- Primitives
 		--------------------------------------------------------------------------------------------------------------------------------
-		-- Returns true if the device has been initialised (is not null), otherwise false.
+		-- Returns true if the queue has been initialised (is not null), otherwise false.
 		--------------------------------------------------------------------------------------------------------------------------------
-		not overriding function Is_Initialised (This : in T_Device) return Boolean
+		not overriding function Is_Initialised (This : in T_Queue) return Boolean
 		with Inline;
 
 		--------------------------------------------------------------------------------------------------------------------------------
-		-- Helper function to set the devices's raw pointer. For internal use only.
+		-- Helper function to set the queue's raw pointer. For internal use only.
 		--------------------------------------------------------------------------------------------------------------------------------
 		not overriding procedure Set_Raw_Internal (
-			This : in out T_Device;
-			Raw  : in     T_WGPUDevice
+			This : in out T_Queue;
+			Raw  : in     T_WGPUQueue
 		) with Inline;
 
 		--------------------------------------------------------------------------------------------------------------------------------
-		-- Returns the device's limits. The device must be initialised.
+		-- Submits a command buffer to the queue's device for execution.
 		--------------------------------------------------------------------------------------------------------------------------------
-		not overriding function Get_Limits (This : in T_Device) return T_Device_Limits
-		with Inline;
-
-		--------------------------------------------------------------------------------------------------------------------------------
-		-- Returns the device's default queue. The device must be initialised.
-		--------------------------------------------------------------------------------------------------------------------------------
-		not overriding function Get_Queue (This : in out T_Device) return T_Queue
-		with Inline;
+		not overriding procedure Submit (
+			This    : in T_Queue;
+			Command : in T_Command_Buffer
+		) with Inline;
 
 
 
@@ -71,21 +63,19 @@ private
 
 
 	-- Types
-	type T_Device is new Ada.Finalization.Controlled with record
-		m_Device : T_WGPUDevice;
-
-		m_Queue : T_Queue;
+	type T_Queue is new Ada.Finalization.Controlled with record
+		m_Queue : T_WGPUQueue;
 	end record;
 
 		-- Primitives
 		--------------------------------------------------------------------------------------------------------------------------------
-		overriding procedure Adjust (This : in out T_Device)
+		overriding procedure Adjust (This : in out T_Queue)
 		with Inline;
 
 		--------------------------------------------------------------------------------------------------------------------------------
-		overriding procedure Finalize (This : in out T_Device)
+		overriding procedure Finalize (This : in out T_Queue)
 		with Inline;
 
 
 
-end WebGPU.Devices;
+end WebGPU.Queues;
