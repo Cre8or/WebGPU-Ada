@@ -70,6 +70,25 @@ package WebGPU.Commands is
 			Raw  : in     T_WGPUCommandEncoder
 		) with Inline;
 
+		--------------------------------------------------------------------------------------------------------------------------------
+		-- Inserts a debug marker into the command encoder with the specified label. For development purposes. The command encoder must
+		-- be initialised.
+		--------------------------------------------------------------------------------------------------------------------------------
+		not overriding procedure Insert_Debug_Marker (
+			This  : in out T_Command_Encoder;
+			Label : in     String
+		) with Inline;
+
+		--------------------------------------------------------------------------------------------------------------------------------
+		-- Signals that the command encoder is done receiving commands. Optionally assigns a label to the returned command buffer. The
+		-- command encoder must be initialised.
+		--------------------------------------------------------------------------------------------------------------------------------
+		not overriding function Finish (
+			This  : in out T_Command_Encoder'Class;
+			Label : in     String := ""
+		) return T_Command_Buffer
+		with Inline;
+
 
 
 private

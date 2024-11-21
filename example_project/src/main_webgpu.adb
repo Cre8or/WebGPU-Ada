@@ -60,7 +60,9 @@ procedure Main_WebGPU is
 	Device   : T_Device;
 	Limits   : T_Device_Limits;
 	Queue    : T_Queue;
-	Encoder  : T_Command_Encoder;
+
+	Command_Buffer  : T_Command_Buffer;
+	Command_Encoder : T_Command_Encoder;
 
 
 
@@ -94,12 +96,15 @@ begin
 		return;
 	end if;
 
-	Encoder := Device.Create_Command_Encoder ("test");
-	if not Encoder.Is_Initialised then
+	Command_Encoder := Device.Create_Command_Encoder ("test");
+	if not Command_Encoder.Is_Initialised then
 		Text_IO.Put_Line ("ERROR: Command encoder is null");
 		return;
 	end if;
 
+	Command_Encoder.Insert_Debug_Marker ("debug marker 1");
+	Command_Encoder.Insert_Debug_Marker ("debug marker 2");
+	Command_Buffer := Command_Encoder.Finish ("command buffer");
 
 
 	Text_IO.Put_Line ("SUCCESS");

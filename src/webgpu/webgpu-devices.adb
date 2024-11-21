@@ -96,7 +96,6 @@ package body WebGPU.Devices is
 		end if;
 
 		Queue_Internal := wgpuDeviceGetQueue (This.m_Device);
-
 		Queue.Set_Raw_Internal (Queue_Internal);
 
 		return Queue;
@@ -112,9 +111,9 @@ package body WebGPU.Devices is
 		Encoder          : T_Command_Encoder;
 		Encoder_Internal : T_WGPUCommandEncoder;
 		Descriptor       : aliased T_WGPUCommandEncoderDescriptor;
-		String_View      : T_WGPUStringView;
 
-		Label_C : aliased T_Char_Array := To_C (Label);
+		String_View : T_WGPUStringView;
+		Label_C     : aliased T_Char_Array := To_C (Label);
 
 	begin
 
@@ -131,7 +130,6 @@ package body WebGPU.Devices is
 		end if;
 
 		Encoder_Internal := wgpuDeviceCreateCommandEncoder (This.m_Device, Descriptor'Access);
-
 		Encoder.Set_Raw_Internal (Encoder_Internal);
 
 		return Encoder;

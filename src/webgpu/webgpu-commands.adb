@@ -84,6 +84,65 @@ package body WebGPU.Commands is
 
 	end Set_Raw_Internal;
 
+	--------------------------------------------------------------------------------------------------------------------------------
+	not overriding procedure Insert_Debug_Marker (
+		This  : in out T_Command_Encoder;
+		Label : in     String
+	) is
+
+		String_View : T_WGPUStringView;
+		Label_C     : aliased T_Char_Array := To_C (Label);
+
+	begin
+
+		if This.m_Encoder = null then
+			raise EX_COMMAND_ENCODER_NOT_INITIALISED;
+		end if;
+
+		-- Handle the label, if there is one
+		if Label /= "" then
+			String_View.data   := To_Chars_Ptr (Label_C'Unchecked_Access);
+			String_View.length := Label_C'Length;
+		end if;
+
+		wgpuCommandEncoderInsertDebugMarker (This.m_Encoder, String_View);
+
+	end Insert_Debug_Marker;
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	not overriding function Finish (
+		This  : in out T_Command_Encoder'Class;
+		Label : in     String := ""
+	) return T_Command_Buffer is
+
+		Command_Buffer          : T_Command_Buffer;
+		Command_Buffer_Internal : T_WGPUCommandBuffer;
+		Descriptor              : aliased T_WGPUCommandBufferDescriptor;
+
+		String_View : T_WGPUStringView;
+		Label_C     : aliased T_Char_Array := To_C (Label);
+
+	begin
+
+		if This.m_Encoder = null then
+			raise EX_COMMAND_ENCODER_NOT_INITIALISED;
+		end if;
+
+		-- Handle the label, if there is one
+		if Label /= "" then
+			String_View.data   := To_Chars_Ptr (Label_C'Unchecked_Access);
+			String_View.length := Label_C'Length;
+
+			Descriptor.label := String_View;
+		end if;
+
+		Command_Buffer_Internal := wgpuCommandEncoderFinish (This.m_Encoder, Descriptor'Access);
+		Command_Buffer.Set_Raw_Internal (Command_Buffer_Internal);
+
+		return Command_Buffer;
+
+	end Finish;
+
 
 
 	-- Bodies

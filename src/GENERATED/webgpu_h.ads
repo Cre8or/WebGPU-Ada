@@ -185,7 +185,7 @@ package webgpu_h is
    --  unsupported macro: WGPU_A_HARDWARE_BUFFER_PROPERTIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUAHardwareBufferProperties, { WGPU_Y_CB_CR_VK_DESCRIPTOR_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_ADAPTER_PROPERTIES_MEMORY_HEAPS_INIT WGPU_MAKE_INIT_STRUCT(WGPUAdapterPropertiesMemoryHeaps, { { nullptr WGPU_COMMA WGPUSType_AdapterPropertiesMemoryHeaps} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
    --  unsupported macro: WGPU_BIND_GROUP_LAYOUT_ENTRY_INIT WGPU_MAKE_INIT_STRUCT(WGPUBindGroupLayoutEntry, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPU_BUFFER_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_SAMPLER_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_TEXTURE_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_STORAGE_TEXTURE_BINDING_LAYOUT_INIT WGPU_COMMA })
-   --  unsupported macro: WGPU_COMMAND_BUFFER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUCommandBufferDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_COMMAND_BUFFER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUCommandBufferDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_COMMAND_ENCODER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUCommandEncoderDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_COMPUTE_PASS_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUComputePassDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA nullptr WGPU_COMMA })
    --  unsupported macro: WGPU_DAWN_CACHE_DEVICE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnCacheDeviceDescriptor, { { nullptr WGPU_COMMA WGPUSType_DawnCacheDeviceDescriptor} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
@@ -2448,7 +2448,7 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2776
 
-   type WGPUCommandBufferDescriptor is record
+   type T_WGPUCommandBufferDescriptor is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2793
       label : aliased T_WGPUStringView;  -- webgpu.h:2794
    end record
@@ -3159,7 +3159,7 @@ package webgpu_h is
          arg4 : access constant WGPUExtent3D)
    with Convention => C;  -- webgpu.h:3693
 
-   type WGPUProcCommandEncoderFinish is access function (arg1 : T_WGPUCommandEncoder; arg2 : access constant WGPUCommandBufferDescriptor) return T_WGPUCommandBuffer
+   type WGPUProcCommandEncoderFinish is access function (arg1 : T_WGPUCommandEncoder; arg2 : access constant T_WGPUCommandBufferDescriptor) return T_WGPUCommandBuffer
    with Convention => C;  -- webgpu.h:3694
 
    type WGPUProcCommandEncoderInjectValidationError is access procedure (arg1 : T_WGPUCommandEncoder; arg2 : T_WGPUStringView)
@@ -4367,7 +4367,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuCommandEncoderCopyTextureToTexture";
 
-   function wgpuCommandEncoderFinish (commandEncoder : T_WGPUCommandEncoder; descriptor : access constant WGPUCommandBufferDescriptor) return T_WGPUCommandBuffer  -- webgpu.h:4017
+   function wgpuCommandEncoderFinish (commandEncoder : T_WGPUCommandEncoder; descriptor : access constant T_WGPUCommandBufferDescriptor) return T_WGPUCommandBuffer  -- webgpu.h:4017
    with Import => True,
         Convention => C,
         External_Name => "wgpuCommandEncoderFinish";

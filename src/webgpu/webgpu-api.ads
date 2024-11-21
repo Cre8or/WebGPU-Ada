@@ -99,6 +99,12 @@ private package WebGPU.API is
 	end record
 	with Convention => C_Pass_By_Copy;
 
+	type T_WGPUCommandBufferDescriptor is record
+		nextInChain : access constant T_WGPUChainedStruct;
+		label       : aliased T_WGPUStringView;
+	end record
+	with Convention => C_Pass_By_Copy;
+
 	type T_WGPUCommandEncoderDescriptor is record
 		nextInChain : access constant T_WGPUChainedStruct;
 		label       : aliased T_WGPUStringView;
@@ -346,6 +352,19 @@ private package WebGPU.API is
 		descriptor : access constant T_WGPUCommandEncoderDescriptor
 	) return T_WGPUCommandEncoder
 	with Import, Convention => C, External_Name => "wgpuDeviceCreateCommandEncoder";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	function wgpuCommandEncoderFinish (
+		commandEncoder : in T_WGPUCommandEncoder;
+		descriptor     : access constant T_WGPUCommandBufferDescriptor
+	) return T_WGPUCommandBuffer
+	with Import, Convention => C, External_Name => "wgpuCommandEncoderFinish";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuCommandEncoderInsertDebugMarker (
+		commandEncoder : in T_WGPUCommandEncoder;
+		markerLabel    : in T_WGPUStringView
+	) with Import, Convention => C, External_Name => "wgpuCommandEncoderInsertDebugMarker";
 
 
 
