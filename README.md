@@ -10,4 +10,4 @@ I'm currently not accepting contributions, as development is still in extremely 
 
 ## License
 
-WebGPU-Ada is distributed under the terms of the [MIT license](https://github.com/Cre8or/WebGPU-Ada/blob/main/LICENSE).
+WebGPU-Ada is distributed under the terms of the [Apache-2.0 license](https://github.com/Cre8or/WebGPU-Ada/blob/main/LICENSE).
