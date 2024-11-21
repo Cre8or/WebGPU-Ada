@@ -186,7 +186,7 @@ package webgpu_h is
    --  unsupported macro: WGPU_ADAPTER_PROPERTIES_MEMORY_HEAPS_INIT WGPU_MAKE_INIT_STRUCT(WGPUAdapterPropertiesMemoryHeaps, { { nullptr WGPU_COMMA WGPUSType_AdapterPropertiesMemoryHeaps} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
    --  unsupported macro: WGPU_BIND_GROUP_LAYOUT_ENTRY_INIT WGPU_MAKE_INIT_STRUCT(WGPUBindGroupLayoutEntry, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPU_BUFFER_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_SAMPLER_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_TEXTURE_BINDING_LAYOUT_INIT WGPU_COMMA WGPU_STORAGE_TEXTURE_BINDING_LAYOUT_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_COMMAND_BUFFER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUCommandBufferDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
-   --  unsupported macro: WGPU_COMMAND_ENCODER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUCommandEncoderDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_COMMAND_ENCODER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUCommandEncoderDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_COMPUTE_PASS_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUComputePassDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA nullptr WGPU_COMMA })
    --  unsupported macro: WGPU_DAWN_CACHE_DEVICE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUDawnCacheDeviceDescriptor, { { nullptr WGPU_COMMA WGPUSType_DawnCacheDeviceDescriptor} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
    --  unsupported macro: WGPU_DRM_FORMAT_CAPABILITIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUDrmFormatCapabilities, { { nullptr WGPU_COMMA WGPUSType_DrmFormatCapabilities} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
@@ -1693,7 +1693,7 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1505
 
-  -- Can be chained in WGPUCommandEncoderDescriptor
+  -- Can be chained in T_WGPUCommandEncoderDescriptor
    type WGPUDawnEncoderInternalUsageDescriptor is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1517
       useInternalUsages : aliased T_WGPUBool;  -- webgpu.h:1518
@@ -2454,7 +2454,7 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2792
 
-   type WGPUCommandEncoderDescriptor is record
+   type T_WGPUCommandEncoderDescriptor is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2803
       label : aliased T_WGPUStringView;  -- webgpu.h:2804
    end record
@@ -3281,7 +3281,7 @@ package webgpu_h is
    type WGPUProcDeviceCreateBuffer is access function (arg1 : T_WGPUDevice; arg2 : access constant WGPUBufferDescriptor) return WGPUBuffer
    with Convention => C;  -- webgpu.h:3729
 
-   type WGPUProcDeviceCreateCommandEncoder is access function (arg1 : T_WGPUDevice; arg2 : access constant WGPUCommandEncoderDescriptor) return T_WGPUCommandEncoder
+   type WGPUProcDeviceCreateCommandEncoder is access function (arg1 : T_WGPUDevice; arg2 : access constant T_WGPUCommandEncoderDescriptor) return T_WGPUCommandEncoder
    with Convention => C;  -- webgpu.h:3730
 
    type WGPUProcDeviceCreateComputePipeline is access function (arg1 : T_WGPUDevice; arg2 : access constant WGPUComputePipelineDescriptor) return WGPUComputePipeline
@@ -4549,7 +4549,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuDeviceCreateBuffer";
 
-   function wgpuDeviceCreateCommandEncoder (device : T_WGPUDevice; descriptor : access constant WGPUCommandEncoderDescriptor) return T_WGPUCommandEncoder  -- webgpu.h:4053
+   function wgpuDeviceCreateCommandEncoder (device : T_WGPUDevice; descriptor : access constant T_WGPUCommandEncoderDescriptor) return T_WGPUCommandEncoder  -- webgpu.h:4053
    with Import => True,
         Convention => C,
         External_Name => "wgpuDeviceCreateCommandEncoder";

@@ -1,4 +1,15 @@
-pragma License (Unrestricted);
+------------------------------------------------------------------------------------------------------------------------
+--  Copyright 2024 Cre8or                                                                                             --
+--                                                                                                                    --
+--  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance    --
+--  with the License. You may obtain a copy of the License at                                                         --
+--                                                                                                                    --
+--     http://www.apache.org/licenses/LICENSE-2.0                                                                     --
+--                                                                                                                    --
+--  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed  --
+--  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.                     --
+--  See the License for the specific language governing permissions and limitations under the License.                --
+------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -42,9 +53,12 @@ private package WebGPU.API is
 	type T_Float  is new Interfaces.C.C_float;
 	type T_Double is new Interfaces.C.double;
 
-	type T_Size         is new Interfaces.C.size_t;
-	subtype T_Chars_Ptr is Interfaces.C.Strings.chars_ptr;
-	subtype T_Address   is System.Address;
+	type T_Size       is new Interfaces.C.size_t;
+	subtype T_Address is System.Address;
+
+	subtype T_Char_Array     is Interfaces.C.char_array;
+	subtype T_Chars_Ptr      is Interfaces.C.Strings.chars_ptr;
+	subtype T_Char_Array_Ref is Interfaces.C.Strings.char_array_access;
 
 	type T_WGPUBool is new Boolean
 	with Convention => C, Size => 32;
@@ -80,6 +94,12 @@ private package WebGPU.API is
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUQueueDescriptor is record
+		nextInChain : access constant T_WGPUChainedStruct;
+		label       : aliased T_WGPUStringView;
+	end record
+	with Convention => C_Pass_By_Copy;
+
+	type T_WGPUCommandEncoderDescriptor is record
 		nextInChain : access constant T_WGPUChainedStruct;
 		label       : aliased T_WGPUStringView;
 	end record
@@ -206,6 +226,21 @@ private package WebGPU.API is
 
 
 
+
+	-- Renames
+	function To_C (
+		Item       : in String;
+		Append_Nul : in Boolean := True
+	) return T_Char_Array renames Interfaces.C.To_C;
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	function To_Chars_Ptr (
+		Item      : in T_Char_Array_Ref;
+		Nul_Check : in Boolean := false
+	) return T_Chars_Ptr renames Interfaces.C.Strings.To_Chars_Ptr;
+
+
+
 	-- Imports
 	--------------------------------------------------------------------------------------------------------------------------------
 	-- Instances
@@ -304,6 +339,13 @@ private package WebGPU.API is
 	--------------------------------------------------------------------------------------------------------------------------------
 	procedure wgpuCommandEncoderRelease (commandEncoder : in T_WGPUCommandEncoder)
 	with Import, Convention => C, External_Name => "wgpuCommandEncoderRelease";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	function wgpuDeviceCreateCommandEncoder (
+		device     : in T_WGPUDevice;
+		descriptor : access constant T_WGPUCommandEncoderDescriptor
+	) return T_WGPUCommandEncoder
+	with Import, Convention => C, External_Name => "wgpuDeviceCreateCommandEncoder";
 
 
 

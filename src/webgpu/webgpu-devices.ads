@@ -1,4 +1,15 @@
-pragma License (Unrestricted);
+------------------------------------------------------------------------------------------------------------------------
+--  Copyright 2024 Cre8or                                                                                             --
+--                                                                                                                    --
+--  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance    --
+--  with the License. You may obtain a copy of the License at                                                         --
+--                                                                                                                    --
+--     http://www.apache.org/licenses/LICENSE-2.0                                                                     --
+--                                                                                                                    --
+--  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed  --
+--  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.                     --
+--  See the License for the specific language governing permissions and limitations under the License.                --
+------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -6,6 +17,7 @@ pragma License (Unrestricted);
 
 private with Ada.Finalization;
 
+        with WebGPU.Commands;
         with WebGPU.Queues;
         with WebGPU.Types;
 
@@ -13,6 +25,7 @@ private with Ada.Finalization;
 
 pragma Elaborate_All (Ada.Finalization);
 
+pragma Elaborate_All (WebGPU.Commands);
 pragma Elaborate_All (WebGPU.Queues);
 pragma Elaborate_All (WebGPU.Types);
 
@@ -25,6 +38,7 @@ package WebGPU.Devices is
 
 
 	-- Use clauses
+	use WebGPU.Commands;
 	use WebGPU.Queues;
 	use WebGPU.Types;
 
@@ -64,6 +78,15 @@ package WebGPU.Devices is
 		not overriding function Get_Queue (This : in out T_Device) return T_Queue
 		with Inline;
 
+		--------------------------------------------------------------------------------------------------------------------------------
+		-- Creates and returns a command encoder for the device. The device must be initialised.
+		--------------------------------------------------------------------------------------------------------------------------------
+		not overriding function Create_Command_Encoder (
+			This  : in out T_Device;
+			Label : in     String := ""
+		) return T_Command_Encoder
+		with Inline;
+
 
 
 private
@@ -73,8 +96,6 @@ private
 	-- Types
 	type T_Device is new Ada.Finalization.Controlled with record
 		m_Device : T_WGPUDevice;
-
-		m_Queue : T_Queue;
 	end record;
 
 		-- Primitives

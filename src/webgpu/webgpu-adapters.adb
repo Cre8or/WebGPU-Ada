@@ -1,4 +1,15 @@
-pragma License (Unrestricted);
+------------------------------------------------------------------------------------------------------------------------
+--  Copyright 2024 Cre8or                                                                                             --
+--                                                                                                                    --
+--  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance    --
+--  with the License. You may obtain a copy of the License at                                                         --
+--                                                                                                                    --
+--     http://www.apache.org/licenses/LICENSE-2.0                                                                     --
+--                                                                                                                    --
+--  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed  --
+--  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.                     --
+--  See the License for the specific language governing permissions and limitations under the License.                --
+------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -33,6 +44,19 @@ package body WebGPU.Adapters is
 		return This.m_Adapter /= null;
 
 	end Is_Initialised;
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	not overriding procedure Set_Raw_Internal (
+		This : in out T_Adapter;
+		Raw  : in     T_WGPUAdapter
+	) is
+	begin
+
+		This.Finalize;
+		This.m_Adapter := Raw;
+		This.Adjust;
+
+	end Set_Raw_Internal;
 
 	--------------------------------------------------------------------------------------------------------------------------------
 	not overriding function Request_Device (
@@ -79,17 +103,6 @@ package body WebGPU.Adapters is
 		return Device;
 
 	end Request_Device;
-
-	--------------------------------------------------------------------------------------------------------------------------------
-	not overriding procedure Set_Raw_Internal (
-		This : in out T_Adapter;
-		Raw  : in     T_WGPUAdapter
-	) is
-	begin
-
-		This.m_Adapter := Raw;
-
-	end Set_Raw_Internal;
 
 
 
