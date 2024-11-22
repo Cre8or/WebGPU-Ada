@@ -63,8 +63,8 @@ package WebGPU.Queues is
 		-- Submits a command buffer to the queue's device for execution.
 		--------------------------------------------------------------------------------------------------------------------------------
 		not overriding procedure Submit (
-			This    : in T_Queue;
-			Command : in T_Command_Buffer
+			This    : in out T_Queue;
+			Command : in     T_Command_Buffer
 		) with Inline;
 
 

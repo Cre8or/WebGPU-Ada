@@ -317,6 +317,10 @@ private package WebGPU.API is
 	with Import, Convention => C, External_Name => "wgpuDeviceGetQueue";
 
 	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuDeviceTick (device : in T_WGPUDevice)
+	with Import, Convention => C, External_Name => "wgpuDeviceTick";
+
+	--------------------------------------------------------------------------------------------------------------------------------
 	-- Queues
 	--------------------------------------------------------------------------------------------------------------------------------
 	procedure wgpuQueueAddRef (queue : in T_WGPUQueue)
@@ -325,6 +329,13 @@ private package WebGPU.API is
 	--------------------------------------------------------------------------------------------------------------------------------
 	procedure wgpuQueueRelease (queue : in T_WGPUQueue)
 	with Import, Convention => C, External_Name => "wgpuQueueRelease";
+
+	--------------------------------------------------------------------------------------------------------------------------------
+	procedure wgpuQueueSubmit (
+		queue        : in T_WGPUQueue;
+		commandCount : in T_Size;
+		commands     : in T_Address
+	) with Import, Convention => C, External_Name => "wgpuQueueSubmit";
 
 	--------------------------------------------------------------------------------------------------------------------------------
 	-- Command buffers

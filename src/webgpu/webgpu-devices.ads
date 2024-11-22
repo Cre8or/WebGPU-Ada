@@ -87,6 +87,12 @@ package WebGPU.Devices is
 		) return T_Command_Encoder
 		with Inline;
 
+		--------------------------------------------------------------------------------------------------------------------------------
+		-- Polls the device. The device must be initialised.
+		--------------------------------------------------------------------------------------------------------------------------------
+		not overriding procedure Poll (This : in out T_Device)
+		with Inline;
+
 
 
 private

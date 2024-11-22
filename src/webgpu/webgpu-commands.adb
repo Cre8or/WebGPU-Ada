@@ -62,6 +62,14 @@ package body WebGPU.Commands is
 	end Set_Raw_Internal;
 
 	--------------------------------------------------------------------------------------------------------------------------------
+	not overriding function Get_Raw_Internal (This : in T_Command_Buffer) return T_WGPUCommandBuffer is
+	begin
+
+		return This.m_Buffer;
+
+	end Get_Raw_Internal;
+
+	--------------------------------------------------------------------------------------------------------------------------------
 	-- T_Command_Encoder
 	--------------------------------------------------------------------------------------------------------------------------------
 	not overriding function Is_Initialised (This : in T_Command_Encoder) return Boolean is

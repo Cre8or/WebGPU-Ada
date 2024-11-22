@@ -63,16 +63,24 @@ package body WebGPU.Queues is
 
 	--------------------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Submit (
-		This    : in T_Queue;
+		This    : in out T_Queue;
 		Command : in T_Command_Buffer
 	) is
+
+		Command_Internal : aliased T_WGPUCommandBuffer;
+
 	begin
 
 		if This.m_Queue = null then
 			raise EX_QUEUE_NOT_INITIALISED;
 		end if;
 
-		--wgpuQueueSubmit (This.m_queue, 1, Command.m_Buffer);
+		if not Command.Is_Initialised then
+			return;
+		end if;
+
+		Command_Internal := Command.Get_Raw_Internal;
+		wgpuQueueSubmit (This.m_Queue, 1, Command_Internal'Address);
 
 	end Submit;
 

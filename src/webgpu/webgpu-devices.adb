@@ -136,6 +136,18 @@ package body WebGPU.Devices is
 
 	end Create_Command_Encoder;
 
+	--------------------------------------------------------------------------------------------------------------------------------
+	not overriding procedure Poll (This : in out T_Device) is
+	begin
+
+		if This.m_Device = null then
+			raise EX_DEVICE_NOT_INITIALISED;
+		end if;
+
+		wgpuDeviceTick (This.m_Device);
+
+	end Poll;
+
 
 
 -- PRIVATE

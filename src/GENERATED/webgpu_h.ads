@@ -1346,7 +1346,7 @@ package webgpu_h is
    type WGPUProc is access procedure
    with Convention => C;  -- webgpu.h:1072
 
-   type WGPUQueueWorkDoneCallback is access procedure (arg1 : WGPUQueueWorkDoneStatus; arg2 : T_Address)
+   type T_WGPUQueueWorkDoneCallback is access procedure (arg1 : WGPUQueueWorkDoneStatus; arg2 : T_Address)
    with Convention => C;  -- webgpu.h:1073
 
    type WGPURequestAdapterCallback is access procedure
@@ -1906,7 +1906,7 @@ package webgpu_h is
    type WGPUQueueWorkDoneCallbackInfo is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1874
       mode : aliased T_Callback_Mode;  -- webgpu.h:1875
-      callback : WGPUQueueWorkDoneCallback;  -- webgpu.h:1876
+      callback : T_WGPUQueueWorkDoneCallback;  -- webgpu.h:1876
       userdata : T_Address;  -- webgpu.h:1877
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1873
@@ -3575,7 +3575,7 @@ package webgpu_h is
 
    type WGPUProcQueueOnSubmittedWorkDone is access procedure
         (arg1 : T_WGPUQueue;
-         arg2 : WGPUQueueWorkDoneCallback;
+         arg2 : T_WGPUQueueWorkDoneCallback;
          arg3 : T_Address)
    with Convention => C;  -- webgpu.h:3813
 
@@ -4989,7 +4989,7 @@ package webgpu_h is
 
    procedure wgpuQueueOnSubmittedWorkDone
      (queue : T_WGPUQueue;
-      callback : WGPUQueueWorkDoneCallback;
+      callback : T_WGPUQueueWorkDoneCallback;
       userdata : T_Address)  -- webgpu.h:4136
    with Import => True,
         Convention => C,
@@ -5013,7 +5013,7 @@ package webgpu_h is
    procedure wgpuQueueSubmit
      (queue : T_WGPUQueue;
       commandCount : T_Size;
-      commands : T_Address)  -- webgpu.h:4140
+      commands : T_WGPUCommandBuffer)  -- webgpu.h:4140
    with Import => True,
         Convention => C,
         External_Name => "wgpuQueueSubmit";

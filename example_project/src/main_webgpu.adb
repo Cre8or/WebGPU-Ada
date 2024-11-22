@@ -105,7 +105,12 @@ begin
 	Command_Encoder.Insert_Debug_Marker ("debug marker 1");
 	Command_Encoder.Insert_Debug_Marker ("debug marker 2");
 	Command_Buffer := Command_Encoder.Finish ("command buffer");
+	Queue.Submit (Command_Buffer);
 
+	Device.Poll;
+	Device.Poll;
+	Device.Poll;
+	Device.Poll;
 
 	Text_IO.Put_Line ("SUCCESS");
 

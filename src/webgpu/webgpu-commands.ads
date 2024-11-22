@@ -50,6 +50,12 @@ package WebGPU.Commands is
 			Raw  : in     T_WGPUCommandBuffer
 		) with Inline;
 
+		--------------------------------------------------------------------------------------------------------------------------------
+		-- Helper function to fetch the command buffer's raw pointer. For internal use only.
+		--------------------------------------------------------------------------------------------------------------------------------
+		not overriding function Get_Raw_Internal (This : in T_Command_Buffer) return T_WGPUCommandBuffer
+		with Inline;
+
 	--------------------------------------------------------------------------------------------------------------------------------
 	-- Wrapper handle for WebGPU command encoders. Performs automatic reference counting.
 	--------------------------------------------------------------------------------------------------------------------------------
