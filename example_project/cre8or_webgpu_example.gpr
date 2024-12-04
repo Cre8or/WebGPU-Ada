@@ -1,8 +1,17 @@
-with "../webgpuada.gpr";
+with "../cre8or_webgpu.gpr";
+
+-- TODO: Find out how to make this work locally!
+-- For now I'm using symbolic links inside the alire folder.
+-- There has to be a better way...
+
+--with "cre8or_glfw.gpr";
+with "alire/cre8or_glfw/cre8or_glfw.gpr";
 
 
 
-project WebGPUAda_Example is
+
+
+project Cre8or_WebGPU_Example is
 
 	for Create_Missing_Dirs use "True";
 	for Source_Dirs use ("src/**");
@@ -27,4 +36,4 @@ project WebGPUAda_Example is
 		for Switches ("ada") use ("-Es");
 	end Binder;
 
-end WebGPUAda_Example;
+end Cre8or_WebGPU_Example;

@@ -91,7 +91,7 @@ package webgpu_h is
    --  unsupported macro: WGPU_SAMPLER_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSamplerDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUAddressMode_ClampToEdge WGPU_COMMA WGPUFilterMode_Nearest WGPU_COMMA WGPUFilterMode_Nearest WGPU_COMMA WGPUMipmapFilterMode_Nearest WGPU_COMMA 0.0f WGPU_COMMA 32.0f WGPU_COMMA WGPUCompareFunction_Undefined WGPU_COMMA 1 WGPU_COMMA })
    --  unsupported macro: WGPU_SHADER_SOURCE_WGSL_INIT WGPU_MAKE_INIT_STRUCT(WGPUShaderSourceWGSL, { { nullptr WGPU_COMMA WGPUSType_ShaderSourceWGSL} WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_SUPPORTED_LIMITS_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSupportedLimits, { nullptr WGPU_COMMA WGPU_LIMITS_INIT WGPU_COMMA })
-   --  unsupported macro: WGPU_SURFACE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSurfaceDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA })
    --  unsupported macro: WGPU_TEXTURE_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureDescriptor, { nullptr WGPU_COMMA WGPU_STRING_VIEW_INIT WGPU_COMMA {} WGPU_COMMA WGPUTextureDimension_2D WGPU_COMMA WGPU_EXTENT_3D_INIT WGPU_COMMA {} WGPU_COMMA 1 WGPU_COMMA 1 WGPU_COMMA 0 WGPU_COMMA nullptr WGPU_COMMA })
    --  unsupported macro: WGPU_VERTEX_BUFFER_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUVertexBufferLayout, { {} WGPU_COMMA WGPUVertexStepMode_Vertex WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
    --  unsupported macro: WGPU_COLOR_TARGET_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUColorTargetState, { nullptr WGPU_COMMA {} WGPU_COMMA nullptr WGPU_COMMA WGPUColorWriteMask_All WGPU_COMMA })
@@ -174,12 +174,12 @@ package webgpu_h is
    --  unsupported macro: WGPU_STORAGE_TEXTURE_BINDING_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUStorageTextureBindingLayout, { nullptr WGPU_COMMA WGPUStorageTextureAccess_Undefined WGPU_COMMA WGPUTextureFormat_Undefined WGPU_COMMA WGPUTextureViewDimension_2D WGPU_COMMA })
    --  unsupported macro: WGPU_SURFACE_DESCRIPTOR_FROM_WINDOWS_CORE_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceDescriptorFromWindowsCoreWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceDescriptorFromWindowsCoreWindow} WGPU_COMMA {} WGPU_COMMA })
    --  unsupported macro: WGPU_SURFACE_DESCRIPTOR_FROM_WINDOWS_SWAP_CHAIN_PANEL_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceDescriptorFromWindowsSwapChainPanel, { { nullptr WGPU_COMMA WGPUSType_SurfaceDescriptorFromWindowsSwapChainPanel} WGPU_COMMA {} WGPU_COMMA })
-   --  unsupported macro: WGPU_SURFACE_SOURCE_XCB_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceXCBWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceXCBWindow} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_XCB_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSurfaceSourceXCBWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceXCBWindow} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
    --  unsupported macro: WGPU_SURFACE_SOURCE_ANDROID_NATIVE_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceAndroidNativeWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceAndroidNativeWindow} WGPU_COMMA {} WGPU_COMMA })
-   --  unsupported macro: WGPU_SURFACE_SOURCE_METAL_LAYER_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceMetalLayer, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceMetalLayer} WGPU_COMMA {} WGPU_COMMA })
-   --  unsupported macro: WGPU_SURFACE_SOURCE_WAYLAND_SURFACE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceWaylandSurface, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceWaylandSurface} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
-   --  unsupported macro: WGPU_SURFACE_SOURCE_WINDOWS_HWND_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceWindowsHWND, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceWindowsHWND} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
-   --  unsupported macro: WGPU_SURFACE_SOURCE_XLIB_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceSourceXlibWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceXlibWindow} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_METAL_LAYER_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSurfaceSourceMetalLayer, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceMetalLayer} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_WAYLAND_SURFACE_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSurfaceSourceWaylandSurface, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceWaylandSurface} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_WINDOWS_HWND_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSurfaceSourceWindowsHWND, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceWindowsHWND} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_SOURCE_XLIB_WINDOW_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSurfaceSourceXlibWindow, { { nullptr WGPU_COMMA WGPUSType_SurfaceSourceXlibWindow} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
    --  unsupported macro: WGPU_TEXTURE_BINDING_VIEW_DIMENSION_DESCRIPTOR_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureBindingViewDimensionDescriptor, { { nullptr WGPU_COMMA WGPUSType_TextureBindingViewDimensionDescriptor} WGPU_COMMA WGPUTextureViewDimension_Undefined WGPU_COMMA })
    --  unsupported macro: WGPU_UNCAPTURED_ERROR_CALLBACK_INFO_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUUncapturedErrorCallbackInfo, { nullptr WGPU_COMMA nullptr WGPU_COMMA nullptr WGPU_COMMA })
    --  unsupported macro: WGPU_A_HARDWARE_BUFFER_PROPERTIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUAHardwareBufferProperties, { WGPU_Y_CB_CR_VK_DESCRIPTOR_INIT WGPU_COMMA })
@@ -2263,60 +2263,60 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2452
 
-  -- Can be chained in WGPUSurfaceDescriptor
+  -- Can be chained in T_WGPUSurfaceDescriptor
    type WGPUSurfaceDescriptorFromWindowsCoreWindow is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2480
       coreWindow : T_Address;  -- webgpu.h:2481
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2479
 
-  -- Can be chained in WGPUSurfaceDescriptor
+  -- Can be chained in T_WGPUSurfaceDescriptor
    type WGPUSurfaceDescriptorFromWindowsSwapChainPanel is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2491
       swapChainPanel : T_Address;  -- webgpu.h:2492
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2490
 
-  -- Can be chained in WGPUSurfaceDescriptor
-   type WGPUSurfaceSourceXCBWindow is record
+  -- Can be chained in T_WGPUSurfaceDescriptor
+   type T_WGPUSurfaceSourceXCBWindow is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2502
       connection : T_Address;  -- webgpu.h:2503
       window : aliased T_UInt32;  -- webgpu.h:2504
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2501
 
-  -- Can be chained in WGPUSurfaceDescriptor
+  -- Can be chained in T_WGPUSurfaceDescriptor
    type WGPUSurfaceSourceAndroidNativeWindow is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2515
       window : T_Address;  -- webgpu.h:2516
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2514
 
-  -- Can be chained in WGPUSurfaceDescriptor
-   type WGPUSurfaceSourceMetalLayer is record
+  -- Can be chained in T_WGPUSurfaceDescriptor
+   type T_WGPUSurfaceSourceMetalLayer is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2526
       layer : T_Address;  -- webgpu.h:2527
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2525
 
-  -- Can be chained in WGPUSurfaceDescriptor
-   type WGPUSurfaceSourceWaylandSurface is record
+  -- Can be chained in T_WGPUSurfaceDescriptor
+   type T_WGPUSurfaceSourceWaylandSurface is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2537
       display : T_Address;  -- webgpu.h:2538
       surface : T_Address;  -- webgpu.h:2539
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2536
 
-  -- Can be chained in WGPUSurfaceDescriptor
-   type WGPUSurfaceSourceWindowsHWND is record
+  -- Can be chained in T_WGPUSurfaceDescriptor
+   type T_WGPUSurfaceSourceWindowsHWND is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2550
       hinstance : T_Address;  -- webgpu.h:2551
       hwnd : T_Address;  -- webgpu.h:2552
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2549
 
-  -- Can be chained in WGPUSurfaceDescriptor
-   type WGPUSurfaceSourceXlibWindow is record
+  -- Can be chained in T_WGPUSurfaceDescriptor
+   type T_WGPUSurfaceSourceXlibWindow is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:2563
       display : T_Address;  -- webgpu.h:2564
       window : aliased T_UInt64;  -- webgpu.h:2565
@@ -2731,13 +2731,13 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:3276
 
-   type WGPUSurfaceDescriptor is record
+   type T_WGPUSurfaceDescriptor is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3287
       label : aliased T_WGPUStringView;  -- webgpu.h:3288
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:3286
 
-  -- Can be chained in WGPUSurfaceDescriptor
+  -- Can be chained in T_WGPUSurfaceDescriptor
    type WGPUSurfaceSourceCanvasHTMLSelector_Emscripten is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:3298
       selector : aliased T_WGPUStringView;  -- webgpu.h:3299
@@ -2919,24 +2919,24 @@ package webgpu_h is
    subtype WGPUSurfaceDescriptorFromCanvasHTMLSelector is WGPUSurfaceSourceCanvasHTMLSelector_Emscripten;  -- webgpu.h:3596
 
   -- WGPUSurfaceDescriptorFromMetalLayer is deprecated.
-  -- Use WGPUSurfaceSourceMetalLayer instead.
-   subtype WGPUSurfaceDescriptorFromMetalLayer is WGPUSurfaceSourceMetalLayer;  -- webgpu.h:3600
+  -- Use T_WGPUSurfaceSourceMetalLayer instead.
+   subtype WGPUSurfaceDescriptorFromMetalLayer is T_WGPUSurfaceSourceMetalLayer;  -- webgpu.h:3600
 
   -- WGPUSurfaceDescriptorFromWaylandSurface is deprecated.
-  -- Use WGPUSurfaceSourceWaylandSurface instead.
-   subtype WGPUSurfaceDescriptorFromWaylandSurface is WGPUSurfaceSourceWaylandSurface;  -- webgpu.h:3604
+  -- Use T_WGPUSurfaceSourceWaylandSurface instead.
+   subtype WGPUSurfaceDescriptorFromWaylandSurface is T_WGPUSurfaceSourceWaylandSurface;  -- webgpu.h:3604
 
   -- WGPUSurfaceDescriptorFromWindowsHWND is deprecated.
-  -- Use WGPUSurfaceSourceWindowsHWND instead.
-   subtype WGPUSurfaceDescriptorFromWindowsHWND is WGPUSurfaceSourceWindowsHWND;  -- webgpu.h:3608
+  -- Use T_WGPUSurfaceSourceWindowsHWND instead.
+   subtype WGPUSurfaceDescriptorFromWindowsHWND is T_WGPUSurfaceSourceWindowsHWND;  -- webgpu.h:3608
 
   -- WGPUSurfaceDescriptorFromXcbWindow is deprecated.
-  -- Use WGPUSurfaceSourceXCBWindow instead.
-   subtype WGPUSurfaceDescriptorFromXcbWindow is WGPUSurfaceSourceXCBWindow;  -- webgpu.h:3612
+  -- Use T_WGPUSurfaceSourceXCBWindow instead.
+   subtype WGPUSurfaceDescriptorFromXcbWindow is T_WGPUSurfaceSourceXCBWindow;  -- webgpu.h:3612
 
   -- WGPUSurfaceDescriptorFromXlibWindow is deprecated.
-  -- Use WGPUSurfaceSourceXlibWindow instead.
-   subtype WGPUSurfaceDescriptorFromXlibWindow is WGPUSurfaceSourceXlibWindow;  -- webgpu.h:3616
+  -- Use T_WGPUSurfaceSourceXlibWindow instead.
+   subtype WGPUSurfaceDescriptorFromXlibWindow is T_WGPUSurfaceSourceXlibWindow;  -- webgpu.h:3616
 
   -- TODO(374150686): Remove these Emscripten specific declarations from the
   -- header once they are fully deprecated.
@@ -3483,7 +3483,7 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3783
 
   -- Procs of Instance
-   type WGPUProcInstanceCreateSurface is access function (arg1 : T_WGPUInstance; arg2 : access constant WGPUSurfaceDescriptor) return T_WGPUSurface
+   type WGPUProcInstanceCreateSurface is access function (arg1 : T_WGPUInstance; arg2 : access constant T_WGPUSurfaceDescriptor) return T_WGPUSurface
    with Convention => C;  -- webgpu.h:3786
 
    type WGPUProcInstanceEnumerateWGSLLanguageFeatures is access function (arg1 : T_WGPUInstance; arg2 : access WGPUWGSLFeatureName) return T_Size
@@ -4855,7 +4855,7 @@ package webgpu_h is
         External_Name => "wgpuExternalTextureRelease";
 
   -- Methods of Instance
-   function wgpuInstanceCreateSurface (instance : T_WGPUInstance; descriptor : access constant WGPUSurfaceDescriptor) return T_WGPUSurface  -- webgpu.h:4109
+   function wgpuInstanceCreateSurface (instance : T_WGPUInstance; descriptor : access constant T_WGPUSurfaceDescriptor) return T_WGPUSurface  -- webgpu.h:4109
    with Import => True,
         Convention => C,
         External_Name => "wgpuInstanceCreateSurface";

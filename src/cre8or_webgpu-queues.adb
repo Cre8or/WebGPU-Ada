@@ -15,32 +15,32 @@
 
 
 
-with WebGPU.API;
-with WebGPU.Exceptions;
+with Cre8or_WebGPU.API;
+with Cre8or_WebGPU.Exceptions;
 
 
 
-pragma Elaborate_All (WebGPU.API);
-pragma Elaborate_All (WebGPU.Exceptions);
+pragma Elaborate_All (Cre8or_WebGPU.API);
+pragma Elaborate_All (Cre8or_WebGPU.Exceptions);
 
 
 
 
 
-package body WebGPU.Queues is
+package body Cre8or_WebGPU.Queues is
 
 
 
 	-- Use clauses
-	use WebGPU.API;
-	use WebGPU.Exceptions;
+	use Cre8or_WebGPU.API;
+	use Cre8or_WebGPU.Exceptions;
 
 
 
 	-- Types
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	-- T_Queue
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding function Is_Initialised (This : in T_Queue) return Boolean is
 	begin
 
@@ -48,7 +48,7 @@ package body WebGPU.Queues is
 
 	end Is_Initialised;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Set_Raw_Internal (
 		This : in out T_Queue;
 		Raw  : in     T_WGPUQueue
@@ -61,7 +61,7 @@ package body WebGPU.Queues is
 
 	end Set_Raw_Internal;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Submit (
 		This    : in out T_Queue;
 		Command : in T_Command_Buffer
@@ -91,9 +91,9 @@ package body WebGPU.Queues is
 
 
 	-- Primitives
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	-- T_Queue
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	overriding procedure Adjust (This : in out T_Queue) is
 	begin
 
@@ -105,7 +105,7 @@ package body WebGPU.Queues is
 
 	end Adjust;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	overriding procedure Finalize (This : in out T_Queue) is
 	begin
 
@@ -120,4 +120,4 @@ package body WebGPU.Queues is
 
 
 
-end WebGPU.Queues;
+end Cre8or_WebGPU.Queues;

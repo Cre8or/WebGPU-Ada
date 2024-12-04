@@ -21,7 +21,6 @@
 # Library
 obj/*
 lib/*
-src/glfw/*
 
 # Included
 src/GENERATED/webgpu.h

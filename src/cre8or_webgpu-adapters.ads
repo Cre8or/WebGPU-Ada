@@ -17,67 +17,67 @@
 
 private with Ada.Finalization;
 
-        with WebGPU.Devices;
-private with WebGPU.API;
-        with WebGPU.Types;
+        with Cre8or_WebGPU.Devices;
+private with Cre8or_WebGPU.API;
+        with Cre8or_WebGPU.Types;
 
 
 
 pragma Elaborate_All (Ada.Finalization);
 
-pragma Elaborate_All (WebGPU.Devices);
-pragma Elaborate_All (WebGPU.Types);
-pragma Elaborate_All (WebGPU.API);
+pragma Elaborate_All (Cre8or_WebGPU.Devices);
+pragma Elaborate_All (Cre8or_WebGPU.Types);
+pragma Elaborate_All (Cre8or_WebGPU.API);
 
 
 
 
 
-package WebGPU.Adapters is
+package Cre8or_WebGPU.Adapters is
 
 
 
 	-- Use clauses
-	use WebGPU.Devices;
-	use WebGPU.Types;
+	use Cre8or_WebGPU.Devices;
+	use Cre8or_WebGPU.Types;
 
 
 
 	-- Types
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	-- Wrapper handle for WebGPU adapters. Performs automatic reference counting.
 	-- To create an adapter, refer to WebGPU.Instances.
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	type T_Adapter is tagged private;
 
 		-- Primitives
-		--------------------------------------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------------------
 		-- Returns true if the adapter has been initialised (is not null), otherwise false.
-		--------------------------------------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------------------
 		not overriding function Is_Initialised (This : in T_Adapter) return Boolean
 		with Inline;
 
-		--------------------------------------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------------------
 		-- Helper function to set the adapter's raw pointer. For internal use only.
-		--------------------------------------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------------------
 		not overriding procedure Set_Raw_Internal (
 			This : in out T_Adapter;
 			Raw  : in     T_WGPUAdapter
-		) with Inline;
+		);
 
-		--------------------------------------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------------------
 		-- Requests a WebGPU device from the adapter. The adapter must be initialised.
 		--
 		-- This function optionally accepts a list of features that the returned device should have.
 		-- Device_Lost_Callback, if set, should point to a callback procedure for when the device becomes unuseable. Care must be taken
 		-- to pevent concurrency issues when the procedure is called!
-		--------------------------------------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------------------
 		not overriding function Request_Device (
 			This                 : in T_Adapter;
 			Features             : in T_Feature_Name_Arr     := (1 .. 0 => <>);
 			Device_Lost_Callback : in T_Device_Lost_Callback := null
-		) return T_Device
-		with Inline;
+		) return T_Device;
+
 
 
 private
@@ -85,7 +85,7 @@ private
 
 
 	-- Use clauses
-	use WebGPU.API;
+	use Cre8or_WebGPU.API;
 
 
 
@@ -101,18 +101,16 @@ private
 	end record;
 
 		-- Primitives
-		--------------------------------------------------------------------------------------------------------------------------------
-		overriding procedure Adjust (This : in out T_Adapter)
-		with Inline;
+		-----------------------------------------------------------------------------------------------------------------
+		overriding procedure Adjust (This : in out T_Adapter);
 
-		--------------------------------------------------------------------------------------------------------------------------------
-		overriding procedure Finalize (This : in out T_Adapter)
-		with Inline;
+		-----------------------------------------------------------------------------------------------------------------
+		overriding procedure Finalize (This : in out T_Adapter);
 
 
 
 	-- Specifications
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	procedure Request_Device_Callback (
 		status   : T_Request_Device_Status;
 		device   : T_WGPUDevice;
@@ -120,7 +118,7 @@ private
 		userdata : T_Address := C_Null_Address
 	) with Convention => C;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	procedure Internal_Device_Lost_Callback (
 		device   : in T_WGPUDevice;
 		reason   : in T_Device_Lost_Reason;
@@ -130,4 +128,4 @@ private
 
 
 
-end WebGPU.Adapters;
+end Cre8or_WebGPU.Adapters;

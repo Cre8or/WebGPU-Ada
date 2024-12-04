@@ -1,13 +1,16 @@
-name = "webgpuada"
+name = "cre8or_webgpu"
 description = "WebGPU binding for Ada"
 version = "0.1.0-dev"
 
 authors = ["Cre8or"]
 maintainers = ["Cre8or <cre8or@tuta.io>"]
 maintainers-logins = ["Cre8or"]
-licenses = "MIT"
+licenses = "Apache-2.0"
 website = "https://github.com/Cre8or/WebGPU-Ada"
-tags = ["webgpu", "binding", "gamedev", "graphics", "rendering", "vulkan", "opengl", "opengles", "d3d11", "d3d12", "dx11", "dx12"]
+tags = ["cre8or", "webgpu", "binding", "gamedev", "graphics", "rendering", "vulkan", "opengl", "opengles", "d3d11", "d3d12", "dx11", "dx12"]
 
 [configuration]
 disabled = true
+
+[[depends-on]]
+cre8or_raw_window_handle = "^1.0.0"

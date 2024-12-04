@@ -15,7 +15,7 @@
 
 
 
-package WebGPU.Types is
+package Cre8or_WebGPU.Types is
 
 
 
@@ -362,4 +362,4 @@ package WebGPU.Types is
 
 
 
-end WebGPU.Types;
+end Cre8or_WebGPU.Types;

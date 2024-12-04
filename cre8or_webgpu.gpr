@@ -1,0 +1,48 @@
+-- TODO: Find out how to make this work locally!
+-- For now I'm using symbolic links inside the alire folder.
+-- There has to be a better way...
+
+--with "cre8or_raw_window_handle.gpr";
+with "alire/cre8or_raw_window_handle/cre8or_raw_window_handle.gpr";
+
+
+
+
+
+library project Cre8or_WebGPU is
+
+
+
+	for Create_Missing_Dirs use "True";
+	for Languages use ("Ada");
+	for Library_Name use "Cre8or_WebGPU";
+	for Source_Dirs use ("src/**");
+	for Object_Dir use "obj";
+	for Library_Dir use "lib";
+	for Library_Kind use "Static";
+
+
+
+	Linker_Param := external ("Cre8or_WebGPU_Linker_Param", "-lwebgpu_dawn");
+
+
+
+	package Compiler is
+		for Default_Switches ("ada") use ("-gnat12", "-gnatwa", "-gnatwl", "-gnatwV", "-gnatwJ", "-fstack-check", "-gnaty3abcefhiklmNprt", "-E");
+	end Compiler;
+
+
+
+	package Linker is
+		for Linker_Options use (Linker_Param);
+	end Linker;
+
+
+
+	package Binder is
+		for Default_Switches ("ada") use ("-s", "-Es");
+	end Binder;
+
+
+
+end Cre8or_WebGPU;

@@ -15,32 +15,32 @@
 
 
 
-with WebGPU.API;
-with WebGPU.Exceptions;
+with Cre8or_WebGPU.API;
+with Cre8or_WebGPU.Exceptions;
 
 
 
-pragma Elaborate_All (WebGPU.API);
-pragma Elaborate_All (WebGPU.Exceptions);
+pragma Elaborate_All (Cre8or_WebGPU.API);
+pragma Elaborate_All (Cre8or_WebGPU.Exceptions);
 
 
 
 
 
-package body WebGPU.Devices is
+package body Cre8or_WebGPU.Devices is
 
 
 
 	-- Use clauses
-	use WebGPU.API;
-	use WebGPU.Exceptions;
+	use Cre8or_WebGPU.API;
+	use Cre8or_WebGPU.Exceptions;
 
 
 
 	-- Types
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	-- T_Device
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding function Is_Initialised (This : in T_Device) return Boolean is
 	begin
 
@@ -48,7 +48,7 @@ package body WebGPU.Devices is
 
 	end Is_Initialised;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Set_Raw_Internal (
 		This : in out T_Device;
 		Raw  : in     T_WGPUDevice
@@ -61,7 +61,7 @@ package body WebGPU.Devices is
 
 	end Set_Raw_Internal;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding function Get_Limits (This : in T_Device) return T_Device_Limits is
 
 		Result : T_Status;
@@ -83,7 +83,7 @@ package body WebGPU.Devices is
 
 	end Get_Limits;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding function Get_Queue (This : in out T_Device) return T_Queue is
 
 		Queue          : T_Queue;
@@ -102,7 +102,7 @@ package body WebGPU.Devices is
 
 	end Get_Queue;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding function Create_Command_Encoder (
 		This  : in out T_Device;
 		Label : in     String := ""
@@ -136,7 +136,7 @@ package body WebGPU.Devices is
 
 	end Create_Command_Encoder;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Poll (This : in out T_Device) is
 	begin
 
@@ -155,9 +155,9 @@ package body WebGPU.Devices is
 
 
 	-- Primitives
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	-- T_Device
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	overriding procedure Adjust (This : in out T_Device) is
 	begin
 
@@ -169,7 +169,7 @@ package body WebGPU.Devices is
 
 	end Adjust;
 
-	--------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------
 	overriding procedure Finalize (This : in out T_Device) is
 	begin
 
@@ -184,4 +184,4 @@ package body WebGPU.Devices is
 
 
 
-end WebGPU.Devices;
+end Cre8or_WebGPU.Devices;

@@ -17,23 +17,29 @@
 
 with Ada.Text_IO;
 
-with WebGPU.Adapters;
-with WebGPU.Commands;
-with WebGPU.Devices;
-with WebGPU.Instances;
-with WebGPU.Queues;
-with WebGPU.Types;
+with Cre8or_Glfw.Windows;
+
+with Cre8or_WebGPU.Adapters;
+with Cre8or_WebGPU.Commands;
+with Cre8or_WebGPU.Devices;
+with Cre8or_WebGPU.Instances;
+with Cre8or_WebGPU.Queues;
+with Cre8or_WebGPU.Surfaces;
+with Cre8or_WebGPU.Types;
 
 
 
 pragma Elaborate_All (Ada.Text_IO);
 
-pragma Elaborate_All (WebGPU.Adapters);
-pragma Elaborate_All (WebGPU.Commands);
-pragma Elaborate_All (WebGPU.Devices);
-pragma Elaborate_All (WebGPU.Instances);
-pragma Elaborate_All (WebGPU.Queues);
-pragma Elaborate_All (WebGPU.Types);
+pragma Elaborate_All (Cre8or_Glfw.Windows);
+
+pragma Elaborate_All (Cre8or_WebGPU.Adapters);
+pragma Elaborate_All (Cre8or_WebGPU.Commands);
+pragma Elaborate_All (Cre8or_WebGPU.Devices);
+pragma Elaborate_All (Cre8or_WebGPU.Instances);
+pragma Elaborate_All (Cre8or_WebGPU.Queues);
+pragma Elaborate_All (Cre8or_WebGPU.Surfaces);
+pragma Elaborate_All (Cre8or_WebGPU.Types);
 
 
 
@@ -45,12 +51,14 @@ procedure Main_WebGPU is
 
 	-- Use clauses
 	use Ada;
-	use WebGPU.Adapters;
-	use WebGPU.Commands;
-	use WebGPU.Devices;
-	use WebGPU.Instances;
-	use WebGPU.Queues;
-	use WebGPU.Types;
+
+	use Cre8or_WebGPU.Adapters;
+	use Cre8or_WebGPU.Commands;
+	use Cre8or_WebGPU.Devices;
+	use Cre8or_WebGPU.Instances;
+	use Cre8or_WebGPU.Queues;
+	use Cre8or_WebGPU.Surfaces;
+	use Cre8or_WebGPU.Types;
 
 
 
@@ -61,6 +69,9 @@ procedure Main_WebGPU is
 	Limits   : T_Device_Limits;
 	Queue    : T_Queue;
 
+	Window : Cre8or_Glfw.Windows.T_Window;
+
+	Surface         : T_Surface;
 	Command_Buffer  : T_Command_Buffer;
 	Command_Encoder : T_Command_Encoder;
 
@@ -90,6 +101,15 @@ begin
 
 	Limits := Device.Get_Limits;
 
+	Cre8or_Glfw.Initialise;
+	Window.Initialise (640, 480, "WebGPU Example");
+
+	Surface := Instance.Create_Window_Surface (Window.Get_Raw_Handle);
+	if not Surface.Is_Initialised then
+		Text_IO.Put_Line ("ERROR: Surface is null");
+		return;
+	end if;
+
 	Queue := Device.Get_Queue;
 	if not Queue.Is_Initialised then
 		Text_IO.Put_Line ("ERROR: Queue is null");
@@ -107,10 +127,13 @@ begin
 	Command_Buffer := Command_Encoder.Finish ("command buffer");
 	Queue.Submit (Command_Buffer);
 
-	Device.Poll;
-	Device.Poll;
-	Device.Poll;
-	Device.Poll;
+	for I in 1 .. 10 loop
+		Device.Poll;
+
+		delay 0.01;
+	end loop;
+
+	Cre8or_Glfw.Shut_Down;
 
 	Text_IO.Put_Line ("SUCCESS");
 
