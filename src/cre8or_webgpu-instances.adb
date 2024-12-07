@@ -105,7 +105,7 @@ package body Cre8or_WebGPU.Instances is
 
 		Surface_Internal := (case Raw_Window_Handle.Kind is
 			when E_AppKit  => Create_Window_Surface_AppKit  (This.m_Instance, Raw_Window_Handle),
-			when E_Windows => Create_Window_Surface_Windows (This.m_Instance, Raw_Window_Handle),
+			when E_Win32   => Create_Window_Surface_Windows (This.m_Instance, Raw_Window_Handle),
 			when E_Xlib    => Create_Window_Surface_Xlib    (This.m_Instance, Raw_Window_Handle),
 			when E_Xcb     => Create_Window_Surface_Xcb     (This.m_Instance, Raw_Window_Handle),
 			when E_Wayland => Create_Window_Surface_Wayland (This.m_Instance, Raw_Window_Handle)
@@ -199,8 +199,8 @@ package body Cre8or_WebGPU.Instances is
 	begin
 
 		Source_Layer.chain.sType := E_Surface_Source_Windows_HWND;
-		Source_Layer.hinstance   := Raw_Window_Handle.win_hinstance;
-		Source_Layer.hwnd        := Raw_Window_Handle.win_hwnd;
+		Source_Layer.hinstance   := Raw_Window_Handle.win32_hinstance;
+		Source_Layer.hwnd        := Raw_Window_Handle.win32_hwnd;
 
 		Surface_Descriptor.nextInChain := Source_Layer'Unchecked_Access;
 
@@ -242,7 +242,7 @@ package body Cre8or_WebGPU.Instances is
 
 		Source_Layer.chain.sType := E_Surface_Source_XCB_Window;
 		Source_Layer.connection  := Raw_Window_Handle.xcb_connection;
-		Source_Layer.window      := T_UInt32 (Raw_Window_Handle.xcb_window);
+		Source_Layer.window      := T_UInt32 (Raw_Window_Handle.xcb_window_id);
 
 		Surface_Descriptor.nextInChain := Source_Layer'Unchecked_Access;
 

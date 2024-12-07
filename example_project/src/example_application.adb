@@ -17,11 +17,15 @@
 
 with Ada.Text_IO;
 
+with Cre8or_Glfw.Context;
+
 with Cre8or_WebGPU.Commands;
 
 
 
 pragma Elaborate_All (Ada.Text_IO);
+
+pragma Elaborate_All (Cre8or_Glfw.Context);
 
 pragma Elaborate_All (Cre8or_WebGPU.Commands);
 
@@ -52,7 +56,7 @@ package body Example_Application is
 		end if;
 
 		if G_Counter = 0 then
-			Cre8or_Glfw.Initialise;
+			Cre8or_Glfw.Context.Initialise;
 		end if;
 		G_Counter := G_Counter + 1;
 
@@ -84,7 +88,7 @@ package body Example_Application is
 
 		G_Counter := G_Counter - 1;
 		if G_Counter = 0 then
-			Cre8or_Glfw.Shut_Down;
+			Cre8or_Glfw.Context.Shut_Down;
 		end if;
 
 		This.m_Initialised := false;
@@ -151,7 +155,7 @@ package body Example_Application is
 			This.m_Queue.Submit (Command_Buffer);
 
 			This.m_Device.Poll;
-			Cre8or_Glfw.Poll_Events;
+			Cre8or_Glfw.Context.Poll_Events;
 
 			delay 0.01;
 
