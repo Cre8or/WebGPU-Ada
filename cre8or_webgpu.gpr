@@ -28,16 +28,12 @@ library project Cre8or_WebGPU is
 
 
 	package Compiler is
-		for Default_Switches ("ada") use ("-gnat12", "-gnatwa", "-gnatwl", "-gnatwV", "-gnatwJ", "-fstack-check", "-gnaty3abcefhiklmNprt", "-E");
+		for Default_Switches ("ada") use ("-g", "-gnat12", "-gnatwa", "-gnatwl", "-gnatwV", "-gnatwJ", "-fstack-check", "-gnaty3abcefhiklmNprt", "-E");
 	end Compiler;
 
-
-
 	package Linker is
-		for Linker_Options use (Linker_Param);
+		for Linker_Options use (Linker_Param, "-g");
 	end Linker;
-
-
 
 	package Binder is
 		for Default_Switches ("ada") use ("-s", "-Es");

@@ -59,6 +59,12 @@ package Cre8or_WebGPU.Devices is
 		with Inline;
 
 		-----------------------------------------------------------------------------------------------------------------
+		-- Helper function to retrieve the device's raw pointer. For internal use only.
+		-----------------------------------------------------------------------------------------------------------------
+		not overriding function Get_Raw_Internal (This : in T_Device) return T_WGPUDevice
+		with Inline;
+
+		-----------------------------------------------------------------------------------------------------------------
 		-- Helper function to set the devices's raw pointer. For internal use only.
 		-----------------------------------------------------------------------------------------------------------------
 		not overriding procedure Set_Raw_Internal (

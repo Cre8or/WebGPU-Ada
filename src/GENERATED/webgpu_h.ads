@@ -67,8 +67,8 @@ package webgpu_h is
    --  unsupported macro: WGPU_STENCIL_FACE_STATE_INIT WGPU_MAKE_INIT_STRUCT(WGPUStencilFaceState, { WGPUCompareFunction_Always WGPU_COMMA WGPUStencilOperation_Keep WGPU_COMMA WGPUStencilOperation_Keep WGPU_COMMA WGPUStencilOperation_Keep WGPU_COMMA })
    --  unsupported macro: WGPU_STRING_VIEW_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUStringView, { nullptr WGPU_COMMA WGPU_STRLEN WGPU_COMMA })
    --  unsupported macro: WGPU_SUPPORTED_FEATURES_INIT WGPU_MAKE_INIT_STRUCT(WGPUSupportedFeatures, { {} WGPU_COMMA {} WGPU_COMMA })
-   --  unsupported macro: WGPU_SURFACE_CAPABILITIES_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceCapabilities, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
-   --  unsupported macro: WGPU_SURFACE_CONFIGURATION_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceConfiguration, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPUTextureUsage_RenderAttachment WGPU_COMMA 0 WGPU_COMMA nullptr WGPU_COMMA WGPUCompositeAlphaMode_Auto WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPUPresentMode_Fifo WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_CAPABILITIES_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSurfaceCapabilities, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
+   --  unsupported macro: WGPU_SURFACE_CONFIGURATION_INIT WGPU_MAKE_INIT_STRUCT(T_WGPUSurfaceConfiguration, { nullptr WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPUTextureUsage_RenderAttachment WGPU_COMMA 0 WGPU_COMMA nullptr WGPU_COMMA WGPUCompositeAlphaMode_Auto WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA WGPUPresentMode_Fifo WGPU_COMMA })
    --  unsupported macro: WGPU_SURFACE_TEXTURE_INIT WGPU_MAKE_INIT_STRUCT(WGPUSurfaceTexture, { {} WGPU_COMMA {} WGPU_COMMA {} WGPU_COMMA })
    --  unsupported macro: WGPU_TEXTURE_BINDING_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureBindingLayout, { nullptr WGPU_COMMA WGPUTextureSampleType_Undefined WGPU_COMMA WGPUTextureViewDimension_2D WGPU_COMMA false WGPU_COMMA })
    --  unsupported macro: WGPU_TEXTURE_DATA_LAYOUT_INIT WGPU_MAKE_INIT_STRUCT(WGPUTextureDataLayout, { nullptr WGPU_COMMA 0 WGPU_COMMA WGPU_COPY_STRIDE_UNDEFINED WGPU_COMMA WGPU_COPY_STRIDE_UNDEFINED WGPU_COMMA })
@@ -481,13 +481,13 @@ package webgpu_h is
    WGPUCompilationMessageType_WGPUCompilationMessageType_Info : constant WGPUCompilationMessageType := 3;
    WGPUCompilationMessageType_WGPUCompilationMessageType_Force32 : constant WGPUCompilationMessageType := 2147483647;  -- webgpu.h:436
 
-   subtype WGPUCompositeAlphaMode is unsigned;
-   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Auto : constant WGPUCompositeAlphaMode := 0;
-   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Opaque : constant WGPUCompositeAlphaMode := 1;
-   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Premultiplied : constant WGPUCompositeAlphaMode := 2;
-   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Unpremultiplied : constant WGPUCompositeAlphaMode := 3;
-   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Inherit : constant WGPUCompositeAlphaMode := 4;
-   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Force32 : constant WGPUCompositeAlphaMode := 2147483647;  -- webgpu.h:442
+   subtype T_Composite_Alpha_Mode is unsigned;
+   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Auto : constant T_Composite_Alpha_Mode := 0;
+   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Opaque : constant T_Composite_Alpha_Mode := 1;
+   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Premultiplied : constant T_Composite_Alpha_Mode := 2;
+   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Unpremultiplied : constant T_Composite_Alpha_Mode := 3;
+   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Inherit : constant T_Composite_Alpha_Mode := 4;
+   WGPUCompositeAlphaMode_WGPUCompositeAlphaMode_Force32 : constant T_Composite_Alpha_Mode := 2147483647;  -- webgpu.h:442
 
    subtype WGPUCreatePipelineAsyncStatus is unsigned;
    WGPUCreatePipelineAsyncStatus_WGPUCreatePipelineAsyncStatus_Success : constant WGPUCreatePipelineAsyncStatus := 1;
@@ -673,12 +673,12 @@ package webgpu_h is
    WGPUPowerPreference_WGPUPowerPreference_HighPerformance : constant WGPUPowerPreference := 2;
    WGPUPowerPreference_WGPUPowerPreference_Force32 : constant WGPUPowerPreference := 2147483647;  -- webgpu.h:628
 
-   subtype WGPUPresentMode is unsigned;
-   WGPUPresentMode_WGPUPresentMode_Fifo : constant WGPUPresentMode := 1;
-   WGPUPresentMode_WGPUPresentMode_FifoRelaxed : constant WGPUPresentMode := 2;
-   WGPUPresentMode_WGPUPresentMode_Immediate : constant WGPUPresentMode := 3;
-   WGPUPresentMode_WGPUPresentMode_Mailbox : constant WGPUPresentMode := 4;
-   WGPUPresentMode_WGPUPresentMode_Force32 : constant WGPUPresentMode := 2147483647;  -- webgpu.h:634
+   subtype T_Present_Mode is unsigned;
+   WGPUPresentMode_WGPUPresentMode_Fifo : constant T_Present_Mode := 1;
+   WGPUPresentMode_WGPUPresentMode_FifoRelaxed : constant T_Present_Mode := 2;
+   WGPUPresentMode_WGPUPresentMode_Immediate : constant T_Present_Mode := 3;
+   WGPUPresentMode_WGPUPresentMode_Mailbox : constant T_Present_Mode := 4;
+   WGPUPresentMode_WGPUPresentMode_Force32 : constant T_Present_Mode := 2147483647;  -- webgpu.h:634
 
    subtype WGPUPrimitiveTopology is unsigned;
    WGPUPrimitiveTopology_WGPUPrimitiveTopology_Undefined : constant WGPUPrimitiveTopology := 0;
@@ -878,118 +878,118 @@ package webgpu_h is
    WGPUTextureDimension_WGPUTextureDimension_3D : constant WGPUTextureDimension := 3;
    WGPUTextureDimension_WGPUTextureDimension_Force32 : constant WGPUTextureDimension := 2147483647;  -- webgpu.h:817
 
-   subtype WGPUTextureFormat is unsigned;
-   WGPUTextureFormat_WGPUTextureFormat_Undefined : constant WGPUTextureFormat := 0;
-   WGPUTextureFormat_WGPUTextureFormat_R8Unorm : constant WGPUTextureFormat := 1;
-   WGPUTextureFormat_WGPUTextureFormat_R8Snorm : constant WGPUTextureFormat := 2;
-   WGPUTextureFormat_WGPUTextureFormat_R8Uint : constant WGPUTextureFormat := 3;
-   WGPUTextureFormat_WGPUTextureFormat_R8Sint : constant WGPUTextureFormat := 4;
-   WGPUTextureFormat_WGPUTextureFormat_R16Uint : constant WGPUTextureFormat := 5;
-   WGPUTextureFormat_WGPUTextureFormat_R16Sint : constant WGPUTextureFormat := 6;
-   WGPUTextureFormat_WGPUTextureFormat_R16Float : constant WGPUTextureFormat := 7;
-   WGPUTextureFormat_WGPUTextureFormat_RG8Unorm : constant WGPUTextureFormat := 8;
-   WGPUTextureFormat_WGPUTextureFormat_RG8Snorm : constant WGPUTextureFormat := 9;
-   WGPUTextureFormat_WGPUTextureFormat_RG8Uint : constant WGPUTextureFormat := 10;
-   WGPUTextureFormat_WGPUTextureFormat_RG8Sint : constant WGPUTextureFormat := 11;
-   WGPUTextureFormat_WGPUTextureFormat_R32Float : constant WGPUTextureFormat := 12;
-   WGPUTextureFormat_WGPUTextureFormat_R32Uint : constant WGPUTextureFormat := 13;
-   WGPUTextureFormat_WGPUTextureFormat_R32Sint : constant WGPUTextureFormat := 14;
-   WGPUTextureFormat_WGPUTextureFormat_RG16Uint : constant WGPUTextureFormat := 15;
-   WGPUTextureFormat_WGPUTextureFormat_RG16Sint : constant WGPUTextureFormat := 16;
-   WGPUTextureFormat_WGPUTextureFormat_RG16Float : constant WGPUTextureFormat := 17;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA8Unorm : constant WGPUTextureFormat := 18;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA8UnormSrgb : constant WGPUTextureFormat := 19;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA8Snorm : constant WGPUTextureFormat := 20;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA8Uint : constant WGPUTextureFormat := 21;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA8Sint : constant WGPUTextureFormat := 22;
-   WGPUTextureFormat_WGPUTextureFormat_BGRA8Unorm : constant WGPUTextureFormat := 23;
-   WGPUTextureFormat_WGPUTextureFormat_BGRA8UnormSrgb : constant WGPUTextureFormat := 24;
-   WGPUTextureFormat_WGPUTextureFormat_RGB10A2Uint : constant WGPUTextureFormat := 25;
-   WGPUTextureFormat_WGPUTextureFormat_RGB10A2Unorm : constant WGPUTextureFormat := 26;
-   WGPUTextureFormat_WGPUTextureFormat_RG11B10Ufloat : constant WGPUTextureFormat := 27;
-   WGPUTextureFormat_WGPUTextureFormat_RGB9E5Ufloat : constant WGPUTextureFormat := 28;
-   WGPUTextureFormat_WGPUTextureFormat_RG32Float : constant WGPUTextureFormat := 29;
-   WGPUTextureFormat_WGPUTextureFormat_RG32Uint : constant WGPUTextureFormat := 30;
-   WGPUTextureFormat_WGPUTextureFormat_RG32Sint : constant WGPUTextureFormat := 31;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA16Uint : constant WGPUTextureFormat := 32;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA16Sint : constant WGPUTextureFormat := 33;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA16Float : constant WGPUTextureFormat := 34;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA32Float : constant WGPUTextureFormat := 35;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA32Uint : constant WGPUTextureFormat := 36;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA32Sint : constant WGPUTextureFormat := 37;
-   WGPUTextureFormat_WGPUTextureFormat_Stencil8 : constant WGPUTextureFormat := 38;
-   WGPUTextureFormat_WGPUTextureFormat_Depth16Unorm : constant WGPUTextureFormat := 39;
-   WGPUTextureFormat_WGPUTextureFormat_Depth24Plus : constant WGPUTextureFormat := 40;
-   WGPUTextureFormat_WGPUTextureFormat_Depth24PlusStencil8 : constant WGPUTextureFormat := 41;
-   WGPUTextureFormat_WGPUTextureFormat_Depth32Float : constant WGPUTextureFormat := 42;
-   WGPUTextureFormat_WGPUTextureFormat_Depth32FloatStencil8 : constant WGPUTextureFormat := 43;
-   WGPUTextureFormat_WGPUTextureFormat_BC1RGBAUnorm : constant WGPUTextureFormat := 44;
-   WGPUTextureFormat_WGPUTextureFormat_BC1RGBAUnormSrgb : constant WGPUTextureFormat := 45;
-   WGPUTextureFormat_WGPUTextureFormat_BC2RGBAUnorm : constant WGPUTextureFormat := 46;
-   WGPUTextureFormat_WGPUTextureFormat_BC2RGBAUnormSrgb : constant WGPUTextureFormat := 47;
-   WGPUTextureFormat_WGPUTextureFormat_BC3RGBAUnorm : constant WGPUTextureFormat := 48;
-   WGPUTextureFormat_WGPUTextureFormat_BC3RGBAUnormSrgb : constant WGPUTextureFormat := 49;
-   WGPUTextureFormat_WGPUTextureFormat_BC4RUnorm : constant WGPUTextureFormat := 50;
-   WGPUTextureFormat_WGPUTextureFormat_BC4RSnorm : constant WGPUTextureFormat := 51;
-   WGPUTextureFormat_WGPUTextureFormat_BC5RGUnorm : constant WGPUTextureFormat := 52;
-   WGPUTextureFormat_WGPUTextureFormat_BC5RGSnorm : constant WGPUTextureFormat := 53;
-   WGPUTextureFormat_WGPUTextureFormat_BC6HRGBUfloat : constant WGPUTextureFormat := 54;
-   WGPUTextureFormat_WGPUTextureFormat_BC6HRGBFloat : constant WGPUTextureFormat := 55;
-   WGPUTextureFormat_WGPUTextureFormat_BC7RGBAUnorm : constant WGPUTextureFormat := 56;
-   WGPUTextureFormat_WGPUTextureFormat_BC7RGBAUnormSrgb : constant WGPUTextureFormat := 57;
-   WGPUTextureFormat_WGPUTextureFormat_ETC2RGB8Unorm : constant WGPUTextureFormat := 58;
-   WGPUTextureFormat_WGPUTextureFormat_ETC2RGB8UnormSrgb : constant WGPUTextureFormat := 59;
-   WGPUTextureFormat_WGPUTextureFormat_ETC2RGB8A1Unorm : constant WGPUTextureFormat := 60;
-   WGPUTextureFormat_WGPUTextureFormat_ETC2RGB8A1UnormSrgb : constant WGPUTextureFormat := 61;
-   WGPUTextureFormat_WGPUTextureFormat_ETC2RGBA8Unorm : constant WGPUTextureFormat := 62;
-   WGPUTextureFormat_WGPUTextureFormat_ETC2RGBA8UnormSrgb : constant WGPUTextureFormat := 63;
-   WGPUTextureFormat_WGPUTextureFormat_EACR11Unorm : constant WGPUTextureFormat := 64;
-   WGPUTextureFormat_WGPUTextureFormat_EACR11Snorm : constant WGPUTextureFormat := 65;
-   WGPUTextureFormat_WGPUTextureFormat_EACRG11Unorm : constant WGPUTextureFormat := 66;
-   WGPUTextureFormat_WGPUTextureFormat_EACRG11Snorm : constant WGPUTextureFormat := 67;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC4x4Unorm : constant WGPUTextureFormat := 68;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC4x4UnormSrgb : constant WGPUTextureFormat := 69;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC5x4Unorm : constant WGPUTextureFormat := 70;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC5x4UnormSrgb : constant WGPUTextureFormat := 71;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC5x5Unorm : constant WGPUTextureFormat := 72;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC5x5UnormSrgb : constant WGPUTextureFormat := 73;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC6x5Unorm : constant WGPUTextureFormat := 74;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC6x5UnormSrgb : constant WGPUTextureFormat := 75;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC6x6Unorm : constant WGPUTextureFormat := 76;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC6x6UnormSrgb : constant WGPUTextureFormat := 77;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC8x5Unorm : constant WGPUTextureFormat := 78;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC8x5UnormSrgb : constant WGPUTextureFormat := 79;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC8x6Unorm : constant WGPUTextureFormat := 80;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC8x6UnormSrgb : constant WGPUTextureFormat := 81;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC8x8Unorm : constant WGPUTextureFormat := 82;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC8x8UnormSrgb : constant WGPUTextureFormat := 83;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC10x5Unorm : constant WGPUTextureFormat := 84;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC10x5UnormSrgb : constant WGPUTextureFormat := 85;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC10x6Unorm : constant WGPUTextureFormat := 86;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC10x6UnormSrgb : constant WGPUTextureFormat := 87;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC10x8Unorm : constant WGPUTextureFormat := 88;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC10x8UnormSrgb : constant WGPUTextureFormat := 89;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC10x10Unorm : constant WGPUTextureFormat := 90;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC10x10UnormSrgb : constant WGPUTextureFormat := 91;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC12x10Unorm : constant WGPUTextureFormat := 92;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC12x10UnormSrgb : constant WGPUTextureFormat := 93;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC12x12Unorm : constant WGPUTextureFormat := 94;
-   WGPUTextureFormat_WGPUTextureFormat_ASTC12x12UnormSrgb : constant WGPUTextureFormat := 95;
-   WGPUTextureFormat_WGPUTextureFormat_R16Unorm : constant WGPUTextureFormat := 327680;
-   WGPUTextureFormat_WGPUTextureFormat_RG16Unorm : constant WGPUTextureFormat := 327681;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA16Unorm : constant WGPUTextureFormat := 327682;
-   WGPUTextureFormat_WGPUTextureFormat_R16Snorm : constant WGPUTextureFormat := 327683;
-   WGPUTextureFormat_WGPUTextureFormat_RG16Snorm : constant WGPUTextureFormat := 327684;
-   WGPUTextureFormat_WGPUTextureFormat_RGBA16Snorm : constant WGPUTextureFormat := 327685;
-   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar420Unorm : constant WGPUTextureFormat := 327686;
-   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar420Unorm : constant WGPUTextureFormat := 327687;
-   WGPUTextureFormat_WGPUTextureFormat_R8BG8A8Triplanar420Unorm : constant WGPUTextureFormat := 327688;
-   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar422Unorm : constant WGPUTextureFormat := 327689;
-   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar444Unorm : constant WGPUTextureFormat := 327690;
-   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar422Unorm : constant WGPUTextureFormat := 327691;
-   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar444Unorm : constant WGPUTextureFormat := 327692;
-   WGPUTextureFormat_WGPUTextureFormat_External : constant WGPUTextureFormat := 327693;
-   WGPUTextureFormat_WGPUTextureFormat_Force32 : constant WGPUTextureFormat := 2147483647;  -- webgpu.h:824
+   subtype T_Texture_Format is unsigned;
+   WGPUTextureFormat_WGPUTextureFormat_Undefined : constant T_Texture_Format := 0;
+   WGPUTextureFormat_WGPUTextureFormat_R8Unorm : constant T_Texture_Format := 1;
+   WGPUTextureFormat_WGPUTextureFormat_R8Snorm : constant T_Texture_Format := 2;
+   WGPUTextureFormat_WGPUTextureFormat_R8Uint : constant T_Texture_Format := 3;
+   WGPUTextureFormat_WGPUTextureFormat_R8Sint : constant T_Texture_Format := 4;
+   WGPUTextureFormat_WGPUTextureFormat_R16Uint : constant T_Texture_Format := 5;
+   WGPUTextureFormat_WGPUTextureFormat_R16Sint : constant T_Texture_Format := 6;
+   WGPUTextureFormat_WGPUTextureFormat_R16Float : constant T_Texture_Format := 7;
+   WGPUTextureFormat_WGPUTextureFormat_RG8Unorm : constant T_Texture_Format := 8;
+   WGPUTextureFormat_WGPUTextureFormat_RG8Snorm : constant T_Texture_Format := 9;
+   WGPUTextureFormat_WGPUTextureFormat_RG8Uint : constant T_Texture_Format := 10;
+   WGPUTextureFormat_WGPUTextureFormat_RG8Sint : constant T_Texture_Format := 11;
+   WGPUTextureFormat_WGPUTextureFormat_R32Float : constant T_Texture_Format := 12;
+   WGPUTextureFormat_WGPUTextureFormat_R32Uint : constant T_Texture_Format := 13;
+   WGPUTextureFormat_WGPUTextureFormat_R32Sint : constant T_Texture_Format := 14;
+   WGPUTextureFormat_WGPUTextureFormat_RG16Uint : constant T_Texture_Format := 15;
+   WGPUTextureFormat_WGPUTextureFormat_RG16Sint : constant T_Texture_Format := 16;
+   WGPUTextureFormat_WGPUTextureFormat_RG16Float : constant T_Texture_Format := 17;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA8Unorm : constant T_Texture_Format := 18;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA8UnormSrgb : constant T_Texture_Format := 19;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA8Snorm : constant T_Texture_Format := 20;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA8Uint : constant T_Texture_Format := 21;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA8Sint : constant T_Texture_Format := 22;
+   WGPUTextureFormat_WGPUTextureFormat_BGRA8Unorm : constant T_Texture_Format := 23;
+   WGPUTextureFormat_WGPUTextureFormat_BGRA8UnormSrgb : constant T_Texture_Format := 24;
+   WGPUTextureFormat_WGPUTextureFormat_RGB10A2Uint : constant T_Texture_Format := 25;
+   WGPUTextureFormat_WGPUTextureFormat_RGB10A2Unorm : constant T_Texture_Format := 26;
+   WGPUTextureFormat_WGPUTextureFormat_RG11B10Ufloat : constant T_Texture_Format := 27;
+   WGPUTextureFormat_WGPUTextureFormat_RGB9E5Ufloat : constant T_Texture_Format := 28;
+   WGPUTextureFormat_WGPUTextureFormat_RG32Float : constant T_Texture_Format := 29;
+   WGPUTextureFormat_WGPUTextureFormat_RG32Uint : constant T_Texture_Format := 30;
+   WGPUTextureFormat_WGPUTextureFormat_RG32Sint : constant T_Texture_Format := 31;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA16Uint : constant T_Texture_Format := 32;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA16Sint : constant T_Texture_Format := 33;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA16Float : constant T_Texture_Format := 34;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA32Float : constant T_Texture_Format := 35;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA32Uint : constant T_Texture_Format := 36;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA32Sint : constant T_Texture_Format := 37;
+   WGPUTextureFormat_WGPUTextureFormat_Stencil8 : constant T_Texture_Format := 38;
+   WGPUTextureFormat_WGPUTextureFormat_Depth16Unorm : constant T_Texture_Format := 39;
+   WGPUTextureFormat_WGPUTextureFormat_Depth24Plus : constant T_Texture_Format := 40;
+   WGPUTextureFormat_WGPUTextureFormat_Depth24PlusStencil8 : constant T_Texture_Format := 41;
+   WGPUTextureFormat_WGPUTextureFormat_Depth32Float : constant T_Texture_Format := 42;
+   WGPUTextureFormat_WGPUTextureFormat_Depth32FloatStencil8 : constant T_Texture_Format := 43;
+   WGPUTextureFormat_WGPUTextureFormat_BC1RGBAUnorm : constant T_Texture_Format := 44;
+   WGPUTextureFormat_WGPUTextureFormat_BC1RGBAUnormSrgb : constant T_Texture_Format := 45;
+   WGPUTextureFormat_WGPUTextureFormat_BC2RGBAUnorm : constant T_Texture_Format := 46;
+   WGPUTextureFormat_WGPUTextureFormat_BC2RGBAUnormSrgb : constant T_Texture_Format := 47;
+   WGPUTextureFormat_WGPUTextureFormat_BC3RGBAUnorm : constant T_Texture_Format := 48;
+   WGPUTextureFormat_WGPUTextureFormat_BC3RGBAUnormSrgb : constant T_Texture_Format := 49;
+   WGPUTextureFormat_WGPUTextureFormat_BC4RUnorm : constant T_Texture_Format := 50;
+   WGPUTextureFormat_WGPUTextureFormat_BC4RSnorm : constant T_Texture_Format := 51;
+   WGPUTextureFormat_WGPUTextureFormat_BC5RGUnorm : constant T_Texture_Format := 52;
+   WGPUTextureFormat_WGPUTextureFormat_BC5RGSnorm : constant T_Texture_Format := 53;
+   WGPUTextureFormat_WGPUTextureFormat_BC6HRGBUfloat : constant T_Texture_Format := 54;
+   WGPUTextureFormat_WGPUTextureFormat_BC6HRGBFloat : constant T_Texture_Format := 55;
+   WGPUTextureFormat_WGPUTextureFormat_BC7RGBAUnorm : constant T_Texture_Format := 56;
+   WGPUTextureFormat_WGPUTextureFormat_BC7RGBAUnormSrgb : constant T_Texture_Format := 57;
+   WGPUTextureFormat_WGPUTextureFormat_ETC2RGB8Unorm : constant T_Texture_Format := 58;
+   WGPUTextureFormat_WGPUTextureFormat_ETC2RGB8UnormSrgb : constant T_Texture_Format := 59;
+   WGPUTextureFormat_WGPUTextureFormat_ETC2RGB8A1Unorm : constant T_Texture_Format := 60;
+   WGPUTextureFormat_WGPUTextureFormat_ETC2RGB8A1UnormSrgb : constant T_Texture_Format := 61;
+   WGPUTextureFormat_WGPUTextureFormat_ETC2RGBA8Unorm : constant T_Texture_Format := 62;
+   WGPUTextureFormat_WGPUTextureFormat_ETC2RGBA8UnormSrgb : constant T_Texture_Format := 63;
+   WGPUTextureFormat_WGPUTextureFormat_EACR11Unorm : constant T_Texture_Format := 64;
+   WGPUTextureFormat_WGPUTextureFormat_EACR11Snorm : constant T_Texture_Format := 65;
+   WGPUTextureFormat_WGPUTextureFormat_EACRG11Unorm : constant T_Texture_Format := 66;
+   WGPUTextureFormat_WGPUTextureFormat_EACRG11Snorm : constant T_Texture_Format := 67;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC4x4Unorm : constant T_Texture_Format := 68;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC4x4UnormSrgb : constant T_Texture_Format := 69;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC5x4Unorm : constant T_Texture_Format := 70;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC5x4UnormSrgb : constant T_Texture_Format := 71;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC5x5Unorm : constant T_Texture_Format := 72;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC5x5UnormSrgb : constant T_Texture_Format := 73;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC6x5Unorm : constant T_Texture_Format := 74;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC6x5UnormSrgb : constant T_Texture_Format := 75;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC6x6Unorm : constant T_Texture_Format := 76;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC6x6UnormSrgb : constant T_Texture_Format := 77;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC8x5Unorm : constant T_Texture_Format := 78;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC8x5UnormSrgb : constant T_Texture_Format := 79;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC8x6Unorm : constant T_Texture_Format := 80;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC8x6UnormSrgb : constant T_Texture_Format := 81;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC8x8Unorm : constant T_Texture_Format := 82;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC8x8UnormSrgb : constant T_Texture_Format := 83;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC10x5Unorm : constant T_Texture_Format := 84;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC10x5UnormSrgb : constant T_Texture_Format := 85;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC10x6Unorm : constant T_Texture_Format := 86;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC10x6UnormSrgb : constant T_Texture_Format := 87;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC10x8Unorm : constant T_Texture_Format := 88;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC10x8UnormSrgb : constant T_Texture_Format := 89;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC10x10Unorm : constant T_Texture_Format := 90;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC10x10UnormSrgb : constant T_Texture_Format := 91;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC12x10Unorm : constant T_Texture_Format := 92;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC12x10UnormSrgb : constant T_Texture_Format := 93;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC12x12Unorm : constant T_Texture_Format := 94;
+   WGPUTextureFormat_WGPUTextureFormat_ASTC12x12UnormSrgb : constant T_Texture_Format := 95;
+   WGPUTextureFormat_WGPUTextureFormat_R16Unorm : constant T_Texture_Format := 327680;
+   WGPUTextureFormat_WGPUTextureFormat_RG16Unorm : constant T_Texture_Format := 327681;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA16Unorm : constant T_Texture_Format := 327682;
+   WGPUTextureFormat_WGPUTextureFormat_R16Snorm : constant T_Texture_Format := 327683;
+   WGPUTextureFormat_WGPUTextureFormat_RG16Snorm : constant T_Texture_Format := 327684;
+   WGPUTextureFormat_WGPUTextureFormat_RGBA16Snorm : constant T_Texture_Format := 327685;
+   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar420Unorm : constant T_Texture_Format := 327686;
+   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar420Unorm : constant T_Texture_Format := 327687;
+   WGPUTextureFormat_WGPUTextureFormat_R8BG8A8Triplanar420Unorm : constant T_Texture_Format := 327688;
+   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar422Unorm : constant T_Texture_Format := 327689;
+   WGPUTextureFormat_WGPUTextureFormat_R8BG8Biplanar444Unorm : constant T_Texture_Format := 327690;
+   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar422Unorm : constant T_Texture_Format := 327691;
+   WGPUTextureFormat_WGPUTextureFormat_R10X6BG10X6Biplanar444Unorm : constant T_Texture_Format := 327692;
+   WGPUTextureFormat_WGPUTextureFormat_External : constant T_Texture_Format := 327693;
+   WGPUTextureFormat_WGPUTextureFormat_Force32 : constant T_Texture_Format := 2147483647;  -- webgpu.h:824
 
    subtype WGPUTextureSampleType is unsigned;
    WGPUTextureSampleType_WGPUTextureSampleType_Undefined : constant WGPUTextureSampleType := 0;
@@ -1225,44 +1225,44 @@ package webgpu_h is
         Convention => CPP,
         External_Name => "_ZL23WGPUShaderStage_Compute";
 
-   subtype WGPUTextureUsage is WGPUFlags;  -- webgpu.h:1051
+   subtype T_Texture_Usage is WGPUFlags;  -- webgpu.h:1051
 
-   WGPUTextureUsage_None : aliased constant WGPUTextureUsage  -- webgpu.h:1052
+   WGPUTextureUsage_None : aliased constant T_Texture_Usage  -- webgpu.h:1052
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL21WGPUTextureUsage_None";
 
-   WGPUTextureUsage_CopySrc : aliased constant WGPUTextureUsage  -- webgpu.h:1053
+   WGPUTextureUsage_CopySrc : aliased constant T_Texture_Usage  -- webgpu.h:1053
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUTextureUsage_CopySrc";
 
-   WGPUTextureUsage_CopyDst : aliased constant WGPUTextureUsage  -- webgpu.h:1054
+   WGPUTextureUsage_CopyDst : aliased constant T_Texture_Usage  -- webgpu.h:1054
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL24WGPUTextureUsage_CopyDst";
 
-   WGPUTextureUsage_TextureBinding : aliased constant WGPUTextureUsage  -- webgpu.h:1055
+   WGPUTextureUsage_TextureBinding : aliased constant T_Texture_Usage  -- webgpu.h:1055
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL31WGPUTextureUsage_TextureBinding";
 
-   WGPUTextureUsage_StorageBinding : aliased constant WGPUTextureUsage  -- webgpu.h:1056
+   WGPUTextureUsage_StorageBinding : aliased constant T_Texture_Usage  -- webgpu.h:1056
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL31WGPUTextureUsage_StorageBinding";
 
-   WGPUTextureUsage_RenderAttachment : aliased constant WGPUTextureUsage  -- webgpu.h:1057
+   WGPUTextureUsage_RenderAttachment : aliased constant T_Texture_Usage  -- webgpu.h:1057
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL33WGPUTextureUsage_RenderAttachment";
 
-   WGPUTextureUsage_TransientAttachment : aliased constant WGPUTextureUsage  -- webgpu.h:1058
+   WGPUTextureUsage_TransientAttachment : aliased constant T_Texture_Usage  -- webgpu.h:1058
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL36WGPUTextureUsage_TransientAttachment";
 
-   WGPUTextureUsage_StorageAttachment : aliased constant WGPUTextureUsage  -- webgpu.h:1059
+   WGPUTextureUsage_StorageAttachment : aliased constant T_Texture_Usage  -- webgpu.h:1059
    with Import => True,
         Convention => CPP,
         External_Name => "_ZL34WGPUTextureUsage_StorageAttachment";
@@ -1732,7 +1732,7 @@ package webgpu_h is
   -- Can be chained in WGPUTextureDescriptor
    type WGPUDawnTextureInternalUsageDescriptor is record
       chain : aliased T_WGPUChainedStruct;  -- webgpu.h:1574
-      internalUsage : aliased WGPUTextureUsage;  -- webgpu.h:1575
+      internalUsage : aliased T_Texture_Usage;  -- webgpu.h:1575
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1573
 
@@ -1880,7 +1880,7 @@ package webgpu_h is
    type WGPUPipelineLayoutStorageAttachment is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:1828
       offset : aliased T_UInt64;  -- webgpu.h:1829
-      format : aliased WGPUTextureFormat;  -- webgpu.h:1830
+      format : aliased T_Texture_Format;  -- webgpu.h:1830
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:1827
 
@@ -2220,7 +2220,7 @@ package webgpu_h is
    type WGPUStorageTextureBindingLayout is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2397
       c_access : aliased WGPUStorageTextureAccess;  -- webgpu.h:2398
-      format : aliased WGPUTextureFormat;  -- webgpu.h:2399
+      format : aliased T_Texture_Format;  -- webgpu.h:2399
       viewDimension : aliased WGPUTextureViewDimension;  -- webgpu.h:2400
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2396
@@ -2237,29 +2237,29 @@ package webgpu_h is
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2420
 
-   type WGPUSurfaceCapabilities is record
+   type T_WGPUSurfaceCapabilities is record
       nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:2431
-      usages : aliased WGPUTextureUsage;  -- webgpu.h:2432
+      usages : aliased T_Texture_Usage;  -- webgpu.h:2432
       formatCount : aliased T_Size;  -- webgpu.h:2433
-      formats : access WGPUTextureFormat;  -- webgpu.h:2434
+      formats : T_Address;  -- webgpu.h:2434
       presentModeCount : aliased T_Size;  -- webgpu.h:2435
-      presentModes : access WGPUPresentMode;  -- webgpu.h:2436
+      presentModes : T_Address;  -- webgpu.h:2436
       alphaModeCount : aliased T_Size;  -- webgpu.h:2437
-      alphaModes : access WGPUCompositeAlphaMode;  -- webgpu.h:2438
+      alphaModes : T_Address;  -- webgpu.h:2438
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2430
 
-   type WGPUSurfaceConfiguration is record
+   type T_WGPUSurfaceConfiguration is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2453
       device : T_WGPUDevice;  -- webgpu.h:2454
-      format : aliased WGPUTextureFormat;  -- webgpu.h:2455
-      usage : aliased WGPUTextureUsage;  -- webgpu.h:2456
+      format : aliased T_Texture_Format;  -- webgpu.h:2455
+      usage : aliased T_Texture_Usage;  -- webgpu.h:2456
       viewFormatCount : aliased T_Size;  -- webgpu.h:2457
-      viewFormats : access WGPUTextureFormat;  -- webgpu.h:2458
-      alphaMode : aliased WGPUCompositeAlphaMode;  -- webgpu.h:2459
+      viewFormats : access T_Texture_Format;  -- webgpu.h:2458
+      alphaMode : aliased T_Composite_Alpha_Mode;  -- webgpu.h:2459
       width : aliased T_UInt32;  -- webgpu.h:2460
       height : aliased T_UInt32;  -- webgpu.h:2461
-      presentMode : aliased WGPUPresentMode;  -- webgpu.h:2462
+      presentMode : aliased T_Present_Mode;  -- webgpu.h:2462
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:2452
 
@@ -2500,7 +2500,7 @@ package webgpu_h is
 
    type WGPUDepthStencilState is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:2880
-      format : aliased WGPUTextureFormat;  -- webgpu.h:2881
+      format : aliased T_Texture_Format;  -- webgpu.h:2881
       depthWriteEnabled : aliased WGPUOptionalBool;  -- webgpu.h:2882
       depthCompare : aliased WGPUCompareFunction;  -- webgpu.h:2883
       stencilFront : aliased WGPUStencilFaceState;  -- webgpu.h:2884
@@ -2617,8 +2617,8 @@ package webgpu_h is
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3082
       label : aliased T_WGPUStringView;  -- webgpu.h:3083
       colorFormatCount : aliased T_Size;  -- webgpu.h:3084
-      colorFormats : access WGPUTextureFormat;  -- webgpu.h:3085
-      depthStencilFormat : aliased WGPUTextureFormat;  -- webgpu.h:3086
+      colorFormats : access T_Texture_Format;  -- webgpu.h:3085
+      depthStencilFormat : aliased T_Texture_Format;  -- webgpu.h:3086
       sampleCount : aliased T_UInt32;  -- webgpu.h:3087
       depthReadOnly : aliased T_WGPUBool;  -- webgpu.h:3088
       stencilReadOnly : aliased T_WGPUBool;  -- webgpu.h:3089
@@ -2719,9 +2719,9 @@ package webgpu_h is
 
    type WGPUSharedTextureMemoryProperties is record
       nextInChain : access T_WGPUChainedStructOut;  -- webgpu.h:3263
-      usage : aliased WGPUTextureUsage;  -- webgpu.h:3264
+      usage : aliased T_Texture_Usage;  -- webgpu.h:3264
       size : aliased WGPUExtent3D;  -- webgpu.h:3265
-      format : aliased WGPUTextureFormat;  -- webgpu.h:3266
+      format : aliased T_Texture_Format;  -- webgpu.h:3266
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:3262
 
@@ -2747,28 +2747,28 @@ package webgpu_h is
    type WGPUTextureDescriptor is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3308
       label : aliased T_WGPUStringView;  -- webgpu.h:3309
-      usage : aliased WGPUTextureUsage;  -- webgpu.h:3310
+      usage : aliased T_Texture_Usage;  -- webgpu.h:3310
       dimension : aliased WGPUTextureDimension;  -- webgpu.h:3311
       size : aliased WGPUExtent3D;  -- webgpu.h:3312
-      format : aliased WGPUTextureFormat;  -- webgpu.h:3313
+      format : aliased T_Texture_Format;  -- webgpu.h:3313
       mipLevelCount : aliased T_UInt32;  -- webgpu.h:3314
       sampleCount : aliased T_UInt32;  -- webgpu.h:3315
       viewFormatCount : aliased T_Size;  -- webgpu.h:3316
-      viewFormats : access WGPUTextureFormat;  -- webgpu.h:3317
+      viewFormats : access T_Texture_Format;  -- webgpu.h:3317
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:3307
 
    type WGPUTextureViewDescriptor is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3334
       label : aliased T_WGPUStringView;  -- webgpu.h:3335
-      format : aliased WGPUTextureFormat;  -- webgpu.h:3336
+      format : aliased T_Texture_Format;  -- webgpu.h:3336
       dimension : aliased WGPUTextureViewDimension;  -- webgpu.h:3337
       baseMipLevel : aliased T_UInt32;  -- webgpu.h:3338
       mipLevelCount : aliased T_UInt32;  -- webgpu.h:3339
       baseArrayLayer : aliased T_UInt32;  -- webgpu.h:3340
       arrayLayerCount : aliased T_UInt32;  -- webgpu.h:3341
       aspect : aliased WGPUTextureAspect;  -- webgpu.h:3342
-      usage : aliased WGPUTextureUsage;  -- webgpu.h:3343
+      usage : aliased T_Texture_Usage;  -- webgpu.h:3343
    end record
    with Convention => C_Pass_By_Copy;  -- webgpu.h:3333
 
@@ -2790,7 +2790,7 @@ package webgpu_h is
 
    type WGPUColorTargetState is record
       nextInChain : access constant T_WGPUChainedStruct;  -- webgpu.h:3388
-      format : aliased WGPUTextureFormat;  -- webgpu.h:3389
+      format : aliased T_Texture_Format;  -- webgpu.h:3389
       blend : access constant WGPUBlendState;  -- webgpu.h:3390
       writeMask : aliased WGPUColorWriteMask;  -- webgpu.h:3391
    end record
@@ -2967,7 +2967,7 @@ package webgpu_h is
    type WGPUProcSupportedFeaturesFreeMembers is access procedure (arg1 : WGPUSupportedFeatures)
    with Convention => C;  -- webgpu.h:3638
 
-   type WGPUProcSurfaceCapabilitiesFreeMembers is access procedure (arg1 : WGPUSurfaceCapabilities)
+   type WGPUProcSurfaceCapabilitiesFreeMembers is access procedure (arg1 : T_WGPUSurfaceCapabilities)
    with Convention => C;  -- webgpu.h:3639
 
   -- Procs of Adapter
@@ -2982,7 +2982,7 @@ package webgpu_h is
 
    type WGPUProcAdapterGetFormatCapabilities is access function
         (arg1 : T_WGPUAdapter;
-         arg2 : WGPUTextureFormat;
+         arg2 : T_Texture_Format;
          arg3 : access WGPUFormatCapabilities) return T_Status
    with Convention => C;  -- webgpu.h:3645
 
@@ -3964,13 +3964,13 @@ package webgpu_h is
    with Convention => C;  -- webgpu.h:3915
 
   -- Procs of Surface
-   type WGPUProcSurfaceConfigure is access procedure (arg1 : T_WGPUSurface; arg2 : access constant WGPUSurfaceConfiguration)
+   type WGPUProcSurfaceConfigure is access procedure (arg1 : T_WGPUSurface; arg2 : access constant T_WGPUSurfaceConfiguration)
    with Convention => C;  -- webgpu.h:3918
 
    type WGPUProcSurfaceGetCapabilities is access function
         (arg1 : T_WGPUSurface;
          arg2 : T_WGPUAdapter;
-         arg3 : access WGPUSurfaceCapabilities) return T_Status
+         arg3 : access T_WGPUSurfaceCapabilities) return T_Status
    with Convention => C;  -- webgpu.h:3919
 
    type WGPUProcSurfaceGetCurrentTexture is access procedure (arg1 : T_WGPUSurface; arg2 : access WGPUSurfaceTexture)
@@ -4007,7 +4007,7 @@ package webgpu_h is
    type WGPUProcTextureGetDimension is access function (arg1 : WGPUTexture) return WGPUTextureDimension
    with Convention => C;  -- webgpu.h:3932
 
-   type WGPUProcTextureGetFormat is access function (arg1 : WGPUTexture) return WGPUTextureFormat
+   type WGPUProcTextureGetFormat is access function (arg1 : WGPUTexture) return T_Texture_Format
    with Convention => C;  -- webgpu.h:3933
 
    type WGPUProcTextureGetHeight is access function (arg1 : WGPUTexture) return T_UInt32
@@ -4019,7 +4019,7 @@ package webgpu_h is
    type WGPUProcTextureGetSampleCount is access function (arg1 : WGPUTexture) return T_UInt32
    with Convention => C;  -- webgpu.h:3936
 
-   type WGPUProcTextureGetUsage is access function (arg1 : WGPUTexture) return WGPUTextureUsage
+   type WGPUProcTextureGetUsage is access function (arg1 : WGPUTexture) return T_Texture_Usage
    with Convention => C;  -- webgpu.h:3937
 
    type WGPUProcTextureGetWidth is access function (arg1 : WGPUTexture) return T_UInt32
@@ -4089,7 +4089,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuSupportedFeaturesFreeMembers";
 
-   procedure wgpuSurfaceCapabilitiesFreeMembers (value : WGPUSurfaceCapabilities)  -- webgpu.h:3962
+   procedure wgpuSurfaceCapabilitiesFreeMembers (value : T_WGPUSurfaceCapabilities)  -- webgpu.h:3962
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceCapabilitiesFreeMembers";
@@ -4112,7 +4112,7 @@ package webgpu_h is
 
    function wgpuAdapterGetFormatCapabilities
      (adapter : T_WGPUAdapter;
-      format : WGPUTextureFormat;
+      format : T_Texture_Format;
       capabilities : access WGPUFormatCapabilities) return T_Status  -- webgpu.h:3968
    with Import => True,
         Convention => C,
@@ -5548,7 +5548,7 @@ package webgpu_h is
         External_Name => "wgpuSharedTextureMemoryRelease";
 
   -- Methods of Surface
-   procedure wgpuSurfaceConfigure (surface : T_WGPUSurface; config : access constant WGPUSurfaceConfiguration)  -- webgpu.h:4241
+   procedure wgpuSurfaceConfigure (surface : T_WGPUSurface; config : access constant T_WGPUSurfaceConfiguration)  -- webgpu.h:4241
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceConfigure";
@@ -5556,7 +5556,7 @@ package webgpu_h is
    function wgpuSurfaceGetCapabilities
      (surface : T_WGPUSurface;
       adapter : T_WGPUAdapter;
-      capabilities : access WGPUSurfaceCapabilities) return T_Status  -- webgpu.h:4242
+      capabilities : access T_WGPUSurfaceCapabilities) return T_Status  -- webgpu.h:4242
    with Import => True,
         Convention => C,
         External_Name => "wgpuSurfaceGetCapabilities";
@@ -5617,7 +5617,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuTextureGetDimension";
 
-   function wgpuTextureGetFormat (texture : WGPUTexture) return WGPUTextureFormat  -- webgpu.h:4256
+   function wgpuTextureGetFormat (texture : WGPUTexture) return T_Texture_Format  -- webgpu.h:4256
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetFormat";
@@ -5637,7 +5637,7 @@ package webgpu_h is
         Convention => C,
         External_Name => "wgpuTextureGetSampleCount";
 
-   function wgpuTextureGetUsage (texture : WGPUTexture) return WGPUTextureUsage  -- webgpu.h:4260
+   function wgpuTextureGetUsage (texture : WGPUTexture) return T_Texture_Usage  -- webgpu.h:4260
    with Import => True,
         Convention => C,
         External_Name => "wgpuTextureGetUsage";

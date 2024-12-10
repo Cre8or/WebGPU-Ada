@@ -17,17 +17,17 @@
 
 private with Ada.Finalization;
 
-        with Cre8or_WebGPU.Devices;
 private with Cre8or_WebGPU.API;
+        with Cre8or_WebGPU.Devices;
         with Cre8or_WebGPU.Types;
 
 
 
 pragma Elaborate_All (Ada.Finalization);
 
+pragma Elaborate_All (Cre8or_WebGPU.API);
 pragma Elaborate_All (Cre8or_WebGPU.Devices);
 pragma Elaborate_All (Cre8or_WebGPU.Types);
-pragma Elaborate_All (Cre8or_WebGPU.API);
 
 
 
@@ -55,6 +55,12 @@ package Cre8or_WebGPU.Adapters is
 		-- Returns true if the adapter has been initialised (is not null), otherwise false.
 		-----------------------------------------------------------------------------------------------------------------
 		not overriding function Is_Initialised (This : in T_Adapter) return Boolean
+		with Inline;
+
+		-----------------------------------------------------------------------------------------------------------------
+		-- Helper function to retrieve the adapter's raw pointer. For internal use only.
+		-----------------------------------------------------------------------------------------------------------------
+		not overriding function Get_Raw_Internal (This : in T_Adapter) return T_WGPUAdapter
 		with Inline;
 
 		-----------------------------------------------------------------------------------------------------------------

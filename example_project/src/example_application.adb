@@ -20,6 +20,7 @@ with Ada.Text_IO;
 with Cre8or_Glfw.Context;
 
 with Cre8or_WebGPU.Commands;
+with Cre8or_WebGPU.Types;
 
 
 
@@ -28,6 +29,7 @@ pragma Elaborate_All (Ada.Text_IO);
 pragma Elaborate_All (Cre8or_Glfw.Context);
 
 pragma Elaborate_All (Cre8or_WebGPU.Commands);
+pragma Elaborate_All (Cre8or_WebGPU.Types);
 
 
 
@@ -97,7 +99,16 @@ package body Example_Application is
 
 	-----------------------------------------------------------------------------------------------------------------
 	not overriding procedure Initialise_WebGPU_Data (This : in out T_Application) is
+
+		C_Width  : constant := 640;
+		C_Height : constant := 480;
+
+		Capabilities : T_Surface_Capabilities;
+
 	begin
+
+		-- Initialise the Glfw window
+		This.m_Window.Initialise (C_Width, C_Height, "WebGPU Example");
 
 		This.m_Instance := Create_Instance;
 		if not This.m_Instance.Is_Initialised then
@@ -105,7 +116,17 @@ package body Example_Application is
 			raise EX_APPLICATION_BROKE;
 		end if;
 
-		This.m_Adapter := This.m_Instance.Request_Adapter;
+		This.m_Surface := This.m_Instance.Create_Window_Surface (This.m_Window.Get_Raw_Handle);
+		if not This.m_Surface.Is_Initialised then
+			Text_IO.Put_Line ("ERROR: Surface is null");
+			raise EX_APPLICATION_BROKE;
+		end if;
+
+		-- Initialise WebGPU and make use of the Glfw window as our surface
+		This.m_Adapter := This.m_Instance.Request_Adapter (
+			Compatible_Surface => This.m_Surface
+		);
+
 		if not This.m_Adapter.Is_Initialised then
 			Text_IO.Put_Line ("ERROR: Adapter is null");
 			raise EX_APPLICATION_BROKE;
@@ -117,13 +138,39 @@ package body Example_Application is
 			raise EX_APPLICATION_BROKE;
 		end if;
 
-		This.m_Window.Initialise (640, 480, "WebGPU Example");
-		This.m_Surface := This.m_Instance.Create_Window_Surface (This.m_Window.Get_Raw_Handle);
+		-- Surface capabilities
+		Capabilities := This.m_Surface.Get_Capabilities (This.m_Adapter);
 
-		if not This.m_Surface.Is_Initialised then
-			Text_IO.Put_Line ("ERROR: Surface is null");
+		Text_IO.Put_Line ("Surface capabilities:");
+		Text_IO.Put_Line ("Formats:       " & Capabilities.Formats_Last'Img);
+		Text_IO.Put_Line ("Present modes: " & Capabilities.Present_Modes_Last'Img);
+		Text_IO.Put_Line ("Alpha modes:   " & Capabilities.Alpha_Modes_Last'Img);
+
+		if Capabilities.Formats_Last = 0 or else Capabilities.Formats (1) = E_Undefined then
+			Text_IO.Put_Line ("ERROR: Surface has no supported formats!");
 			raise EX_APPLICATION_BROKE;
 		end if;
+
+		if Capabilities.Present_Modes_Last = 0 then
+			Text_IO.Put_Line ("ERROR: Surface has no supported present modes!");
+			raise EX_APPLICATION_BROKE;
+		end if;
+
+		if Capabilities.Alpha_Modes_Last = 0 then
+			Text_IO.Put_Line ("ERROR: Surface has no supported alpha modes!");
+			raise EX_APPLICATION_BROKE;
+		end if;
+
+		This.m_Surface.Configure (
+			Device       => This.m_Device,
+			Width        => C_Width,
+			Height       => C_Height,
+			Format       => Capabilities.Formats (1),
+			Usage        => Capabilities.Usages,
+--			View_Formats => , -- No clue what to use here (maybe for sRGB?)
+			Alpha_Mode   => Capabilities.Alpha_Modes (1),
+			Present_Mode => Capabilities.Present_Modes (1)
+		);
 
 	end Initialise_WebGPU_Data;
 

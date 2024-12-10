@@ -25,7 +25,8 @@ package Cre8or_WebGPU.Types is
 
 
 	-- Types to be overriden by external packages (generics)
-	subtype T_Positive is Positive;
+	subtype T_Natural is Natural;
+	subtype T_Positive is T_Natural range 1 .. T_Natural'Last_Valid;
 
 
 
@@ -313,6 +314,271 @@ package Cre8or_WebGPU.Types is
 		E_Error   => 2
 	);
 
+	type T_Present_Mode is (
+		E_Fifo, -- VSync?
+		E_Fifo_Relaxed,
+		E_Immediate,
+		E_Mailbox
+	) with Convention => C, Size => 32;
+
+	for T_Present_Mode use (
+		E_Fifo         => 1,
+		E_Fifo_Relaxed => 2,
+		E_Immediate    => 3,
+		E_Mailbox      => 4
+	);
+
+	type T_Present_Mode_Arr is array (T_Positive range <>) of aliased T_Present_Mode;
+
+	type T_Texture_Usage is new T_UInt64;
+
+	type T_Texture_Format is (
+		E_Undefined,
+		E_R8_Unorm,
+		E_R8_Snorm,
+		E_R8_Uint,
+		E_R8_Sint,
+		E_R16_Uint,
+		E_R16_Sint,
+		E_R16_Float,
+		E_RG8_Unorm,
+		E_RG8_Snorm,
+		E_RG8_Uint,
+		E_RG8_Sint,
+		E_R32_Float,
+		E_R32_Uint,
+		E_R32_Sint,
+		E_RG16_Uint,
+		E_RG16_Sint,
+		E_RG16_Float,
+		E_RGBA8_Unorm,
+		E_RGBA8_Unorm_Srgb,
+		E_RGBA8_Snorm,
+		E_RGBA8_Uint,
+		E_RGBA8_Sint,
+		E_BGRA8_Unorm,
+		E_BGRA8_Unorm_Srgb,
+		E_RGB10A2_Uint,
+		E_RGB10A2_Unorm,
+		E_RG11B10_Ufloat,
+		E_RGB9E5_Ufloat,
+		E_RG32_Float,
+		E_RG32_Uint,
+		E_RG32_Sint,
+		E_RGBA16_Uint,
+		E_RGBA16_Sint,
+		E_RGBA16_Float,
+		E_RGBA32_Float,
+		E_RGBA32_Uint,
+		E_RGBA32_Sint,
+		E_Stencil_8,
+		E_Depth16_Unorm,
+		E_Depth24_Plus,
+		E_Depth24_Plus_Stencil_8,
+		E_Depth32_Float,
+		E_Depth32_Float_Stencil_8,
+		E_BC1RGBA_Unorm,
+		E_BC1RGBA_Unorm_Srgb,
+		E_BC2RGBA_Unorm,
+		E_BC2RGBA_Unorm_Srgb,
+		E_BC3RGBA_Unorm,
+		E_BC3RGBA_Unorm_Srgb,
+		E_BC4R_Unorm,
+		E_BC4R_Snorm,
+		E_BC5RG_Unorm,
+		E_BC5RG_Snorm,
+		E_BC6HRGB_Ufloat,
+		E_BC6HRGB_Float,
+		E_BC7RGBA_Unorm,
+		E_BC7RGBA_Unorm_Srgb,
+		E_ETC2RGB8_Unorm,
+		E_ETC2RGB8_Unorm_Srgb,
+		E_ETC2RGB8A1_Unorm,
+		E_ETC2RGB8A1_Unorm_Srgb,
+		E_ETC2RGBA8_Unorm,
+		E_ETC2RGBA8_Unorm_Srgb,
+		E_EACR11_Unorm,
+		E_EACR11_Snorm,
+		E_EACRG11_Unorm,
+		E_EACRG11_Snorm,
+		E_ASTC4x4_Unorm,
+		E_ASTC4x4_Unorm_Srgb,
+		E_ASTC5x4_Unorm,
+		E_ASTC5x4_Unorm_Srgb,
+		E_ASTC5x5_Unorm,
+		E_ASTC5x5_Unorm_Srgb,
+		E_ASTC6x5_Unorm,
+		E_ASTC6x5_Unorm_Srgb,
+		E_ASTC6x6_Unorm,
+		E_ASTC6x6_Unorm_Srgb,
+		E_ASTC8x5_Unorm,
+		E_ASTC8x5_Unorm_Srgb,
+		E_ASTC8x6_Unorm,
+		E_ASTC8x6_Unorm_Srgb,
+		E_ASTC8x8_Unorm,
+		E_ASTC8x8_Unorm_Srgb,
+		E_ASTC10x5_Unorm,
+		E_ASTC10x5_Unorm_Srgb,
+		E_ASTC10x6_Unorm,
+		E_ASTC10x6_Unorm_Srgb,
+		E_ASTC10x8_Unorm,
+		E_ASTC10x8_Unorm_Srgb,
+		E_ASTC10x10_Unorm,
+		E_ASTC10x10_Unorm_Srgb,
+		E_ASTC12x10_Unorm,
+		E_ASTC12x10_Unorm_Srgb,
+		E_ASTC12x12_Unorm,
+		E_ASTC12x12_Unorm_Srgb,
+		E_R16_Unorm,
+		E_RG16_Unorm,
+		E_RGBA16_Unorm,
+		E_R16_Snorm,
+		E_RG16_Snorm,
+		E_RGBA16_Snorm,
+		E_R8BG8_Biplanar_420_Unorm,
+		E_R10X6BG10X6_Biplanar_420_Unorm,
+		E_R8BG8A8_Triplanar_420_Unorm,
+		E_R8BG8_Biplanar_422_Unorm,
+		E_R8BG8_Biplanar_444_Unorm,
+		E_R10X6BG10X6_Biplanar_422_Unorm,
+		E_R10X6BG10X6_Biplanar_444_Unorm,
+		E_External
+	) with Convention => C, Size => 32;
+
+	for T_Texture_Format use (
+		E_Undefined                      => 0,
+		E_R8_Unorm                       => 1,
+		E_R8_Snorm                       => 2,
+		E_R8_Uint                        => 3,
+		E_R8_Sint                        => 4,
+		E_R16_Uint                       => 5,
+		E_R16_Sint                       => 6,
+		E_R16_Float                      => 7,
+		E_RG8_Unorm                      => 8,
+		E_RG8_Snorm                      => 9,
+		E_RG8_Uint                       => 10,
+		E_RG8_Sint                       => 11,
+		E_R32_Float                      => 12,
+		E_R32_Uint                       => 13,
+		E_R32_Sint                       => 14,
+		E_RG16_Uint                      => 15,
+		E_RG16_Sint                      => 16,
+		E_RG16_Float                     => 17,
+		E_RGBA8_Unorm                    => 18,
+		E_RGBA8_Unorm_Srgb               => 19,
+		E_RGBA8_Snorm                    => 20,
+		E_RGBA8_Uint                     => 21,
+		E_RGBA8_Sint                     => 22,
+		E_BGRA8_Unorm                    => 23,
+		E_BGRA8_Unorm_Srgb               => 24,
+		E_RGB10A2_Uint                   => 25,
+		E_RGB10A2_Unorm                  => 26,
+		E_RG11B10_Ufloat                 => 27,
+		E_RGB9E5_Ufloat                  => 28,
+		E_RG32_Float                     => 29,
+		E_RG32_Uint                      => 30,
+		E_RG32_Sint                      => 31,
+		E_RGBA16_Uint                    => 32,
+		E_RGBA16_Sint                    => 33,
+		E_RGBA16_Float                   => 34,
+		E_RGBA32_Float                   => 35,
+		E_RGBA32_Uint                    => 36,
+		E_RGBA32_Sint                    => 37,
+		E_Stencil_8                      => 38,
+		E_Depth16_Unorm                  => 39,
+		E_Depth24_Plus                   => 40,
+		E_Depth24_Plus_Stencil_8         => 41,
+		E_Depth32_Float                  => 42,
+		E_Depth32_Float_Stencil_8        => 43,
+		E_BC1RGBA_Unorm                  => 44,
+		E_BC1RGBA_Unorm_Srgb             => 45,
+		E_BC2RGBA_Unorm                  => 46,
+		E_BC2RGBA_Unorm_Srgb             => 47,
+		E_BC3RGBA_Unorm                  => 48,
+		E_BC3RGBA_Unorm_Srgb             => 49,
+		E_BC4R_Unorm                     => 50,
+		E_BC4R_Snorm                     => 51,
+		E_BC5RG_Unorm                    => 52,
+		E_BC5RG_Snorm                    => 53,
+		E_BC6HRGB_Ufloat                 => 54,
+		E_BC6HRGB_Float                  => 55,
+		E_BC7RGBA_Unorm                  => 56,
+		E_BC7RGBA_Unorm_Srgb             => 57,
+		E_ETC2RGB8_Unorm                 => 58,
+		E_ETC2RGB8_Unorm_Srgb            => 59,
+		E_ETC2RGB8A1_Unorm               => 60,
+		E_ETC2RGB8A1_Unorm_Srgb          => 61,
+		E_ETC2RGBA8_Unorm                => 62,
+		E_ETC2RGBA8_Unorm_Srgb           => 63,
+		E_EACR11_Unorm                   => 64,
+		E_EACR11_Snorm                   => 65,
+		E_EACRG11_Unorm                  => 66,
+		E_EACRG11_Snorm                  => 67,
+		E_ASTC4x4_Unorm                  => 68,
+		E_ASTC4x4_Unorm_Srgb             => 69,
+		E_ASTC5x4_Unorm                  => 70,
+		E_ASTC5x4_Unorm_Srgb             => 71,
+		E_ASTC5x5_Unorm                  => 72,
+		E_ASTC5x5_Unorm_Srgb             => 73,
+		E_ASTC6x5_Unorm                  => 74,
+		E_ASTC6x5_Unorm_Srgb             => 75,
+		E_ASTC6x6_Unorm                  => 76,
+		E_ASTC6x6_Unorm_Srgb             => 77,
+		E_ASTC8x5_Unorm                  => 78,
+		E_ASTC8x5_Unorm_Srgb             => 79,
+		E_ASTC8x6_Unorm                  => 80,
+		E_ASTC8x6_Unorm_Srgb             => 81,
+		E_ASTC8x8_Unorm                  => 82,
+		E_ASTC8x8_Unorm_Srgb             => 83,
+		E_ASTC10x5_Unorm                 => 84,
+		E_ASTC10x5_Unorm_Srgb            => 85,
+		E_ASTC10x6_Unorm                 => 86,
+		E_ASTC10x6_Unorm_Srgb            => 87,
+		E_ASTC10x8_Unorm                 => 88,
+		E_ASTC10x8_Unorm_Srgb            => 89,
+		E_ASTC10x10_Unorm                => 90,
+		E_ASTC10x10_Unorm_Srgb           => 91,
+		E_ASTC12x10_Unorm                => 92,
+		E_ASTC12x10_Unorm_Srgb           => 93,
+		E_ASTC12x12_Unorm                => 94,
+		E_ASTC12x12_Unorm_Srgb           => 95,
+		E_R16_Unorm                      => 327680,
+		E_RG16_Unorm                     => 327681,
+		E_RGBA16_Unorm                   => 327682,
+		E_R16_Snorm                      => 327683,
+		E_RG16_Snorm                     => 327684,
+		E_RGBA16_Snorm                   => 327685,
+		E_R8BG8_Biplanar_420_Unorm       => 327686,
+		E_R10X6BG10X6_Biplanar_420_Unorm => 327687,
+		E_R8BG8A8_Triplanar_420_Unorm    => 327688,
+		E_R8BG8_Biplanar_422_Unorm       => 327689,
+		E_R8BG8_Biplanar_444_Unorm       => 327690,
+		E_R10X6BG10X6_Biplanar_422_Unorm => 327691,
+		E_R10X6BG10X6_Biplanar_444_Unorm => 327692,
+		E_External                       => 327693
+	);
+
+	type T_Texture_Format_Arr is array (T_Positive range <>) of aliased T_Texture_Format;
+
+	type T_Composite_Alpha_Mode is (
+		E_Auto,
+		E_Opaque,
+		E_Premultiplied,
+		E_Unpremultiplied,
+		E_Inherit
+	) with Convention => C, Size => 32;
+
+	for T_Composite_Alpha_Mode use (
+		E_Auto            => 0,
+		E_Opaque          => 1,
+		E_Premultiplied   => 2,
+		E_Unpremultiplied => 3,
+		E_Inherit         => 4
+	);
+
+	type T_Composite_Alpha_Mode_Arr is array (T_Positive range <>) of aliased T_Composite_Alpha_Mode;
+
+
 
 
 	-- Data records
@@ -352,6 +618,18 @@ package Cre8or_WebGPU.Types is
 	end record
 	with Convention => C_Pass_By_Copy;
 
+	C_Max_Capability_Array_Length : constant T_Natural := 256; -- Arbitrary
+
+	type T_Surface_Capabilities is record
+		Usages             : T_Texture_Usage := 0;
+		Formats            : T_Texture_Format_Arr (1 .. C_Max_Capability_Array_Length);
+		Present_Modes      : T_Present_Mode_Arr (1 .. C_Max_Capability_Array_Length);
+		Alpha_Modes        : T_Composite_Alpha_Mode_Arr (1 .. C_Max_Capability_Array_Length);
+		Formats_Last       : T_Natural := 0;
+		Present_Modes_Last : T_Natural := 0;
+		Alpha_Modes_Last   : T_Natural := 0;
+	end record;
+
 
 
 	-- Callbacks
@@ -359,6 +637,16 @@ package Cre8or_WebGPU.Types is
 		Reason  : in T_Device_Lost_Reason;
 		message : in String
 	);
+
+
+
+	-- Constants
+	C_Texture_Usage_Undefined         : constant T_Texture_Usage := 0;
+	C_Texture_Usage_Copy_Src          : constant T_Texture_Usage := 2 ** 0; -- 1
+	C_Texture_Usage_Copy_Dst          : constant T_Texture_Usage := 2 ** 1; -- 2
+	C_Texture_Usage_Texture_Binding   : constant T_Texture_Usage := 2 ** 2; -- 4
+	C_Texture_Usage_Storage_Binding   : constant T_Texture_Usage := 2 ** 3; -- 8
+	C_Texture_Usage_Render_Attachment : constant T_Texture_Usage := 2 ** 4; -- 16
 
 
 

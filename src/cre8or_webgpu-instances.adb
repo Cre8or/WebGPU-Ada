@@ -51,7 +51,8 @@ package body Cre8or_WebGPU.Instances is
 		Power_Preference       : in T_Power_Preference := E_Undefined;
 		Backend_Type           : in T_Backend_Type     := E_Undefined;
 		Force_Fallback_Adapter : in Boolean            := false;
-		Compatibility_Mode     : in Boolean            := false
+		Compatibility_Mode     : in Boolean            := false;
+		Compatible_Surface     : in T_Surface          := C_Null_Surface
 	) return T_Adapter is
 
 		Adapter   : T_Adapter;
@@ -69,6 +70,7 @@ package body Cre8or_WebGPU.Instances is
 			backendType          => Backend_Type,
 			forceFallbackAdapter => T_WGPUBool (Force_Fallback_Adapter),
 			compatibilityMode    => T_WGPUBool (Compatibility_Mode),
+			compatibleSurface    => Compatible_Surface.Get_Raw_Internal,
 			others               => <>
 		);
 
@@ -102,6 +104,10 @@ package body Cre8or_WebGPU.Instances is
 		Surface_Internal : T_WGPUSurface;
 
 	begin
+
+		if This.m_Instance = null then
+			raise EX_INSTANCE_NOT_INITIALISED;
+		end if;
 
 		Surface_Internal := (case Raw_Window_Handle.Kind is
 			when E_AppKit  => Create_Window_Surface_AppKit  (This.m_Instance, Raw_Window_Handle),

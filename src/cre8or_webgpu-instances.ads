@@ -80,7 +80,8 @@ package Cre8or_WebGPU.Instances is
 			Power_Preference       : in T_Power_Preference := E_Undefined;
 			Backend_Type           : in T_Backend_Type     := E_Undefined;
 			Force_Fallback_Adapter : in Boolean            := false;
-			Compatibility_Mode     : in Boolean            := false
+			Compatibility_Mode     : in Boolean            := false;
+			Compatible_Surface     : in T_Surface          := C_Null_Surface
 		) return T_Adapter;
 
 		-----------------------------------------------------------------------------------------------------------------

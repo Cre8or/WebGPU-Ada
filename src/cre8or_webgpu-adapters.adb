@@ -46,6 +46,14 @@ package body Cre8or_WebGPU.Adapters is
 	end Is_Initialised;
 
 	---------------------------------------------------------------------------------------------------------------------
+	not overriding function Get_Raw_Internal (This : in T_Adapter) return T_WGPUAdapter is
+	begin
+
+		return This.m_Adapter;
+
+	end Get_Raw_Internal;
+
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Set_Raw_Internal (
 		This : in out T_Adapter;
 		Raw  : in     T_WGPUAdapter

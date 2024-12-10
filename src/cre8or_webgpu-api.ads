@@ -448,6 +448,32 @@ private package Cre8or_WebGPU.API is
 	end record
 	with Convention => C_Pass_By_Copy;
 
+   type T_WGPUSurfaceConfiguration is record
+		nextInChain     : access constant T_WGPUChainedStruct;
+		device          : T_WGPUDevice;
+		format          : aliased T_Texture_Format;
+		usage           : aliased T_Texture_Usage;
+		viewFormatCount : aliased T_Size;
+		viewFormats     : access T_Texture_Format;
+		alphaMode       : aliased T_Composite_Alpha_Mode;
+		width           : aliased T_UInt32;
+		height          : aliased T_UInt32;
+		presentMode     : aliased T_Present_Mode;
+	end record
+   with Convention => C_Pass_By_Copy;
+
+   type T_WGPUSurfaceCapabilities is record
+      nextInChain      : access T_WGPUChainedStructOut;
+      usages           : aliased T_Texture_Usage;
+      formatCount      : aliased T_Size;
+      formats          : T_Address;
+      presentModeCount : aliased T_Size;
+      presentModes     : T_Address;
+      alphaModeCount   : aliased T_Size;
+      alphaModes       : T_Address;
+   end record
+   with Convention => C_Pass_By_Copy;  -- webgpu.h:2430
+
 
 
 	-- Renames
@@ -605,6 +631,24 @@ private package Cre8or_WebGPU.API is
 	with Import, Convention => C, External_Name => "wgpuSurfaceRelease";
 
 	---------------------------------------------------------------------------------------------------------------------
+	procedure wgpuSurfaceConfigure (
+		surface : in T_WGPUSurface;
+		config  : access constant T_WGPUSurfaceConfiguration
+	) with Import, Convention => C, External_Name => "wgpuSurfaceConfigure";
+
+	---------------------------------------------------------------------------------------------------------------------
+	function wgpuSurfaceGetCapabilities (
+		surface      : in T_WGPUSurface;
+		adapter      : in T_WGPUAdapter;
+		capabilities : access T_WGPUSurfaceCapabilities
+	) return T_Status
+	with Import, Convention => C, External_Name => "wgpuSurfaceGetCapabilities";
+
+	---------------------------------------------------------------------------------------------------------------------
+	procedure wgpuSurfaceCapabilitiesFreeMembers (value : in T_WGPUSurfaceCapabilities)
+	with Import, Convention => C, External_Name => "wgpuSurfaceCapabilitiesFreeMembers";
+
+	---------------------------------------------------------------------------------------------------------------------
 	function wgpuInstanceCreateSurface_AppKit (
 		instance   : in T_WGPUInstance;
 		descriptor : access constant T_WGPUSurfaceDescriptor_AppKit
@@ -638,7 +682,6 @@ private package Cre8or_WebGPU.API is
 		descriptor : access constant T_WGPUSurfaceDescriptor_Wayland
 	) return T_WGPUSurface
 	with Import, Convention => C, External_Name => "wgpuInstanceCreateSurface";
-
 
 
 end Cre8or_WebGPU.API;

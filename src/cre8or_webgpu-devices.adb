@@ -49,6 +49,14 @@ package body Cre8or_WebGPU.Devices is
 	end Is_Initialised;
 
 	---------------------------------------------------------------------------------------------------------------------
+	not overriding function Get_Raw_Internal (This : in T_Device) return T_WGPUDevice is
+	begin
+
+		return This.m_Device;
+
+	end Get_Raw_Internal;
+
+	---------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Set_Raw_Internal (
 		This : in out T_Device;
 		Raw  : in     T_WGPUDevice
