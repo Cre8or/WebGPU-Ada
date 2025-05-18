@@ -260,93 +260,84 @@ private package Cre8or_WebGPU.API is
 	with Convention => C_Pass_By_Copy;
 
 
-
 	-- Callback accessors
 	type T_WGPURequestAdapterCallback is access procedure (
-		status   : in T_Request_Adapter_Status;
-		adapter  : in T_WGPUAdapter;
-		message  : in T_WGPUStringView;
-		userdata : in T_Address := C_Null_Address
-	) with Convention => C;
-
-	type T_WGPURequestDeviceCallback is access procedure (
-		status   : in T_Request_Device_Status;
-		device   : in T_WGPUDevice;
-		message  : in T_WGPUStringView;
-		userdata : in T_Address := C_Null_Address
-	) with Convention => C;
-
-   	type T_WGPUDeviceLostCallback is access procedure (
-		device   : in T_WGPUDevice;
-		reason   : in T_Device_Lost_Reason;
-		message  : in T_WGPUStringView;
-		userdata : in T_Device_Lost_Callback
-   	) with Convention => C;
-
-   	type T_WGPUDeviceLostCallback2 is access procedure (
-		device    : in T_WGPUDevice;
-		reason    : in T_Device_Lost_Reason;
+		status    : in T_Request_Adapter_Status;
+		adapter   : in T_WGPUAdapter;
 		message   : in T_WGPUStringView;
 		userdata1 : in T_Address := C_Null_Address;
 		userdata2 : in T_Address := C_Null_Address
-   	) with Convention => C;
-
-	type T_WGPUErrorCallback is access procedure (
-		kind     : in T_Error_Kind;
-		message  : in T_WGPUStringView;
-		userdata : in T_Address := C_Null_Address
 	) with Convention => C;
+
+	type T_WGPURequestDeviceCallback is access procedure (
+		status    : in T_Request_Device_Status;
+		device    : in T_WGPUDevice;
+		message   : in T_WGPUStringView;
+		userdata1 : in T_Address := C_Null_Address;
+		userdata2 : in T_Address := C_Null_Address
+	) with Convention => C;
+
+   	type T_WGPUDeviceLostCallback is access procedure (
+		device    : in T_WGPUDevice;
+		reason    : in T_Device_Lost_Reason;
+		message   : in T_WGPUStringView;
+		userdata1 : in T_Device_Lost_Callback;
+		userdata2 : in T_Address := C_Null_Address
+   	) with Convention => C;
 
 	type T_WGPUUncapturedErrorCallback is access procedure (
 		device    : in T_WGPUDevice;
 		kind      : in T_Error_Kind;
 		message   : in T_WGPUStringView;
-		userdata1 : in T_Address := C_Null_Address;
+		userdata1 : in T_Uncaptured_Error_Callback;
 		userdata2 : in T_Address := C_Null_Address
 	) with Convention => C;
 
 
 
 	-- Request structs
-	type T_WGPUDeviceLostCallbackInfo is record
-		nextInChain : access constant T_WGPUChainedStruct;
-		mode        : aliased T_Callback_Mode := E_Wait_Any_Only;
-		callback    : T_WGPUDeviceLostCallback;
-		userdata    : T_Device_Lost_Callback;
+	type T_WGPURequestAdapterCallbackInfo is record
+		nextInChain : access T_WGPUChainedStruct;
+		mode        : aliased T_Callback_Mode := E_Allow_Process_Events;
+		callback    : T_WGPURequestAdapterCallback;
+		userdata1   : T_Address := C_Null_Address;
+		userdata2   : T_Address := C_Null_Address;
 	end record
 	with Convention => C_Pass_By_Copy;
 
-	type T_WGPUDeviceLostCallbackInfo2 is record
+	type T_WGPURequestDeviceCallbackInfo is record
 		nextInChain : access constant T_WGPUChainedStruct;
-		mode        : aliased T_Callback_Mode := E_Wait_Any_Only;
-		callback    : T_WGPUDeviceLostCallback2;
+		mode        : aliased T_Callback_Mode := E_Allow_Process_Events;
+		callback    : T_WGPURequestDeviceCallback;
 		userdata1   : T_Address := C_Null_Address;
+		userdata2   : T_Address := C_Null_Address;
+	end record
+	with Convention => C_Pass_By_Copy;
+
+	type T_WGPUDeviceLostCallbackInfo is record
+		nextInChain : access constant T_WGPUChainedStruct;
+		mode        : aliased T_Callback_Mode := E_Allow_Process_Events;
+		callback    : T_WGPUDeviceLostCallback;
+		userdata1   : T_Device_Lost_Callback;
 		userdata2   : T_Address := C_Null_Address;
 	end record
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUUncapturedErrorCallbackInfo is record
 		nextInChain : access constant T_WGPUChainedStruct;
-		callback    : T_WGPUErrorCallback;
-		userdata    : T_Address := C_Null_Address;
-	end record
-	with Convention => C_Pass_By_Copy;
-
-	type T_WGPUUncapturedErrorCallbackInfo2 is record
-		nextInChain : access constant T_WGPUChainedStruct;
 		callback    : T_WGPUUncapturedErrorCallback;
-		userdata1   : T_Address := C_Null_Address;
+		userdata1   : T_Uncaptured_Error_Callback;
 		userdata2   : T_Address := C_Null_Address;
 	end record
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPURequestAdapterOptions is record
 		nextInChain          : access constant T_WGPUChainedStruct;
-		compatibleSurface    : T_WGPUSurface;
+		featureLevel         : aliased T_Feature_Level    := E_Undefined;
 		powerPreference      : aliased T_Power_Preference := E_Undefined;
-		backendType          : aliased T_Backend_Type     := E_Undefined;
 		forceFallbackAdapter : aliased T_WGPUBool         := false;
-		compatibilityMode    : aliased T_WGPUBool         := false;
+		backendType          : aliased T_Backend_Type     := E_Undefined;
+		compatibleSurface    : T_WGPUSurface;
 	end record
 	with Convention => C_Pass_By_Copy;
 
@@ -363,18 +354,14 @@ private package Cre8or_WebGPU.API is
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUDeviceDescriptor is record
-		nextInChain                  : access constant T_WGPUChainedStruct;
+		nextInChain                  : access T_WGPUChainedStruct;
 		label                        : aliased T_WGPUStringView;
 		requiredFeatureCount         : aliased T_Size;
-		requiredFeatures             : access T_Feature_Name;
+		requiredFeatures             : access constant T_Feature_Name;
 		requiredLimits               : access constant T_WGPURequiredLimits;
 		defaultQueue                 : aliased T_WGPUQueueDescriptor;
-		deviceLostCallback           : T_Address := C_Null_Address; -- DEPRECATED (see Device.cpp) - use deviceLostCallbackInfo instead
-		deviceLostUserdata           : T_Address := C_Null_Address; -- DEPRECATED (see Device.cpp) - use deviceLostCallbackInfo instead
 		deviceLostCallbackInfo       : aliased T_WGPUDeviceLostCallbackInfo;
 		uncapturedErrorCallbackInfo  : aliased T_WGPUUncapturedErrorCallbackInfo;
-		deviceLostCallbackInfo2      : aliased T_WGPUDeviceLostCallbackInfo2; -- Use this when passing 2 userdata pointers
-		uncapturedErrorCallbackInfo2 : aliased T_WGPUUncapturedErrorCallbackInfo2; -- Use this when passing 2 userdata pointers
 	end record
 	with Convention => C_Pass_By_Copy;
 
@@ -387,7 +374,7 @@ private package Cre8or_WebGPU.API is
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUSurfaceDescriptor_AppKit is record
-		nextInChain : access constant T_WGPUSurfaceSourceMetalLayer;
+		nextInChain : access T_WGPUSurfaceSourceMetalLayer;
 		label       : aliased T_WGPUStringView;
 	end record
 	with Convention => C_Pass_By_Copy;
@@ -401,7 +388,7 @@ private package Cre8or_WebGPU.API is
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUSurfaceDescriptor_Windows is record
-		nextInChain : access constant T_WGPUSurfaceSourceWindowsHWND;
+		nextInChain : access T_WGPUSurfaceSourceWindowsHWND;
 		label       : aliased T_WGPUStringView;
 	end record
 	with Convention => C_Pass_By_Copy;
@@ -415,7 +402,7 @@ private package Cre8or_WebGPU.API is
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUSurfaceDescriptor_Xlib is record
-		nextInChain : access constant T_WGPUSurfaceSourceXlibWindow;
+		nextInChain : access T_WGPUSurfaceSourceXlibWindow;
 		label       : aliased T_WGPUStringView;
 	end record
 	with Convention => C_Pass_By_Copy;
@@ -429,7 +416,7 @@ private package Cre8or_WebGPU.API is
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUSurfaceDescriptor_Xcb is record
-		nextInChain : access constant T_WGPUSurfaceSourceXCBWindow;
+		nextInChain : access T_WGPUSurfaceSourceXCBWindow;
 		label       : aliased T_WGPUStringView;
 	end record
 	with Convention => C_Pass_By_Copy;
@@ -443,7 +430,7 @@ private package Cre8or_WebGPU.API is
 	with Convention => C_Pass_By_Copy;
 
 	type T_WGPUSurfaceDescriptor_Wayland is record
-		nextInChain : access constant T_WGPUSurfaceSourceWaylandSurface;
+		nextInChain : access T_WGPUSurfaceSourceWaylandSurface;
 		label       : aliased T_WGPUStringView;
 	end record
 	with Convention => C_Pass_By_Copy;
@@ -495,10 +482,9 @@ private package Cre8or_WebGPU.API is
 	-- Instances
 	---------------------------------------------------------------------------------------------------------------------
    	procedure wgpuInstanceRequestAdapter (
-		instance : in T_WGPUInstance;
-		options  : access constant T_WGPURequestAdapterOptions;
-		callback : in T_WGPURequestAdapterCallback;
-		userdata : in T_Address := C_Null_Address
+		instance     : in T_WGPUInstance;
+		options      : access constant T_WGPURequestAdapterOptions;
+		callbackInfo : in T_WGPURequestAdapterCallbackInfo
 	) with Import, Convention => C, External_Name => "wgpuInstanceRequestAdapter";
 
 	---------------------------------------------------------------------------------------------------------------------
@@ -514,13 +500,16 @@ private package Cre8or_WebGPU.API is
 	with Import, Convention => C, External_Name => "wgpuInstanceRelease";
 
 	---------------------------------------------------------------------------------------------------------------------
+	procedure wgpuInstanceProcessEvents (instance : in T_WGPUInstance)
+	with Import, Convention => C, External_Name => "wgpuInstanceProcessEvents";
+
+	---------------------------------------------------------------------------------------------------------------------
 	-- Adapters
 	---------------------------------------------------------------------------------------------------------------------
 	procedure wgpuAdapterRequestDevice (
-		adapter    : in T_WGPUAdapter;
-		descriptor : access constant T_WGPUDeviceDescriptor;
-		callback   : in T_WGPURequestDeviceCallback;
-		userdata   : in T_Address := C_Null_Address
+		adapter      : in T_WGPUAdapter;
+		options      : access constant T_WGPUDeviceDescriptor;
+		callbackInfo : in T_WGPURequestDeviceCallbackInfo
 	) with Import, Convention => C, External_Name => "wgpuAdapterRequestDevice";
 
 	---------------------------------------------------------------------------------------------------------------------

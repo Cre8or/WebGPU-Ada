@@ -77,6 +77,15 @@ package Cre8or_WebGPU.Surfaces is
 		);
 
 		-----------------------------------------------------------------------------------------------------------------
+		-- Returns the capabilities of the surface when used with the given adapter. The surface and adapter must both be
+		-- initialised.
+		-----------------------------------------------------------------------------------------------------------------
+		not overriding function Get_Capabilities (
+			This    : in T_Surface;
+			Adapter : in T_Adapter'Class
+		) return T_Surface_Capabilities;
+
+		-----------------------------------------------------------------------------------------------------------------
 		-- Configures the surface for use with the specified device. The surface and device must both be initialised.
 		-----------------------------------------------------------------------------------------------------------------
 		not overriding procedure Configure (
@@ -90,15 +99,6 @@ package Cre8or_WebGPU.Surfaces is
 			Alpha_Mode   : in     T_Composite_Alpha_Mode := E_Auto;
 			Present_Mode : in     T_Present_Mode         := E_Fifo
 		);
-
-		-----------------------------------------------------------------------------------------------------------------
-		-- Returns the capabilities of the surface when used with the given adapter. The surface and adapter must both be
-		-- initialised.
-		-----------------------------------------------------------------------------------------------------------------
-		not overriding function Get_Capabilities (
-			This    : in T_Surface;
-			Adapter : in T_Adapter'Class
-		) return T_Surface_Capabilities;
 
 
 

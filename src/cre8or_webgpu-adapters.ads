@@ -64,24 +64,28 @@ package Cre8or_WebGPU.Adapters is
 		with Inline;
 
 		-----------------------------------------------------------------------------------------------------------------
-		-- Helper function to set the adapter's raw pointer. For internal use only.
+		-- Helper function to set the adapter's raw pointers. For internal use only.
 		-----------------------------------------------------------------------------------------------------------------
 		not overriding procedure Set_Raw_Internal (
-			This : in out T_Adapter;
-			Raw  : in     T_WGPUAdapter
+			This         : in out T_Adapter;
+			Raw_Instance : in     T_WGPUInstance;
+			Raw_Adapter  : in     T_WGPUAdapter
 		);
 
 		-----------------------------------------------------------------------------------------------------------------
 		-- Requests a WebGPU device from the adapter. The adapter must be initialised.
 		--
 		-- This function optionally accepts a list of features that the returned device should have.
-		-- Device_Lost_Callback, if set, should point to a callback procedure for when the device becomes unuseable. Care must be taken
-		-- to pevent concurrency issues when the procedure is called!
+		-- Device_Lost_Callback, if set, should point to a callback procedure for when the device becomes unuseable.
+		-- Uncaptured_Error_Callback, if set, should point to a callback procedure that handles additional errors which
+		-- have not yet been captured on any higher levels.
+		-- Care must be taken to pevent concurrency issues when the callback procedures are called!
 		-----------------------------------------------------------------------------------------------------------------
 		not overriding function Request_Device (
-			This                 : in T_Adapter;
-			Features             : in T_Feature_Name_Arr     := (1 .. 0 => <>);
-			Device_Lost_Callback : in T_Device_Lost_Callback := null
+			This                      : in T_Adapter;
+			Features                  : in T_Feature_Name_Arr          := (1 .. 0 => <>);
+			Device_Lost_Callback      : in T_Device_Lost_Callback      := null;
+			Uncaptured_Error_Callback : in T_Uncaptured_Error_Callback := null
 		) return T_Device;
 
 
@@ -96,14 +100,16 @@ private
 
 
 	-- Types
-	type T_Request_Userdata is record
+	type T_Request_Device_User_Data is record
 		Device        : T_WGPUDevice;
 		Request_Ended : Boolean := false;
+		Status        : T_Request_Device_Status;
 	end record
 	with Convention => C_Pass_By_Copy;
 
 	type T_Adapter is new Ada.Finalization.Controlled with record
-		m_Adapter : T_WGPUAdapter;
+		m_Instance : T_WGPUInstance;
+		m_Adapter  : T_WGPUAdapter;
 	end record;
 
 		-- Primitives
@@ -117,19 +123,31 @@ private
 
 	-- Specifications
 	---------------------------------------------------------------------------------------------------------------------
-	procedure Request_Device_Callback (
-		status   : T_Request_Device_Status;
-		device   : T_WGPUDevice;
-		message  : T_WGPUStringView;
-		userdata : T_Address := C_Null_Address
+	procedure Internal_Request_Device_Callback ( -- Matches T_WGPURequestDeviceCallback
+		status    : in T_Request_Device_Status;
+		device    : in T_WGPUDevice;
+		message   : in T_WGPUStringView;
+		userdata1 : in T_Address := C_Null_Address;
+		userdata2 : in T_Address := C_Null_Address
+	) with Convention => C;
+
+	-- TODO: Move the following ṕrocedures into Cre8or_WebGPU.Devices?
+	---------------------------------------------------------------------------------------------------------------------
+	procedure Internal_Device_Lost_Callback ( -- Matches T_WGPUDeviceLostCallback
+		device    : in T_WGPUDevice;
+		kind      : in T_Device_Lost_Reason;
+		message   : in T_WGPUStringView;
+		userdata1 : in T_Device_Lost_Callback;
+		userdata2 : in T_Address := C_Null_Address
 	) with Convention => C;
 
 	---------------------------------------------------------------------------------------------------------------------
-	procedure Internal_Device_Lost_Callback (
-		device   : in T_WGPUDevice;
-		reason   : in T_Device_Lost_Reason;
-		message  : in T_WGPUStringView;
-		userdata : in T_Device_Lost_Callback := null
+	procedure Internal_Uncaptured_Error_Callback ( -- Matches T_WGPUUncapturedErrorCallback
+		device    : in T_WGPUDevice;
+		kind      : in T_Error_Kind;
+		message   : in T_WGPUStringView;
+		userdata1 : in T_Uncaptured_Error_Callback;
+		userdata2 : in T_Address := C_Null_Address
 	) with Convention => C;
 
 

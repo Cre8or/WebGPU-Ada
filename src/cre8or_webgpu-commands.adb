@@ -55,6 +55,10 @@ package body Cre8or_WebGPU.Commands is
 	) is
 	begin
 
+		if Raw = null then
+			raise EX_COMMAND_BUFFER_NOT_INITIALISED;
+		end if;
+
 		This.Finalize;
 		This.m_Buffer := Raw;
 		This.Adjust;
@@ -85,6 +89,10 @@ package body Cre8or_WebGPU.Commands is
 		Raw  : in     T_WGPUCommandEncoder
 	) is
 	begin
+
+		if Raw = null then
+			raise EX_COMMAND_ENCODER_NOT_INITIALISED;
+		end if;
 
 		This.Finalize;
 		This.m_Encoder := Raw;
@@ -168,11 +176,9 @@ package body Cre8or_WebGPU.Commands is
 	overriding procedure Adjust (This : in out T_Command_Buffer) is
 	begin
 
-		if This.m_Buffer = null then
-			return;
+		if This.m_Buffer /= null then
+			wgpuCommandBufferAddRef (This.m_Buffer);
 		end if;
-
-		wgpuCommandBufferAddRef (This.m_Buffer);
 
 	end Adjust;
 
@@ -180,11 +186,10 @@ package body Cre8or_WebGPU.Commands is
 	overriding procedure Finalize (This : in out T_Command_Buffer) is
 	begin
 
-		if This.m_Buffer = null then
-			return;
+		if This.m_Buffer /= null then
+			wgpuCommandBufferRelease (This.m_Buffer);
 		end if;
 
-		wgpuCommandBufferRelease (This.m_Buffer);
 		This.m_Buffer := null;
 
 	end Finalize;
@@ -195,11 +200,9 @@ package body Cre8or_WebGPU.Commands is
 	overriding procedure Adjust (This : in out T_Command_Encoder) is
 	begin
 
-		if This.m_Encoder = null then
-			return;
+		if This.m_Encoder /= null then
+			wgpuCommandEncoderAddRef (This.m_Encoder);
 		end if;
-
-		wgpuCommandEncoderAddRef (This.m_Encoder);
 
 	end Adjust;
 
@@ -207,11 +210,10 @@ package body Cre8or_WebGPU.Commands is
 	overriding procedure Finalize (This : in out T_Command_Encoder) is
 	begin
 
-		if This.m_Encoder = null then
-			return;
+		if This.m_Encoder /= null then
+			wgpuCommandEncoderRelease (This.m_Encoder);
 		end if;
 
-		wgpuCommandEncoderRelease (This.m_Encoder);
 		This.m_Encoder := null;
 
 	end Finalize;

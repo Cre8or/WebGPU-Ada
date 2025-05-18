@@ -29,11 +29,11 @@ project Cre8or_WebGPU_Example is
 	end Builder;
 
 	package Compiler is
-		for Switches ("ada") use ("-gnato", "-g", "-gnatwa");
+		for Switches ("ada") use ("-gnato", "-g", "-gnatwa", "-gnatf");
 	end Compiler;
 
 	package Binder is
-		for Switches ("ada") use ("-Es");
+		for Switches ("ada") use ("-s", "-Es", "-E");
 	end Binder;
 
 end Cre8or_WebGPU_Example;

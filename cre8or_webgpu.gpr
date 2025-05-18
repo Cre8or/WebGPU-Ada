@@ -36,7 +36,7 @@ library project Cre8or_WebGPU is
 	end Linker;
 
 	package Binder is
-		for Default_Switches ("ada") use ("-s", "-Es");
+		for Default_Switches ("ada") use ("-s", "-Es", "-E");
 	end Binder;
 
 

@@ -73,14 +73,13 @@ package Cre8or_WebGPU.Instances is
 		-- returned.
 		-- If Force_Fallback_Adapter is true, requires the adapter to have a particular backend type. If this is not
 		-- possible, an empty adapter handle is returned.
-		-- Compatibility_Mode allows backends that aren't 100% compliant to be used (in particular OpenGL/OpenGLES).
 		-----------------------------------------------------------------------------------------------------------------
 		not overriding function Request_Adapter (
 			This                   : in T_Instance;
 			Power_Preference       : in T_Power_Preference := E_Undefined;
 			Backend_Type           : in T_Backend_Type     := E_Undefined;
+			Feature_Level          : in T_Feature_Level    := E_Undefined;
 			Force_Fallback_Adapter : in Boolean            := false;
-			Compatibility_Mode     : in Boolean            := false;
 			Compatible_Surface     : in T_Surface          := C_Null_Surface
 		) return T_Adapter;
 
@@ -114,9 +113,10 @@ private
 
 
 	-- Types
-	type T_Request_Userdata is record
+	type T_Request_Adapter_User_Data is record
 		Adapter       : T_WGPUAdapter;
 		Request_Ended : Boolean := false;
+		Status        : T_Request_Adapter_Status;
 	end record
 	with Convention => C_Pass_By_Copy;
 
@@ -165,11 +165,12 @@ private
 	) return T_WGPUSurface;
 
 	---------------------------------------------------------------------------------------------------------------------
-	procedure Request_Instance_Callback (
-		status   : T_Request_Adapter_Status;
-		adapter  : T_WGPUAdapter;
-		message  : T_WGPUStringView;
-		userdata : T_Address := C_Null_Address
+	procedure Request_Adapter_Callback ( -- Matches T_WGPURequestAdapterCallback
+		status    : in T_Request_Adapter_Status;
+		adapter   : in T_WGPUAdapter;
+		message   : in T_WGPUStringView;
+		userdata1 : in T_Address := C_Null_Address;
+		userdata2 : in T_Address := C_Null_Address
 	) with Convention => C;
 
 

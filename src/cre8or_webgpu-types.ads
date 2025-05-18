@@ -76,6 +76,18 @@ package Cre8or_WebGPU.Types is
 		E_OpenGLES  => 8
 	);
 
+	type T_Feature_Level is (
+		E_Undefined,
+		E_Compatibility,
+		E_Core
+	) with Convention => C, Size => 32;
+
+	for T_Feature_Level use (
+		E_Undefined     => 0,
+		E_Compatibility => 1,
+		E_Core          => 2
+	);
+
 	type T_Feature_Name is (
 		E_Depth_Clip_Control,
 		E_Depth32_Float_Stencil8,
@@ -230,46 +242,42 @@ package Cre8or_WebGPU.Types is
 
 	type T_Request_Adapter_Status is (
 		E_Success,
-		E_Instance_Dropped,
+		E_Callback_Cancelled,
 		E_Unavailable,
-		E_Error,
-		E_Unknown
+		E_Error
 	) with Convention => C, Size => 32;
 
 	for T_Request_Adapter_Status use (
-		E_Success          => 1,
-		E_Instance_Dropped => 2,
-		E_Unavailable      => 3,
-		E_Error            => 4,
-		E_Unknown          => 5
+		E_Success            => 1,
+		E_Callback_Cancelled => 2,
+		E_Unavailable        => 3,
+		E_Error              => 4
 	);
 
 	type T_Request_Device_Status is (
 		E_Success,
-		E_Instance_Dropped,
-		E_Error,
-		E_Unknown
+		E_Callback_Cancelled,
+		E_Error
 	) with Convention => C, Size => 32;
 
 	for T_Request_Device_Status use (
-		E_Success          => 1,
-		E_Instance_Dropped => 2,
-		E_Error            => 3,
-		E_Unknown          => 4
+		E_Success            => 1,
+		E_Callback_Cancelled => 2,
+		E_Error              => 3
 	);
 
 	type T_Device_Lost_Reason is (
 		E_Unknown,
 		E_Destroyed,
-		E_Instance_Dropped,
+		E_Callback_Cancelled,
 		E_Failed_Creation
 	) with Convention => C, Size => 32;
 
 	for T_Device_Lost_Reason use (
-		E_Unknown          => 1,
-		E_Destroyed        => 2,
-		E_Instance_Dropped => 3,
-		E_Failed_Creation  => 4
+		E_Unknown            => 1,
+		E_Destroyed          => 2,
+		E_Callback_Cancelled => 3,
+		E_Failed_Creation    => 4
 	);
 
 	-- The callback mode controls how a callback for an asynchronous operation may be fired.
@@ -605,7 +613,6 @@ package Cre8or_WebGPU.Types is
 		Max_Buffer_Size                                 : aliased T_UInt64 := 0;
 		Max_Vertex_Attributes                           : aliased T_UInt32 := 0;
 		Max_Vertex_Buffer_Array_Stride                  : aliased T_UInt32 := 0;
-		Max_Inter_Stage_Shader_Components               : aliased T_UInt32 := 0;
 		Max_Inter_Stage_Shader_Variables                : aliased T_UInt32 := 0;
 		Max_Color_Attachments                           : aliased T_UInt32 := 0;
 		Max_Color_Attachment_Bytes_Per_Sample           : aliased T_UInt32 := 0;
@@ -615,6 +622,11 @@ package Cre8or_WebGPU.Types is
 		Max_Compute_Workgroup_Size_Y                    : aliased T_UInt32 := 0;
 		Max_Compute_Workgroup_Size_Z                    : aliased T_UInt32 := 0;
 		Max_Compute_Workgroups_Per_Dimension            : aliased T_UInt32 := 0;
+		Max_Immediate_Size                              : aliased T_UInt32 := 0;
+		Max_Storage_Buffers_In_Vertex_Stage             : aliased T_UInt32 := 0;
+		Max_Storage_Textures_In_Vertex_Stage            : aliased T_UInt32 := 0;
+		Max_Storage_Buffers_In_Fragment_Stage           : aliased T_UInt32 := 0;
+		Max_Storage_Textures_In_Fragment_Stage          : aliased T_UInt32 := 0;
 	end record
 	with Convention => C_Pass_By_Copy;
 
@@ -634,8 +646,13 @@ package Cre8or_WebGPU.Types is
 
 	-- Callbacks
 	type T_Device_Lost_Callback is access procedure (
-		Reason  : in T_Device_Lost_Reason;
-		message : in String
+		Device_Raw : in T_WGPUDevice;
+		Reason     : in T_Device_Lost_Reason
+	);
+
+	type T_Uncaptured_Error_Callback is access procedure (
+		Device_Raw : in T_WGPUDevice;
+		Error      : in T_Error_Kind
 	);
 
 

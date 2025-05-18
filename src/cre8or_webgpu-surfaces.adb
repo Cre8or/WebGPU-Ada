@@ -60,11 +60,47 @@ package body Cre8or_WebGPU.Surfaces is
 	) is
 	begin
 
+		if Raw = null then
+			raise EX_SURFACE_NOT_INITIALISED;
+		end if;
+
 		This.Finalize;
 		This.m_Surface := Raw;
 		This.Adjust;
 
 	end Set_Raw_Internal;
+
+	---------------------------------------------------------------------------------------------------------------------
+	not overriding function Get_Capabilities (
+		This    : in T_Surface;
+		Adapter : in T_Adapter'Class
+	) return T_Surface_Capabilities is
+
+		Capabilities_Internal : aliased T_WGPUSurfaceCapabilities;
+		Status : T_Status;
+
+	begin
+
+		if This.m_Surface = null then
+			raise EX_SURFACE_NOT_INITIALISED;
+		end if;
+
+		if not Adapter.Is_Initialised then
+			raise EX_ADAPTER_NOT_INITIALISED;
+		end if;
+
+		Status := wgpuSurfaceGetCapabilities (This.m_Surface, Adapter.Get_Raw_Internal, Capabilities_Internal'Access);
+
+		if Status /= E_Success then
+			raise EX_REQUEST_ERROR with "wgpuSurfaceGetCapabilities failed";
+		end if;
+
+		-- Convert the internal data and deallocate it before returning
+		return Result : constant T_Surface_Capabilities := Convert (Capabilities_Internal) do
+			wgpuSurfaceCapabilitiesFreeMembers (Capabilities_Internal);
+		end return;
+
+	end Get_Capabilities;
 
 	---------------------------------------------------------------------------------------------------------------------
 	not overriding procedure Configure (
@@ -114,38 +150,6 @@ package body Cre8or_WebGPU.Surfaces is
 
 	end Configure;
 
-	---------------------------------------------------------------------------------------------------------------------
-	not overriding function Get_Capabilities (
-		This    : in T_Surface;
-		Adapter : in T_Adapter'Class
-	) return T_Surface_Capabilities is
-
-		Capabilities_Internal : aliased T_WGPUSurfaceCapabilities;
-		Status : T_Status;
-
-	begin
-
-		if This.m_Surface = null then
-			raise EX_SURFACE_NOT_INITIALISED;
-		end if;
-
-		if not Adapter.Is_Initialised then
-			raise EX_ADAPTER_NOT_INITIALISED;
-		end if;
-
-		Status := wgpuSurfaceGetCapabilities (This.m_Surface, Adapter.Get_Raw_Internal, Capabilities_Internal'Access);
-
-		if Status /= E_Success then
-			raise EX_REQUEST_ERROR;
-		end if;
-
-		-- Convert the internal data and deallocate it before returning
-		return Result : constant T_Surface_Capabilities := Convert (Capabilities_Internal) do
-			wgpuSurfaceCapabilitiesFreeMembers (Capabilities_Internal);
-		end return;
-
-	end Get_Capabilities;
-
 
 
 -- PRIVATE
@@ -159,11 +163,9 @@ package body Cre8or_WebGPU.Surfaces is
 	overriding procedure Adjust (This : in out T_Surface) is
 	begin
 
-		if This.m_Surface = null then
-			return;
+		if This.m_Surface /= null then
+			wgpuSurfaceAddRef (This.m_Surface);
 		end if;
-
-		wgpuSurfaceAddRef (This.m_Surface);
 
 	end Adjust;
 
@@ -171,11 +173,10 @@ package body Cre8or_WebGPU.Surfaces is
 	overriding procedure Finalize (This : in out T_Surface) is
 	begin
 
-		if This.m_Surface = null then
-			return;
+		if This.m_Surface /= null then
+			wgpuSurfaceRelease (This.m_Surface);
 		end if;
 
-		wgpuSurfaceRelease (This.m_Surface);
 		This.m_Surface := null;
 
 	end Finalize;

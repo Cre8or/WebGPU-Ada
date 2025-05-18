@@ -50,14 +50,16 @@ package body Cre8or_WebGPU.Instances is
 		This                   : in T_Instance;
 		Power_Preference       : in T_Power_Preference := E_Undefined;
 		Backend_Type           : in T_Backend_Type     := E_Undefined;
+		Feature_Level          : in T_Feature_Level    := E_Undefined;
 		Force_Fallback_Adapter : in Boolean            := false;
-		Compatibility_Mode     : in Boolean            := false;
 		Compatible_Surface     : in T_Surface          := C_Null_Surface
 	) return T_Adapter is
 
 		Adapter   : T_Adapter;
 		Options   : aliased T_WGPURequestAdapterOptions;
-		User_Data : aliased T_Request_Userdata;
+		User_Data : aliased T_Request_Adapter_User_Data;
+
+		Request_Adapter_Callback_Info : aliased T_WGPURequestAdapterCallbackInfo;
 
 	begin
 
@@ -66,27 +68,49 @@ package body Cre8or_WebGPU.Instances is
 		end if;
 
 		Options := (
+			featureLevel         => Feature_Level,
 			powerPreference      => Power_Preference,
-			backendType          => Backend_Type,
 			forceFallbackAdapter => T_WGPUBool (Force_Fallback_Adapter),
-			compatibilityMode    => T_WGPUBool (Compatibility_Mode),
+			backendType          => Backend_Type,
 			compatibleSurface    => Compatible_Surface.Get_Raw_Internal,
 			others               => <>
 		);
 
-		wgpuInstanceRequestAdapter (
-			instance => This.m_Instance,
-			options  => Options'Access,
-			callback => Request_Instance_Callback'Access,
-			userdata => User_Data'Address
+		Request_Adapter_Callback_Info := (
+			callback  => Request_Adapter_Callback'Access,
+			userdata1 => User_Data'Address,
+			others    => <>
 		);
 
-		-- Safeguard against potential Dawn issues (this should never happen, so we need to know about it)
+		wgpuInstanceRequestAdapter (
+			instance     => This.m_Instance,
+			options      => Options'Access,
+			callbackInfo => Request_Adapter_Callback_Info
+		);
+
+		-- Spin-lock until we get a response
+		Loop_Await_Adapter :
+		for I in 1 .. 100 loop
+			wgpuInstanceProcessEvents (This.m_Instance);
+
+			if User_Data.Request_Ended then
+				exit Loop_Await_Adapter;
+			end if;
+
+			delay 0.01;
+		end loop Loop_Await_Adapter;
+
+		-- Handle time-out
 		if not User_Data.Request_Ended then
-			raise EX_REQUEST_ERROR with "wgpuInstanceRequestAdapter callback failed";
+			raise EX_REQUEST_ERROR with "wgpuInstanceRequestAdapter timed out";
 		end if;
 
-		Adapter.Set_Raw_Internal (User_Data.Adapter);
+		-- Handle error status
+		if User_Data.Status /= E_Success then
+			raise EX_REQUEST_ERROR with "wgpuInstanceRequestAdapter returned status " & User_Data.Status'Img;
+		end if;
+
+		Adapter.Set_Raw_Internal (This.m_Instance, User_Data.Adapter);
 
 		return Adapter;
 
@@ -149,11 +173,9 @@ package body Cre8or_WebGPU.Instances is
 	overriding procedure Adjust (This : in out T_Instance) is
 	begin
 
-		if This.m_Instance = null then
-			return;
+		if This.m_Instance /= null then
+			wgpuInstanceAddRef (This.m_Instance);
 		end if;
-
-		wgpuInstanceAddRef (This.m_Instance);
 
 	end Adjust;
 
@@ -161,11 +183,10 @@ package body Cre8or_WebGPU.Instances is
 	overriding procedure Finalize (This : in out T_Instance) is
 	begin
 
-		if This.m_Instance = null then
-			return;
+		if This.m_Instance /= null then
+			wgpuInstanceRelease (This.m_Instance);
 		end if;
 
-		wgpuInstanceRelease (This.m_Instance);
 		This.m_Instance := null;
 
 	end Finalize;
@@ -278,25 +299,27 @@ package body Cre8or_WebGPU.Instances is
 	end Create_Window_Surface_Wayland;
 
 	---------------------------------------------------------------------------------------------------------------------
-	procedure Request_Instance_Callback (
-		status   : T_Request_Adapter_Status;
-		adapter  : T_WGPUAdapter;
-		message  : T_WGPUStringView;
-		userdata : T_Address := C_Null_Address
+	procedure Request_Adapter_Callback (
+		status    : in T_Request_Adapter_Status;
+		adapter   : in T_WGPUAdapter;
+		message   : in T_WGPUStringView;
+		userdata1 : in T_Address := C_Null_Address;
+		userdata2 : in T_Address := C_Null_Address
 	) is
 
-		pragma Unreferenced (status);
 		pragma Unreferenced (message);
+		pragma Unreferenced (userdata2);
 
-		User_Data : aliased T_Request_Userdata
-		with Import, Address => userdata;
+		User_Data : aliased T_Request_Adapter_User_Data
+		with Import, Address => userdata1;
 
 	begin
 
 		User_Data.Adapter       := adapter;
 		User_Data.Request_Ended := true;
+		User_Data.Status        := status;
 
-	end Request_Instance_Callback;
+	end Request_Adapter_Callback;
 
 
 

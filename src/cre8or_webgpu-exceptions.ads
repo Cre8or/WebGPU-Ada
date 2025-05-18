@@ -33,6 +33,7 @@ package Cre8or_WebGPU.Exceptions is
 	EX_DEVICE_NOT_INITIALISED          : exception;
 	EX_QUEUE_NOT_INITIALISED           : exception;
 	EX_SURFACE_NOT_INITIALISED         : exception;
+	EX_COMMAND_BUFFER_NOT_INITIALISED  : exception;
 	EX_COMMAND_ENCODER_NOT_INITIALISED : exception;
 
 

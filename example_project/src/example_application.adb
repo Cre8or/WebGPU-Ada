@@ -122,7 +122,7 @@ package body Example_Application is
 			raise EX_APPLICATION_BROKE;
 		end if;
 
-		-- Initialise WebGPU and make use of the Glfw window as our surface
+		-- Initialise WebGPU and use the Glfw window as our surface
 		This.m_Adapter := This.m_Instance.Request_Adapter (
 			Compatible_Surface => This.m_Surface
 		);

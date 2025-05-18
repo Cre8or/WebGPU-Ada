@@ -63,6 +63,10 @@ package body Cre8or_WebGPU.Devices is
 	) is
 	begin
 
+		if Raw = null then
+			raise EX_DEVICE_NOT_INITIALISED;
+		end if;
+
 		This.Finalize;
 		This.m_Device := Raw;
 		This.Adjust;
@@ -169,11 +173,9 @@ package body Cre8or_WebGPU.Devices is
 	overriding procedure Adjust (This : in out T_Device) is
 	begin
 
-		if This.m_Device = null then
-			return;
+		if This.m_Device /= null then
+			wgpuDeviceAddRef (This.m_Device);
 		end if;
-
-		wgpuDeviceAddRef (This.m_Device);
 
 	end Adjust;
 
@@ -181,11 +183,10 @@ package body Cre8or_WebGPU.Devices is
 	overriding procedure Finalize (This : in out T_Device) is
 	begin
 
-		if This.m_Device = null then
-			return;
+		if This.m_Device /= null then
+			wgpuDeviceRelease (This.m_Device);
 		end if;
 
-		wgpuDeviceRelease (This.m_Device);
 		This.m_Device := null;
 
 	end Finalize;

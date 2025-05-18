@@ -55,6 +55,10 @@ package body Cre8or_WebGPU.Queues is
 	) is
 	begin
 
+		if Raw = null then
+			raise EX_QUEUE_NOT_INITIALISED;
+		end if;
+
 		This.Finalize;
 		This.m_Queue := Raw;
 		This.Adjust;
@@ -97,11 +101,9 @@ package body Cre8or_WebGPU.Queues is
 	overriding procedure Adjust (This : in out T_Queue) is
 	begin
 
-		if This.m_Queue = null then
-			return;
+		if This.m_Queue /= null then
+			wgpuQueueAddRef (This.m_Queue);
 		end if;
-
-		wgpuQueueAddRef (This.m_Queue);
 
 	end Adjust;
 
@@ -109,11 +111,10 @@ package body Cre8or_WebGPU.Queues is
 	overriding procedure Finalize (This : in out T_Queue) is
 	begin
 
-		if This.m_Queue = null then
-			return;
+		if This.m_Queue /= null then
+			wgpuQueueRelease (This.m_Queue);
 		end if;
 
-		wgpuQueueRelease (This.m_Queue);
 		This.m_Queue := null;
 
 	end Finalize;
